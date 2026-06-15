@@ -16,12 +16,16 @@ import io.github.hiwepy.dreamina.cli.opts.DreaminaText2VideoRequest;
 import io.github.hiwepy.dreamina.cli.opts.DreaminaVideoModelVersion;
 import io.github.hiwepy.dreamina.cli.opts.DreaminaVideoResolutionType;
 import io.github.hiwepy.dreamina.cli.model.DreaminaCheckLogin;
+import io.github.hiwepy.dreamina.cli.model.DreaminaGenerateSubmit;
 import io.github.hiwepy.dreamina.cli.model.DreaminaLogin;
 import io.github.hiwepy.dreamina.cli.model.DreaminaLogout;
+import io.github.hiwepy.dreamina.cli.model.DreaminaQueryResult;
 import io.github.hiwepy.dreamina.cli.model.DreaminaRelogin;
 import io.github.hiwepy.dreamina.cli.model.DreaminaTaskItem;
+import io.github.hiwepy.dreamina.cli.model.DreaminaVersion;
 import io.github.hiwepy.dreamina.cli.support.MockDreaminaCli;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,12 +59,12 @@ class DreaminaCliExecutorCommandsMockTest {
 
     @Test void helpSubcommandText2image() throws Exception {
         assertTrue(executor.help("text2image").isSuccess());
-        assertNotNull(executor.helpInfo("text2image", List.of("-h")).getBody());
+        assertNotNull(executor.helpInfo("text2image", Arrays.asList("-h")).getBody());
     }
 
     @Test void versionCommand() throws Exception {
         assertTrue(executor.version().isSuccess());
-        var v = executor.versionInfo().getBody();
+        DreaminaVersion v = executor.versionInfo().getBody();
         assertEquals("c58a6a2-dirty", v.getVersion());
         assertEquals("c58a6a2", v.getCommit());
         assertEquals("2026-05-07T09:52:59Z", v.getBuildTime());
@@ -98,13 +102,13 @@ class DreaminaCliExecutorCommandsMockTest {
         String inv = mockCli.lastInvocation();
         assertTrue(inv.contains("checklogin") && inv.contains("--device_code=dev-mock"));
         DreaminaCliResponse<DreaminaCheckLogin> checkResponse = executor.checkLoginInfo("dev-mock", 30);
-        assertTrue(checkResponse.getCombinedText().isBlank());
+        assertTrue(checkResponse.getCombinedText().trim().isEmpty());
         assertNull(checkResponse.getBody());
     }
 
     @Test void logoutCommand() throws Exception {
-        assertTrue(executor.logout(List.of("--verbose")).isSuccess());
-        DreaminaCliResponse<DreaminaLogout> logoutResponse = executor.logoutInfo(List.of("--verbose"));
+        assertTrue(executor.logout(Arrays.asList("--verbose")).isSuccess());
+        DreaminaCliResponse<DreaminaLogout> logoutResponse = executor.logoutInfo(Arrays.asList("--verbose"));
         assertEquals(Boolean.TRUE, logoutResponse.getBody().getLocalSessionCleared());
         assertTrue(logoutResponse.getCombinedText().contains("已清除"));
     }
@@ -123,34 +127,34 @@ class DreaminaCliExecutorCommandsMockTest {
         assertTrue(executor.session().isSuccess());
         assertTrue(executor.sessionInfo().getCombinedText().contains("Manage Dreamina sessions"));
         assertEquals("session", executor.sessionInfo().getBody().getTopic());
-        assertTrue(executor.session(List.of("-h")).isSuccess());
+        assertTrue(executor.session(Arrays.asList("-h")).isSuccess());
     }
 
     @Test void sessionCreateCommand() throws Exception {
-        assertTrue(executor.sessionCreate(List.of("mock-name")).isSuccess());
-        assertEquals("10001", executor.sessionCreateInfo(List.of("mock-name")).getBody().getSessionId());
+        assertTrue(executor.sessionCreate(Arrays.asList("mock-name")).isSuccess());
+        assertEquals("10001", executor.sessionCreateInfo(Arrays.asList("mock-name")).getBody().getSessionId());
     }
 
     @Test void sessionListCommand() throws Exception {
-        assertTrue(executor.sessionList(List.of("-n=5")).isSuccess());
-        assertTrue(executor.sessionListInfo(List.of("-n=5")).getBody().getRows().size() >= 1);
+        assertTrue(executor.sessionList(Arrays.asList("-n=5")).isSuccess());
+        assertTrue(executor.sessionListInfo(Arrays.asList("-n=5")).getBody().getRows().size() >= 1);
     }
 
     @Test void sessionListAliasCommand() throws Exception {
-        assertTrue(executor.sessionLs(List.of("-n=100")).isSuccess());
+        assertTrue(executor.sessionLs(Arrays.asList("-n=100")).isSuccess());
         assertTrue(mockCli.lastInvocation().startsWith("session ls"));
-        assertTrue(executor.sessionLsInfo(List.of("-n=100")).getBody().getRows().size() >= 1);
+        assertTrue(executor.sessionLsInfo(Arrays.asList("-n=100")).getBody().getRows().size() >= 1);
     }
 
     @Test void sessionSearchCommand() throws Exception {
-        assertTrue(executor.sessionSearch("mock", List.of()).isSuccess());
+        assertTrue(executor.sessionSearch("mock", Collections.emptyList()).isSuccess());
         assertEquals(1, executor.sessionSearchInfo("mock").getBody().safeRows().size());
     }
 
     @Test void sessionFindAliasCommand() throws Exception {
-        assertTrue(executor.sessionFind("mock", List.of()).isSuccess());
+        assertTrue(executor.sessionFind("mock", Collections.emptyList()).isSuccess());
         assertTrue(mockCli.lastInvocation().startsWith("session find"));
-        assertEquals(1, executor.sessionFindInfo("mock", List.of()).getBody().safeRows().size());
+        assertEquals(1, executor.sessionFindInfo("mock", Collections.emptyList()).getBody().safeRows().size());
     }
 
     @Test void sessionRenameCommand() throws Exception {
@@ -161,7 +165,7 @@ class DreaminaCliExecutorCommandsMockTest {
     @Test void sessionUpdateAliasCommand() throws Exception {
         assertTrue(executor.sessionUpdate("10001", "new-name").isSuccess());
         assertTrue(mockCli.lastInvocation().startsWith("session update"));
-        assertEquals("mock-renamed", executor.sessionUpdateInfo("10001", "new-name", List.of())
+        assertEquals("mock-renamed", executor.sessionUpdateInfo("10001", "new-name", Collections.emptyList())
             .getBody().getSessionName());
     }
 
@@ -177,7 +181,7 @@ class DreaminaCliExecutorCommandsMockTest {
     }
 
     @Test void listTaskCommand() throws Exception {
-        assertTrue(executor.listTask(List.of("--gen_status=success")).isSuccess());
+        assertTrue(executor.listTask(Arrays.asList("--gen_status=success")).isSuccess());
         List<DreaminaTaskItem> tasks = executor.listTaskInfo().getBody();
         assertEquals(1, tasks.size());
         assertEquals("mock-submit-1", tasks.get(0).getSubmitId());
@@ -194,7 +198,7 @@ class DreaminaCliExecutorCommandsMockTest {
 
     @Test void queryResultCommand() throws Exception {
         assertTrue(executor.queryResult("mock-submit-1").isSuccess());
-        var q = executor.queryResultInfo("mock-submit-1").getBody();
+        DreaminaQueryResult q = executor.queryResultInfo("mock-submit-1").getBody();
         assertEquals("success", q.getGenStatus());
         assertTrue(q.isGenSuccess());
         assertEquals(3L, q.getCreditCount().longValue());
@@ -211,10 +215,10 @@ class DreaminaCliExecutorCommandsMockTest {
     }
 
     @Test void text2imageCommand() throws Exception {
-        assertTrue(executor.text2Image("a cat", List.of("--poll=0")).isSuccess());
+        assertTrue(executor.text2Image("a cat", Arrays.asList("--poll=0")).isSuccess());
         DreaminaText2ImageRequest request = DreaminaText2ImageRequest.builder()
             .prompt("a cat").ratio(DreaminaRatio.RATIO_1_1).pollSeconds(0).build();
-        var submit = executor.text2ImageSubmit(request).getBody();
+        DreaminaGenerateSubmit submit = executor.text2ImageSubmit(request).getBody();
         assertEquals("mock-gen-1", submit.getSubmitId());
         assertEquals("querying", submit.getGenStatus());
         assertEquals(3L, submit.getCreditCount().longValue());
@@ -222,7 +226,7 @@ class DreaminaCliExecutorCommandsMockTest {
     }
 
     @Test void image2imageCommand() throws Exception {
-        assertTrue(executor.image2Image(tinyPng.toString(), "watercolor", List.of("--poll=0")).isSuccess());
+        assertTrue(executor.image2Image(tinyPng.toString(), "watercolor", Arrays.asList("--poll=0")).isSuccess());
         DreaminaImage2ImageRequest request = DreaminaImage2ImageRequest.builder()
             .image(tinyPng.toString()).prompt("watercolor")
             .modelVersion(DreaminaImageModelVersion.MODEL_4_5)
@@ -231,7 +235,7 @@ class DreaminaCliExecutorCommandsMockTest {
     }
 
     @Test void imageUpscaleCommand() throws Exception {
-        assertTrue(executor.imageUpscale(List.of("--image=" + tinyPng, "--poll=0")).isSuccess());
+        assertTrue(executor.imageUpscale(Arrays.asList("--image=" + tinyPng, "--poll=0")).isSuccess());
         DreaminaImageUpscaleRequest request = DreaminaImageUpscaleRequest.builder()
             .imagePath(tinyPng.toString()).resolutionType(DreaminaImageResolutionType.RESOLUTION_2K)
             .pollSeconds(0).build();
@@ -239,7 +243,7 @@ class DreaminaCliExecutorCommandsMockTest {
     }
 
     @Test void text2videoCommand() throws Exception {
-        assertTrue(executor.text2video("run", List.of("--poll=0")).isSuccess());
+        assertTrue(executor.text2video("run", Arrays.asList("--poll=0")).isSuccess());
         DreaminaText2VideoRequest request = DreaminaText2VideoRequest.builder()
             .prompt("run").durationSeconds(5).ratio(DreaminaRatio.RATIO_16_9)
             .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P).pollSeconds(0).build();
@@ -247,14 +251,14 @@ class DreaminaCliExecutorCommandsMockTest {
     }
 
     @Test void image2videoCommand() throws Exception {
-        assertTrue(executor.image2video(tinyPng.toString(), "push in", List.of("--poll=0")).isSuccess());
+        assertTrue(executor.image2video(tinyPng.toString(), "push in", Arrays.asList("--poll=0")).isSuccess());
         DreaminaImage2VideoRequest request = DreaminaImage2VideoRequest.builder()
             .imagePath(tinyPng.toString()).prompt("push in").durationSeconds(5).pollSeconds(0).build();
         assertNotNull(executor.image2VideoSubmit(request).getBody().getSubmitId());
     }
 
     @Test void frames2videoCommand() throws Exception {
-        assertTrue(executor.frames2video(List.of(
+        assertTrue(executor.frames2video(Arrays.asList(
             "--first=" + tinyPng, "--last=" + tinyPng, "--prompt=transition", "--poll=0")).isSuccess());
         DreaminaFrames2VideoRequest request = DreaminaFrames2VideoRequest.builder()
             .firstImagePath(tinyPng.toString()).lastImagePath(tinyPng.toString())
@@ -264,7 +268,7 @@ class DreaminaCliExecutorCommandsMockTest {
 
     @Test void multiframe2videoCommand() throws Exception {
         Path second = mockCli.newTinyPng("tiny2.png");
-        assertTrue(executor.multiframe2video(List.of(
+        assertTrue(executor.multiframe2video(Arrays.asList(
             "--images=" + tinyPng + "," + second, "--prompt=story", "--duration=3", "--poll=0")).isSuccess());
         DreaminaMultiframe2VideoRequest request = DreaminaMultiframe2VideoRequest.builder()
             .image(tinyPng.toString()).image(second.toString()).prompt("story")
@@ -273,7 +277,7 @@ class DreaminaCliExecutorCommandsMockTest {
     }
 
     @Test void multimodal2videoCommand() throws Exception {
-        assertTrue(executor.multimodal2video(List.of(
+        assertTrue(executor.multimodal2video(Arrays.asList(
             "--image=" + tinyPng, "--prompt=cinematic", "--poll=0")).isSuccess());
         DreaminaMultimodal2VideoRequest request = DreaminaMultimodal2VideoRequest.builder()
             .image(tinyPng.toString()).prompt("cinematic").durationSeconds(5)

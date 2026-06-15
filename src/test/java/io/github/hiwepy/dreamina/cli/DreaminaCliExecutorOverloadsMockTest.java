@@ -63,20 +63,20 @@ class DreaminaCliExecutorOverloadsMockTest {
     }
 
     @Test void loginWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.login(List.of("--verbose")).isSuccess());
+        assertTrue(executor.login(Arrays.asList("--verbose")).isSuccess());
     }
 
     @Test void loginHeadlessWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.loginHeadless(List.of("--headless")).isSuccess());
-        assertNotNull(executor.loginHeadlessInfo(List.of("--headless")).getBody());
+        assertTrue(executor.loginHeadless(Arrays.asList("--headless")).isSuccess());
+        assertNotNull(executor.loginHeadlessInfo(Arrays.asList("--headless")).getBody());
     }
 
     @Test void checkLoginWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.checkLogin("dev-mock", 30, List.of("--verbose")).isSuccess());
+        assertTrue(executor.checkLogin("dev-mock", 30, Arrays.asList("--verbose")).isSuccess());
     }
 
     @Test void logoutWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.relogin(List.of("--force")).isSuccess());
+        assertTrue(executor.relogin(Arrays.asList("--force")).isSuccess());
     }
 
     @Test void sessionSearchSingleArgOverload() throws Exception {
@@ -84,21 +84,21 @@ class DreaminaCliExecutorOverloadsMockTest {
     }
 
     @Test void sessionSearchInfoWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.sessionSearchInfo("mock", List.of("-n=5")).getBody().safeRows().size() >= 1);
+        assertTrue(executor.sessionSearchInfo("mock", Arrays.asList("-n=5")).getBody().safeRows().size() >= 1);
     }
 
     @Test void sessionRenameWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.sessionRename("10001", "x", List.of("--verbose")).isSuccess());
-        assertNotNull(executor.sessionRenameInfo("10001", "x", List.of("--verbose")).getBody());
+        assertTrue(executor.sessionRename("10001", "x", Arrays.asList("--verbose")).isSuccess());
+        assertNotNull(executor.sessionRenameInfo("10001", "x", Arrays.asList("--verbose")).getBody());
     }
 
     @Test void sessionDeleteWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.sessionDelete("10001", List.of("--force")).isSuccess());
+        assertTrue(executor.sessionDelete("10001", Arrays.asList("--force")).isSuccess());
     }
 
     @Test void queryResultWithAdditionalArgsOverload() throws Exception {
-        assertTrue(executor.queryResult("mock-submit-1", List.of("--download_dir=./dl")).isSuccess());
-        assertNotNull(executor.queryResultInfo("mock-submit-1", List.of("--download_dir=./dl")).getBody());
+        assertTrue(executor.queryResult("mock-submit-1", Arrays.asList("--download_dir=./dl")).isSuccess());
+        assertNotNull(executor.queryResultInfo("mock-submit-1", Arrays.asList("--download_dir=./dl")).getBody());
     }
 
     @Test void invokeWithNullAdditionalArgsOverload() throws Exception {
@@ -106,7 +106,7 @@ class DreaminaCliExecutorOverloadsMockTest {
     }
 
     @Test void deviceLoginMaterialOverload() throws Exception {
-        DreaminaCliResult raw = executor.loginHeadless(List.of("--mock-device-flow"));
+        DreaminaCliResult raw = executor.loginHeadless(Arrays.asList("--mock-device-flow"));
         DreaminaCliResponse<DreaminaDeviceLogin> typed = executor.deviceLoginMaterial(raw);
         assertNotNull(typed.getBody().getDeviceCode());
         assertNotNull(typed.getBody().getVerificationUri());
@@ -137,48 +137,48 @@ class DreaminaCliExecutorOverloadsMockTest {
     }
 
     @Test void image2videoWithoutPromptOverload() throws Exception {
-        assertTrue(executor.image2video(tinyPng.toString(), List.of("--poll=0")).isSuccess());
+        assertTrue(executor.image2video(tinyPng.toString(), Arrays.asList("--poll=0")).isSuccess());
         String inv = mockCli.lastInvocation();
         assertTrue(inv.contains("image2video"));
         assertTrue(!inv.contains("--prompt="));
     }
 
     @Test void text2ImageSubmitRawArgsOverload() throws Exception {
-        assertNotNull(executor.text2ImageSubmit("cat", List.of("--poll=0")).getBody().getSubmitId());
+        assertNotNull(executor.text2ImageSubmit("cat", Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
     @Test void image2ImageSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.image2ImageSubmit(
-            tinyPng.toString(), "style", List.of("--poll=0")).getBody().getSubmitId());
+            tinyPng.toString(), "style", Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
     @Test void imageUpscaleSubmitRawArgsOverload() throws Exception {
-        assertNotNull(executor.imageUpscaleSubmit(List.of("--image=" + tinyPng, "--poll=0"))
+        assertNotNull(executor.imageUpscaleSubmit(Arrays.asList("--image=" + tinyPng, "--poll=0"))
             .getBody().getSubmitId());
     }
 
     @Test void text2VideoSubmitRawArgsOverload() throws Exception {
-        assertNotNull(executor.text2VideoSubmit("run", List.of("--poll=0")).getBody().getSubmitId());
+        assertNotNull(executor.text2VideoSubmit("run", Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
     @Test void image2VideoSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.image2VideoSubmit(
-            tinyPng.toString(), "zoom", List.of("--poll=0")).getBody().getSubmitId());
+            tinyPng.toString(), "zoom", Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
     @Test void frames2VideoSubmitRawArgsOverload() throws Exception {
-        assertNotNull(executor.frames2VideoSubmit(List.of(
+        assertNotNull(executor.frames2VideoSubmit(Arrays.asList(
             "--first=" + tinyPng, "--last=" + tinyPng, "--poll=0")).getBody().getSubmitId());
     }
 
     @Test void multiframe2VideoSubmitRawArgsOverload() throws Exception {
         Path second = mockCli.newTinyPng("tiny3.png");
-        assertNotNull(executor.multiframe2VideoSubmit(List.of(
+        assertNotNull(executor.multiframe2VideoSubmit(Arrays.asList(
             "--images=" + tinyPng + "," + second, "--poll=0")).getBody().getSubmitId());
     }
 
     @Test void multimodal2VideoSubmitRawArgsOverload() throws Exception {
-        assertNotNull(executor.multimodal2VideoSubmit(List.of(
+        assertNotNull(executor.multimodal2VideoSubmit(Arrays.asList(
             "--image=" + tinyPng, "--prompt=p", "--poll=0")).getBody().getSubmitId());
     }
 
@@ -187,7 +187,7 @@ class DreaminaCliExecutorOverloadsMockTest {
     }
 
     @Test void listTaskInfoWithAdditionalArgsOverload() throws Exception {
-        assertNotNull(executor.listTaskInfo(List.of("--gen_status=success")).getBody());
+        assertNotNull(executor.listTaskInfo(Arrays.asList("--gen_status=success")).getBody());
     }
 
     @Test void helpInfoSubcommandOnlyOverload() throws Exception {
