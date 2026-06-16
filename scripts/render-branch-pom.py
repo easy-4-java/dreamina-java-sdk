@@ -72,12 +72,12 @@ COMMON_META = """    <licenses>
     </developers>
 """
 
-COMMON_DEPS_J17 = """        <jackson.version>2.21.2</jackson.version>
+COMMON_DEPS_J17 = """        <jackson.version>2.18.8</jackson.version>
         <commons-exec.version>1.4.0</commons-exec.version>
         <junit.version>5.11.4</junit.version>
         <lombok.version>1.18.36</lombok.version>"""
 
-COMMON_DEPS_J8 = """        <jackson.version>2.13.5</jackson.version>
+COMMON_DEPS_J8 = """        <jackson.version>2.18.8</jackson.version>
         <commons-exec.version>1.4.0</commons-exec.version>
         <junit.version>5.8.2</junit.version>
         <lombok.version>1.18.30</lombok.version>"""

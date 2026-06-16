@@ -333,7 +333,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>1.7.36</slf4j.version>
-        <jackson.version>2.13.5</jackson.version>
+        <jackson.version>2.18.8</jackson.version>
         <commons-exec.version>1.4.0</commons-exec.version>
         <junit.version>5.8.2</junit.version>
         <lombok.version>1.18.30</lombok.version>
