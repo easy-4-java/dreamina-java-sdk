@@ -1,3 +1,0 @@
-=== CMD: dreamina text2image help ===
-
-=== EXIT_CODE: 0 ===

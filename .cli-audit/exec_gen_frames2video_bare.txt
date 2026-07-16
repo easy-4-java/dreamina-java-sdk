@@ -1,3 +1,0 @@
-=== CMD: dreamina frames2video ===
-
-=== EXIT_CODE: 1 ===

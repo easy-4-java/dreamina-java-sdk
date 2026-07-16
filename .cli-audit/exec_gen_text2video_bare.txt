@@ -1,3 +1,0 @@
-=== CMD: dreamina text2video ===
-
-=== EXIT_CODE: 1 ===

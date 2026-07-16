@@ -1,3 +1,0 @@
-=== CMD: dreamina multimodal2video ===
-
-=== EXIT_CODE: 1 ===

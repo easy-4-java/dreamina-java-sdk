@@ -1,4 +1,0 @@
-=== CMD: dreamina image2image ===
-required flag(s) "images", "prompt" not set
-
-=== EXIT_CODE: 1 ===

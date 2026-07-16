@@ -1,2 +1,0 @@
-=== list_task help ===
-EXIT:1

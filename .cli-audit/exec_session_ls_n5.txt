@@ -1,3 +1,0 @@
-=== CMD: dreamina session ls -n 5 ===
-
-=== EXIT_CODE: 1 ===
