@@ -40,7 +40,7 @@ public final class DreaminaCliSubcommands {
         /** {@code dreamina user_credit} */
         public static final String USER_CREDIT = "user_credit";
 
-        /** {@code dreamina login}（可加 {@code --debug} / {@code --headless} 等后缀参数） */
+        /** {@code dreamina login}（仅 {@code --headless} 为当前合法后缀；{@code --debug} 自 v1.4.1 已废弃） */
         public static final String LOGIN = "login";
 
         /** {@code dreamina logout} */

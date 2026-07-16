@@ -303,7 +303,11 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina login}，并追加官方支持的后缀参数（如 {@code --debug}、{@code --headless}）。
+     * 调用 {@code dreamina login}，并追加官方支持的后缀参数（如 {@code --headless}）。
+     * <p>
+     * 注意：CLI v1.4.1（2026-04-17）起登录方式更新，{@code --debug} 已不再支持；调用方若仍
+     * 传 {@code --debug}，CLI 会原样回显并最终拒绝。排障请改为读取 {@code ~/.dreamina_cli/logs/}。
+     * </p>
      * <p>CLI 帮助（采集自本机 {@code dreamina login -h}）：</p>
      * <pre>
      * Usage:
@@ -343,7 +347,10 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 在 {@code --headless} 之后追加更多原生参数（如 {@code --debug}）。
+     * 在 {@code --headless} 之后追加更多原生参数。
+     * <p>
+     * 注意：CLI v1.4.1 起 {@code --debug} 已不再支持，请勿传。
+     * </p>
      *
      * @param additionalRawArgs CLI 片段，在 {@code --headless} 之后追加；可为 null
      */
