@@ -8,7 +8,6 @@ import io.github.hiwepy.dreamina.cli.model.DreaminaUserCredit;
 import io.github.hiwepy.dreamina.cli.model.DreaminaVersion;
 import io.github.hiwepy.dreamina.exception.DreaminaCliException;
 import java.util.List;
-import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -53,7 +52,7 @@ class DreaminaCliLocalAuditTest {
     @BeforeEach
     void setUp() {
         String exe = System.getenv("DREAMINA_CLI_EXECUTABLE");
-        if (exe == null || exe.trim().isEmpty()) {
+        if (exe == null || exe.isBlank()) {
             exe = "dreamina";
         }
         DreaminaCliProperties props = new DreaminaCliProperties();
@@ -121,7 +120,7 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditSessionList() {
         DreaminaCliResponse<DreaminaSessionList> r =
-            executor.sessionListInfo(Arrays.asList("-n", "5"));
+            executor.sessionListInfo(List.of("-n", "5"));
         assumeTrue(r.isSuccess(), "session list failed: " + r.getCombinedText());
         List<DreaminaSessionRow> rows = r.getBody().safeRows();
         assumeTrue(!rows.isEmpty(), "session list returned no rows (empty account?)");
@@ -134,7 +133,7 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditListTask() {
         DreaminaCliResponse<List<DreaminaTaskItem>> r =
-            executor.listTaskInfo(Arrays.asList("--limit", "3"));
+            executor.listTaskInfo(List.of("--limit", "3"));
         assumeTrue(r.isSuccess(), "list_task failed: " + r.getCombinedText());
         assertNotNull(r.getBody());
         assumeTrue(!r.getBody().isEmpty(), "list_task returned empty array");
@@ -150,7 +149,7 @@ class DreaminaCliLocalAuditTest {
     void auditSessionSearch() {
         DreaminaCliResponse<?> r = executor.sessionSearchInfo("default");
         assumeTrue(r.isSuccess(), "session search failed: " + r.getCombinedText());
-        assertTrue(r.getCombinedText().contains("default") || !r.getCombinedText().trim().isEmpty());
+        assertTrue(r.getCombinedText().contains("default") || !r.getCombinedText().isBlank());
     }
 
     /**
@@ -159,11 +158,11 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditQueryResultFromListTask() {
         DreaminaCliResponse<List<DreaminaTaskItem>> list =
-            executor.listTaskInfo(Arrays.asList("--limit", "1"));
+            executor.listTaskInfo(List.of("--limit", "1"));
         assumeTrue(list.isSuccess() && list.getBody() != null && !list.getBody().isEmpty(),
             "list_task empty — skip query_result audit");
         String submitId = list.getBody().get(0).getSubmitId();
-        assumeTrue(submitId != null && !submitId.trim().isEmpty());
+        assumeTrue(submitId != null && !submitId.isBlank());
         DreaminaCliResponse<?> qr = executor.queryResultInfo(submitId);
         assumeTrue(qr.isSuccess(), "query_result failed: " + qr.getCombinedText());
         assertNotNull(qr.getBody());
@@ -174,7 +173,7 @@ class DreaminaCliLocalAuditTest {
      */
     @Test
     void auditSessionCreateHelpViaDashH() {
-        DreaminaCliResult raw = executor.session(Arrays.asList("create", "-h"));
+        DreaminaCliResult raw = executor.session(List.of("create", "-h"));
         assertTrue(raw.isSuccess());
         assertTrue(raw.getStdout().contains("session create"));
     }
@@ -184,7 +183,7 @@ class DreaminaCliLocalAuditTest {
      */
     @Test
     void auditSessionHelpAlias() {
-        DreaminaCliResult raw = executor.session(Arrays.asList("help"));
+        DreaminaCliResult raw = executor.session(List.of("help"));
         assertTrue(raw.isSuccess());
         assertTrue(raw.getStdout().contains("Manage Dreamina sessions"));
     }

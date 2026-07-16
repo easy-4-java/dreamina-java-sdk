@@ -238,7 +238,7 @@ class DreaminaCliRequestTest {
 
     private Path createTempFile(String fileName) throws IOException {
         Path file = tempDir.resolve(fileName);
-        Files.write(file, "demo".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        Files.writeString(file, "demo");
         return file;
     }
 }
