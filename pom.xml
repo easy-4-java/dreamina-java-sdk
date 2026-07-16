@@ -377,6 +377,7 @@
 		<commons-exec.version>1.4.0</commons-exec.version>
 		<junit.version>5.11.4</junit.version>
 		<lombok.version>1.18.36</lombok.version>
+		<thumbnailator.version>0.4.20</thumbnailator.version>
 
 		<maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -405,6 +406,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-exec</artifactId>
 			<version>${commons-exec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>${thumbnailator.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
