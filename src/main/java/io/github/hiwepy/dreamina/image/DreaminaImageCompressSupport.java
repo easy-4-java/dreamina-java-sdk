@@ -242,7 +242,7 @@ public final class DreaminaImageCompressSupport {
      */
     static String resolveOutputFormat(String formatHint, String defaultFormat) {
         String fallback = defaultFormat != null ? defaultFormat : "jpg";
-        if (formatHint == null || formatHint.isBlank()) {
+        if (formatHint == null || formatHint.trim().isEmpty()) {
             return fallback;
         }
         String normalized = formatHint.trim().toLowerCase(Locale.ROOT);

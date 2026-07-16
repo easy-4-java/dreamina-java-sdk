@@ -9,7 +9,7 @@
     <version>1.0.x.20260630-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>Dreamina (即梦) official CLI integration SDK for Java — Spring Boot 2.7.x line (JDK 8)</description>
+    <description>Dreamina (即梦) official CLI integration SDK for Java — JDK 8 line</description>
     <url>https://github.com/hiwepy/${project.artifactId}</url>
 
     <licenses>
@@ -106,7 +106,7 @@
                                     </requireMavenVersion>
                                     <requireJavaVersion>
                                         <message><![CDATA[You are running an older version of Java. This project requires at least JDK ${java.version}.]]></message>
-                                        <version>[${java.version},)</version>
+                                        <version>[${java.version}.0,)</version>
                                     </requireJavaVersion>
                                 </rules>
                             </configuration>
@@ -200,7 +200,6 @@
                         <charset>${project.build.sourceEncoding}</charset>
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <docencoding>${project.build.sourceEncoding}</docencoding>
-                        <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                         <failOnError>false</failOnError>
                     </configuration>
                     <executions>
