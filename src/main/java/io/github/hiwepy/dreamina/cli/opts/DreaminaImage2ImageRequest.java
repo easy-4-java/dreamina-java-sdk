@@ -11,6 +11,13 @@ import lombok.Singular;
  * <p>
  * 按 Jimeng 技能约束：必须提供 1-10 张本地图片，且模型版本需为 4.0+，分辨率仅支持 2k/4k。
  * </p>
+ * <p>
+ * 适配即梦 CLI v1.4.x：
+ * <ul>
+ *   <li>v1.4.10（2026-06-26）起支持 {@code --generate_num} 批量出图（1-10 张）→ {@link #generateNum}</li>
+ *   <li>v1.4.4 起支持 4.7、v1.4.12 起支持 5.0 Pro</li>
+ * </ul>
+ * </p>
  *
  * @author wandl
  * @since 1.0.0
@@ -20,7 +27,7 @@ import lombok.Singular;
 public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
 
     /**
-     * 参考图片列表。
+     * 参考图片列表（1-10 张本地路径）。
      */
     @Singular("image")
     private final List<String> images;
@@ -36,7 +43,7 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
     private final DreaminaRatio ratio;
 
     /**
-     * 图生图默认使用 5.0。
+     * 图生图默认使用 {@link DreaminaImageModelVersion#MODEL_5_0}（CLI v1.4.12 旗舰）。
      */
     @Builder.Default
     private final DreaminaImageModelVersion modelVersion = DreaminaImageModelVersion.MODEL_5_0;
@@ -46,6 +53,11 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
      */
     @Builder.Default
     private final DreaminaImageResolutionType resolutionType = DreaminaImageResolutionType.RESOLUTION_2K;
+
+    /**
+     * 单次生成图片数量。CLI v1.4.10 起支持，范围 1-10。留空沿用 CLI 默认（1 张）。
+     */
+    private final Integer generateNum;
 
     /**
      * 会话 ID。
@@ -78,6 +90,10 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
         DreaminaCliRequestSupport.addFlag(args, "--ratio", ratio == null ? null : ratio.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--resolution_type", resolutionType.getCliValue());
+        if (generateNum != null) {
+            DreaminaCliRequestSupport.requireRange(generateNum, 1, 10, "generateNum");
+            DreaminaCliRequestSupport.addFlag(args, "--generate_num", generateNum);
+        }
         DreaminaCliRequestSupport.requireSessionId(sessionId);
         DreaminaCliRequestSupport.addFlag(args, "--session", sessionId);
         DreaminaCliRequestSupport.requireNonNegative(pollSeconds, "pollSeconds");

@@ -199,16 +199,34 @@ executor.listTaskInfo(list);
 
 | 命令 | 关键 flag |
 |------|-----------|
-| `text2image` | `--prompt`, `--ratio`, `--resolution_type`, `--model_version`, `--session`, `--poll` |
-| `text2video` | `--prompt`, `--duration`, `--ratio`, `--video_resolution`, `--model_version`（仅 seedance 四型号）, `--session`, `--poll` |
-| `image2image` | `--images`, `--prompt`, `--ratio`, `--resolution_type`（2k/4k）, `--model_version`（4.0+）, `--session`, `--poll` |
+| `text2image` | `--prompt`, `--ratio`, `--resolution_type`, `--model_version`, `--generate_num`（1-10，v1.4.10+）, `--session`, `--poll` |
+| `text2video` | `--prompt`, `--duration`, `--ratio`, `--video_resolution`, `--model_version`（仅 seedance 系列）, `--session`, `--poll` |
+| `image2image` | `--images`, `--prompt`, `--ratio`, `--resolution_type`（2k/4k）, `--model_version`（4.0+）, `--generate_num`（1-10，v1.4.10+）, `--session`, `--poll` |
 | `image_upscale` | `--image`, `--resolution_type`（2k/4k/8k）, `--session`, `--poll` |
 | `image2video` | `--image`, `--prompt`, `--duration`, `--model_version`, `--video_resolution`, `--session`, `--poll` |
 | `frames2video` | `--first`, `--last`, `--prompt`, `--duration`, `--model_version`, `--video_resolution`, `--session`, `--poll` |
 | `multiframe2video` | `--images`, 2 图：`--prompt`+`--duration`；3+ 图：重复 `--transition-prompt` / `--transition-duration` |
 | `multimodal2video` | 重复 `--image`/`--video`/`--audio`, `--prompt`, `--duration`, `--ratio`, `--model_version`, `--video_resolution`, `--session`, `--poll` |
 
-**视频分辨率**：CLI 使用小写 `720p` / `1080p`（`seedance2.0_vip` 可选 1080p）。
+**视频分辨率**：CLI 使用小写 `720p` / `1080p` / `4k`。`1080p` 与 `4k` 仅 `seedance2.0_vip` 可用，其中 `4k` 还需要 VIP 账户（v1.4.10+）。
+
+## 适配即梦 CLI v1.4.12（2026-07-15）
+
+本次对齐覆盖 v1.4.x 关键更新；Java SDK 的强类型默认值随之调整为最新能力，但底层仍兼容旧 CLI 输出。
+
+| 能力 / 模型 | 引入版本 | 枚举 / 字段 | 默认值 |
+|---|---|---|---|
+| `Seedream 4.7` | v1.4.4（2026-06-03） | `DreaminaImageModelVersion.MODEL_4_7("4.7")` | — |
+| `Seedream 5.0 Pro`（旗舰） | v1.4.12（2026-07-15） | `DreaminaImageModelVersion.MODEL_5_0_PRO("5.0 Pro")` | 文生图 `modelVersion` 默认 → `MODEL_5_0`；如需 Pro 可显式指定 |
+| `seedance 2.0 mini` | v1.4.8（2026-06-18） | `DreaminaVideoModelVersion.SEEDANCE_2_0_MINI("seedance2.0mini")` | — |
+| 视频 4K 输出 | v1.4.10（2026-06-26） | `DreaminaVideoResolutionType.RESOLUTION_4K("4k")` | 仅 `seedance2.0_vip` + VIP 账户 |
+| 视频模型 3.x → Seedance 1.x | v1.4.10 | 枚举 `MODEL_3_x_*` 标 `@Deprecated`（保留旧值避免旧 CLI 客户端崩溃） | — |
+| 批量出图 `--generate_num` 1-10 | v1.4.10 | `DreaminaText2ImageRequest.generateNum` / `DreaminaImage2ImageRequest.generateNum` | `null`（不传 → CLI 默认 1 张） |
+| `login --debug` 已废弃 | v1.4.1（2026-04-17） | 不再向 `dreamina login -h` 输出 | — |
+| Session 完整 CRUD | v1.3.5（2026-04-16） | `session create/list/ls/search/find/rename/update/delete/rm` | — |
+
+> **以本机 `dreamina help` 为准**：CLI 是真相来源；枚举值仅做常用静态建模，未列出的 CLI flag 可通过每个 Request 的
+> `additionalRawArgs(...)` 透传。
 
 ## 结果模型
 

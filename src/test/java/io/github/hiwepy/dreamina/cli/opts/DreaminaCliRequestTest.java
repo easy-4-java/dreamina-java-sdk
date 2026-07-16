@@ -30,6 +30,7 @@ class DreaminaCliRequestTest {
             .ratio(DreaminaRatio.RATIO_1_1)
             .modelVersion(DreaminaImageModelVersion.MODEL_5_0)
             .resolutionType(DreaminaImageResolutionType.RESOLUTION_4K)
+            .generateNum(4)
             .sessionId(42L)
             .pollSeconds(30)
             .additionalArg("--debug")
@@ -40,9 +41,49 @@ class DreaminaCliRequestTest {
         assertTrue(args.contains("--ratio=1:1"));
         assertTrue(args.contains("--model_version=5.0"));
         assertTrue(args.contains("--resolution_type=4k"));
+        assertTrue(args.contains("--generate_num=4"));
         assertTrue(args.contains("--session=42"));
         assertTrue(args.contains("--poll=30"));
         assertTrue(args.contains("--debug"));
+    }
+
+    @Test
+    void text2ImageRequest_shouldAcceptSeedream50Pro() throws IOException {
+        DreaminaText2ImageRequest request = DreaminaText2ImageRequest.builder()
+            .prompt("test")
+            .modelVersion(DreaminaImageModelVersion.MODEL_5_0_PRO)
+            .build();
+
+        List<String> args = request.toCliArgs();
+        assertTrue(args.contains("--model_version=5.0 Pro"));
+    }
+
+    @Test
+    void text2ImageRequest_shouldRejectGenerateNumOutOfRange() {
+        DreaminaText2ImageRequest tooLow = DreaminaText2ImageRequest.builder()
+            .prompt("p")
+            .generateNum(0)
+            .build();
+        assertThrows(IllegalArgumentException.class, tooLow::toCliArgs);
+
+        DreaminaText2ImageRequest tooHigh = DreaminaText2ImageRequest.builder()
+            .prompt("p")
+            .generateNum(11)
+            .build();
+        assertThrows(IllegalArgumentException.class, tooHigh::toCliArgs);
+    }
+
+    @Test
+    void image2ImageRequest_shouldBuildGenerateNumFlag() throws IOException {
+        Path image = createTempFile("input.png");
+        DreaminaImage2ImageRequest request = DreaminaImage2ImageRequest.builder()
+            .image(image.toString())
+            .prompt("保持主体不变，改成水彩风格")
+            .generateNum(10)
+            .build();
+
+        List<String> args = request.toCliArgs();
+        assertTrue(args.contains("--generate_num=10"));
     }
 
     @Test
