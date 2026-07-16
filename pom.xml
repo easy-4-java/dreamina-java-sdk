@@ -331,7 +331,13 @@
 
     <properties>
         <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Dependencies -->
         <slf4j.version>2.0.18</slf4j.version>
         <jackson.version>2.22.0</jackson.version>
         <commons-exec.version>1.4.0</commons-exec.version>
@@ -339,6 +345,7 @@
         <lombok.version>1.18.46</lombok.version>
         <thumbnailator.version>0.4.20</thumbnailator.version>
 
+        <!-- Maven plugins -->
         <maven.version>3.0</maven.version>
         <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
