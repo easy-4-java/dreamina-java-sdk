@@ -92,29 +92,27 @@ public final class DreaminaLoginTextParser {
             String key = m.group("key").toLowerCase(Locale.ROOT);
             String value = m.group("value").trim();
             switch (key) {
-                case "user_id": {
+                case "user_id" -> {
                     Long uid = parseLong(value);
                     if (uid != null) {
                         payload.setUserId(uid);
                         any = true;
                     }
-                    break;
                 }
-                case "vip_level":
+                case "vip_level" -> {
                     payload.setVipLevel(value);
                     any = true;
-                    break;
-                case "total_credit": {
+                }
+                case "total_credit" -> {
                     Long credit = parseLong(value);
                     if (credit != null) {
                         payload.setTotalCredit(credit);
                         any = true;
                     }
-                    break;
                 }
-                default:
+                default -> {
                     // 账户段仅识别上述键
-                    break;
+                }
             }
         }
         return any ? payload : null;
@@ -144,29 +142,29 @@ public final class DreaminaLoginTextParser {
             String key = m.group("key").toLowerCase(Locale.ROOT);
             String value = m.group("value").trim();
             switch (key) {
-                case "device_code":
+                case "device_code" -> {
                     payload.setDeviceCode(value);
                     any = true;
-                    break;
-                case "verification_uri":
+                }
+                case "verification_uri" -> {
                     payload.setVerificationUri(value);
                     any = true;
-                    break;
-                case "user_code":
+                }
+                case "user_code" -> {
                     payload.setUserCode(value);
                     any = true;
-                    break;
-                case "poll_interval":
+                }
+                case "poll_interval" -> {
                     payload.setPollInterval(value);
                     any = true;
-                    break;
-                case "expires_at":
+                }
+                case "expires_at" -> {
                     payload.setExpiresAt(value);
                     any = true;
-                    break;
-                default:
+                }
+                default -> {
                     // 忽略无关键（如 user_id 由 parseReusedAccount 处理）
-                    break;
+                }
             }
         }
         return any ? payload : null;

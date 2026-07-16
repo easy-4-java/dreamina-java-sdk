@@ -249,21 +249,13 @@ public final class DreaminaImageCompressSupport {
         if (normalized.startsWith(".")) {
             normalized = normalized.substring(1);
         }
-        if ("png".equals(normalized)) {
-            return "png";
-        }
-        if ("gif".equals(normalized)) {
-            return "gif";
-        }
-        if ("bmp".equals(normalized)) {
-            return "bmp";
-        }
-        if ("jpeg".equals(normalized) || "jpg".equals(normalized)) {
-            return "jpg";
-        }
-        if ("webp".equals(normalized)) {
-            return "jpg";
-        }
-        return fallback;
+        return switch (normalized) {
+            case "png" -> "png";
+            case "gif" -> "gif";
+            case "bmp" -> "bmp";
+            case "jpeg", "jpg" -> "jpg";
+            case "webp" -> "jpg";
+            default -> fallback;
+        };
     }
 }
