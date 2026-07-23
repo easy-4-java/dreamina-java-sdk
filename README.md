@@ -26,7 +26,7 @@ dreamina help
 
 ```xml
 <dependency>
-  <groupId>io.github.hiwepy</groupId>
+  <groupId>io.github.easy4j</groupId>
   <artifactId>dreamina-java-sdk</artifactId>
   <version>1.0.x.20260515-SNAPSHOT</version>
 </dependency>
@@ -35,10 +35,10 @@ dreamina help
 ## 快速开始
 
 ```java
-import io.github.hiwepy.dreamina.cli.DreaminaCliExecutor;
-import io.github.hiwepy.dreamina.DreaminaCliProperties;
-import io.github.hiwepy.dreamina.cli.DreaminaCliResponse;
-import io.github.hiwepy.dreamina.cli.model.DreaminaGenerateSubmit;
+import io.github.easy4j.dreamina.cli.DreaminaCliExecutor;
+import io.github.easy4j.dreamina.DreaminaCliProperties;
+import io.github.easy4j.dreamina.cli.DreaminaCliResponse;
+import io.github.easy4j.dreamina.cli.model.DreaminaGenerateSubmit;
 
 DreaminaCliProperties properties = new DreaminaCliProperties();
 properties.setExecutable("dreamina");
@@ -113,7 +113,7 @@ Headless 流程：`loginHeadlessInfo()` 解析 `device_code` → `checkLogin(...
 ## 包结构
 
 ```
-io.github.hiwepy.dreamina
+io.github.easy4j.dreamina
 ├── DreaminaCliProperties          # 配置（无 Spring）
 └── cli
     ├── DreaminaCliExecutor        # 唯一执行入口
@@ -324,7 +324,7 @@ mvn -q test -Dtest=DreaminaCliLocalAuditTest -DskipTests=false
 ```bash
 cd dreamina-java-sdk
 mvn test-compile exec:java \
-  -Dexec.mainClass=io.github.hiwepy.dreamina.cli.DreaminaCliLocalSmokeMain \
+  -Dexec.mainClass=io.github.easy4j.dreamina.cli.DreaminaCliLocalSmokeMain \
   -Dexec.classpathScope=test
 ```
 
@@ -332,7 +332,7 @@ mvn test-compile exec:java \
 
 ```bash
 DREAMINA_SMOKE_SKIP_GENERATE=true mvn test-compile exec:java \
-  -Dexec.mainClass=io.github.hiwepy.dreamina.cli.DreaminaCliLocalSmokeMain \
+  -Dexec.mainClass=io.github.easy4j.dreamina.cli.DreaminaCliLocalSmokeMain \
   -Dexec.classpathScope=test
 ```
 
