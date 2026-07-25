@@ -17,7 +17,8 @@ import lombok.Singular;
 public class DreaminaImageUpscaleRequest implements DreaminaCliArgumentProvider {
 
     private final String imagePath;
-    private final DreaminaImageResolutionType resolutionType;
+    @Builder.Default
+    private final DreaminaImageResolutionType resolutionType = DreaminaImageResolutionType.RESOLUTION_2K;
     private final Long sessionId;
     private final Integer pollSeconds;
 
@@ -26,6 +27,7 @@ public class DreaminaImageUpscaleRequest implements DreaminaCliArgumentProvider 
 
     @Override
     public List<String> toCliArgs() {
+        DreaminaCliContractValidator.requireImageResolution(resolutionType);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(
             args, "--image", DreaminaCliRequestSupport.requireReadableFile(imagePath, "imagePath"));

@@ -5,15 +5,14 @@ import lombok.Getter;
 /**
  * 视频模型版本枚举。
  * <p>
- * 适配即梦 CLI v1.4.x：
+ * 适配即梦 CLI v1.4.14：
  * <ul>
  *   <li>v1.4.8（2026-06-18）新增 seedance 2.0 mini → {@link #SEEDANCE_2_0_MINI}</li>
  *   <li>v1.3.2（2026-04-05）起 seedance 2.0_vip / seedance2.0fast_vip 通道提速</li>
  *   <li>v1.4.3（2026-05-07）起 seedance 2.0_vip 支持 1080P</li>
  *   <li>v1.4.10（2026-06-26）起 seedance 2.0_vip 支持 4K（参 {@link DreaminaVideoResolutionType#RESOLUTION_4K}）</li>
- *   <li>v1.4.10 同时调整视频模型命名：原 3.x（{@code 3.0} / {@code 3.0fast} / {@code 3.0pro} / {@code 3.5pro}）已被 Seedance 1.x
- *       系列名取代以与 Web 端对齐。本枚举保留 {@link #MODEL_3_0} 等旧值并标注
- *       {@link Deprecated}，以便使用旧 SDK 的客户端不立刻崩溃；若新名确认后，会再迁移。</li>
+ *   <li>v1.4.10 将旧 3.x 名称调整为 Seedance 1.x；CLI v1.4.14 的单图生视频公开
+ *       {@code seedance1.0fast}/{@code seedance1.5pro}，首尾帧公开 {@code seedance1.5pro}</li>
  * </ul>
  * </p>
  *
@@ -29,6 +28,12 @@ public enum DreaminaVideoModelVersion {
     SEEDANCE_2_0_VIP("seedance2.0_vip"),
     /** CLI v1.4.8（2026-06-18）新增的轻量版 Seedance 2.0 mini。 */
     SEEDANCE_2_0_MINI("seedance2.0mini"),
+    /** Web/CLI 统一命名后的 Seedance 1.0 快速模型。 */
+    SEEDANCE_1_0_FAST("seedance1.0fast"),
+    /** Web/CLI 统一命名后的 Seedance 1.0 模型。 */
+    SEEDANCE_1_0("seedance1.0"),
+    /** Web/CLI 统一命名后的 Seedance 1.5 Pro 模型。 */
+    SEEDANCE_1_5_PRO("seedance1.5pro"),
 
     /**
      * v1.4.10 起 CLI 已将 3.x 模型名调整为 Seedance 1.x 系列名；该枚举值仅作遗留兼容，
@@ -71,9 +76,41 @@ public enum DreaminaVideoModelVersion {
     }
 
     /**
+     * 是否可用于 {@code image2video}。
+     *
+     * @return true 表示单图生视频支持该模型
+     */
+    public boolean supportsImage2Video() {
+        return this == SEEDANCE_1_0_FAST
+            || this == SEEDANCE_1_5_PRO
+            || supportsText2Video();
+    }
+
+    /**
+     * 是否可用于 {@code frames2video}。
+     *
+     * @return true 表示首尾帧视频支持该模型
+     */
+    public boolean supportsFrames2Video() {
+        return this == SEEDANCE_1_5_PRO || supportsText2Video();
+    }
+
+    /**
+     * 是否可用于 {@code multimodal2video}。
+     *
+     * @return true 表示全能参考支持该模型
+     */
+    public boolean supportsMultimodal2Video() {
+        return supportsText2Video();
+    }
+
+    /**
      * 按 CLI help 返回该模型允许的视频时长下限（秒）。
      */
     public int minDurationSeconds() {
+        if (this == SEEDANCE_1_0 || this == SEEDANCE_1_0_FAST || this == SEEDANCE_1_5_PRO) {
+            return 5;
+        }
         if (this == MODEL_3_0 || this == MODEL_3_0_FAST || this == MODEL_3_0_PRO
             || this == MODEL_3_0_FAST_UNDERSCORE || this == MODEL_3_0_PRO_UNDERSCORE) {
             return 3;
@@ -88,6 +125,12 @@ public enum DreaminaVideoModelVersion {
      * 按 CLI help 返回该模型允许的视频时长上限（秒）。
      */
     public int maxDurationSeconds() {
+        if (this == SEEDANCE_1_0 || this == SEEDANCE_1_0_FAST) {
+            return 10;
+        }
+        if (this == SEEDANCE_1_5_PRO) {
+            return 12;
+        }
         if (this == MODEL_3_0 || this == MODEL_3_0_FAST || this == MODEL_3_0_PRO
             || this == MODEL_3_0_FAST_UNDERSCORE || this == MODEL_3_0_PRO_UNDERSCORE) {
             return 10;

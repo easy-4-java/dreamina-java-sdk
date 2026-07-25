@@ -2,8 +2,6 @@ package io.github.easy4j.dreamina.cli.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryQueueInfo;
-import io.github.easy4j.dreamina.cli.model.DreaminaResultJson;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -52,28 +50,49 @@ public class DreaminaQueryResult {
      * @return 是否 success
      */
     public boolean isGenSuccess() {
-        return genStatus != null && "success".equalsIgnoreCase(genStatus.trim());
+        return generationStatus() == DreaminaGenerationStatus.SUCCESS;
     }
 
     /**
      * @return 是否 querying（任务仍在队列/生成中）
      */
     public boolean isGenQuerying() {
-        return genStatus != null && "querying".equalsIgnoreCase(genStatus.trim());
+        return generationStatus() == DreaminaGenerationStatus.QUERYING;
+    }
+
+    /**
+     * @return 是否 fail
+     */
+    public boolean isGenFailed() {
+        return generationStatus() == DreaminaGenerationStatus.FAIL;
+    }
+
+    /**
+     * @return 当前稳定状态枚举
+     */
+    public DreaminaGenerationStatus generationStatus() {
+        return DreaminaGenerationStatus.fromCliValue(genStatus);
+    }
+
+    /**
+     * @return 是否已进入成功或失败终态
+     */
+    public boolean isTerminal() {
+        return generationStatus().isTerminal();
     }
 
     /**
      * @return 图像列表，永不为 null
      */
     public List<DreaminaQueryImage> images() {
-        return resultJson == null ? Collections.emptyList() : resultJson.safeImages();
+        return Objects.isNull(resultJson) ? Collections.emptyList() : resultJson.safeImages();
     }
 
     /**
      * @return 视频列表，永不为 null
      */
     public List<DreaminaQueryVideo> videos() {
-        return resultJson == null ? Collections.emptyList() : resultJson.safeVideos();
+        return Objects.isNull(resultJson) ? Collections.emptyList() : resultJson.safeVideos();
     }
 
     /**
@@ -102,7 +121,7 @@ public class DreaminaQueryResult {
      * @return 队列是否 Finish
      */
     public boolean isQueueFinished() {
-        if (queueInfo == null || queueInfo.getQueueStatus() == null) {
+        if (Objects.isNull(queueInfo) || Objects.isNull(queueInfo.getQueueStatus())) {
             return false;
         }
         return "finish".equals(queueInfo.getQueueStatus().trim().toLowerCase(Locale.ROOT));

@@ -8,7 +8,7 @@ import lombok.Getter;
  * 同时覆盖文生图与图生图场景；图生图是否允许某一版本由请求对象额外约束。
  * </p>
  * <p>
- * 适配即梦 CLI v1.4.12（2026-07-15）：
+ * 适配即梦 CLI v1.4.14（2026-07-21）：
  * <ul>
  *   <li>v1.4.4（2026-06-03）新增 Seedream 4.7 → {@link #MODEL_4_7}</li>
  *   <li>v1.4.12（2026-07-15）新增 Seedream 5.0 Pro → {@link #MODEL_5_0_PRO}</li>
@@ -34,11 +34,10 @@ public enum DreaminaImageModelVersion {
     /**
      * CLI v1.4.12（2026-07-15）新增的 Seedream 5.0 Pro 旗舰版本。
      * <p>
-     * 由官方文档上下文推断的 CLI 取值为 {@code "5.0 Pro"}（含空格）。如有疑问，
-     * 调用方可直接使用 {@code additionalRawArgs("--model_version=…")} 覆盖。
+     * CLI 参数值为 {@code 5.0Pro}，与人类可读名称“Seedream 5.0 Pro”不同。
      * </p>
      */
-    MODEL_5_0_PRO("5.0 Pro");
+    MODEL_5_0_PRO("5.0Pro");
 
     private final String cliValue;
 

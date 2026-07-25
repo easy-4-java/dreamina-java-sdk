@@ -64,13 +64,14 @@ public class DreaminaText2VideoRequest implements DreaminaCliArgumentProvider {
         if (modelVersion != null && !modelVersion.supportsText2Video()) {
             throw new IllegalArgumentException("text2video only supports seedance model family");
         }
+        DreaminaCliContractValidator.validateVideoModelResolution(modelVersion, videoResolution);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(args, "--prompt", DreaminaCliRequestSupport.requireNonBlank(prompt, "prompt"));
         DreaminaCliRequestSupport.requireVideoDuration(durationSeconds, modelVersion, "durationSeconds");
         DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);
         DreaminaCliRequestSupport.addFlag(args, "--ratio", ratio == null ? null : ratio.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion == null ? null : modelVersion.getCliValue());
-        DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution == null ? null : videoResolution.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution.getCliValue());
         DreaminaCliRequestSupport.requireSessionId(sessionId);
         DreaminaCliRequestSupport.addFlag(args, "--session", sessionId);
         DreaminaCliRequestSupport.requireNonNegative(pollSeconds, "pollSeconds");

@@ -2,7 +2,7 @@ package io.github.easy4j.dreamina.cli.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.easy4j.dreamina.cli.model.DreaminaResultJson;
+import java.util.Objects;
 import lombok.Data;
 
 /**
@@ -53,9 +53,29 @@ public class DreaminaTaskItem {
      * @return 积分或 null
      */
     public Long resolveCreditCount() {
-        if (commerceInfo != null && commerceInfo.getCreditCount() != null) {
+        if (Objects.nonNull(commerceInfo) && Objects.nonNull(commerceInfo.getCreditCount())) {
             return commerceInfo.getCreditCount();
         }
         return creditCount;
+    }
+
+    public DreaminaGenerationStatus generationStatus() {
+        return DreaminaGenerationStatus.fromCliValue(genStatus);
+    }
+
+    public boolean isGenSuccess() {
+        return generationStatus() == DreaminaGenerationStatus.SUCCESS;
+    }
+
+    public boolean isGenQuerying() {
+        return generationStatus() == DreaminaGenerationStatus.QUERYING;
+    }
+
+    public boolean isGenFailed() {
+        return generationStatus() == DreaminaGenerationStatus.FAIL;
+    }
+
+    public boolean isTerminal() {
+        return generationStatus().isTerminal();
     }
 }

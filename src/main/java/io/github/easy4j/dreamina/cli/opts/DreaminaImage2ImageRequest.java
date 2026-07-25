@@ -54,6 +54,12 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
     @Builder.Default
     private final DreaminaImageResolutionType resolutionType = DreaminaImageResolutionType.RESOLUTION_2K;
 
+    /** 自定义宽度，必须与 height 成对提供，并与 ratio 互斥。 */
+    private final Integer width;
+
+    /** 自定义高度，必须与 width 成对提供，并与 ratio 互斥。 */
+    private final Integer height;
+
     /**
      * 单次生成图片数量。CLI v1.4.10 起支持，范围 1-10。留空沿用 CLI 默认（1 张）。
      */
@@ -78,11 +84,12 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
     @Override
     public List<String> toCliArgs() {
         List<String> cleanedImages = DreaminaCliRequestSupport.requireReadableFiles(images, "images", 1, 10);
+        DreaminaCliContractValidator.validateCustomImageSize(width, height, ratio);
+        DreaminaCliContractValidator.validateImageModelResolution(modelVersion, resolutionType);
+        DreaminaCliContractValidator.validateCustomImageBounds(
+            width, height, modelVersion, resolutionType);
         if (modelVersion == null || !modelVersion.supportsImageToImage()) {
             throw new IllegalArgumentException("image2image requires modelVersion 4.0+");
-        }
-        if (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K) {
-            throw new IllegalArgumentException("image2image only supports 2k or 4k resolution");
         }
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(args, "--images", DreaminaCliRequestSupport.csv(cleanedImages));
@@ -90,6 +97,8 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
         DreaminaCliRequestSupport.addFlag(args, "--ratio", ratio == null ? null : ratio.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--resolution_type", resolutionType.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--width", width);
+        DreaminaCliRequestSupport.addFlag(args, "--height", height);
         if (generateNum != null) {
             DreaminaCliRequestSupport.requireRange(generateNum, 1, 10, "generateNum");
             DreaminaCliRequestSupport.addFlag(args, "--generate_num", generateNum);

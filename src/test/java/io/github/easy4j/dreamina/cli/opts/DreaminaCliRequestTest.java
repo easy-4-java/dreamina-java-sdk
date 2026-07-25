@@ -1,6 +1,7 @@
 package io.github.easy4j.dreamina.cli.opts;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -55,7 +56,7 @@ class DreaminaCliRequestTest {
             .build();
 
         List<String> args = request.toCliArgs();
-        assertTrue(args.contains("--model_version=5.0 Pro"));
+        assertTrue(args.contains("--model_version=5.0Pro"));
     }
 
     @Test
@@ -142,7 +143,7 @@ class DreaminaCliRequestTest {
             .build();
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, request::toCliArgs);
-        assertTrue(ex.getMessage().contains("at least one image, video or audio"));
+        assertTrue(ex.getMessage().contains("at least one image or video"));
     }
 
     @Test
@@ -238,7 +239,7 @@ class DreaminaCliRequestTest {
 
     private Path createTempFile(String fileName) throws IOException {
         Path file = tempDir.resolve(fileName);
-        Files.writeString(file, "demo");
+        Files.write(file, "demo".getBytes(StandardCharsets.UTF_8));
         return file;
     }
 }

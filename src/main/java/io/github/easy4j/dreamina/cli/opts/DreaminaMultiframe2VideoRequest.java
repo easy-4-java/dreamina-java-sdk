@@ -10,7 +10,8 @@ import lombok.Singular;
  * 多帧故事视频请求对象。
  * <p>
  * 对齐 {@code dreamina multiframe2video -h}：2 张图用 {@code --prompt}/{@code --duration}；
- * 3 张及以上重复 {@code --transition-prompt}/{@code --transition-duration}；不支持 model/resolution 覆写。
+ * 3 张及以上重复 {@code --transition-prompt}/{@code --transition-duration}；
+ * CLI v1.4.14 起显式支持 720p/1080p 分辨率。
  * </p>
  *
  * @author wandl
@@ -26,7 +27,7 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
     /** 2 张图时的叙事提示词。 */
     private final String prompt;
 
-    /** 2 张图时的过渡时长（秒，[0.5,8]）。 */
+    /** 2 张图时的过渡时长（秒，[1,8]）。 */
     private final Double durationSeconds;
 
     /** 3+ 张图时每段 transition 提示词（N 张图需 N-1 条）。 */
@@ -37,6 +38,9 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
     @Singular("transitionDuration")
     private final List<String> transitionDurations;
 
+    @Builder.Default
+    private final DreaminaVideoResolutionType videoResolution = DreaminaVideoResolutionType.RESOLUTION_720P;
+
     private final Long sessionId;
     private final Integer pollSeconds;
 
@@ -46,12 +50,14 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
     @Override
     public List<String> toCliArgs() {
         List<String> cleanedImages = DreaminaCliRequestSupport.requireReadableFiles(images, "images", 2, 20);
+        DreaminaCliContractValidator.validateMultiframeResolution(videoResolution);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(args, "--images", DreaminaCliRequestSupport.csv(cleanedImages));
+        DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution.getCliValue());
 
         if (cleanedImages.size() == 2) {
             DreaminaCliRequestSupport.addFlag(args, "--prompt", prompt);
-            DreaminaCliRequestSupport.requireDoubleRange(durationSeconds, 0.5, 8.0, "durationSeconds");
+            DreaminaCliRequestSupport.requireDoubleRange(durationSeconds, 1.0, 8.0, "durationSeconds");
             DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);
         } else {
             if (transitionPrompts != null && !transitionPrompts.isEmpty()) {
