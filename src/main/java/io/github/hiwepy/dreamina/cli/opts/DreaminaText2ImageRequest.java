@@ -14,6 +14,7 @@ import lombok.Singular;
  *   <li>v1.4.4（2026-06-03）起支持 {@code Seedream 4.7}</li>
  *   <li>v1.4.12（2026-07-15）起支持 {@code Seedream 5.0 Pro}（最强旗舰）</li>
  *   <li>v1.4.10（2026-06-26）起支持 {@code --generate_num} 批量出图（1-10 张）→ {@link #generateNum}</li>
+ *   <li>v1.4.14（2026-07-21）起分辨率必须显式提供，并支持互斥于 ratio 的自定义宽高</li>
  * </ul>
  * </p>
  *
@@ -45,9 +46,16 @@ public class DreaminaText2ImageRequest implements DreaminaCliArgumentProvider {
     private final DreaminaImageModelVersion modelVersion = DreaminaImageModelVersion.MODEL_5_0;
 
     /**
-     * 可选分辨率。
+     * 必填分辨率；默认显式输出 2k。
      */
-    private final DreaminaImageResolutionType resolutionType;
+    @Builder.Default
+    private final DreaminaImageResolutionType resolutionType = DreaminaImageResolutionType.RESOLUTION_2K;
+
+    /** 自定义宽度，必须与 height 成对提供，并与 ratio 互斥。 */
+    private final Integer width;
+
+    /** 自定义高度，必须与 width 成对提供，并与 ratio 互斥。 */
+    private final Integer height;
 
     /**
      * 单次生成图片数量。CLI v1.4.10（2026-06-26）起支持，范围 1-10。
@@ -75,11 +83,17 @@ public class DreaminaText2ImageRequest implements DreaminaCliArgumentProvider {
 
     @Override
     public List<String> toCliArgs() {
+        DreaminaCliContractValidator.validateCustomImageSize(width, height, ratio);
+        DreaminaCliContractValidator.validateImageModelResolution(modelVersion, resolutionType);
+        DreaminaCliContractValidator.validateCustomImageBounds(
+            width, height, modelVersion, resolutionType);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(args, "--prompt", DreaminaCliRequestSupport.requireNonBlank(prompt, "prompt"));
         DreaminaCliRequestSupport.addFlag(args, "--ratio", ratio == null ? null : ratio.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion == null ? null : modelVersion.getCliValue());
-        DreaminaCliRequestSupport.addFlag(args, "--resolution_type", resolutionType == null ? null : resolutionType.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--resolution_type", resolutionType.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--width", width);
+        DreaminaCliRequestSupport.addFlag(args, "--height", height);
         if (generateNum != null) {
             DreaminaCliRequestSupport.requireRange(generateNum, 1, 10, "generateNum");
             DreaminaCliRequestSupport.addFlag(args, "--generate_num", generateNum);

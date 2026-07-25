@@ -2,7 +2,6 @@ package io.github.hiwepy.dreamina.cli.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.hiwepy.dreamina.cli.model.DreaminaQueryQueueInfo;
 import lombok.Data;
 
 /**
@@ -34,4 +33,24 @@ public class DreaminaGenerateSubmit {
 
     @JsonProperty("credit_count")
     private Long creditCount;
+
+    public DreaminaGenerationStatus generationStatus() {
+        return DreaminaGenerationStatus.fromCliValue(genStatus);
+    }
+
+    public boolean isGenSuccess() {
+        return generationStatus() == DreaminaGenerationStatus.SUCCESS;
+    }
+
+    public boolean isGenQuerying() {
+        return generationStatus() == DreaminaGenerationStatus.QUERYING;
+    }
+
+    public boolean isGenFailed() {
+        return generationStatus() == DreaminaGenerationStatus.FAIL;
+    }
+
+    public boolean isTerminal() {
+        return generationStatus().isTerminal();
+    }
 }
