@@ -35,7 +35,7 @@ public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
      * 视频模型版本。
      */
     @Builder.Default
-    private final DreaminaVideoModelVersion modelVersion = DreaminaVideoModelVersion.SEEDANCE_2_0_FAST;
+    private final DreaminaVideoModelVersion modelVersion = DreaminaVideoModelVersion.SEEDANCE_2_0_VIP;
 
     /**
      * 视频分辨率。
@@ -61,14 +61,19 @@ public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
 
     @Override
     public List<String> toCliArgs() {
+        if (modelVersion != null && !modelVersion.supportsImage2Video()) {
+            throw new IllegalArgumentException("image2video requires a current Seedance model");
+        }
+        DreaminaCliContractValidator.validateVideoModelResolution(modelVersion, videoResolution);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(
             args, "--image", DreaminaCliRequestSupport.requireReadableFile(imagePath, "imagePath"));
-        DreaminaCliRequestSupport.addFlag(args, "--prompt", prompt);
+        DreaminaCliRequestSupport.addFlag(
+            args, "--prompt", DreaminaCliRequestSupport.requireNonBlank(prompt, "prompt"));
         DreaminaCliRequestSupport.requireVideoDuration(durationSeconds, modelVersion, "durationSeconds");
         DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);
         DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion == null ? null : modelVersion.getCliValue());
-        DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution == null ? null : videoResolution.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution.getCliValue());
         DreaminaCliRequestSupport.requireSessionId(sessionId);
         DreaminaCliRequestSupport.addFlag(args, "--session", sessionId);
         DreaminaCliRequestSupport.requireNonNegative(pollSeconds, "pollSeconds");

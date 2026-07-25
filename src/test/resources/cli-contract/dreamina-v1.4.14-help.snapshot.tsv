@@ -1,0 +1,19 @@
+# Captured from official installer build b5ccc5d-dirty, build_time 2026-07-21T08:40:38Z.
+# command	key	literal substring from `<command> -h`
+text2image	required-resolution	--resolution_type is required
+text2image	custom-size	--width and --height must be provided together as positive integers and are mutually exclusive with --ratio
+text2image	models	model_version: 3.0, 3.1, 4.0, 4.1, 4.5, 4.6, 4.7, 5.0, 5.0Pro
+image2image	required-resolution	--resolution_type is required
+image2image	custom-size	--width and --height must be provided together as positive integers and are mutually exclusive with --ratio
+image2image	models	model_version: 4.0, 4.1, 4.5, 4.6, 4.7, 5.0, 5.0Pro
+text2video	required-resolution	--video_resolution is required
+text2video	models	model_version: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini
+image2video	required-parameters	--image, --prompt, and --video_resolution are required
+image2video	models	model_version values: seedance1.0fast, seedance1.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini
+frames2video	required-resolution	--video_resolution is required
+frames2video	models	model_version: seedance1.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini
+multimodal2video	required-input	at least one --image or --video is required
+multimodal2video	required-resolution	--video_resolution is required
+multimodal2video	models	model_version: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini
+multiframe2video	resolutions	video_resolution: 720p or 1080p (required)
+multiframe2video	duration	each duration segment must be 1-8 seconds and total duration must be >= 2
