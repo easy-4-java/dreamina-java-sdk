@@ -27,7 +27,7 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
     /** 2 张图时的叙事提示词。 */
     private final String prompt;
 
-    /** 2 张图时的过渡时长（秒，[1,8]）。 */
+    /** 2 张图时的过渡时长（秒，[2,8]；CLI 单段范围为 [1,8]，同时要求总时长至少 2 秒）。 */
     private final Double durationSeconds;
 
     /** 3+ 张图时每段 transition 提示词（N 张图需 N-1 条）。 */
@@ -57,7 +57,7 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
 
         if (cleanedImages.size() == 2) {
             DreaminaCliRequestSupport.addFlag(args, "--prompt", prompt);
-            DreaminaCliRequestSupport.requireDoubleRange(durationSeconds, 1.0, 8.0, "durationSeconds");
+            DreaminaCliContractValidator.validateMultiframeDuration(durationSeconds);
             DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);
         } else {
             if (transitionPrompts != null && !transitionPrompts.isEmpty()) {
@@ -74,6 +74,7 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
                     throw new IllegalArgumentException(
                         "transitionDurations size must be " + expected + " for " + cleanedImages.size() + " images");
                 }
+                DreaminaCliContractValidator.validateMultiframeTransitionDurations(transitionDurations);
                 DreaminaCliRequestSupport.addRepeatedFlag(args, "--transition-duration", transitionDurations);
             }
         }
