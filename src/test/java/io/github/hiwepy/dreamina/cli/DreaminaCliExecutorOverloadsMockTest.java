@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -137,10 +138,8 @@ class DreaminaCliExecutorOverloadsMockTest {
     }
 
     @Test void image2videoWithoutPromptOverload() throws Exception {
-        assertTrue(executor.image2video(tinyPng.toString(), Arrays.asList("--poll=0")).isSuccess());
-        String inv = mockCli.lastInvocation();
-        assertTrue(inv.contains("image2video"));
-        assertTrue(!inv.contains("--prompt="));
+        assertThrows(IllegalArgumentException.class,
+            () -> executor.image2video(tinyPng.toString(), Arrays.asList("--poll=0")));
     }
 
     @Test void text2ImageSubmitRawArgsOverload() throws Exception {
