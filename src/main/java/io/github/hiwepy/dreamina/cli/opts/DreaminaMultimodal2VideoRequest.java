@@ -31,7 +31,7 @@ public class DreaminaMultimodal2VideoRequest implements DreaminaCliArgumentProvi
     private final DreaminaRatio ratio;
 
     @Builder.Default
-    private final DreaminaVideoModelVersion modelVersion = DreaminaVideoModelVersion.SEEDANCE_2_0_FAST;
+    private final DreaminaVideoModelVersion modelVersion = DreaminaVideoModelVersion.SEEDANCE_2_0_VIP;
 
     @Builder.Default
     private final DreaminaVideoResolutionType videoResolution = DreaminaVideoResolutionType.RESOLUTION_720P;
@@ -50,12 +50,13 @@ public class DreaminaMultimodal2VideoRequest implements DreaminaCliArgumentProvi
             : DreaminaCliRequestSupport.requireReadableFiles(videos, "videos", 1, 3);
         List<String> cleanedAudios = audios == null || audios.isEmpty() ? Collections.emptyList()
             : DreaminaCliRequestSupport.requireReadableFiles(audios, "audios", 1, 3);
-        if (cleanedImages.isEmpty() && cleanedVideos.isEmpty() && cleanedAudios.isEmpty()) {
-            throw new IllegalArgumentException("multimodal2video requires at least one image, video or audio input");
+        if (cleanedImages.isEmpty() && cleanedVideos.isEmpty()) {
+            throw new IllegalArgumentException("multimodal2video requires at least one image or video input");
         }
-        if (modelVersion != null && !modelVersion.supportsText2Video()) {
+        if (modelVersion != null && !modelVersion.supportsMultimodal2Video()) {
             throw new IllegalArgumentException("multimodal2video requires seedance model family");
         }
+        DreaminaCliContractValidator.validateVideoModelResolution(modelVersion, videoResolution);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addRepeatedFlag(args, "--image", cleanedImages);
         DreaminaCliRequestSupport.addRepeatedFlag(args, "--video", cleanedVideos);
@@ -65,7 +66,7 @@ public class DreaminaMultimodal2VideoRequest implements DreaminaCliArgumentProvi
         DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);
         DreaminaCliRequestSupport.addFlag(args, "--ratio", ratio == null ? null : ratio.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion == null ? null : modelVersion.getCliValue());
-        DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution == null ? null : videoResolution.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution.getCliValue());
         DreaminaCliRequestSupport.requireSessionId(sessionId);
         DreaminaCliRequestSupport.addFlag(args, "--session", sessionId);
         DreaminaCliRequestSupport.requireNonNegative(pollSeconds, "pollSeconds");
