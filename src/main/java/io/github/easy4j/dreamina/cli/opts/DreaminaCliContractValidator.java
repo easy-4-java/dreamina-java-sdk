@@ -1,5 +1,7 @@
 package io.github.easy4j.dreamina.cli.opts;
 
+import io.github.easy4j.dreamina.util.DreaminaStrings;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -162,6 +164,64 @@ public final class DreaminaCliContractValidator {
         }
         if (videoResolution == DreaminaVideoResolutionType.RESOLUTION_4K) {
             throw new IllegalArgumentException("multiframe2video only supports 720p or 1080p resolution");
+        }
+    }
+
+    /**
+     * 校验双图智能多帧的单段时长。
+     *
+     * @param durationSeconds 单段时长；留空时 CLI 默认 3 秒
+     */
+    public static void validateMultiframeDuration(Double durationSeconds) {
+        if (Objects.isNull(durationSeconds)) {
+            return;
+        }
+        validateFiniteDuration(durationSeconds, "durationSeconds");
+        if (durationSeconds < 1.0 || durationSeconds > 8.0) {
+            throw new IllegalArgumentException("durationSeconds must be in range [1.0, 8.0]");
+        }
+        if (durationSeconds < 2.0) {
+            throw new IllegalArgumentException("multiframe2video total duration must be at least 2 seconds");
+        }
+    }
+
+    /**
+     * 校验三张及以上图片的逐段时长。
+     *
+     * @param transitionDurations CLI stringArray 形式的逐段时长
+     */
+    public static void validateMultiframeTransitionDurations(List<String> transitionDurations) {
+        if (Objects.isNull(transitionDurations) || transitionDurations.isEmpty()) {
+            return;
+        }
+        double totalDuration = 0.0;
+        for (int i = 0; i < transitionDurations.size(); i++) {
+            String rawDuration = transitionDurations.get(i);
+            if (DreaminaStrings.isBlank(rawDuration)) {
+                throw new IllegalArgumentException("transitionDurations[" + i + "] must not be blank");
+            }
+            double duration;
+            try {
+                duration = Double.parseDouble(rawDuration.trim());
+            } catch (NumberFormatException ex) {
+                throw new IllegalArgumentException(
+                    "transitionDurations[" + i + "] must be a number", ex);
+            }
+            validateFiniteDuration(duration, "transitionDurations[" + i + "]");
+            if (duration < 1.0 || duration > 8.0) {
+                throw new IllegalArgumentException(
+                    "transitionDurations[" + i + "] must be in range [1.0, 8.0]");
+            }
+            totalDuration += duration;
+        }
+        if (totalDuration < 2.0) {
+            throw new IllegalArgumentException("multiframe2video total duration must be at least 2 seconds");
+        }
+    }
+
+    private static void validateFiniteDuration(double duration, String label) {
+        if (Double.isNaN(duration) || Double.isInfinite(duration)) {
+            throw new IllegalArgumentException(label + " must be a finite number");
         }
     }
 }

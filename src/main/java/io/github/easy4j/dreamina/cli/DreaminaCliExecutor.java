@@ -879,43 +879,15 @@ public class DreaminaCliExecutor {
 
     /**
      * 同上，附带额外原生参数片段（每项按单个 argv 传入，不做 shell 拆分）。
-     * <p>CLI 帮助（采集自本机 {@code dreamina text2image -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina text2image [flags]
-     * 
-     * Submit a Dreamina text-to-image task. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - model_version: 3.0, 3.1, 4.0, 4.1, 4.5, 4.6, 5.0
-     * - ratio: 21:9, 16:9, 3:2, 4:3, 1:1, 3:4, 2:3, 9:16
-     * - 3.0/3.1 -> resolution_type 1k or 2k
-     * - 4.0/4.1/4.5/4.6/5.0 -> resolution_type 2k or 4k
-     * 
-     * Notes:
-     * - omit --model_version to use the default model
-     * - omit --resolution_type to use the model default
-     * 
-     * 
-     * Flags:
-     *       --prompt string            generation prompt
-     *       --session int              session id (default 0 "默认对话") 
-     *       --ratio string             supported values: 21:9, 16:9, 3:2, 4:3, 1:1, 3:4, 2:3, 9:16
-     *       --resolution_type string   supported values by model: 3.0/3.1 -> 1k or 2k; 4.0/4.1/4.5/4.6/5.0 -> 2k or 4k; omit to use the model default
-     *       --model_version string     supported values: 3.0, 3.1, 4.0, 4.1, 4.5, 4.6, 5.0
-     *       --poll int                 submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                     help for text2image
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina text2image --prompt="a cat portrait" --ratio=1:1 --resolution_type=2k
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina text2image -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult text2Image(String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(prompt, "prompt");
-        return runWithPromptFlag(DreaminaCliSubcommands.Image.TEXT2IMAGE, prompt, additionalRawArgs);
+        return runWithPromptFlag(
+            DreaminaCliSubcommands.Image.TEXT2IMAGE,
+            prompt,
+            withDefaultFlag(additionalRawArgs, "--resolution_type", "2k"));
     }
 
     /**
@@ -935,41 +907,8 @@ public class DreaminaCliExecutor {
 
     /**
      * 调用 {@code dreamina image2image}：图生图，需传入参考图列表与编辑提示词。
-     * <p>CLI 帮助（采集自本机 {@code dreamina image2image -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina image2image [flags]
-     * 
-     * Upload 1 to 10 local images, then submit a Dreamina image-to-image task. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - model_version: 4.0, 4.1, 4.5, 4.6, 5.0
-     * - ratio: 21:9, 16:9, 3:2, 4:3, 1:1, 3:4, 2:3, 9:16
-     * - resolution_type: 2k, 4k
-     * 
-     * Notes:
-     * - 1k is not supported for image2image
-     * - omit --model_version to use the default model
-     * - omit --resolution_type to use the model default
-     * - 一次最多上传十张图片，否则可能导致生图失败
-     * 
-     * 
-     * Flags:
-     *       --images strings           local input image paths
-     *       --prompt string            edit prompt
-     *       --session int              session id (default 0 "默认对话") 
-     *       --ratio string             supported values: 21:9, 16:9, 3:2, 4:3, 1:1, 3:4, 2:3, 9:16
-     *       --resolution_type string   supported values: 2k, 4k; omit to use the model default
-     *       --model_version string     supported values: 4.0, 4.1, 4.5, 4.6, 5.0
-     *       --poll int                 submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                     help for image2image
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina image2image --images ./input.png --prompt="turn into watercolor"
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina image2image -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult image2Image(String imagesCsv, String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(imagesCsv, "imagesCsv");
@@ -977,7 +916,7 @@ public class DreaminaCliExecutor {
         CommandLine cmd = newSubcommand(DreaminaCliSubcommands.Image.IMAGE2IMAGE);
         appendQuotedKv(cmd, "--images", imagesCsv);
         appendQuotedKv(cmd, "--prompt", prompt);
-        appendCleanArgs(cmd, additionalRawArgs);
+        appendCleanArgs(cmd, withDefaultFlag(additionalRawArgs, "--resolution_type", "2k"));
         return run(cmd);
     }
 
@@ -1001,35 +940,13 @@ public class DreaminaCliExecutor {
 
     /**
      * 调用 {@code dreamina image_upscale}；具体必填参数由调用方在 {@code additionalRawArgs} 中给出。
-     * <p>CLI 帮助（采集自本机 {@code dreamina image_upscale -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina image_upscale [flags]
-     * 
-     * Upload one local image, then submit a Dreamina image upscale task. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - resolution_type: 2k, 4k, 8k
-     * - 2k is available to non-VIP users
-     * - 4k and 8k require VIP
-     * 
-     * 
-     * Flags:
-     *       --image string             local input image path
-     *       --session int              session id (default 0 "默认对话") 
-     *       --resolution_type string   supported values: 2k, 4k, 8k; 4k and 8k require VIP
-     *       --poll int                 submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                     help for image_upscale
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina image_upscale --image=./input.png --resolution_type=4k
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina image_upscale -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult imageUpscale(List<String> additionalRawArgs) {
-        return invoke(DreaminaCliSubcommands.Image.IMAGE_UPSCALE, additionalRawArgs);
+        return invoke(
+            DreaminaCliSubcommands.Image.IMAGE_UPSCALE,
+            withDefaultFlag(additionalRawArgs, "--resolution_type", "2k"));
     }
 
     /**
@@ -1058,46 +975,15 @@ public class DreaminaCliExecutor {
 
     /**
      * 文生视频并附加额外原生参数（如 {@code --duration=}、{@code --model_version=}、{@code --poll=}）。
-     * <p>CLI 帮助（采集自本机 {@code dreamina text2video -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina text2video [flags]
-     * 
-     * Submit a Dreamina text-to-video task. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - model_version: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip
-     * - ratio: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9
-     * - seedance2.0_vip -> video_resolution 720p or 1080p; duration 4-15s
-     * - all other models -> video_resolution 720p; duration 4-15s
-     * 
-     * Notes:
-     * - default model_version: seedance2.0fast
-     * - omit --video_resolution to use the model default
-     * - omit --ratio to use the default ratio
-     * - 部分高内容安全风险模型在首次使用前，可能需要先在 Dreamina Web 端完成授权确认。若返回 AigcComplianceConfirmationRequired，请先完成授权后重试。
-     * 
-     * 
-     * Flags:
-     *       --prompt string             generation prompt
-     *       --session int               session id (default 0 "默认对话") 
-     *       --duration int              video duration in seconds; supported range: 4-15 (default 5)
-     *       --ratio string              supported values: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9
-     *       --video_resolution string   supported values by model: seedance2.0_vip -> 720p or 1080p; all other models -> 720p
-     *       --model_version string      supported values: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip; default: seedance2.0fast
-     *       --poll int                  submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                      help for text2video
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina text2video --prompt="a cat running" --duration=5
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina text2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult text2video(String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(prompt, "prompt");
-        return runWithPromptFlag(DreaminaCliSubcommands.Video.TEXT2VIDEO, prompt, additionalRawArgs);
+        return runWithPromptFlag(
+            DreaminaCliSubcommands.Video.TEXT2VIDEO,
+            prompt,
+            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -1112,7 +998,8 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina image2video}：仅参考图、不传 {@code --prompt=}（官方允许时用于默认动画语义）。
+     * 调用 {@code dreamina image2video}；CLI v1.4.14 起 {@code --prompt} 必填，
+     * 因此调用方必须在 {@code additionalRawArgs} 中提供提示词。
      *
      * @param imagePath         {@code --image=} 本地路径，必填
      * @param additionalRawArgs 其它 flag；可为 null
@@ -1123,52 +1010,20 @@ public class DreaminaCliExecutor {
 
     /**
      * 调用 {@code dreamina image2video}：单张参考图驱动视频。
-     * <p>CLI 帮助（采集自本机 {@code dreamina image2video -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina image2video [flags]
-     * 
-     * Upload one local image, then submit a Dreamina image-to-video task. For multi-image storytelling, use multiframe2video; for full-reference mixed-media generation, use multimodal2video. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - basic usage: --image + --prompt
-     * - advanced controls: set any of --duration, --video_resolution, or --model_version
-     * - advanced model_version values: 3.0, 3.0fast, 3.0pro, 3.0_fast, 3.0_pro, 3.5pro, 3.5_pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip
-     * - seedance2.0_vip -> video_resolution 720p or 1080p
-     * - all other models -> video_resolution 720p
-     * - ratio is inferred from the input image and is not set on this command
-     * 
-     * Notes:
-     * - omit advanced controls to use the default image-to-video path
-     * - duration, model_version, and video_resolution must be provided in a supported combination
-     * - 部分高内容安全风险模型在首次使用前，可能需要先在 Dreamina Web 端完成授权确认。若返回 AigcComplianceConfirmationRequired，请先完成授权后重试。
-     * 
-     * 
-     * Flags:
-     *       --image string              local first-frame image path
-     *       --prompt string             generation prompt
-     *       --duration int              advanced controls only; supported duration ranges by model: 3.0/3.0fast/3.0pro -> 3-10, 3.5pro -> 4-12, seedance2.0 family -> 4-15 (default 5)
-     *       --video_resolution string   advanced controls only; supported values by model: seedance2.0_vip -> 720p or 1080p; all other models -> 720p
-     *       --model_version string      advanced controls only; supported values: 3.0, 3.0fast, 3.0pro, 3.0_fast, 3.0_pro, 3.5pro, 3.5_pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip
-     *       --session int               session id (default 0 "默认对话") 
-     *       --poll int                  submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                      help for image2video
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina image2video --image=./first.png --prompt="camera push in"
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina image2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult image2video(String imagePath, String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(imagePath, "imagePath");
+        if (DreaminaStrings.isBlank(prompt) && !containsFlag(additionalRawArgs, "--prompt")) {
+            throw new IllegalArgumentException("prompt is required by Dreamina CLI v1.4.14+");
+        }
         CommandLine cmd = newSubcommand(DreaminaCliSubcommands.Video.IMAGE2VIDEO);
         appendQuotedKv(cmd, "--image", imagePath);
         if (DreaminaStrings.isNotBlank(prompt)) {
             appendQuotedKv(cmd, "--prompt", prompt);
         }
-        appendCleanArgs(cmd, additionalRawArgs);
+        appendCleanArgs(cmd, withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
         return run(cmd);
     }
 
@@ -1192,47 +1047,13 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina frames2video}：首尾帧过渡；必填参数放在 {@code additionalRawArgs}（如 {@code --first=} / {@code --last=}）。
-     * <p>CLI 帮助（采集自本机 {@code dreamina frames2video -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina frames2video [flags]
-     * 
-     * Upload two local images as first and last frames, then submit a Dreamina video generation task. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - model_version: 3.0, 3.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip
-     * - seedance2.0_vip -> video_resolution 720p or 1080p; duration 4-15s
-     * - 3.0 -> video_resolution 720p; duration 3-10s
-     * - 3.5pro -> video_resolution 720p; duration 4-12s
-     * - all other seedance2.0 models -> video_resolution 720p; duration 4-15s
-     * 
-     * Notes:
-     * - ratio is inferred from the first frame image size
-     * - default model_version: seedance2.0fast
-     * - omit --video_resolution to use the model default
-     * - 部分高内容安全风险模型在首次使用前，可能需要先在 Dreamina Web 端完成授权确认。若返回 AigcComplianceConfirmationRequired，请先完成授权后重试。
-     * 
-     * 
-     * Flags:
-     *       --first string              local first-frame image path
-     *       --last string               local last-frame image path
-     *       --prompt string             generation prompt
-     *       --session int               session id (default 0 "默认对话") 
-     *       --duration int              video duration in seconds; supported ranges: 3.0 -> 3-10, 3.5pro -> 4-12, seedance2.0 family -> 4-15 (default 5)
-     *       --video_resolution string   supported values by model: seedance2.0_vip -> 720p or 1080p; all other models -> 720p
-     *       --model_version string      supported values: 3.0, 3.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip; default: seedance2.0fast
-     *       --poll int                  submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                      help for frames2video
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina frames2video --first=./start.png --last=./end.png --prompt="season changes"
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina frames2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult frames2video(List<String> additionalRawArgs) {
-        return invoke(DreaminaCliSubcommands.Video.FRAMES2VIDEO, additionalRawArgs);
+        return invoke(
+            DreaminaCliSubcommands.Video.FRAMES2VIDEO,
+            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -1255,47 +1076,13 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina multiframe2video}：多分镜图叙事；必填参数放在 {@code additionalRawArgs}。
-     * <p>CLI 帮助（采集自本机 {@code dreamina multiframe2video -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina multiframe2video [flags]
-     * 
-     * Upload multiple local images, then submit a Dreamina intelligent multi-frame video task for coherent visual storytelling. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - inputs: 2-20 images
-     * - exactly 2 images: use shorthand --prompt and optional --duration
-     * - 3+ images: repeat --transition-prompt once per transition segment to describe how one frame evolves into the next
-     * - repeat --transition-duration once per transition segment, or omit it to default each segment to 3 seconds
-     * 
-     * Notes:
-     * - designed for multi-image story generation, not full multimodal editing
-     * - for N images, the transition count is N-1
-     * - ratio is inferred from the first image
-     * - model_version and video_resolution overrides are not supported by this command
-     * - each duration segment is limited to [0.5, 8] seconds and total duration must be >= 2
-     * 
-     * 
-     * Flags:
-     *       --images strings                    local reference image paths
-     *       --prompt string                     shorthand prompt for exactly 2 images
-     *       --duration float                    shorthand transition duration in seconds for exactly 2 images; backend clamps each segment to [0.5, 8] and requires total duration >= 2 (default 3)
-     *       --transition-prompt stringArray     repeat once per transition segment; for N images provide N-1 prompts
-     *       --transition-duration stringArray   repeat once per transition segment in seconds; for N images provide N-1 durations, or omit to default each segment to 3
-     *       --session int                       session id (default 0 "默认对话") 
-     *       --poll int                          submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                              help for multiframe2video
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina multiframe2video --images ./a.png,./b.png --prompt="character turns around"
-     *   dreamina multiframe2video --images ./a.png,./b.png,./c.png --transition-prompt="turn from A to B" --transition-prompt="turn from B to C"
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina multiframe2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult multiframe2video(List<String> additionalRawArgs) {
-        return invoke(DreaminaCliSubcommands.Video.MULTIFRAME2VIDEO, additionalRawArgs);
+        return invoke(
+            DreaminaCliSubcommands.Video.MULTIFRAME2VIDEO,
+            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -1318,53 +1105,13 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina multimodal2video}：多模态合成；必填参数放在 {@code additionalRawArgs}。
-     * <p>CLI 帮助（采集自本机 {@code dreamina multimodal2video -h}）：</p>
-     * <pre>
-     * Usage:
-     *   dreamina multimodal2video [flags]
-     * 
-     * Upload local images, videos, and audio, then submit Dreamina's flagship multimodal video generation mode. This corresponds to the "全能参考" (All-around reference) feature on the web interface (formerly known as ref2video). This is the strongest video generation mode currently exposed in the CLI, supports all-around references, and supports the Seedance 2.0 family (flag values: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip). The task is asynchronous, but --poll can wait briefly before falling back to query_result.
-     * 
-     * Supported combinations:
-     * - inputs: any mix of --image, --video, --audio
-     * - at least one --image or --video is required
-     * - audio inputs must be 2-15 seconds
-     * - model_version: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip
-     * - ratio: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9
-     * - seedance2.0_vip -> video_resolution 720p or 1080p
-     * - all other models -> video_resolution 720p
-     * - duration: 4-15s
-     * 
-     * Notes:
-     * - local files are uploaded automatically before submit
-     * - input limits: image<=9, video<=3, audio<=3
-     * - 部分高内容安全风险模型在首次使用前，可能需要先在 Dreamina Web 端完成授权确认。若返回 AigcComplianceConfirmationRequired，请先完成授权后重试。
-     * 
-     * 
-     * Flags:
-     *       --image stringArray         repeat for each local input image path
-     *       --video stringArray         repeat for each local input video path
-     *       --audio stringArray         repeat for each local input audio path
-     *       --prompt string             optional multimodal edit prompt
-     *       --duration int              video duration in seconds; supported range: 4-15 (default 5)
-     *       --ratio string              supported values: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9
-     *       --video_resolution string   supported values by model: seedance2.0_vip -> 720p or 1080p; all other models -> 720p
-     *       --model_version string      supported values: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip
-     *       --session int               session id (default 0 "默认对话") 
-     *       --poll int                  submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
-     *   -h, --help                      help for multimodal2video
-     * 
-     * Global Flags:
-     *       --version   print build version information
-     * 
-     * Examples:
-     *   dreamina multimodal2video --image ./input.png --prompt="turn this into a cinematic shot"
-     *   dreamina multimodal2video --image ./input.png --audio ./music.mp3 --model_version=seedance2.0fast --duration=5
-     *   dreamina multimodal2video --image ./input.png --video ./ref.mp4 --audio ./music.mp3 --model_version=seedance2.0fast --duration=5
-     * </pre>
+     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina multimodal2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult multimodal2video(List<String> additionalRawArgs) {
-        return invoke(DreaminaCliSubcommands.Video.MULTIMODAL2VIDEO, additionalRawArgs);
+        return invoke(
+            DreaminaCliSubcommands.Video.MULTIMODAL2VIDEO,
+            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -2013,6 +1760,40 @@ public class DreaminaCliExecutor {
                 cmd.addArgument(a, false);
             }
         }
+    }
+
+    /**
+     * CLI v1.4.14 将图片/视频分辨率改为必填；原始参数逃逸口未显式提供时补齐稳定默认值。
+     */
+    private static List<String> withDefaultFlag(
+        List<String> additionalRawArgs,
+        String flag,
+        String defaultValue) {
+        if (containsFlag(additionalRawArgs, flag)) {
+            return additionalRawArgs;
+        }
+        List<String> normalized = new ArrayList<>();
+        if (Objects.nonNull(additionalRawArgs)) {
+            normalized.addAll(additionalRawArgs);
+        }
+        normalized.add(flag + "=" + defaultValue);
+        return normalized;
+    }
+
+    private static boolean containsFlag(List<String> additionalRawArgs, String flag) {
+        if (Objects.isNull(additionalRawArgs) || additionalRawArgs.isEmpty()) {
+            return false;
+        }
+        for (String argument : additionalRawArgs) {
+            if (DreaminaStrings.isBlank(argument)) {
+                continue;
+            }
+            String normalized = argument.trim();
+            if (flag.equals(normalized) || normalized.startsWith(flag + "=")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
