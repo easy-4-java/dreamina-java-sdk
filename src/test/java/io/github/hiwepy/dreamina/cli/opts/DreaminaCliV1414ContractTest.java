@@ -195,24 +195,63 @@ class DreaminaCliV1414ContractTest {
     }
 
     @Test
-    void multiframe2Video_shouldUseOneSecondMinimumSegmentDuration() throws IOException {
+    void multiframe2Video_shouldRequireAtLeastTwoSecondsTotalDuration() throws IOException {
         Path first = createTempFile("story-first.png");
         Path second = createTempFile("story-second.png");
-        DreaminaMultiframe2VideoRequest invalid = DreaminaMultiframe2VideoRequest.builder()
+        DreaminaMultiframe2VideoRequest belowSegmentMinimum = DreaminaMultiframe2VideoRequest.builder()
             .image(first.toString())
             .image(second.toString())
             .prompt("过渡")
             .durationSeconds(0.5)
             .build();
-        DreaminaMultiframe2VideoRequest valid = DreaminaMultiframe2VideoRequest.builder()
+        DreaminaMultiframe2VideoRequest belowTotalMinimum = DreaminaMultiframe2VideoRequest.builder()
             .image(first.toString())
             .image(second.toString())
             .prompt("过渡")
             .durationSeconds(1.0)
             .build();
+        DreaminaMultiframe2VideoRequest valid = DreaminaMultiframe2VideoRequest.builder()
+            .image(first.toString())
+            .image(second.toString())
+            .prompt("过渡")
+            .durationSeconds(2.0)
+            .build();
 
-        assertThrows(IllegalArgumentException.class, invalid::toCliArgs);
-        assertTrue(valid.toCliArgs().contains("--duration=1.0"));
+        assertThrows(IllegalArgumentException.class, belowSegmentMinimum::toCliArgs);
+        assertThrows(IllegalArgumentException.class, belowTotalMinimum::toCliArgs);
+        assertTrue(valid.toCliArgs().contains("--duration=2.0"));
+    }
+
+    @Test
+    void multiframe2Video_shouldValidateEveryTransitionDuration() throws IOException {
+        Path first = createTempFile("transition-first.png");
+        Path second = createTempFile("transition-second.png");
+        Path third = createTempFile("transition-third.png");
+        DreaminaMultiframe2VideoRequest nonNumeric = DreaminaMultiframe2VideoRequest.builder()
+            .image(first.toString())
+            .image(second.toString())
+            .image(third.toString())
+            .transitionDuration("invalid")
+            .transitionDuration("3")
+            .build();
+        DreaminaMultiframe2VideoRequest outOfRange = DreaminaMultiframe2VideoRequest.builder()
+            .image(first.toString())
+            .image(second.toString())
+            .image(third.toString())
+            .transitionDuration("0.5")
+            .transitionDuration("3")
+            .build();
+        DreaminaMultiframe2VideoRequest valid = DreaminaMultiframe2VideoRequest.builder()
+            .image(first.toString())
+            .image(second.toString())
+            .image(third.toString())
+            .transitionDuration("1")
+            .transitionDuration("1")
+            .build();
+
+        assertThrows(IllegalArgumentException.class, nonNumeric::toCliArgs);
+        assertThrows(IllegalArgumentException.class, outOfRange::toCliArgs);
+        assertTrue(valid.toCliArgs().contains("--transition-duration=1"));
     }
 
     @Test
