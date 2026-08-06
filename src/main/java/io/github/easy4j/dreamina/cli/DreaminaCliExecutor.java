@@ -879,8 +879,9 @@ public class DreaminaCliExecutor {
 
     /**
      * 同上，附带额外原生参数片段（每项按单个 argv 传入，不做 shell 拆分）。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina text2image -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina text2image -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult text2Image(String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(prompt, "prompt");
@@ -907,8 +908,9 @@ public class DreaminaCliExecutor {
 
     /**
      * 调用 {@code dreamina image2image}：图生图，需传入参考图列表与编辑提示词。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina image2image -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image2image -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult image2Image(String imagesCsv, String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(imagesCsv, "imagesCsv");
@@ -940,8 +942,9 @@ public class DreaminaCliExecutor {
 
     /**
      * 调用 {@code dreamina image_upscale}；具体必填参数由调用方在 {@code additionalRawArgs} 中给出。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina image_upscale -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image_upscale -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult imageUpscale(List<String> additionalRawArgs) {
         return invoke(
@@ -975,8 +978,9 @@ public class DreaminaCliExecutor {
 
     /**
      * 文生视频并附加额外原生参数（如 {@code --duration=}、{@code --model_version=}、{@code --poll=}）。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina text2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina text2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult text2video(String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(prompt, "prompt");
@@ -1010,8 +1014,9 @@ public class DreaminaCliExecutor {
 
     /**
      * 调用 {@code dreamina image2video}：单张参考图驱动视频。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina image2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult image2video(String imagePath, String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(imagePath, "imagePath");
@@ -1047,8 +1052,9 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina frames2video}：首尾帧过渡；必填参数放在 {@code additionalRawArgs}（如 {@code --first=} / {@code --last=}）。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina frames2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina frames2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult frames2video(List<String> additionalRawArgs) {
         return invoke(
@@ -1076,8 +1082,9 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina multiframe2video}：多分镜图叙事；必填参数放在 {@code additionalRawArgs}。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina multiframe2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina multiframe2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult multiframe2video(List<String> additionalRawArgs) {
         return invoke(
@@ -1105,8 +1112,9 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina multimodal2video}：多模态合成；必填参数放在 {@code additionalRawArgs}。
-     * <p>CLI v1.4.14 的完整参数契约由 {@code dreamina multimodal2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
+     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina multimodal2video -h} 与
+     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult multimodal2video(List<String> additionalRawArgs) {
         return invoke(
