@@ -225,6 +225,67 @@ executor.listTaskInfo(list);
 | `login --debug` 已废弃 | v1.4.1（2026-04-17） | 不再向 `dreamina login -h` 输出 | — |
 | Session 完整 CRUD | v1.3.5（2026-04-16） | `session create/list/ls/search/find/rename/update/delete/rm` | — |
 
+## 适配即梦 CLI v1.4.14（2026-07-21）
+
+v1.4.14 与 v1.4.15 同步对齐：完整的 flag 契约由双向契约测试
+`src/test/resources/cli-contract/dreamina-v1.4.14-help.snapshot.tsv` 与
+`src/test/resources/cli-contract/dreamina-v1.4.15-help.snapshot.tsv` 维护。
+
+| 能力 / 模型 | 引入版本 | 枚举 / 字段 | 默认值 |
+|---|---|---|---|
+| 自定义图片宽高 `--width / --height` | v1.4.14 | `DreaminaText2ImageRequest.width / height`、`DreaminaImage2ImageRequest.width / height` | `null`（不传 → 使用 `--ratio`） |
+| `--resolution_type` 必填 | v1.4.14 | `DreaminaText2ImageRequest.resolutionType`、`DreaminaImage2ImageRequest.resolutionType` | `2k` |
+| `--video_resolution` 必填 | v1.4.14 | `DreaminaText2VideoRequest.videoResolution` / `Image2VideoRequest` / `Frames2VideoRequest` / `Multimodal2VideoRequest` | `720p` |
+| `image2video --prompt` 必填 | v1.4.14 | `DreaminaImage2VideoRequest.prompt` | 必填 |
+| `multiframe2video` 限定 720p/1080p | v1.4.14 | `DreaminaMultiframe2VideoRequest.videoResolution` | `720p` |
+| Seedance 1.x 单图/首尾帧开放 | v1.4.14 | `SEEDANCE_1_0_FAST("seedance1.0fast")` / `SEEDANCE_1_5_PRO("seedance1.5pro")` | — |
+
+## 适配即梦 CLI v1.4.15（2026-08-01）
+
+v1.4.15 在 v1.4.14 基础上**新增 Seedance 2.5 视频模型**与**多模态纯音频输入**支持；SDK 通过新增
+`DreaminaVideoModelVersion.SEEDANCE_2_5("seedance2.5")` 与 `DreaminaVideoResolutionType.RESOLUTION_480P("480p")`
+完成适配。
+
+| 能力 | 引入版本 | 枚举 / 字段 | 校验 / 备注 |
+|---|---|---|---|
+| Seedance 2.5 模型 | v1.4.15 | `DreaminaVideoModelVersion.SEEDANCE_2_5` | CLI 参数值 `seedance2.5`；不作为默认 modelVersion（保留旧 CLI 兼容） |
+| Seedance 2.5 适用命令 | v1.4.15 | `supportsText2Video/supportsImage2Video/supportsFrames2Video/supportsMultimodal2Video()` | `multiframe2video` **不在** 2.5 支持范围 |
+| Seedance 2.5 视频时长 | v1.4.15 | `minDurationSeconds()=4`、`maxDurationSeconds()=30` | 旧模型仍维持 15s 上限 |
+| 480P 输出 | v1.4.15 | `DreaminaVideoResolutionType.RESOLUTION_480P` | 仅 Seedance 2.5；`validateVideoModelResolution` 已校验 |
+| Seedance 2.5 支持 1080P | v1.4.15 | `RESOLUTION_1080P` | 仅 2.5 / `seedance2.0_vip` |
+| 多模态纯音频输入 | v1.4.15 | `DreaminaMultimodal2VideoRequest.audios` 单字段 | 仅 Seedance 2.5；其它模型仍要求 image 或 video 之一 |
+| 多模态 2~30 秒参考音视频 | v1.4.15 | `DreaminaMultimodal2VideoRequest.durationSeconds`（4~30） | `requireVideoDuration` 自动按模型选上下界 |
+
+### 示例（Seedance 2.5 + 480P + 10s）
+
+```java
+DreaminaText2VideoRequest request = DreaminaText2VideoRequest.builder()
+    .prompt("镜头缓慢推进")
+    .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_5)
+    .videoResolution(DreaminaVideoResolutionType.RESOLUTION_480P)
+    .durationSeconds(10)
+    .pollSeconds(0)
+    .build();
+
+DreaminaCliResponse<DreaminaGenerateSubmit> submit =
+    executor.text2VideoSubmit(request);
+```
+
+### 示例（多模态纯音频输入，仅 Seedance 2.5）
+
+```java
+DreaminaMultimodal2VideoRequest request = DreaminaMultimodal2VideoRequest.builder()
+    .audio("/path/to/reference.mp3")
+    .prompt("从音频生成口播视频")
+    .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_5)
+    .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P)
+    .durationSeconds(10)
+    .build();
+
+DreaminaCliResponse<DreaminaGenerateSubmit> submit =
+    executor.multimodal2VideoSubmit(request);
+```
+
 > **以本机 `dreamina help` 为准**：CLI 是真相来源；枚举值仅做常用静态建模，未列出的 CLI flag 可通过每个 Request 的
 > `additionalRawArgs(...)` 透传。
 
