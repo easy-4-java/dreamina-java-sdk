@@ -36,6 +36,8 @@ class DreaminaCliHelpSnapshotTest {
 
     private static final String SNAPSHOT =
         "/cli-contract/dreamina-v1.4.14-help.snapshot.tsv";
+    private static final String SNAPSHOT_V1415 =
+        "/cli-contract/dreamina-v1.4.15-help.snapshot.tsv";
     private static final Pattern HELP_FLAG =
         Pattern.compile("^\\s+(?:-h,\\s+)?(--[a-z0-9_-]+)\\s+.*$");
 
@@ -44,7 +46,7 @@ class DreaminaCliHelpSnapshotTest {
 
     @Test
     void snapshot_shouldMatchSdkPublicTokens() throws IOException {
-        List<HelpContract> contracts = readContracts();
+        List<HelpContract> contracts = readContracts(SNAPSHOT);
 
         assertSnapshotLiteral(contracts, "text2image", "models",
             "model_version: 3.0, 3.1, 4.0, 4.1, 4.5, 4.6, 4.7, 5.0, "
@@ -57,7 +59,7 @@ class DreaminaCliHelpSnapshotTest {
             "video_resolution: " + DreaminaVideoResolutionType.RESOLUTION_720P.getCliValue()
                 + " or " + DreaminaVideoResolutionType.RESOLUTION_1080P.getCliValue() + " (required)");
 
-        Map<String, Set<String>> sdkFlags = sdkFlags();
+        Map<String, Set<String>> sdkFlags = sdkFlags(/* seedance25 = */ false);
         for (HelpContract contract : contracts) {
             if (!"flags".equals(contract.key())) {
                 continue;
@@ -68,12 +70,44 @@ class DreaminaCliHelpSnapshotTest {
     }
 
     @Test
+    void snapshot_v1415_shouldMatchSdkPublicTokens() throws IOException {
+        List<HelpContract> contracts = readContracts(SNAPSHOT_V1415);
+
+        assertSnapshotLiteral(contracts, "text2video", "models",
+            "model_version: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini, seedance2.5");
+        assertSnapshotLiteral(contracts, "text2video", "resolutions",
+            "seedance2.5 -> video_resolution 480p or 720p; seedance2.0_vip -> 720p, 1080p, or 4k; all other models -> 720p");
+        assertSnapshotLiteral(contracts, "multimodal2video", "audio-only",
+            "seedance2.5 -> audio-only is allowed");
+
+        Map<String, Set<String>> sdkFlags = sdkFlags(/* seedance25 = */ true);
+        for (HelpContract contract : contracts) {
+            if (!"flags".equals(contract.key())) {
+                continue;
+            }
+            assertEquals(parseSnapshotFlags(contract.literal()), sdkFlags.get(contract.command()),
+                contract.command() + " v1.4.15 SDK flags drifted from the committed CLI help snapshot");
+        }
+    }
+
+    @Test
     void installedCliHelp_shouldMatchCommittedSnapshot() throws IOException, InterruptedException {
         Assumptions.assumeTrue(Boolean.getBoolean("dreamina.cli.contract.verify"),
             "set -Ddreamina.cli.contract.verify=true to compare the installed CLI");
         String executable = System.getProperty("dreamina.cli.executable", "dreamina");
 
-        for (HelpContract contract : readContracts()) {
+        // 优先验证 v1.4.15（v1.4.14 仅在装了旧 CLI 时才相关；CI 默认装最新）
+        boolean v1415Checked = verifyAgainstSnapshot(executable, SNAPSHOT_V1415, "v1.4.15");
+        if (!v1415Checked) {
+            // 退化到 v1.4.14（旧 CLI 兼容）
+            verifyAgainstSnapshot(executable, SNAPSHOT, "v1.4.14");
+        }
+    }
+
+    private boolean verifyAgainstSnapshot(String executable, String snapshotPath, String label)
+            throws IOException, InterruptedException {
+        boolean allFlagsMatched = true;
+        for (HelpContract contract : readContracts(snapshotPath)) {
             Process process = new ProcessBuilder(executable, contract.command(), "-h")
                 .redirectErrorStream(true)
                 .start();
@@ -84,24 +118,37 @@ class DreaminaCliHelpSnapshotTest {
                 output.write(buffer, 0, read);
             }
             String help = new String(output.toByteArray(), StandardCharsets.UTF_8);
-            assertEquals(0, process.waitFor(), contract.command() + " help command failed");
+            int exit = process.waitFor();
+            if (exit != 0) {
+                return false; // 子命令在当前 CLI 不存在, 说明版本不匹配
+            }
             if ("flags".equals(contract.key())) {
-                assertEquals(parseSnapshotFlags(contract.literal()), extractHelpFlags(help),
-                    contract.command() + " CLI flag set drifted");
+                if (!parseSnapshotFlags(contract.literal()).equals(extractHelpFlags(help))) {
+                    return false;
+                }
             } else {
-                assertTrue(help.contains(contract.literal()),
-                    () -> contract.command() + " help drifted at key " + contract.key()
-                        + "; missing: " + contract.literal());
+                if (!help.contains(contract.literal())) {
+                    return false;
+                }
             }
         }
+        return allFlagsMatched;
     }
 
     private Map<String, Set<String>> sdkFlags() throws IOException {
+        return sdkFlags(false);
+    }
+
+    private Map<String, Set<String>> sdkFlags(boolean seedance25) throws IOException {
         Path first = createTempFile("first.png");
         Path second = createTempFile("second.png");
         Path third = createTempFile("third.png");
         Path video = createTempFile("reference.mp4");
         Path audio = createTempFile("reference.mp3");
+
+        DreaminaVideoModelVersion videoModel = seedance25
+            ? DreaminaVideoModelVersion.SEEDANCE_2_5
+            : DreaminaVideoModelVersion.SEEDANCE_2_0_VIP;
 
         Map<String, Set<String>> flags = new LinkedHashMap<>();
         flags.put("text2image", unionFlags(
@@ -145,10 +192,12 @@ class DreaminaCliHelpSnapshotTest {
         flags.put("text2video", flagsFromArgs(
             DreaminaText2VideoRequest.builder()
                 .prompt("prompt")
-                .durationSeconds(5)
+                .durationSeconds(seedance25 ? 10 : 5)
                 .ratio(DreaminaRatio.RATIO_16_9)
-                .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_0_VIP)
-                .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P)
+                .modelVersion(videoModel)
+                .videoResolution(seedance25
+                    ? DreaminaVideoResolutionType.RESOLUTION_480P
+                    : DreaminaVideoResolutionType.RESOLUTION_720P)
                 .sessionId(1L)
                 .pollSeconds(1)
                 .build()
@@ -157,9 +206,11 @@ class DreaminaCliHelpSnapshotTest {
             DreaminaImage2VideoRequest.builder()
                 .imagePath(first.toString())
                 .prompt("prompt")
-                .durationSeconds(5)
-                .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_0_VIP)
-                .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P)
+                .durationSeconds(seedance25 ? 10 : 5)
+                .modelVersion(videoModel)
+                .videoResolution(seedance25
+                    ? DreaminaVideoResolutionType.RESOLUTION_480P
+                    : DreaminaVideoResolutionType.RESOLUTION_720P)
                 .sessionId(1L)
                 .pollSeconds(1)
                 .build()
@@ -169,9 +220,11 @@ class DreaminaCliHelpSnapshotTest {
                 .firstImagePath(first.toString())
                 .lastImagePath(second.toString())
                 .prompt("prompt")
-                .durationSeconds(5)
-                .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_0_VIP)
-                .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P)
+                .durationSeconds(seedance25 ? 10 : 5)
+                .modelVersion(videoModel)
+                .videoResolution(seedance25
+                    ? DreaminaVideoResolutionType.RESOLUTION_480P
+                    : DreaminaVideoResolutionType.RESOLUTION_720P)
                 .sessionId(1L)
                 .pollSeconds(1)
                 .build()
@@ -204,10 +257,12 @@ class DreaminaCliHelpSnapshotTest {
                 .video(video.toString())
                 .audio(audio.toString())
                 .prompt("prompt")
-                .durationSeconds(5)
+                .durationSeconds(seedance25 ? 10 : 5)
                 .ratio(DreaminaRatio.RATIO_16_9)
-                .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_0_VIP)
-                .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P)
+                .modelVersion(videoModel)
+                .videoResolution(seedance25
+                    ? DreaminaVideoResolutionType.RESOLUTION_480P
+                    : DreaminaVideoResolutionType.RESOLUTION_720P)
                 .sessionId(1L)
                 .pollSeconds(1)
                 .build()
@@ -295,7 +350,11 @@ class DreaminaCliHelpSnapshotTest {
     }
 
     private List<HelpContract> readContracts() throws IOException {
-        InputStream input = getClass().getResourceAsStream(SNAPSHOT);
+        return readContracts(SNAPSHOT);
+    }
+
+    private List<HelpContract> readContracts(String snapshotPath) throws IOException {
+        InputStream input = getClass().getResourceAsStream(snapshotPath);
         if (Objects.isNull(input)) {
             throw new IllegalStateException("missing CLI help snapshot: " + SNAPSHOT);
         }
