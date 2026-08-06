@@ -2,6 +2,8 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
+[![Java](https://img.shields.io/badge/Java-17-orange)](https://github.com/easy-4-java/dreamina-java-sdk) [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
+
 A pure Java SDK (no Spring dependency) for invoking Dreamina (即梦 / Jimeng) capabilities through the local `dreamina` CLI. Suitable for plain Java applications, command-line tools, batch jobs, or any other framework.
 
 ## Table of Contents
