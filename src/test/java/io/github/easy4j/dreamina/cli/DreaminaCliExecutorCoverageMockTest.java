@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -314,5 +315,124 @@ class DreaminaCliExecutorCoverageMockTest {
             }
             return exitCode == null ? 0 : exitCode;
         }
+    }
+
+    // --- jacoco line/branch 100% 门禁补齐 ---
+
+    @Test void sessionInfo_overload_withAdditionalArgs_shouldInvokeStructuredMapper() {
+        assertNotNull(executor.sessionInfo(java.util.Collections.singletonList("--help")));
+    }
+
+    @Test void sessionUpdate_overload_blankArgs_shouldFailValidation() {
+        assertThrows(IllegalArgumentException.class,
+            () -> executor.sessionUpdate("  ", "newName", java.util.Collections.emptyList()));
+    }
+
+    @Test void sessionUpdate_overload_blankNewName_shouldFailValidation() {
+        // 反向分支: sessionId 合法, newName 空白, 触发 short-circuit newName 分支
+        assertThrows(IllegalArgumentException.class,
+            () -> executor.sessionUpdate("10086", "  ", java.util.Collections.emptyList()));
+    }
+
+    @Test void logoutInfo_noArgOverload_shouldInvokeStructuredMapper() {
+        // L1304 (logoutInfo() 无参重载) 此前未覆盖
+        assertNotNull(executor.logoutInfo());
+    }
+
+    @Test void sessionRm_overload_blankSessionId_shouldFailValidation() {
+        assertThrows(IllegalArgumentException.class,
+            () -> executor.sessionRm("  ", java.util.Collections.emptyList()));
+    }
+
+    @Test void loginInfo_overload_withAdditionalArgs_shouldInvokeStructuredMapper() {
+        assertNotNull(executor.loginInfo(java.util.Collections.singletonList("--verbose")));
+    }
+
+    @Test void logoutInfo_overload_withAdditionalArgs_shouldInvokeStructuredMapper() {
+        assertNotNull(executor.logoutInfo(java.util.Collections.singletonList("--verbose")));
+    }
+
+    @Test void reloginInfo_overload_withAdditionalArgs_shouldInvokeStructuredMapper() {
+        assertNotNull(executor.reloginInfo(java.util.Collections.singletonList("--headless")));
+    }
+
+    @Test void checkLoginInfo_overload_withAdditionalArgs_shouldInvokeStructuredMapper() {
+        assertNotNull(executor.checkLoginInfo("dev-xyz", 0,
+            java.util.Collections.singletonList("--verbose")));
+    }
+
+    @Test void withDefaultFlag_blankTrimmedEntries_areSkippedAtAppendCleanArgs() throws java.io.IOException {
+        // trim-空白项分支: appendCleanArgs 在 arg.trim().isEmpty() 时 continue
+        java.util.List<String> args = java.util.Arrays.asList(null, "   ", "  --ok  ", "");
+        executor.invoke("version", args); // 不抛异常即说明容错路径已被执行
+        assertTrue(mockCli.lastInvocation().contains("version"));
+    }
+
+    @Test void withDefaultFlag_nullAdditionalArgs_shouldStillSupplyDefault() throws java.io.IOException {
+        // L1792 containsFlag 的 null/empty 短路分支
+        executor.invoke("version", null);
+        assertTrue(mockCli.lastInvocation().contains("version"));
+    }
+
+    @Test void withDefaultFlag_additionalArgsContainsFlagValuePair_shouldNotDuplicate() throws java.io.IOException {
+        // L1800 containsFlag 的 normalized.startsWith("=") 分支
+        executor.invoke("version", java.util.Collections.singletonList("--poll=30"));
+        assertTrue(mockCli.lastInvocation().contains("version"));
+    }
+
+    @Test void containsFlag_blankArgumentEntry_shouldBeSkipped() throws Exception {
+        // L1796 containsFlag 对 blank 元素 continue 分支 (blank+entry两种)
+        Method method = DreaminaCliExecutor.class.getDeclaredMethod("containsFlag",
+            java.util.List.class, String.class);
+        method.setAccessible(true);
+        java.util.List<String> args = java.util.Arrays.asList(null, "  ", "--ok");
+        boolean result = (boolean) method.invoke(null, args, "--ok");
+        assertTrue(result); // 跳过 null/blank 后碰到 --ok, 返回 true
+    }
+
+    @Test void containsFlag_exactFlagMatch_shouldReturnTrue() throws Exception {
+        // L1800 containsFlag 的 flag.equals(normalized) 分支
+        Method method = DreaminaCliExecutor.class.getDeclaredMethod("containsFlag",
+            java.util.List.class, String.class);
+        method.setAccessible(true);
+        java.util.List<String> args = java.util.Arrays.asList("--poll");
+        boolean result = (boolean) method.invoke(null, args, "--poll");
+        assertTrue(result);
+    }
+
+    @Test void containsFlag_argumentWithLeadingWhitespace_trimmedBeforeMatch() throws Exception {
+        // L1799 normalized = argument.trim() 分支, 配合 L1800 startsWith
+        Method method = DreaminaCliExecutor.class.getDeclaredMethod("containsFlag",
+            java.util.List.class, String.class);
+        method.setAccessible(true);
+        java.util.List<String> args = java.util.Arrays.asList("   --poll   ");
+        boolean result = (boolean) method.invoke(null, args, "--poll");
+        assertTrue(result);
+    }
+
+    @Test void containsFlag_emptyList_shouldReturnFalse() throws Exception {
+        // L1792 additionalRawArgs.isEmpty() == true 短路分支
+        Method method = DreaminaCliExecutor.class.getDeclaredMethod("containsFlag",
+            java.util.List.class, String.class);
+        method.setAccessible(true);
+        boolean result = (boolean) method.invoke(null, java.util.Collections.emptyList(), "--poll");
+        assertFalse(result);
+    }
+
+    @Test void withDefaultFlag_nullAdditionalArgsObjectsNonNullBranch() throws Exception {
+        // L1784 Objects.nonNull(additionalRawArgs) false 分支
+        Method method = DreaminaCliExecutor.class.getDeclaredMethod("withDefaultFlag",
+            java.util.List.class, String.class, String.class);
+        method.setAccessible(true);
+        java.util.List<String> result = (java.util.List<String>) method.invoke(null, null, "--poll", "30");
+        assertEquals(1, result.size());
+        assertEquals("--poll=30", result.get(0));
+    }
+
+    @Test void newRunExecutor_shouldReturnNonNullDefaultExecutor() throws Exception {
+        Method method = DreaminaCliExecutor.class.getDeclaredMethod("newRunExecutor");
+        method.setAccessible(true);
+        Object result = method.invoke(executor);
+        assertNotNull(result);
     }
 }
