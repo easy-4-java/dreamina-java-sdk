@@ -10,7 +10,7 @@ import lombok.Getter;
  * 与 {@link DreaminaCliResult#getStderr()} 的原始文本；本类型字段均可为空。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

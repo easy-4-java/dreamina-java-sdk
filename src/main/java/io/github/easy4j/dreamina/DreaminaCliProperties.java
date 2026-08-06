@@ -10,7 +10,7 @@ import lombok.Data;
  * {@code @ConfigurationProperties(prefix = "dreamina.cli")} 继承或委托绑定同一字段。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

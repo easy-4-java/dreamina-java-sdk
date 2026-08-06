@@ -18,7 +18,7 @@ import java.util.Optional;
  * 供 Spring Boot Starter 在启动阶段调用，也可在纯 Java 应用中手动执行就绪检查。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public class DreaminaCliAvailabilityChecker {

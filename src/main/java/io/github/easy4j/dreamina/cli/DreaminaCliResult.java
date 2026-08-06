@@ -13,7 +13,7 @@ import lombok.Getter;
  * {@link DreaminaCliExecutor} 在正常返回路径下保证 {@link #success} 为 true。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

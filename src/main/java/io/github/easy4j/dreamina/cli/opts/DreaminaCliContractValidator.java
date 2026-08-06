@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Dreamina CLI 易变参数契约的集中校验器。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 2.0.0
  */
 public final class DreaminaCliContractValidator {

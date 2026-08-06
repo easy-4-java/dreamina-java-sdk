@@ -9,7 +9,7 @@ package io.github.easy4j.dreamina.cli;
  * {@link DreaminaCliExecutor#invoke(String, java.util.List)} 追加。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class DreaminaCliSubcommands {

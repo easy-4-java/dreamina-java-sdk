@@ -15,7 +15,7 @@ import lombok.Data;
  * total_credit: 4391
  * </pre>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

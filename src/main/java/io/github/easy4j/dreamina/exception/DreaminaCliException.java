@@ -9,7 +9,7 @@ import lombok.Getter;
  * 封装单次进程调用的诊断信息及可选快照，供上层决定是否重试、降级或告警；不耦合业务文案。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

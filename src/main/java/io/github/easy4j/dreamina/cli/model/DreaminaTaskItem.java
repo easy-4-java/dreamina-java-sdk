@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * {@code dreamina list_task} 数组中单条任务记录。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

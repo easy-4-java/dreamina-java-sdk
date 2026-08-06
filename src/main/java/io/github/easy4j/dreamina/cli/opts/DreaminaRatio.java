@@ -5,7 +5,7 @@ import lombok.Getter;
 /**
  * Dreamina 常见宽高比枚举。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

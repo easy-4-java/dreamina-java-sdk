@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * 官方 CLI help 快照门禁。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 2.0.0
  */
 class DreaminaCliHelpSnapshotTest {

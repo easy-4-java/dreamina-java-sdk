@@ -6,7 +6,7 @@ import lombok.Value;
 /**
  * 图片压缩结果摘要。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Value
