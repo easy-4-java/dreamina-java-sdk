@@ -9,7 +9,7 @@ import java.util.List;
  * 同时让各类生成命令把参数校验、默认值与文档约束沉淀在自身模型内。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public interface DreaminaCliArgumentProvider {

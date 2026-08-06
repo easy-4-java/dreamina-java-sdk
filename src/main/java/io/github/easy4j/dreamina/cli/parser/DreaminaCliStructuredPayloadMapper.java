@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  * JSON 命令：{@code body} 为与 CLI 字段对应的 {@code cli.model} 类型；文本/表格命令同理。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Slf4j

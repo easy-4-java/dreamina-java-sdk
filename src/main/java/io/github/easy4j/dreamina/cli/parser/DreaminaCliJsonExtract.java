@@ -7,7 +7,7 @@ package io.github.easy4j.dreamina.cli.parser;
  * 本工具采用括号配对扫描，尽量避免误吞字符串字面量中的括号。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 final class DreaminaCliJsonExtract {

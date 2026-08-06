@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * {@link DreaminaCliStructuredPayloadMapper} 单元测试：复用真实 CLI JSON / 表格快照片段。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 class DreaminaCliStructuredPayloadMapperTest {

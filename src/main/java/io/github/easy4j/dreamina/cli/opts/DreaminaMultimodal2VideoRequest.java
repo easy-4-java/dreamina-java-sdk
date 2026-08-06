@@ -10,7 +10,7 @@ import lombok.Singular;
 /**
  * 多模态视频请求对象。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

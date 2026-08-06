@@ -11,7 +11,7 @@ import lombok.Data;
 /**
  * {@code dreamina query_result} 解析体（与 CLI JSON 一一对应）。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

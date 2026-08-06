@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 异步生成类命令（{@code text2image}、{@code image2video} 等）提交后的 JSON 根负载。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

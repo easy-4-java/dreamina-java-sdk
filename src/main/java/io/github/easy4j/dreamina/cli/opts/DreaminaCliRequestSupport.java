@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Dreamina CLI 请求对象公共校验与参数拼装支持。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class DreaminaCliRequestSupport {

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Dreamina CLI v1.4.14 参数与状态契约测试。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 2.0.0
  */
 class DreaminaCliV1414ContractTest {

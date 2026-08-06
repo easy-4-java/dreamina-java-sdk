@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * {@code dreamina session list} 表格中的一行摘要。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

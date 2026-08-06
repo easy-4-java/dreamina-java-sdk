@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * 并补充异步 handler 与 Semaphore，避免高并发下线程因僵死子进程永久阻塞。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class SubprocessExecutionSupport {

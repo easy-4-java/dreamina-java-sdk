@@ -16,7 +16,7 @@ import lombok.Getter;
  * 4.0+ 模型同时支持图生图。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter
