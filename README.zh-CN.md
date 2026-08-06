@@ -2,14 +2,11 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-![Java](https://img.shields.io/badge/Java-21-orange) ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
-
 纯 Java SDK（无 Spring 依赖），通过本地 `dreamina` CLI 调用即梦能力。适合在普通 Java 应用、命令行工具、批处理任务或其它框架中直接集成。
 
-<a id="1-project-overview"></a>
 ## 目录
 
-- [1. 项目概览](#1-project-overview)
+- [1. 项目概览](#1-项目概览)
 - [2. 功能与状态](#2-features--status)
 - [3. 环境要求与兼容性](#3-requirements--compatibility)
 - [4. 架构与模块](#4-architecture--modules)
