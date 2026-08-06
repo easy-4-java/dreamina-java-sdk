@@ -143,7 +143,7 @@ class DreaminaCliRequestTest {
             .build();
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, request::toCliArgs);
-        assertTrue(ex.getMessage().contains("at least one image or video"));
+        assertTrue(ex.getMessage().contains("at least one image/video/audio"));
     }
 
     @Test
