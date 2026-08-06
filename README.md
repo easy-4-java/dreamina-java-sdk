@@ -2,8 +2,6 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-![Java](https://img.shields.io/badge/Java-8-orange) ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
-
 A pure Java SDK (no Spring dependency) for invoking Dreamina (即梦 / Jimeng) capabilities through the local `dreamina` CLI. Suitable for plain Java applications, command-line tools, batch jobs, or any other framework.
 
 ## Table of Contents
