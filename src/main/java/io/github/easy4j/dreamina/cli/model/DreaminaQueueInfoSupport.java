@@ -6,7 +6,7 @@ import io.github.easy4j.dreamina.util.DreaminaStrings;
 /**
  * {@link DreaminaQueryQueueInfo} 映射后处理（解析内嵌 {@code debug_info}）。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class DreaminaQueueInfoSupport {

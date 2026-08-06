@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * 解析 {@code dreamina login} / {@code relogin} / {@code logout} 的纯文本输出。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class DreaminaLoginTextParser {

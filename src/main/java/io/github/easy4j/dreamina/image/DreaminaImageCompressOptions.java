@@ -9,7 +9,7 @@ import lombok.Value;
  * <p>与 playwright-spring-boot-starter 中 Thumbnailator 用法对齐：
  * {@code scale} 控制等比例缩放，{@code quality} 控制有损编码质量。</p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Value

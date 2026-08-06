@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * 曾有的 {@code DREAMINA_CLI_AUDIT_LOGIN} 登录验收已移除。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Tag("dreamina-local")

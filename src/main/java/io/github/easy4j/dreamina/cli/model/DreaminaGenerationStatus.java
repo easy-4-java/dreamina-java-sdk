@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Dreamina CLI 生成任务状态。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 2.0.0
  */
 public enum DreaminaGenerationStatus {

@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * {@code dreamina version} JSON 负载。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

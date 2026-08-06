@@ -9,7 +9,7 @@ import lombok.Singular;
 /**
  * 图像超分请求对象。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

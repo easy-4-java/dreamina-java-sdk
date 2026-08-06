@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * {@link DreaminaParsedFields}，调用方必须使用原始字符串做降级。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class DreaminaCliOutputParser {

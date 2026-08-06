@@ -4,7 +4,7 @@ import io.github.easy4j.dreamina.cli.DreaminaCliResult;
 /**
  * ExecuteWatchdog 触发：子进程在配置的超时时间内未结束时抛出。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public class DreaminaCliTimeoutException extends DreaminaCliException {
