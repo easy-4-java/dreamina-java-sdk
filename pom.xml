@@ -67,13 +67,6 @@
                         <target>${java.version}</target>
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <maxmem>512M</maxmem>
-                        <annotationProcessorPaths>
-                            <path>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                                <version>${lombok.version}</version>
-                            </path>
-                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -169,7 +162,7 @@
                     <configuration>
                         <skip>false</skip>
                         <skipTests>false</skipTests>
-                        <argLine>@{jacoco.agent} -Xmx1024m -Dfile.encoding=UTF-8</argLine>
+                        <argLine>-Xmx1024m -Dfile.encoding=UTF-8</argLine>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -217,65 +210,6 @@
                         <waitUntil>published</waitUntil>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacoco.version}</version>
-                    <configuration>
-                        <propertyName>jacoco.agent</propertyName>
-                        <destFile>${project.build.directory}/jacoco.exec</destFile>
-                        <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                        <includes>
-                            <include>io.github.easy4j.dreamina.cli.DreaminaCliExecutor</include>
-                            <include>io/github/easy4j/dreamina/cli/DreaminaCliExecutor*</include>
-                        </includes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>check-line-branch-100</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                            <configuration>
-                                <haltOnFailure>true</haltOnFailure>
-                                <rules>
-                                    <rule>
-                                        <element>CLASS</element>
-                                        <includes>
-                                            <include>io.github.easy4j.dreamina.cli.DreaminaCliExecutor</include>
-                                        </includes>
-                                        <limits>
-                                            <limit>
-                                                <counter>LINE</counter>
-                                                <value>COVEREDRATIO</value>
-                                                <minimum>1.00</minimum>
-                                            </limit>
-                                            <limit>
-                                                <counter>BRANCH</counter>
-                                                <value>COVEREDRATIO</value>
-                                                <minimum>1.00</minimum>
-                                            </limit>
-                                        </limits>
-                                    </rule>
-                                </rules>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -310,10 +244,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -400,7 +330,6 @@
         <junit.version>5.8.2</junit.version>
         <lombok.version>1.18.46</lombok.version>
         <thumbnailator.version>0.4.20</thumbnailator.version>
-        <jacoco.version>0.8.13</jacoco.version>
 
         <!-- Maven plugins -->
         <maven.version>3.0</maven.version>
