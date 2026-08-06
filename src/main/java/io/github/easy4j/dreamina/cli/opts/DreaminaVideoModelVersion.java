@@ -13,6 +13,8 @@ import lombok.Getter;
  *   <li>v1.4.10（2026-06-26）起 seedance 2.0_vip 支持 4K（参 {@link DreaminaVideoResolutionType#RESOLUTION_4K}）</li>
  *   <li>v1.4.10 将旧 3.x 名称调整为 Seedance 1.x；CLI v1.4.14 的单图生视频公开
  *       {@code seedance1.0fast}/{@code seedance1.5pro}，首尾帧公开 {@code seedance1.5pro}</li>
+ *   <li>v1.4.15（2026-08-01）新增 Seedance 2.5（{@link #SEEDANCE_2_5}），支持 480P/720P 与 4～30 秒输出，
+ *       多模态支持 2～30 秒参考音视频及纯音频输入；CLI 参数值 {@code seedance2.5}</li>
  * </ul>
  * </p>
  *
@@ -28,6 +30,15 @@ public enum DreaminaVideoModelVersion {
     SEEDANCE_2_0_VIP("seedance2.0_vip"),
     /** CLI v1.4.8（2026-06-18）新增的轻量版 Seedance 2.0 mini。 */
     SEEDANCE_2_0_MINI("seedance2.0mini"),
+    /**
+     * CLI v1.4.15（2026-08-01）新增的 Seedance 2.5。
+     * <p>
+     * 适用于 {@code text2video}/{@code image2video}/{@code frames2video}/{@code multimodal2video}，
+     * 支持 480P / 720P 输出，时长范围 4～30 秒；多模态场景额外允许 2～30 秒参考音视频及纯音频输入。
+     * {@code multiframe2video} 不在本模型支持范围内。
+     * </p>
+     */
+    SEEDANCE_2_5("seedance2.5"),
     /** Web/CLI 统一命名后的 Seedance 1.0 快速模型。 */
     SEEDANCE_1_0_FAST("seedance1.0fast"),
     /** Web/CLI 统一命名后的 Seedance 1.0 模型。 */
@@ -72,7 +83,8 @@ public enum DreaminaVideoModelVersion {
             || this == SEEDANCE_2_0_FAST
             || this == SEEDANCE_2_0_VIP
             || this == SEEDANCE_2_0_FAST_VIP
-            || this == SEEDANCE_2_0_MINI;
+            || this == SEEDANCE_2_0_MINI
+            || this == SEEDANCE_2_5;
     }
 
     /**
@@ -118,6 +130,9 @@ public enum DreaminaVideoModelVersion {
         if (this == MODEL_3_5_PRO || this == MODEL_3_5_PRO_UNDERSCORE) {
             return 4;
         }
+        if (this == SEEDANCE_2_5) {
+            return 4;
+        }
         return 4;
     }
 
@@ -137,6 +152,9 @@ public enum DreaminaVideoModelVersion {
         }
         if (this == MODEL_3_5_PRO || this == MODEL_3_5_PRO_UNDERSCORE) {
             return 12;
+        }
+        if (this == SEEDANCE_2_5) {
+            return 30;
         }
         return 15;
     }

@@ -138,7 +138,7 @@ public final class DreaminaCliContractValidator {
     /**
      * 校验视频模型与分辨率组合。
      *
-     * @param modelVersion   视频模型
+     * @param modelVersion    视频模型
      * @param videoResolution 视频分辨率
      */
     public static void validateVideoModelResolution(
@@ -147,9 +147,18 @@ public final class DreaminaCliContractValidator {
         if (Objects.isNull(videoResolution)) {
             throw new IllegalArgumentException("videoResolution is required by Dreamina CLI v1.4.14+");
         }
-        if (videoResolution != DreaminaVideoResolutionType.RESOLUTION_720P
+        if (videoResolution == DreaminaVideoResolutionType.RESOLUTION_480P
+            && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_5) {
+            throw new IllegalArgumentException("480p video requires seedance2.5");
+        }
+        if (videoResolution == DreaminaVideoResolutionType.RESOLUTION_4K
             && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_0_VIP) {
-            throw new IllegalArgumentException("1080p/4k video requires seedance2.0_vip");
+            throw new IllegalArgumentException("4k video requires seedance2.0_vip");
+        }
+        if (videoResolution == DreaminaVideoResolutionType.RESOLUTION_1080P
+            && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_0_VIP
+            && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_5) {
+            throw new IllegalArgumentException("1080p video requires seedance2.0_vip or seedance2.5");
         }
     }
 
