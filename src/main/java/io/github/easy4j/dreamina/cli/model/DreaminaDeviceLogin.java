@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * OAuth Device Flow 材料（JSON 或 {@code relogin} 等命令的键值对文本）。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

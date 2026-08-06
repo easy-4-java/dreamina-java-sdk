@@ -16,7 +16,7 @@ import java.util.Objects;
  * <p>参考 playwright-spring-boot-starter {@code WkhtmlToImageBufferRenderStrategy#compressScreenshot}：
  * 从字节流读入，{@code scale} + {@code outputQuality} 后写回字节数组。</p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class DreaminaImageCompressSupport {

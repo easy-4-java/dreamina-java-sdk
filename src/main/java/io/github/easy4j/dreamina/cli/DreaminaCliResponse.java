@@ -14,7 +14,7 @@ import lombok.Getter;
  * </p>
  *
  * @param <T> 本命令解析体类型（如 {@link io.github.easy4j.dreamina.cli.model.DreaminaVersion}）
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

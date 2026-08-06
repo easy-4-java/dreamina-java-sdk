@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * {@code dreamina session delete/rm} 解析体（成功时 CLI 常输出 {@code deleted}）。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

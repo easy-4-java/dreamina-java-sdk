@@ -15,7 +15,7 @@ import lombok.Singular;
  * 并允许时长范围 4～30 秒；其他模型仍要求至少一个 {@code --image} 或 {@code --video} 输入。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

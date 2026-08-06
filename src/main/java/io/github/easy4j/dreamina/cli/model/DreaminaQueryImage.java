@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * {@code result_json.images[]} 单条图像产物。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

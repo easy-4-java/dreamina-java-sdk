@@ -10,7 +10,7 @@ import lombok.Data;
  * 该字段由 SDK 在映射阶段解析得到，并非 CLI 顶层独立键。
  * </p>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * {@code query_result} / 部分生成提交响应中的 {@code queue_info} 对象。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data

@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * Dreamina CLI 启动/就绪探测结果（纯 SDK，无 Spring 依赖）。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Getter

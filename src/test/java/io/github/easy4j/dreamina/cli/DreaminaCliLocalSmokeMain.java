@@ -67,7 +67,7 @@ import java.util.Objects;
  *   <li>{@code DREAMINA_SMOKE_SKIP_GENERATE=true}：跳过生成与积分消耗，仅跑只读命令。</li>
  * </ul>
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 public final class DreaminaCliLocalSmokeMain {

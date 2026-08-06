@@ -9,7 +9,7 @@ import lombok.Data;
 /**
  * {@code list_task} 等命令返回的 {@code commerce_info} 计费/权益摘要。
  *
- * @author wandl
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 1.0.0
  */
 @Data
