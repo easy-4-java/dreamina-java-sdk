@@ -278,13 +278,13 @@ class DreaminaCliExecutorCoverageMockTest {
         assertNull(method.invoke(null, Executor.INVALID_EXITVALUE));
     }
 
-    private static void invokeReflect(Method method, Object target, Object... args) throws Throwable {
+    private static void invokeReflect(Method method, Object target, Object... args) throws Exception {
         try {
             method.invoke(target, args);
         } catch (InvocationTargetException ex) {
             Throwable cause = ex.getCause();
-            if (cause instanceof Exception) {
-                throw cause;
+            if (cause instanceof Exception e) {
+                throw e;
             }
             throw ex;
         }
