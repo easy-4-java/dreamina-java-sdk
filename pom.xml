@@ -276,7 +276,7 @@
                 <!-- 覆盖率插件：生成覆盖率报告并校验测试覆盖率（目标 90%） -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
+                <version>${maven-jacoco-plugin.version}</version>
                 <configuration>
                     <propertyName>jacoco.agent</propertyName>
                     <destFile>${project.build.directory}/jacoco.exec</destFile>
@@ -366,9 +366,9 @@
                 <jdk>[1.8,)</jdk>
             </activation>
             <properties>
-                <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
+                <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
                 <additionalparam>-Xdoclint:none -Xlint:unchecked</additionalparam>
-                <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
+                <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
             
 		<junit.version>4.13.2</junit.version>
 		<slf4j.version>2.0.18</slf4j.version>
