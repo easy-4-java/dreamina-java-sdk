@@ -223,7 +223,7 @@ EOF
                 exit 2
                 ;;
             esac
-            """.formatted(log);
+            """.formatted(log).stripLeading();
     }
 
     private static void makeExecutable(Path script) throws IOException {
