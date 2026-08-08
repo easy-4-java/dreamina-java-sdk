@@ -7,7 +7,13 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * 文生图请求对象。
+ * 文生图Text-to-image request object.
+ * <p>
+ * Adapts to Dreamina CLI v1.4.x: Seedream 4.7 (v1.4.4), Seedream 5.0 Pro (v1.4.12),
+ * batch generation with {@code --generate_num} (v1.4.10), and explicit resolution (v1.4.14).
+ * </p>
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2Image(String)
  * <p>
  * 适配即梦 CLI v1.4.x：
  * <ul>
@@ -19,7 +25,7 @@ import lombok.Singular;
  * </p>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

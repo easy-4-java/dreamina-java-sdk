@@ -4,43 +4,45 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
- * Dreamina 生图结果压缩参数（纯 POJO，无 Spring 耦合）。
+ * Compression options for Dreamina generation results (pure POJO, no Spring coupling).
  *
- * <p>与 playwright-spring-boot-starter 中 Thumbnailator 用法对齐：
- * {@code scale} 控制等比例缩放，{@code quality} 控制有损编码质量。</p>
+ * <p>Aligned with the Thumbnailator usage in playwright-spring-boot-starter:
+ * {@code scale} controls proportional scaling, {@code quality} controls lossy encoding quality.</p>
+ *
+ * @see DreaminaImageCompressSupport
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Value
 @Builder
 public class DreaminaImageCompressOptions {
 
     /**
-     * 是否启用压缩；为 false 时 {@link DreaminaImageCompressSupport} 原样返回输入字节。
+     * Whether compression is enabled; when false, {@link DreaminaImageCompressSupport} returns the input bytes as-is.
      */
     @Builder.Default
     boolean enabled = false;
 
     /**
-     * 等比例缩放比例：{@code (0,1]} 缩小，{@code 1} 仅质量压缩不改变尺寸，{@code >1} 放大。
+     * Proportional scale factor: {@code (0,1]} to shrink, {@code 1} for quality-only compression without resizing, {@code >1} to enlarge.
      */
     @Builder.Default
     double scale = 1.0d;
 
     /**
-     * 输出质量（1–100），映射为 Thumbnailator {@code outputQuality(quality/100f)}。
+     * Output quality (1-100), mapped to Thumbnailator {@code outputQuality(quality/100f)}.
      */
     @Builder.Default
     int quality = 85;
 
     /**
-     * 从业务配置构造压缩选项。
+     * Constructs compression options from business configuration.
      *
-     * @param enabled 压缩开关
-     * @param scale   缩放比例
-     * @param quality 输出质量 1–100
-     * @return 压缩选项
+     * @param enabled Compression toggle
+     * @param scale   Scale factor
+     * @param quality Output quality 1-100
+     * @return Compression options
      */
     public static DreaminaImageCompressOptions of(boolean enabled, double scale, int quality) {
         return DreaminaImageCompressOptions.builder()

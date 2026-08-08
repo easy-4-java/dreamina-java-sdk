@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * {@code dreamina user_credit} JSON 负载。
+ * JSON payload for {@code dreamina user_credit}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#userCredit()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

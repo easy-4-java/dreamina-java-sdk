@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * {@code commerce_info.triplet} / {@code commerce_info.triplets[]} 单条权益三元组。
+ * Single benefit triplet from {@code commerce_info.triplet} or {@code commerce_info.triplets[]}.
+ *
+ * @see DreaminaCommerceInfo
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

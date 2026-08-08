@@ -1,7 +1,9 @@
 package io.github.easy4j.dreamina.util;
 
 /**
- * 字符串工具（Java 8 兼容），用于替代 {@link String#isBlank()} 等 JDK 9+ API。
+ * String utility class (Java 8 compatible), used as a substitute for {@link String#isBlank()} and other JDK 9+ APIs.
+ *
+ * @see String#isBlank()
  */
 public final class DreaminaStrings {
 
@@ -9,20 +11,20 @@ public final class DreaminaStrings {
     }
 
     /**
-     * 判断是否为 null、空串或仅空白字符（与 {@code String.isBlank()} 语义一致，适用于 Java 8）。
+     * Checks whether the value is null, empty, or contains only whitespace (semantically equivalent to {@code String.isBlank()}, compatible with Java 8).
      *
-     * @param value 待检测字符串，可为 null
-     * @return 无有效内容时返回 true
+     * @param value The string to check; may be null
+     * @return Returns true when there is no meaningful content
      */
     public static boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
     }
 
     /**
-     * 与 {@link #isBlank(String)} 相反。
+     * The inverse of {@link #isBlank(String)}.
      *
      * @param value 待检测字符串，可为 null
-     * @return 包含非空白字符时返回 true
+     * @return Returns true when the value contains non-whitespace characters
      */
     public static boolean isNotBlank(String value) {
         return !isBlank(value);

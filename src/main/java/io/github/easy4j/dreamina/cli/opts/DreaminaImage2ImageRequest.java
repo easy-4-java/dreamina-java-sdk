@@ -7,7 +7,12 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * 图生图请求对象。
+ * 图生图Image-to-image request object.
+ * <p>
+ * Requires 1-10 local reference images, model version 4.0+, and resolution 2k/4k.
+ * </p>
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2Image(String, String, java.util.List)
  * <p>
  * 按 Jimeng 技能约束：必须提供 1-10 张本地图片，且模型版本需为 4.0+，分辨率仅支持 2k/4k。
  * </p>
@@ -20,7 +25,7 @@ import lombok.Singular;
  * </p>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

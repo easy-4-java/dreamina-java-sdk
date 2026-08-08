@@ -9,10 +9,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Dreamina CLI 请求对象公共校验与参数拼装支持。
+ * Common validation and argument assembly support for Dreamina CLI request objects.
+ *
+ * @see DreaminaCliContractValidator
+ * @see DreaminaCliArgumentProvider
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public final class DreaminaCliRequestSupport {
 
@@ -20,11 +23,11 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 断言文本参数非空白。
+     * Asserts that a text parameter is not blank.
      *
-     * @param value 参数值
-     * @param label 参数名
-     * @return 去除首尾空白后的值
+     * @param value Parameter value
+     * @param label Parameter name
+     * @return Value with leading/trailing whitespace trimmed
      */
     public static String requireNonBlank(String value, String label) {
         if (DreaminaStrings.isBlank(value)) {
@@ -34,11 +37,11 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 校验数值范围。
+     * Validates a numeric range.
      *
-     * @param value 当前值
-     * @param min   最小值
-     * @param max   最大值
+     * @param value Current value
+     * @param min   Minimum value
+     * @param max   Maximum value
      * @param label 参数名
      */
     public static void requireRange(Integer value, int min, int max, String label) {
@@ -51,7 +54,7 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 校验非负数值。
+     * Validates that a numeric value is non-negative.
      *
      * @param value 参数值
      * @param label 参数名
@@ -66,9 +69,9 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 校验会话 ID。
+     * Validates a session ID.
      *
-     * @param sessionId 会话 ID
+     * @param sessionId Session ID
      */
     public static void requireSessionId(Long sessionId) {
         if (sessionId == null) {
@@ -80,11 +83,11 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 校验本地文件存在且可读。
+     * Validates that a local file exists and is readable.
      *
-     * @param rawPath 文件路径
+     * @param rawPath File path
      * @param label   参数名
-     * @return 规范化后的路径文本
+     * @return Normalized path text
      */
     public static String requireReadableFile(String rawPath, String label) {
         String path = requireNonBlank(rawPath, label);
@@ -102,13 +105,13 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 校验文件列表数量与可读性。
+     * Validates the count and readability of a file list.
      *
-     * @param rawPaths 文件路径列表
+     * @param rawPaths File path list
      * @param label    参数名
-     * @param minCount 最小数量
-     * @param maxCount 最大数量
-     * @return 清洗后的路径列表
+     * @param minCount Minimum count
+     * @param maxCount Maximum count
+     * @return Cleaned path list
      */
     public static List<String> requireReadableFiles(List<String> rawPaths, String label, int minCount, int maxCount) {
         if (rawPaths == null || rawPaths.isEmpty()) {
@@ -125,10 +128,10 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 逗号拼接文件列表，适配 `--images=a,b,c` 这类 Dreamina CLI 语法。
+     * Joins a file list with commas to match Dreamina CLI syntax like `--images=a,b,c`.
      *
-     * @param paths 已校验路径列表
-     * @return CSV 字符串
+     * @param paths Validated path list
+     * @return CSV string
      */
     public static String csv(List<String> paths) {
         return String.join(",", paths);
@@ -136,7 +139,7 @@ public final class DreaminaCliRequestSupport {
 
 
     /**
-     * 校验浮点数值范围。
+     * Validates a floating-point numeric range.
      */
     public static void requireDoubleRange(Double value, double min, double max, String label) {
         if (value == null) {
@@ -148,7 +151,7 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 按模型版本校验视频时长（秒）。
+     * Validates video duration (seconds) by model version.
      */
     public static void requireVideoDuration(Integer durationSeconds, DreaminaVideoModelVersion modelVersion, String label) {
         if (durationSeconds == null) {
@@ -162,7 +165,7 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 重复追加同名 flag（适配 CLI stringArray）。
+     * Repeatedly appends the same flag (for CLI stringArray).
      */
     public static void addRepeatedFlag(List<String> args, String key, List<String> values) {
         if (values == null || values.isEmpty()) {
@@ -174,10 +177,10 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 追加 `--key=value` 形式参数。
+     * Appends a `--key=value` style parameter.
      *
-     * @param args  参数集合
-     * @param key   参数名（含 `--`）
+     * @param args  Argument collection
+     * @param key   Parameter name (including `--`)
      * @param value 参数值
      */
     public static void addFlag(List<String> args, String key, String value) {
@@ -188,7 +191,7 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 追加整数型 flag。
+     * Appends an integer flag.
      *
      * @param args  参数集合
      * @param key   参数名
@@ -202,7 +205,7 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 追加长整型 flag。
+     * Appends a long integer flag.
      *
      * @param args  参数集合
      * @param key   参数名
@@ -216,13 +219,13 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 追加调用方自定义原生参数。
+     * Appends caller-defined raw parameters.
      *
-     * @param args             目标参数集合
-     * @param additionalRawArgs 原生参数
+     * @param args             Target argument collection
+     * @param additionalRawArgs Raw parameters
      */
     /**
-     * 追加浮点型 flag。
+     * Appends a double-precision flag.
      */
     public static void addFlag(List<String> args, String key, Double value) {
         if (value == null) {
@@ -243,10 +246,10 @@ public final class DreaminaCliRequestSupport {
     }
 
     /**
-     * 复制调用方自定义参数，避免外部列表被后续修改影响。
+     * Copies caller-defined parameters to prevent external list modifications from affecting the result.
      *
      * @param additionalRawArgs 原生参数
-     * @return 不可变视图
+     * @return Immutable view
      */
     public static List<String> copyAdditionalArgs(List<String> additionalRawArgs) {
         if (additionalRawArgs == null || additionalRawArgs.isEmpty()) {

@@ -3,21 +3,24 @@ package io.github.easy4j.dreamina.cli.opts;
 import java.util.List;
 
 /**
- * Dreamina CLI 参数提供者。
+ * Dreamina CLI argument provider.
  * <p>
- * 用于将强类型请求对象转换为可直接传给执行器的 argv 列表，使执行层保留统一入口，
- * 同时让各类生成命令把参数校验、默认值与文档约束沉淀在自身模型内。
+ * Converts strongly-typed request objects into argv lists that can be passed directly to the executor,
+ * keeping a unified entry point in the execution layer while letting each generation command
+ * encapsulate parameter validation, defaults, and documentation constraints within its own model.
  * </p>
  *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#invoke(String, java.util.List)
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public interface DreaminaCliArgumentProvider {
 
     /**
-     * 转换为 CLI 参数列表（不含可执行文件名与一级子命令）。
+     * Converts to a CLI argument list (excluding the executable name and top-level subcommand).
      *
-     * @return 已校验的 argv 列表
+     * @return Validated argv list
      */
     List<String> toCliArgs();
 }

@@ -5,28 +5,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * {@code result_json.images[]} 单条图像产物。
+ * Single image artifact from {@code result_json.images[]}.
+ *
+ * @see DreaminaQueryResult#images()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DreaminaQueryImage {
 
     /**
-     * 可下载的签名图像 URL。
+     * Downloadable signed image URL.
      */
     @JsonProperty("image_url")
     private String imageUrl;
 
     /**
-     * 图像宽度（像素）；CLI 未返回时为 {@code null}。
+     * Image width in pixels; {@code null} when not returned by the CLI.
      */
     private Integer width;
 
     /**
-     * 图像高度（像素）；CLI 未返回时为 {@code null}。
+     * Image height in pixels; {@code null} when not returned by the CLI.
      */
     private Integer height;
 }

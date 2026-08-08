@@ -2,16 +2,18 @@ package io.github.easy4j.dreamina.exception;
 
 import io.github.easy4j.dreamina.cli.DreaminaCliResult;
 /**
- * 无法在操作系统层面启动 CLI（例如命令不存在或路径非法）时抛出。
+ * Thrown when the CLI cannot be started at the OS level (e.g., command not found or invalid path).
+ *
+ * @see DreaminaCliException
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public class DreaminaCliExecutableFailureException extends DreaminaCliException {
 
     /**
-     * @param message 面向日志的失败说明
-     * @param cause   通常为 {@link java.io.IOException}
+     * @param message Failure description for logging
+     * @param cause   Typically a {@link java.io.IOException}
      */
     public DreaminaCliExecutableFailureException(String message, Throwable cause) {
         super(message, cause, null);

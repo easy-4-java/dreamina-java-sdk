@@ -6,42 +6,47 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 一次 Dreamina CLI 调用的标准结果载体。
+ * Standard result carrier for a single Dreamina CLI invocation.
  * <p>
- * 始终保留原始 stdout / stderr，并附带退出码及成功标记；结构化字段通过 {@link #getParsed()} 按需访问。
- * 当底层已判定为非零退出、超时或可执行文件不可用时，由异常模型携带最近一次快照，
- * {@link DreaminaCliExecutor} 在正常返回路径下保证 {@link #success} 为 true。
+ * Always preserves raw stdout / stderr along with the exit code and success flag;
+ * structured fields are accessible on demand via {@link #getParsed()}.
+ * When the underlying layer determines a non-zero exit, timeout, or executable unavailability,
+ * the exception model carries the latest snapshot. {@link DreaminaCliExecutor} guarantees
+ * {@link #success} is {@code true} on the normal return path.
  * </p>
  *
+ * @see DreaminaCliExecutor
+ * @see DreaminaCliResponse
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
 public class DreaminaCliResult {
 
     /**
-     * 标准输出全文。
+     * Full standard output text.
      */
     private final String stdout;
 
     /**
-     * 标准错误全文。
+     * Full standard error text.
      */
     private final String stderr;
 
     /**
-     * 进程退出码；若进程未能正常产生退出码则可能为 {@code null}。
+     * Process exit code; may be {@code null} if the process did not produce a normal exit code.
      */
     private final Integer exitCode;
 
     /**
-     * 是否与当前执行层契约一致地表示成功。
+     * Whether the result represents success consistent with the current execution-layer contract.
      */
     private final boolean success;
 
     /**
-     * 尽力解析的结构化摘要。
+     * Best-effort parsed structured summary.
      */
     private final DreaminaParsedFields parsed;
 }

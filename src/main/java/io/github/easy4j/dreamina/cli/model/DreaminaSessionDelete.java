@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina session delete/rm} 解析体（成功时 CLI 常输出 {@code deleted}）。
+ * Parsed body for {@code dreamina session delete/rm} (CLI typically outputs {@code deleted} on success).
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#sessionDelete(String)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

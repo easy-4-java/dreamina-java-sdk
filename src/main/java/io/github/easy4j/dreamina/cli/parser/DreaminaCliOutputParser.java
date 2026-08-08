@@ -4,14 +4,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Dreamina CLI stdout / stderr 的轻量正则解析。
+ * Lightweight regex parsing of Dreamina CLI stdout / stderr.
  * <p>
- * 仅抽取与后续编排弱耦合的字段；任何匹配失败时返回各字段均为默认 null 的
- * {@link DreaminaParsedFields}，调用方必须使用原始字符串做降级。
+ * Only extracts fields loosely coupled with downstream orchestration; when any match fails,
+ * returns a {@link DreaminaParsedFields} with all fields defaulting to null,
+ * and the caller must fall back to the raw strings.
  * </p>
  *
+ * @see DreaminaParsedFields
+ * @see DreaminaCliStructuredPayloadMapper
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public final class DreaminaCliOutputParser {
 
@@ -23,7 +27,7 @@ public final class DreaminaCliOutputParser {
         "\\bsubmit[_-]?id\\b\\s*[:=]\\s*[\"']?([A-Za-z0-9_-]+)", Pattern.CASE_INSENSITIVE);
 
     /**
-     * 任务提交 / 查询等命令输出的紧凑 JSON 中的 {@code "submit_id":"..."}（优先于松散文本匹配）。
+     * The {@code "submit_id":"..."} in compact JSON from task submission/query command output (takes priority over loose text matching).
      */
     private static final Pattern SUBMIT_ID_JSON = Pattern.compile(
         "\"submit_id\"\\s*:\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
@@ -32,7 +36,7 @@ public final class DreaminaCliOutputParser {
         "(?:(?:user[_-]?)?credits?)\\s*[:=]\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
 
     /**
-     * {@code user_credit} 等命令返回的 JSON 中的额度字段（键名与数字之间允许空白）。
+     * The credit field in JSON returned by commands like {@code user_credit} (whitespace allowed between key and number).
      */
     private static final Pattern CREDIT_TOTAL_JSON = Pattern.compile(
         "\"total_credit\"\\s*:\\s*(\\d+)\\b", Pattern.CASE_INSENSITIVE);
@@ -44,11 +48,11 @@ public final class DreaminaCliOutputParser {
     }
 
     /**
-     * 合并 stdout/stderr 后做正则扫描，抽取 submitId、credit、polling 暗示。
+     * Merges stdout/stderr and performs regex scanning to extract submitId, credit, and polling hints.
      *
-     * @param stdout 标准输出
-     * @param stderr 标准错误
-     * @return 非 null 的快照对象；字段可为 null 表示未能识别
+     * @param stdout Standard output
+     * @param stderr Standard error
+     * @return A non-null snapshot; fields may be null if not recognized
      */
     public static DreaminaParsedFields parseBestEffort(String stdout, String stderr) {
         String a = stdout == null ? "" : stdout;
@@ -73,7 +77,7 @@ public final class DreaminaCliOutputParser {
     }
 
     /**
-     * 在多组模式中尝试提取 submit ID。
+     * Attempts to extract a submit ID across multiple patterns.
      */
     private static String findSubmitId(String combined) {
         Matcher json = SUBMIT_ID_JSON.matcher(combined);
@@ -93,10 +97,10 @@ public final class DreaminaCliOutputParser {
     }
 
     /**
-     * 从合并输出中解析额度数值：优先匹配 JSON {@code total_credit}，再回退到键值/纯文本形式。
+     * Parses the credit value from merged output: first matches JSON {@code total_credit}, then falls back to key-value / plain text.
      *
-     * @param combined stdout 与 stderr 合并文本
-     * @return 解析成功时的非负整数；无法识别时为 {@code null}
+     * @param combined Merged stdout and stderr text
+     * @return Non-negative integer on successful parse; {@code null} if unrecognizable
      */
     private static Long parseCreditLong(String combined) {
         Matcher json = CREDIT_TOTAL_JSON.matcher(combined);
@@ -119,7 +123,7 @@ public final class DreaminaCliOutputParser {
     }
 
     /**
-     * 去掉首尾配对引号，避免残留 JSON / shell 风格的包裹字符。
+     * Trims matching leading/trailing quotes to avoid residual JSON / shell-style wrapping.
      */
     private static String trimQuotes(String raw) {
         if (raw == null || raw.isEmpty()) {

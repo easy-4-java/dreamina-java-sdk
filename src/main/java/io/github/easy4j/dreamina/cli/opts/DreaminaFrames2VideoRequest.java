@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * 首尾帧视频请求对象。
+ * 首尾帧视频First-last-frames video request object.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#frames2video()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

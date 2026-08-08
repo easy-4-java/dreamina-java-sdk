@@ -8,7 +8,13 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * 多模态视频请求对象。
+ * 多模态视频Multimodal video request object (formerly ref2video).
+ * <p>
+ * Supports image, video, and audio references with Seedance 2.0/2.5 models.
+ * Seedance 2.5 (CLI v1.4.15) allows audio-only input.
+ * </p>
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#multimodal2video()
  * <p>
  * 适配即梦 CLI v1.4.15（2026-08-01）新增 Seedance 2.5：当 {@link #modelVersion} 显式指定为
  * {@link DreaminaVideoModelVersion#SEEDANCE_2_5} 时，{@code audios} 字段可单独提供（即「纯音频输入」），
@@ -16,7 +22,7 @@ import lombok.Singular;
  * </p>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
