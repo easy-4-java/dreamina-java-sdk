@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina session list} 解析体。
+ * Parsed body for {@code dreamina session list}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#sessionList()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
@@ -18,7 +20,7 @@ public class DreaminaSessionList {
     private final List<DreaminaSessionRow> rows;
 
     /**
-     * @return 非 null 行列表
+     * @return Non-null row list.
      */
     public List<DreaminaSessionRow> safeRows() {
         return rows == null ? Collections.emptyList() : rows;

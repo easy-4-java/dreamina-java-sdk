@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina help} 解析体（主题；全文见 {@link io.github.easy4j.dreamina.cli.DreaminaCliResponse#getStdout()}）。
+ * Parsed body for {@code dreamina help} (topic; full text is in {@link io.github.easy4j.dreamina.cli.DreaminaCliResponse#getStdout()}).
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#help()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

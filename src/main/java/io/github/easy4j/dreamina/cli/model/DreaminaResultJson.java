@@ -6,38 +6,40 @@ import java.util.List;
 import lombok.Data;
 
 /**
- * {@code query_result} 响应中的 {@code result_json} 对象。
+ * The {@code result_json} object within a {@code query_result} response.
+ *
+ * @see DreaminaQueryResult
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DreaminaResultJson {
 
     /**
-     * 生成成功的图像列表；缺失时为 {@code null}（调用方可通过 {@link #safeImages()} 得到空列表）。
+     * Image list for successful generations; {@code null} when absent (callers can use {@link #safeImages()} for an empty list).
      */
     private List<DreaminaQueryImage> images;
 
     /**
-     * 生成成功的视频列表；缺失时为 {@code null}。
+     * Video list for successful generations; {@code null} when absent.
      */
     private List<DreaminaQueryVideo> videos;
 
     /**
-     * 返回非 null 的图像列表视图。
+     * Returns a non-null image list view.
      *
-     * @return 图像列表，永不为 null
+     * @return Image list; never null.
      */
     public List<DreaminaQueryImage> safeImages() {
         return images == null ? Collections.emptyList() : images;
     }
 
     /**
-     * 返回非 null 的视频列表视图。
+     * Returns a non-null video list view.
      *
-     * @return 视频列表，永不为 null
+     * @return Video list; never null.
      */
     public List<DreaminaQueryVideo> safeVideos() {
         return videos == null ? Collections.emptyList() : videos;

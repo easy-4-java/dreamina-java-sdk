@@ -3,54 +3,61 @@ package io.github.easy4j.dreamina;
 import lombok.Data;
 
 /**
- * Dreamina 命令行客户端（CLI）运行时配置（纯 POJO，无 Spring 耦合）。
+ * Runtime configuration POJO for the Dreamina CLI subprocess client (no Spring coupling).
  * <p>
- * 描述可执行文件路径、工作目录、单次命令超时以及编排侧可选的默认轮询间隔；
- * 仅服务于「如何启动子进程」，不承载业务编排。Spring Boot 应用中可由上层使用
- * {@code @ConfigurationProperties(prefix = "dreamina.cli")} 继承或委托绑定同一字段。
+ * Describes the executable path, working directory, per-command timeout, and optional
+ * default polling interval for orchestration layers. This class solely handles
+ * "how to launch a subprocess" and does not carry business orchestration logic.
+ * In a Spring Boot application, the upper layer can use
+ * {@code @ConfigurationProperties(prefix = "dreamina.cli")} to bind the same fields.
  * </p>
  *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
+ * @see io.github.easy4j.dreamina.cli.support.SubprocessExecutionSupport
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 public class DreaminaCliProperties {
 
     /**
-     * Dreamina CLI 可执行文件名或绝对路径。
-     * <p>默认假定已在 {@code PATH} 中可直接调用 {@code dreamina}。</p>
+     * Dreamina CLI executable name or absolute path.
+     * <p>Defaults to assuming {@code dreamina} is directly callable from {@code PATH}.</p>
      */
     private String executable = "dreamina";
 
     /**
-     * 子进程工作目录；为空时使用当前 JVM 工作目录。
+     * Working directory for the subprocess; when empty, the current JVM working directory is used.
      */
     private String workingDirectory;
 
     /**
-     * 单次 CLI 调用超时（毫秒）。
+     * Per CLI invocation timeout in milliseconds.
      * <p>
-     * 用于 {@link org.apache.commons.exec.ExecuteWatchdog}；超时后将终止子进程并映射为执行层超时异常。
+     * Used by {@link org.apache.commons.exec.ExecuteWatchdog}; upon timeout the subprocess
+     * is terminated and mapped to an execution-layer timeout exception.
      * </p>
      */
     private long commandTimeoutMillis = 120_000L;
 
     /**
-     * 本机 CLI 子进程最大并发数；小于等于 0 时使用 CPU 核心数与 2 的较大值。
+     * Maximum concurrent CLI subprocess executions; when less than or equal to 0, defaults to the greater of the CPU core count and 2.
      */
     private int maxConcurrentExecutions = 0;
 
     /**
-     * 启动探测（{@code dreamina version}）专用超时（毫秒）；小于等于 0 时探测使用 30 秒。
-     * <p>不影响业务调用的 {@link #commandTimeoutMillis}。</p>
+     * Startup probe timeout in milliseconds ({@code dreamina version}); when less than or equal to 0, defaults to 30 seconds.
+     * <p>Does not affect the business-call {@link #commandTimeoutMillis}.</p>
      */
     private long startupProbeTimeoutMillis = 30_000L;
 
     /**
-     * 编排层默认轮询间隔（秒）。
+     * Default polling interval for orchestration layers (seconds).
      * <p>
-     * 例如在 {@code query_result} 与 {@code text2image} 异步链路之间休眠间隔的可复用默认值；
-     * 本执行器仅暴露配置，不负责具体轮询实现。
+     * A reusable default for sleep intervals between asynchronous chains such as
+     * {@code query_result} and {@code text2image}; this executor only exposes
+     * the configuration and does not implement the actual polling logic.
      * </p>
      */
     private int defaultPollIntervalSeconds = 5;

@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina relogin} 解析体。
+ * Parsed body for {@code dreamina relogin}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#relogin()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
@@ -17,7 +19,7 @@ public class DreaminaRelogin {
     private final DreaminaDeviceLogin device;
 
     /**
-     * @return 是否应继续 {@code checklogin}
+     * @return Whether {@code checklogin} should follow.
      */
     public boolean needsCheckLogin() {
         return device != null && device.isMaterialPresent();

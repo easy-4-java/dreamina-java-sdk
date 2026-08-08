@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * 异步生成类命令（{@code text2image}、{@code image2video} 等）提交后的 JSON 根负载。
+ * Root JSON payload after submitting an asynchronous generation command ({@code text2image}, {@code image2video}, etc.).
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2Image(String)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -27,7 +29,7 @@ public class DreaminaGenerateSubmit {
     private DreaminaQueryQueueInfo queueInfo;
 
     /**
-     * 服务端追踪 ID（生产 {@code text2image} 等提交响应均返回）。
+     * Server-side tracking ID (returned by production {@code text2image} and similar submit responses).
      */
     private String logid;
 

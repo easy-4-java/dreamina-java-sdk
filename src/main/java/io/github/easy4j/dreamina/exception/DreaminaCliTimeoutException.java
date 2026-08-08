@@ -2,16 +2,18 @@ package io.github.easy4j.dreamina.exception;
 
 import io.github.easy4j.dreamina.cli.DreaminaCliResult;
 /**
- * ExecuteWatchdog 触发：子进程在配置的超时时间内未结束时抛出。
+ * Thrown when the ExecuteWatchdog triggers: the subprocess did not finish within the configured timeout.
+ *
+ * @see DreaminaCliException
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public class DreaminaCliTimeoutException extends DreaminaCliException {
 
     /**
      * @param message        说明性消息
-     * @param partialResult  若在此之前已捕获到部分输出则可传入，否则可为 null
+     * @param partialResult  Partial output captured before the timeout, or null if none was available
      */
     public DreaminaCliTimeoutException(String message, DreaminaCliResult partialResult) {
         super(message, partialResult);

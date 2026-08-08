@@ -3,7 +3,7 @@ package io.github.easy4j.dreamina.cli.model;
 import lombok.Data;
 
 /**
- * {@code dreamina login} 复用本地 OAuth 时输出的账户摘要（键值对文本，非 JSON）。
+ * Account summary output when {@code dreamina login} reuses the local OAuth session (key-value text, not JSON).
  * <p>
  * 典型 CLI 片段：
  * </p>
@@ -16,23 +16,23 @@ import lombok.Data;
  * </pre>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 public class DreaminaLoginAccount {
 
     /**
-     * 当前登录用户数字 ID。
+     * Numeric user ID of the currently logged-in user.
      */
     private Long userId;
 
     /**
-     * VIP 档位（如 {@code maestro}）。
+     * VIP tier (e.g., {@code maestro}).
      */
     private String vipLevel;
 
     /**
-     * 剩余积分。
+     * Remaining credits.
      */
     private Long totalCredit;
 }

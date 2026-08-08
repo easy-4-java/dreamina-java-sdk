@@ -1,23 +1,27 @@
 package io.github.easy4j.dreamina.cli;
 
 /**
- * Dreamina（即梦）CLI 子命令字面量常量：一级命令按能力域分组；{@link LoginSub}、{@link SessionSub} 为
- * {@code login} / {@code session} 后的二级 token，供执行器拼装 {@code dreamina login checklogin}、
- * {@code dreamina session create} 等链路。
+ * Dreamina CLI subcommand literal constants: top-level commands grouped by capability;
+ * {@link LoginSub} and {@link SessionSub} are second-level tokens after
+ * {@code login} / {@code session}, used by the executor to assemble chains
+ * such as {@code dreamina login checklogin} and {@code dreamina session create}.
  * <p>
- * 与 OpenClaw / Jimeng 技能文档中的命令划分对齐；具体 flag 仍由调用方通过便捷方法或
- * {@link DreaminaCliExecutor#invoke(String, java.util.List)} 追加。
+ * Aligned with the command divisions in OpenClaw / Jimeng skill documentation;
+ * specific flags are still appended by the caller via convenience methods or
+ * {@link DreaminaCliExecutor#invoke(String, java.util.List)}.
  * </p>
  *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public final class DreaminaCliSubcommands {
 
     private DreaminaCliSubcommands() {}
 
     /**
-     * 一级内置命令（帮助、任务列表等）。
+     * Top-level built-in commands (help, task listing, etc.).
      */
     public static final class Builtin {
 
@@ -28,7 +32,7 @@ public final class DreaminaCliSubcommands {
     }
 
     /**
-     * 账号与会话：版本自检、额度、登录态、会话上下文等。
+     * Account and session management: version check, credits, login state, session context, etc.
      */
     public static final class Account {
 
@@ -40,7 +44,7 @@ public final class DreaminaCliSubcommands {
         /** {@code dreamina user_credit} */
         public static final String USER_CREDIT = "user_credit";
 
-        /** {@code dreamina login}（仅 {@code --headless} 为当前合法后缀；{@code --debug} 自 v1.4.1 已废弃） */
+        /** {@code dreamina login} (only {@code --headless} is currently supported; {@code --debug} is deprecated since v1.4.1) */
         public static final String LOGIN = "login";
 
         /** {@code dreamina logout} */
@@ -54,20 +58,20 @@ public final class DreaminaCliSubcommands {
     }
 
     /**
-     * {@code dreamina login} 下的子动作（二级 token，位于 {@code login} 之后）。
+     * Sub-actions under {@code dreamina login} (second-level token, placed after {@code login}).
      */
     public static final class LoginSub {
 
         private LoginSub() {}
 
         /**
-         * {@code dreamina login checklogin ...}：无头 / 设备码流程下轮询完成授权。
+         * {@code dreamina login checklogin ...}: polls to complete authorization in the headless / device-code flow.
          */
         public static final String CHECKLOGIN = "checklogin";
     }
 
     /**
-     * {@code dreamina session} 下的子动作（二级 token，位于 {@code session} 之后）。
+     * Sub-actions under {@code dreamina session} (second-level token, placed after {@code session}).
      */
     public static final class SessionSub {
 
@@ -79,30 +83,30 @@ public final class DreaminaCliSubcommands {
         /** {@code dreamina session list} */
         public static final String LIST = "list";
 
-        /** {@code dreamina session ls}：{@link #LIST} 的官方别名。 */
+        /** {@code dreamina session ls}: official alias of {@link #LIST}. */
         public static final String LS = "ls";
 
         /** {@code dreamina session search} */
         public static final String SEARCH = "search";
 
-        /** {@code dreamina session find}：{@link #SEARCH} 的官方别名。 */
+        /** {@code dreamina session find}: official alias of {@link #SEARCH}. */
         public static final String FIND = "find";
 
         /** {@code dreamina session rename} */
         public static final String RENAME = "rename";
 
-        /** {@code dreamina session update}：{@link #RENAME} 的官方别名。 */
+        /** {@code dreamina session update}: official alias of {@link #RENAME}. */
         public static final String UPDATE = "update";
 
         /** {@code dreamina session delete} */
         public static final String DELETE = "delete";
 
-        /** {@code dreamina session rm}：{@link #DELETE} 的官方别名。 */
+        /** {@code dreamina session rm}: official alias of {@link #DELETE}. */
         public static final String RM = "rm";
     }
 
     /**
-     * 图片生成与编辑相关子命令。
+     * Image generation and editing subcommands.
      */
     public static final class Image {
 
@@ -111,7 +115,7 @@ public final class DreaminaCliSubcommands {
         /** {@code dreamina text2image} */
         public static final String TEXT2IMAGE = "text2image";
 
-        /** {@code dreamina image2image}（图生图） */
+        /** {@code dreamina image2image} (image-to-image) */
         public static final String IMAGE2IMAGE = "image2image";
 
         /** {@code dreamina image_upscale} */
@@ -119,7 +123,7 @@ public final class DreaminaCliSubcommands {
     }
 
     /**
-     * 视频生成相关子命令（含图生视频的多种输入形态）。
+     * Video generation subcommands (including multiple input modes for image-to-video).
      */
     public static final class Video {
 
@@ -128,21 +132,21 @@ public final class DreaminaCliSubcommands {
         /** {@code dreamina text2video} */
         public static final String TEXT2VIDEO = "text2video";
 
-        /** {@code dreamina image2video}（单图驱动） */
+        /** {@code dreamina image2video} (single-image driven) */
         public static final String IMAGE2VIDEO = "image2video";
 
-        /** {@code dreamina frames2video}（首尾帧） */
+        /** {@code dreamina frames2video} (first-last frames) */
         public static final String FRAMES2VIDEO = "frames2video";
 
-        /** {@code dreamina multiframe2video}（多图分镜） */
+        /** {@code dreamina multiframe2video} (multi-image storyboard) */
         public static final String MULTIFRAME2VIDEO = "multiframe2video";
 
-        /** {@code dreamina multimodal2video}（多模态合成） */
+        /** {@code dreamina multimodal2video} (multimodal synthesis) */
         public static final String MULTIMODAL2VIDEO = "multimodal2video";
     }
 
     /**
-     * 任务列表与结果查询。
+     * Task listing and result querying.
      */
     public static final class Task {
 

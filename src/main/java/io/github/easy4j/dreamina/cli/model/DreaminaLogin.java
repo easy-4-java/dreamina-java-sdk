@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina login} / {@code login --headless} 解析体。
+ * Parsed body for {@code dreamina login} / {@code login --headless}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#login()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
@@ -18,14 +20,14 @@ public class DreaminaLogin {
     private final DreaminaDeviceLogin device;
 
     /**
-     * @return 是否已复用本地 OAuth 且解析到账户信息
+     * @return Whether the local OAuth session was reused and account info was parsed.
      */
     public boolean hasAccount() {
         return account != null;
     }
 
     /**
-     * @return 是否仅为「复用 OAuth」单行提示（无 JSON、无账户行）
+     * @return Whether this is only a single-line OAuth-reuse hint (no JSON, no account line).
      */
     public boolean isOAuthReuseOnly() {
         return Boolean.TRUE.equals(oauthSessionReused)

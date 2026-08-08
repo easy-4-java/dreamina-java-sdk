@@ -2,16 +2,18 @@ package io.github.easy4j.dreamina.exception;
 
 import io.github.easy4j.dreamina.cli.DreaminaCliResult;
 /**
- * CLI 进程以非预期非零退出码结束时抛出（语义由上层解释）。
+ * Thrown when the CLI process exits with an unexpected non-zero exit code (semantics interpreted by the upper layer).
+ *
+ * @see DreaminaCliException
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public class DreaminaCliNonZeroExitException extends DreaminaCliException {
 
     /**
-     * @param message 说明性消息
-     * @param result  已组装的完整快照（{@link DreaminaCliResult#success} 一般为 false）
+     * @param message Descriptive message
+     * @param result  The assembled complete snapshot ({@link DreaminaCliResult#success} is typically false)
      */
     public DreaminaCliNonZeroExitException(String message, DreaminaCliResult result) {
         super(message, result);

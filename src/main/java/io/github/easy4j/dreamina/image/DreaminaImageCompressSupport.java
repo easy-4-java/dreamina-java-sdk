@@ -11,13 +11,16 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * 基于 Thumbnailator 的 Dreamina 生图字节压缩工具。
+ * Image byte compression utility for Dreamina generation results, based on Thumbnailator.
  *
- * <p>参考 playwright-spring-boot-starter {@code WkhtmlToImageBufferRenderStrategy#compressScreenshot}：
- * 从字节流读入，{@code scale} + {@code outputQuality} 后写回字节数组。</p>
+ * <p>Follows the pattern of playwright-spring-boot-starter {@code WkhtmlToImageBufferRenderStrategy#compressScreenshot}:
+ * reads from a byte stream, applies {@code scale} + {@code outputQuality}, and writes back to a byte array.</p>
+ *
+ * @see DreaminaImageCompressOptions
+ * @see DreaminaImageCompressResult
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public final class DreaminaImageCompressSupport {
 
@@ -30,13 +33,13 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 按配置压缩图片字节；未启用或输入为空时原样返回。
+     * Compresses image bytes per configuration; returns as-is when disabled or input is empty.
      *
-     * @param source     原始图片字节
-     * @param formatHint 格式提示（URL 后缀或文件名，如 {@code .jpg}、{@code png}）
+     * @param source     Original image bytes
+     * @param formatHint Format hint (URL suffix or filename, e.g., {@code .jpg}, {@code png})
      * @param options    压缩选项
-     * @return 压缩后字节；未压缩时返回 {@code source} 本身
-     * @throws IOException 图片不可读或编码失败
+     * @return Compressed bytes; returns {@code source} itself when not compressed
+     * @throws IOException Image is unreadable or encoding failed
      */
     public static byte[] compressIfEnabled(byte[] source, String formatHint, DreaminaImageCompressOptions options)
             throws IOException {
@@ -45,13 +48,13 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 按配置压缩图片字节并返回摘要。
+     * Compresses image bytes per configuration and returns a summary.
      *
      * @param source     原始图片字节
      * @param formatHint 格式提示
      * @param options    压缩选项
-     * @return 压缩结果
-     * @throws IOException 图片不可读或编码失败
+     * @return Compression result
+     * @throws IOException 图片Unreadable或Encoding failed
      */
     public static DreaminaImageCompressResult compress(byte[] source, String formatHint,
             DreaminaImageCompressOptions options) throws IOException {
@@ -73,9 +76,9 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 将 {@link BufferedImage} 压缩为字节（供测试或本地读盘场景）。
+     * Compresses a {@link BufferedImage} to bytes (for testing or local disk-read scenarios).
      *
-     * @param image      原图
+     * @param image      Original image
      * @param formatHint 格式提示
      * @param options    压缩选项
      * @return 压缩结果
@@ -103,7 +106,7 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 单次解码字节为 {@link BufferedImage}。
+     * Decodes bytes into a {@link BufferedImage} in a single pass.
      *
      * @param source 原始图片字节
      * @return 解码后的图片
@@ -120,14 +123,14 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 对已解码图片执行 Thumbnailator 压缩并编码为字节（单次内存处理，不重复读流）。
+     * Applies Thumbnailator compression to a decoded image and encodes to bytes (single in-memory pass, no repeated stream reads).
      *
-     * @param image           已解码原图
-     * @param originalByteSize 原始字节长度（用于结果摘要）
+     * @param image           Decoded original image
+     * @param originalByteSize Original byte length (for result summary)
      * @param formatHint      格式提示
-     * @param options         压缩选项（已确认 enabled）
+     * @param options         Compression options (confirmed enabled)
      * @return 压缩结果
-     * @throws IOException 压缩或编码失败
+     * @throws IOException Compression or encoding failed
      */
     private static DreaminaImageCompressResult compressDecoded(BufferedImage image, int originalByteSize,
             String formatHint, DreaminaImageCompressOptions options) throws IOException {
@@ -155,14 +158,14 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 使用 Thumbnailator 缩放/压质后写出为字节数组。
+     * Writes the Thumbnailator-scaled/quality-adjusted result to a byte array.
      *
      * @param image        原图
-     * @param outputFormat ImageIO 格式名
+     * @param outputFormat ImageIO format name
      * @param scale        缩放比例
      * @param quality      输出质量 1–100
      * @return 压缩后字节
-     * @throws IOException 处理失败
+     * @throws IOException Processing failed
      */
     private static byte[] encodeCompressed(BufferedImage image, String outputFormat, double scale, int quality)
             throws IOException {
@@ -182,11 +185,11 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 将 {@link BufferedImage} 编码为字节（不缩放）。
+     * Encodes a {@link BufferedImage} to bytes (no scaling).
      *
      * @param image        图片
      * @param outputFormat ImageIO 格式名
-     * @return 编码字节
+     * @return Encoded bytes
      * @throws IOException 编码失败
      */
     private static byte[] encodeImage(BufferedImage image, String outputFormat) throws IOException {
@@ -199,10 +202,10 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 规范化缩放比例到合法区间。
+     * Normalizes the scale factor to the valid range.
      *
-     * @param scale 原始比例
-     * @return 合法比例
+     * @param scale Raw scale factor
+     * @return Valid scale factor
      */
     static double normalizeScale(double scale) {
         if (Double.isNaN(scale) || Double.isInfinite(scale)) {
@@ -218,10 +221,10 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 将质量限制在 1–100。
+     * Clamps the quality to the 1-100 range.
      *
-     * @param quality 原始质量
-     * @return 合法质量
+     * @param quality Raw quality
+     * @return Valid quality
      */
     static int clampQuality(int quality) {
         if (quality < MIN_QUALITY) {
@@ -234,10 +237,10 @@ public final class DreaminaImageCompressSupport {
     }
 
     /**
-     * 从 URL/文件名后缀推断 ImageIO 输出格式名。
+     * Infers the ImageIO output format name from a URL/filename suffix.
      *
-     * @param formatHint   后缀或格式名
-     * @param defaultFormat 默认格式
+     * @param formatHint   Suffix or format name
+     * @param defaultFormat Default format
      * @return jpg / png / gif / bmp
      */
     static String resolveOutputFormat(String formatHint, String defaultFormat) {

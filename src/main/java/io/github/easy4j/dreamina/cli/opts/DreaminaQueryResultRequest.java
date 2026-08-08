@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * {@code dreamina query_result} 请求对象。
+ * {@code dreamina query_result} Request object for {@code dreamina query_result}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#queryResult(String)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

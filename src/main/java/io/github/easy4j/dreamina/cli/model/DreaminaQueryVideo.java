@@ -5,49 +5,51 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * {@code result_json.videos[]} 单条视频产物。
+ * Single video artifact from {@code result_json.videos[]}.
+ *
+ * @see DreaminaQueryResult#videos()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DreaminaQueryVideo {
 
     /**
-     * 可下载的签名视频 URL。
+     * Downloadable signed video URL.
      */
     @JsonProperty("video_url")
     private String videoUrl;
 
     /**
-     * 封面图 URL（若 CLI 提供）。
+     * Cover image URL (if provided by the CLI).
      */
     @JsonProperty("cover_url")
     private String coverUrl;
 
     /**
-     * 视频宽度（像素）。
+     * Video width in pixels.
      */
     private Integer width;
 
     /**
-     * 视频高度（像素）。
+     * Video height in pixels.
      */
     private Integer height;
 
     /**
-     * 帧率（生产 {@code multiframe2video} 成功样例为 24）。
+     * Frame rate (24 in production {@code multiframe2video} success samples).
      */
     private Integer fps;
 
     /**
-     * 容器格式（例如 {@code mp4}）。
+     * Container format (e.g., {@code mp4}).
      */
     private String format;
 
     /**
-     * 时长（秒，可为小数；生产样例如 {@code 3.208}）。
+     * Duration in seconds (may be fractional; e.g., {@code 3.208} in production samples).
      */
     private Double duration;
 }

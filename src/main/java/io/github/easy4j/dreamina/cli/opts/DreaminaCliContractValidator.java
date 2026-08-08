@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Dreamina CLI 易变参数契约的集中校验器。
+ * Centralized validator for Dreamina CLI's volatile parameter contracts.
+ *
+ * @see DreaminaCliRequestSupport
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 2.0.0
+ * @since 3.0.0
  */
 public final class DreaminaCliContractValidator {
 
@@ -16,11 +18,11 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验 v1.4.14 自定义图片尺寸契约。
+     * Validates the v1.4.14 custom image size contract.
      *
-     * @param width  自定义宽度
-     * @param height 自定义高度
-     * @param ratio  宽高比
+     * @param width  Custom width
+     * @param height Custom height
+     * @param ratio  Aspect ratio
      */
     public static void validateCustomImageSize(Integer width, Integer height, DreaminaRatio ratio) {
         boolean hasWidth = Objects.nonNull(width);
@@ -37,12 +39,12 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验 v1.4.14 自定义图片尺寸的边长与总像素限制。
+     * Validates the side-length and total-pixel limits for v1.4.14 custom image sizes.
      *
      * @param width          自定义宽度
      * @param height         自定义高度
-     * @param modelVersion   图片模型
-     * @param resolutionType 图片分辨率
+     * @param modelVersion   Image model
+     * @param resolutionType Image resolution
      */
     public static void validateCustomImageBounds(
         Integer width,
@@ -92,10 +94,10 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验并返回图片分辨率。
+     * Validates and returns the image resolution.
      *
      * @param resolutionType 图片分辨率
-     * @return 非空图片分辨率
+     * @return Non-null image resolution
      */
     public static DreaminaImageResolutionType requireImageResolution(
         DreaminaImageResolutionType resolutionType) {
@@ -106,7 +108,7 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验图片模型与分辨率组合。
+     * Validates the image model and resolution combination.
      *
      * @param modelVersion   图片模型
      * @param resolutionType 图片分辨率
@@ -136,10 +138,10 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验视频模型与分辨率组合。
+     * Validates the video model and resolution combination.
      *
-     * @param modelVersion    视频模型
-     * @param videoResolution 视频分辨率
+     * @param modelVersion    Video model
+     * @param videoResolution Video resolution
      */
     public static void validateVideoModelResolution(
         DreaminaVideoModelVersion modelVersion,
@@ -163,7 +165,7 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验智能多帧分辨率。
+     * Validates the multiframe video resolution.
      *
      * @param videoResolution 视频分辨率
      */
@@ -177,9 +179,9 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验双图智能多帧的单段时长。
+     * Validates the per-segment duration for two-image multiframe videos.
      *
-     * @param durationSeconds 单段时长；留空时 CLI 默认 3 秒
+     * @param durationSeconds Per-segment duration; defaults to 3 seconds in CLI when omitted
      */
     public static void validateMultiframeDuration(Double durationSeconds) {
         if (Objects.isNull(durationSeconds)) {
@@ -195,9 +197,9 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * 校验三张及以上图片的逐段时长。
+     * Validates per-segment durations for three or more images.
      *
-     * @param transitionDurations CLI stringArray 形式的逐段时长
+     * @param transitionDurations Per-segment durations in CLI stringArray format
      */
     public static void validateMultiframeTransitionDurations(List<String> transitionDurations) {
         if (Objects.isNull(transitionDurations) || transitionDurations.isEmpty()) {
