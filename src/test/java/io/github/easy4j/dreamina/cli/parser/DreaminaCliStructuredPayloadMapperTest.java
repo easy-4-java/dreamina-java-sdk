@@ -9,7 +9,6 @@ import io.github.easy4j.dreamina.cli.model.DreaminaHelp;
 import io.github.easy4j.dreamina.cli.model.DreaminaLogin;
 import io.github.easy4j.dreamina.cli.model.DreaminaLogout;
 import io.github.easy4j.dreamina.cli.model.DreaminaQueryQueueDebugInfo;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryVideo;
 import io.github.easy4j.dreamina.cli.model.DreaminaQueryResult;
 import io.github.easy4j.dreamina.cli.model.DreaminaRelogin;
 import io.github.easy4j.dreamina.cli.model.DreaminaSessionList;

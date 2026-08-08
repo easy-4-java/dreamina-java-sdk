@@ -7,10 +7,12 @@ import java.util.List;
 import lombok.Data;
 
 /**
- * {@code list_task} 等命令返回的 {@code commerce_info} 计费/权益摘要。
+ * Billing/benefit summary from the {@code commerce_info} field returned by commands such as {@code list_task}.
+ *
+ * @see DreaminaTaskItem
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,17 +22,17 @@ public class DreaminaCommerceInfo {
     private Long creditCount;
 
     /**
-     * 单条三元组占位（生产环境可能各字段为空字符串）。
+     * Single triplet placeholder (fields may be empty strings in production).
      */
     private DreaminaCommerceTriplet triplet;
 
     /**
-     * 实际生效的权益三元组列表。
+     * List of effective benefit triplets.
      */
     private List<DreaminaCommerceTriplet> triplets;
 
     /**
-     * @return 非 null 的 triplets 视图
+     * @return Non-null view of the triplets list.
      */
     public List<DreaminaCommerceTriplet> safeTriplets() {
         return triplets == null ? Collections.emptyList() : triplets;

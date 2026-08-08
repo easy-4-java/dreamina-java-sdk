@@ -3,7 +3,12 @@ package io.github.easy4j.dreamina.cli.opts;
 import lombok.Getter;
 
 /**
- * 视频分辨率类型。
+ * Video resolution type enum.
+ * <p>
+ * Adapted for Dreamina CLI v1.4.x: 720p (default), 1080p, 480p (Seedance 2.5), 4K (VIP).
+ * </p>
+ *
+ * @see DreaminaVideoModelVersion
  * <p>
  * 适配即梦 CLI v1.4.x：
  * <ul>
@@ -19,7 +24,7 @@ import lombok.Getter;
  * </p>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 public enum DreaminaVideoResolutionType {

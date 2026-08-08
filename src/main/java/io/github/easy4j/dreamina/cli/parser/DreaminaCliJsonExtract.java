@@ -1,14 +1,17 @@
 package io.github.easy4j.dreamina.cli.parser;
 
 /**
- * 从 Dreamina CLI 混杂日志的输出中提取可用的 JSON 片段（对象或数组）。
+ * Extracts usable JSON fragments (object or array) from Dreamina CLI output mixed with log lines.
  * <p>
- * 典型场景：stderr 打印一行初始化告警，stdout 仍为紧凑 JSON；部分命令也可能把 JSON 嵌在多行日志之后。
- * 本工具采用括号配对扫描，尽量避免误吞字符串字面量中的括号。
+ * Typical scenario: stderr prints an initialization warning while stdout is still compact JSON;
+ * some commands may also embed JSON after multi-line logs. This utility uses bracket-pair scanning
+ * to avoid accidentally consuming brackets inside string literals.
  * </p>
  *
+ * @see DreaminaCliStructuredPayloadMapper
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 final class DreaminaCliJsonExtract {
 
@@ -16,10 +19,10 @@ final class DreaminaCliJsonExtract {
     }
 
     /**
-     * 在合并文本中查找第一段语法上平衡的 JSON（{@code {...}} 或 {@code [...]}）。
+     * Finds the first syntactically balanced JSON segment ({@code {...}} or {@code [...]}) in the combined text.
      *
-     * @param combined stdout/stderr 合并后的文本；可为 null
-     * @return 候选 JSON 子串；无法识别时返回 {@code null}
+     * @param combined Combined stdout/stderr text; may be null
+     * @return Candidate JSON substring; returns {@code null} if not found
      */
     static String extractFirstBalancedJson(String combined) {
         if (combined == null || combined.isEmpty()) {
@@ -51,13 +54,13 @@ final class DreaminaCliJsonExtract {
     }
 
     /**
-     * 从 {@code start} 处的开括号起扫描到匹配的闭括号 inclusive index。
+     * Scans from the opening bracket at {@code start} to find the matching closing bracket inclusive index.
      *
-     * @param text      全文
-     * @param start     {@code '{'} 或 {@code '['} 的下标
-     * @param openChar  起始括号字符
-     * @param closeChar 结束括号字符
-     * @return 闭合括号下标；失败返回 {@code -1}
+     * @param text      The full text
+     * @param start     Index of {@code '{'} or {@code '['}
+     * @param openChar  Opening bracket character
+     * @param closeChar Closing bracket character
+     * @return Closing bracket index; returns {@code -1} on failure
      */
     private static int findClosingIndex(String text, int start, char openChar, char closeChar) {
         int depth = 0;

@@ -8,10 +8,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 解析 {@code dreamina login} / {@code relogin} / {@code logout} 的纯文本输出。
+ * Parses the plain-text output of {@code dreamina login} / {@code relogin} / {@code logout}.
+ *
+ * @see DreaminaCliStructuredPayloadMapper#mapLogin(io.github.easy4j.dreamina.cli.DreaminaCliResult)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public final class DreaminaLoginTextParser {
 
@@ -23,10 +25,10 @@ public final class DreaminaLoginTextParser {
     }
 
     /**
-     * 是否包含「复用本地 OAuth 登录态」语义（中英）。
+     * Detects whether the text contains local OAuth session reuse semantics (Chinese/English).
      *
-     * @param combined stdout/stderr 合并文本
-     * @return 检测到复用语义为 true
+     * @param combined Combined stdout/stderr text
+     * @return Returns true if reuse semantics are detected
      */
     public static boolean detectsOAuthReuse(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
@@ -42,10 +44,10 @@ public final class DreaminaLoginTextParser {
     }
 
     /**
-     * 是否包含「已清除本地登录态」语义。
+     * Detects whether the text contains local login state cleared semantics.
      *
-     * @param combined 合并文本
-     * @return 检测到登出成功提示为 true
+     * @param combined Combined text
+     * @return Returns true if a successful logout message is detected
      */
     public static boolean detectsLogoutCleared(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
@@ -55,10 +57,10 @@ public final class DreaminaLoginTextParser {
     }
 
     /**
-     * 是否提示需通过浏览器完成 Device Flow（如 {@code relogin} 首行）。
+     * Detects whether the text indicates a browser-based Device Flow is required (e.g., first line of {@code relogin}).
      *
      * @param combined 合并文本
-     * @return 需要浏览器 OAuth 为 true
+     * @return Returns true if browser-based OAuth is required
      */
     public static boolean detectsDeviceFlowBrowserPrompt(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
@@ -69,10 +71,10 @@ public final class DreaminaLoginTextParser {
     }
 
     /**
-     * 从「当前登录账户信息」键值对段落解析账户摘要。
+     * Parses the account summary from the key-value paragraph about current login account info.
      *
-     * @param combined CLI 合并文本
-     * @return 至少解析出一项字段时返回对象，否则 null
+     * @param combined CLI combined text
+     * @return Returns the object if at least one field was parsed, otherwise null
      */
     public static DreaminaLoginAccount parseReusedAccount(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
@@ -119,10 +121,10 @@ public final class DreaminaLoginTextParser {
     }
 
     /**
-     * 从键值对文本解析 Device Flow 材料（{@code relogin} / 部分 {@code --headless} 场景）。
+     * Parses Device Flow material from key-value text ({@code relogin} / some {@code --headless} scenarios).
      *
      * @param combined CLI 合并文本
-     * @return 至少含 device_code / verification_uri / user_code 之一时返回对象，否则 null
+     * @return Returns the object if it contains at least one of device_code / verification_uri / user_code, otherwise null
      */
     public static DreaminaDeviceLogin parseDeviceFlow(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
@@ -171,10 +173,10 @@ public final class DreaminaLoginTextParser {
     }
 
     /**
-     * Device Flow 负载是否包含核心字段。
+     * Whether the Device Flow payload contains core fields.
      *
-     * @param payload 负载；可为 null
-     * @return 有效为 true
+     * @param payload Payload; may be null
+     * @return Returns true if the material is present
      */
     public static boolean hasDeviceFlowMaterial(DreaminaDeviceLogin payload) {
         if (payload == null) {

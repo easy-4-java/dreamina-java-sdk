@@ -7,7 +7,13 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * 多帧故事视频请求对象。
+ * 多帧故事视频Multi-frame storyboard video request object.
+ * <p>
+ * 2 images use {@code --prompt}/{@code --duration}; 3+ images use repeated
+ * {@code --transition-prompt}/{@code --transition-duration}.
+ * </p>
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#multiframe2video()
  * <p>
  * 对齐 {@code dreamina multiframe2video -h}：2 张图用 {@code --prompt}/{@code --duration}；
  * 3 张及以上重复 {@code --transition-prompt}/{@code --transition-duration}；
@@ -15,7 +21,7 @@ import lombok.Singular;
  * </p>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

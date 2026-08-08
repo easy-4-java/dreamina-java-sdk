@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.easy4j.dreamina.util.DreaminaStrings;
 
 /**
- * {@link DreaminaQueryQueueInfo} 映射后处理（解析内嵌 {@code debug_info}）。
+ * Post-mapping support for {@link DreaminaQueryQueueInfo} (parses the embedded {@code debug_info}).
+ *
+ * @see DreaminaQueryQueueInfo#parsedDebugInfo
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public final class DreaminaQueueInfoSupport {
 
@@ -15,10 +17,10 @@ public final class DreaminaQueueInfoSupport {
     }
 
     /**
-     * 若 {@code debug_info} 为非空 JSON 字符串，则填充 {@link DreaminaQueryQueueInfo#getParsedDebugInfo()}。
+     * If {@code debug_info} is a non-empty JSON string, populates {@link DreaminaQueryQueueInfo#getParsedDebugInfo()}.
      *
-     * @param objectMapper Jackson 映射器；不得为 null
-     * @param queueInfo    队列对象；可为 null
+     * @param objectMapper Jackson ObjectMapper; must not be null
+     * @param queueInfo    Queue info object; may be null
      */
     public static void enrichParsedDebugInfo(ObjectMapper objectMapper, DreaminaQueryQueueInfo queueInfo) {
         if (queueInfo == null || DreaminaStrings.isBlank(queueInfo.getDebugInfo())) {

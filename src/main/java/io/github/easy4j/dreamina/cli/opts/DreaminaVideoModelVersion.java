@@ -3,7 +3,13 @@ package io.github.easy4j.dreamina.cli.opts;
 import lombok.Getter;
 
 /**
- * 视频模型版本枚举。
+ * Video model version enum.
+ * <p>
+ * Adapted for Dreamina CLI v1.4.x with Seedance 1.x/2.x model families.
+ * </p>
+ *
+ * @see DreaminaText2VideoRequest
+ * @see DreaminaImage2VideoRequest
  * <p>
  * 适配即梦 CLI v1.4.14：
  * <ul>
@@ -19,7 +25,7 @@ import lombok.Getter;
  * </p>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 public enum DreaminaVideoModelVersion {
@@ -74,9 +80,9 @@ public enum DreaminaVideoModelVersion {
     }
 
     /**
-     * 是否可用于 {@code text2video}（CLI 仅 seedance 系列）。
+     * Whether this version can be used for {@code text2video} (CLI only supports the seedance family).
      *
-     * @return true 表示 seedance 系列
+     * @return true if this is a seedance family model
      */
     public boolean supportsText2Video() {
         return this == SEEDANCE_2_0
@@ -88,9 +94,9 @@ public enum DreaminaVideoModelVersion {
     }
 
     /**
-     * 是否可用于 {@code image2video}。
+     * Whether this version can be used for {@code image2video}.
      *
-     * @return true 表示单图生视频支持该模型
+     * @return true if single-image-to-video supports this model
      */
     public boolean supportsImage2Video() {
         return this == SEEDANCE_1_0_FAST
@@ -99,25 +105,25 @@ public enum DreaminaVideoModelVersion {
     }
 
     /**
-     * 是否可用于 {@code frames2video}。
+     * Whether this version can be used for {@code frames2video}.
      *
-     * @return true 表示首尾帧视频支持该模型
+     * @return true if first-last-frames video supports this model
      */
     public boolean supportsFrames2Video() {
         return this == SEEDANCE_1_5_PRO || supportsText2Video();
     }
 
     /**
-     * 是否可用于 {@code multimodal2video}。
+     * Whether this version can be used for {@code multimodal2video}.
      *
-     * @return true 表示全能参考支持该模型
+     * @return true if multimodal video supports this model
      */
     public boolean supportsMultimodal2Video() {
         return supportsText2Video();
     }
 
     /**
-     * 按 CLI help 返回该模型允许的视频时长下限（秒）。
+     * Returns the minimum video duration (seconds) allowed for this model per CLI help.
      */
     public int minDurationSeconds() {
         if (this == SEEDANCE_1_0 || this == SEEDANCE_1_0_FAST || this == SEEDANCE_1_5_PRO) {
@@ -137,7 +143,7 @@ public enum DreaminaVideoModelVersion {
     }
 
     /**
-     * 按 CLI help 返回该模型允许的视频时长上限（秒）。
+     * Returns the maximum video duration (seconds) allowed for this model per CLI help.
      */
     public int maxDurationSeconds() {
         if (this == SEEDANCE_1_0 || this == SEEDANCE_1_0_FAST) {

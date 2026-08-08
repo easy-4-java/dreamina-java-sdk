@@ -9,10 +9,12 @@ import java.util.Objects;
 import lombok.Data;
 
 /**
- * {@code dreamina query_result} 解析体（与 CLI JSON 一一对应）。
+ * Parsed body for {@code dreamina query_result} (one-to-one mapping with the CLI JSON).
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#queryResult(String)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -22,12 +24,12 @@ public class DreaminaQueryResult {
     private String submitId;
 
     /**
-     * 生成提示词（{@code query_result} 进行中/部分任务类型会返回）。
+     * Generation prompt (returned by {@code query_result} for in-progress / some task types).
      */
     private String prompt;
 
     /**
-     * 服务端追踪 ID（与提交响应 {@code logid} 一致）。
+     * Server-side tracking ID (consistent with the submit response {@code logid}).
      */
     private String logid;
 
@@ -47,56 +49,56 @@ public class DreaminaQueryResult {
     private Long creditCount;
 
     /**
-     * @return 是否 success
+     * @return Whether the status is success.
      */
     public boolean isGenSuccess() {
         return generationStatus() == DreaminaGenerationStatus.SUCCESS;
     }
 
     /**
-     * @return 是否 querying（任务仍在队列/生成中）
+     * @return Whether the task is querying (still queued / generating).
      */
     public boolean isGenQuerying() {
         return generationStatus() == DreaminaGenerationStatus.QUERYING;
     }
 
     /**
-     * @return 是否 fail
+     * @return Whether the status is fail.
      */
     public boolean isGenFailed() {
         return generationStatus() == DreaminaGenerationStatus.FAIL;
     }
 
     /**
-     * @return 当前稳定状态枚举
+     * @return The current stable status enum.
      */
     public DreaminaGenerationStatus generationStatus() {
         return DreaminaGenerationStatus.fromCliValue(genStatus);
     }
 
     /**
-     * @return 是否已进入成功或失败终态
+     * @return Whether the task has reached a terminal state (success or fail).
      */
     public boolean isTerminal() {
         return generationStatus().isTerminal();
     }
 
     /**
-     * @return 图像列表，永不为 null
+     * @return Image list; never null.
      */
     public List<DreaminaQueryImage> images() {
         return Objects.isNull(resultJson) ? Collections.emptyList() : resultJson.safeImages();
     }
 
     /**
-     * @return 视频列表，永不为 null
+     * @return Video list; never null.
      */
     public List<DreaminaQueryVideo> videos() {
         return Objects.isNull(resultJson) ? Collections.emptyList() : resultJson.safeVideos();
     }
 
     /**
-     * @return 首张 image_url 或 null
+     * @return First image_url, or null if none.
      */
     public String firstImageUrl() {
         return images().stream()
@@ -107,7 +109,7 @@ public class DreaminaQueryResult {
     }
 
     /**
-     * @return 首个 video_url 或 null
+     * @return First video_url, or null if none.
      */
     public String firstVideoUrl() {
         return videos().stream()
@@ -118,7 +120,7 @@ public class DreaminaQueryResult {
     }
 
     /**
-     * @return 队列是否 Finish
+     * @return Whether the queue status is Finish.
      */
     public boolean isQueueFinished() {
         if (Objects.isNull(queueInfo) || Objects.isNull(queueInfo.getQueueStatus())) {

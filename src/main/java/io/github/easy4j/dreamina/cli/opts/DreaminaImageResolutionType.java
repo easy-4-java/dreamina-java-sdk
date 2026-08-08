@@ -3,10 +3,13 @@ package io.github.easy4j.dreamina.cli.opts;
 import lombok.Getter;
 
 /**
- * 图像分辨率类型。
+ * Image resolution type enum.
+ *
+ * @see DreaminaText2ImageRequest
+ * @see DreaminaImageUpscaleRequest
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 public enum DreaminaImageResolutionType {

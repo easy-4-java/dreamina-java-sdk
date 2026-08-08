@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * 文生视频请求对象。
+ * 文生视频Text-to-video request object.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2video(String)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

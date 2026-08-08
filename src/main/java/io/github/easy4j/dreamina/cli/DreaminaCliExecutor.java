@@ -125,7 +125,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
  *   dreamina text2image --prompt="a cat portrait" --ratio=1:1 --resolution_type=2k
  * </pre>
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Slf4j
 @Getter
@@ -134,14 +134,14 @@ public class DreaminaCliExecutor {
     private final DreaminaCliProperties properties;
 
     /**
-     * 将原始 CLI 快照映射为结构化负载（无框架强制注入，便于测试侧 {@code new DreaminaCliExecutor(props)}）。
+     * Maps raw CLI snapshots to structured payloads (no framework injection required, facilitating testing with {@code new DreaminaCliExecutor(props)}).
      */
     private final DreaminaCliStructuredPayloadMapper structuredPayloadMapper = new DreaminaCliStructuredPayloadMapper();
 
     /**
-     * 使用运行时配置构造执行器。
+     * Constructs the executor with runtime configuration.
      *
-     * @param properties CLI 路径、超时与工作目录等；不得为 null
+     * @param properties CLI path, timeout, working directory, etc.; must not be null
      */
     public DreaminaCliExecutor(DreaminaCliProperties properties) {
         this.properties = Objects.requireNonNull(properties, "properties");
@@ -153,7 +153,7 @@ public class DreaminaCliExecutor {
     // -------------------------------------------------------------------------
 
     /**
-     * 调用 {@code dreamina help} 打印总帮助或等价输出。
+     * Invokes {@code dreamina help} to print the overall help or equivalent output.
      * <p>CLI 帮助（采集自本机 {@code dreamina help}）：</p>
      * <pre>
      * Usage:
@@ -217,19 +217,19 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina help <subcommand>}，查看指定一级子命令的说明（具体行为以 CLI 为准）。
+     * Invokes {@code dreamina help <subcommand>} to view the help for a specific top-level subcommand (behavior defined by the CLI).
      *
-     * @param subcommand 一级子命令名，如 {@link DreaminaCliSubcommands.Image#TEXT2IMAGE}；不得为 null 或空白
+     * @param subcommand 一级Subcommand name, e.g., {@link DreaminaCliSubcommands.Image#TEXT2IMAGE}; must not be null or blank
      */
     public DreaminaCliResult help(String subcommand) {
         return help(subcommand, Collections.emptyList());
     }
 
     /**
-     * 同上，并追加官方支持的额外参数片段。
+     * Same as above, with additional officially-supported parameter fragments appended.
      *
      * @param subcommand        子命令名；不得为 null 或空白
-     * @param additionalRawArgs CLI 后缀参数，可为 null
+     * @param additionalRawArgs CLI suffix parameters; may be null
      */
     public DreaminaCliResult help(String subcommand, List<String> additionalRawArgs) {
         Objects.requireNonNull(subcommand, "subcommand");
@@ -246,7 +246,7 @@ public class DreaminaCliExecutor {
     // -------------------------------------------------------------------------
 
     /**
-     * 调用 {@code dreamina version} 查询本地 CLI 版本信息（通常为 JSON）。
+     * Invokes {@code dreamina version} to query local CLI version information (typically JSON).
      * <p>CLI 帮助（采集自本机 {@code dreamina version -h}）：</p>
      * <pre>
      * Usage:
@@ -270,7 +270,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina user_credit} 查询与用户额度相关的 CLI 原始输出。
+     * Invokes {@code dreamina user_credit} to query the raw CLI output related to user credits.
      * <p>CLI 帮助（采集自本机 {@code dreamina user_credit -h}）：</p>
      * <pre>
      * Usage:
@@ -294,16 +294,16 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina login}（默认 OAuth 浏览器流程）。
+     * Invokes {@code dreamina login} (default OAuth browser flow).
      *
-     * @return 仅在进程零退出且无超时时返回；否则抛出统一的执行层异常
+     * @return Returns only when the process exits with zero and no timeout; otherwise throws a unified execution-layer exception
      */
     public DreaminaCliResult login() {
         return login(Collections.emptyList());
     }
 
     /**
-     * 调用 {@code dreamina login}，并追加官方支持的后缀参数（如 {@code --headless}）。
+     * Invokes {@code dreamina login} with additional officially-supported suffix parameters (e.g., {@code --headless}).
      * <p>
      * 注意：CLI v1.4.1（2026-04-17）起登录方式更新，{@code --debug} 已不再支持；调用方若仍
      * 传 {@code --debug}，CLI 会原样回显并最终拒绝。排障请改为读取 {@code ~/.dreamina_cli/logs/}。
@@ -347,12 +347,12 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 在 {@code --headless} 之后追加更多原生参数。
+     * Appends more raw parameters after {@code --headless}.
      * <p>
-     * 注意：CLI v1.4.1 起 {@code --debug} 已不再支持，请勿传。
+     * Note: {@code --debug} is no longer supported since CLI v1.4.1; do not pass it.
      * </p>
      *
-     * @param additionalRawArgs CLI 片段，在 {@code --headless} 之后追加；可为 null
+     * @param additionalRawArgs CLI fragments to append after {@code --headless}; may be null
      */
     public DreaminaCliResult loginHeadless(List<String> additionalRawArgs) {
         List<String> merged = new ArrayList<>();
@@ -368,17 +368,17 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina login checklogin --device_code=... --poll=...}，按设备码轮询完成 OAuth。
+     * Invokes {@code dreamina login checklogin --device_code=... --poll=...} to poll for OAuth completion by device code.
      *
-     * @param deviceCode headless 流程返回的 device_code
-     * @param pollSeconds 轮询间隔（秒），对应 {@code --poll=}
+     * @param deviceCode device_code returned by the headless flow
+     * @param pollSeconds Polling interval in seconds, corresponding to {@code --poll=}
      */
     public DreaminaCliResult checkLogin(String deviceCode, int pollSeconds) {
         return checkLogin(deviceCode, pollSeconds, Collections.emptyList());
     }
 
     /**
-     * 同上，并允许附加官方 flag（如将来 CLI 扩展的调试开关）。
+     * Same as above, with the ability to attach additional official flags (e.g., future CLI debug switches).
      * <p>CLI 帮助（采集自本机 {@code dreamina login checklogin -h}）：</p>
      * <pre>
      * Usage:
@@ -419,7 +419,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina logout}，清除凭证（保留 config 与本地任务库等行为以 CLI 为准）。
+     * Invokes {@code dreamina logout} to clear credentials (retaining config and local task DB behavior is CLI-defined).
      *
      * @return 仅在进程零退出且无超时时返回；否则抛出统一的执行层异常
      */
@@ -428,7 +428,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina logout}，可附加额外原生参数。
+     * Invokes {@code dreamina logout} with optional extra raw parameters.
      * <p>CLI 帮助（采集自本机 {@code dreamina logout -h}）：</p>
      * <pre>
      * Usage:
@@ -452,7 +452,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina relogin}，用于切换账号等场景。
+     * Invokes {@code dreamina relogin} for account switching and similar scenarios.
      *
      * @return 仅在进程零退出且无超时时返回；否则抛出统一的执行层异常
      */
@@ -461,7 +461,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina relogin}，可附加额外原生参数。
+     * Invokes {@code dreamina relogin} with optional extra raw parameters.
      * <p>CLI 帮助（采集自本机 {@code dreamina relogin -h}）：</p>
      * <pre>
      * Usage:
@@ -489,7 +489,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina session}（无额外参数）。
+     * Invokes {@code dreamina session} (no extra parameters).
      *
      * @return 仅在进程零退出且无超时时返回；否则抛出统一的执行层异常
      */
@@ -498,7 +498,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina session}，并追加子命令级参数。
+     * Invokes {@code dreamina session} with subcommand-level parameters appended.
      * <p>CLI 帮助（采集自本机 {@code dreamina session -h}）：</p>
      * <pre>
      * Usage:
@@ -552,30 +552,30 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #session()} 的结构化视图：无子命令时 CLI 打印 session 子命令帮助（纯文本，见 {@link DreaminaCliResponse#getCombinedText()}）。
+     * Structured view of {@link #session()}: when no subcommand is given, the CLI prints session subcommand help (plain text, see {@link DreaminaCliResponse#getCombinedText()}).
      */
     public DreaminaCliResponse<DreaminaHelp> sessionInfo() {
         return structuredPayloadMapper.mapHelp(DreaminaCliSubcommands.Account.SESSION, session());
     }
 
     /**
-     * {@link #session(List)} 的结构化视图（如 {@code dreamina session -h}）。
+     * Structured view of {@link #session(List)} (e.g., {@code dreamina session -h}).
      *
-     * @param additionalRawArgs 透传到 CLI 的 flag
+     * @param additionalRawArgs Flags passed through to the CLI
      */
     public DreaminaCliResponse<DreaminaHelp> sessionInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapHelp(DreaminaCliSubcommands.Account.SESSION, session(additionalRawArgs));
     }
 
     /**
-     * {@code dreamina session create}；无额外参数（等价于 {@link #sessionCreate(List)} 空列表）。
+     * {@code dreamina session create}; no extra parameters (equivalent to {@link #sessionCreate(List)} with an empty list).
      */
     public DreaminaCliResult sessionCreate() {
         return sessionCreate(Collections.emptyList());
     }
 
     /**
-     * {@code dreamina session create}；创建参数（名称、模型等）以官方 CLI 为准，通过 {@code additionalRawArgs} 传入。
+     * {@code dreamina session create}; creation parameters (name, model, etc.) are defined by the official CLI and passed via {@code additionalRawArgs}.
      * <p>CLI 帮助（采集自本机 {@code dreamina session create -h}）：</p>
      * <pre>
      * Usage:
@@ -607,14 +607,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina session list}；无筛选参数。
+     * {@code dreamina session list}; no filter parameters.
      */
     public DreaminaCliResult sessionList() {
         return sessionList(Collections.emptyList());
     }
 
     /**
-     * {@code dreamina session list}；筛选/分页等通过 {@code additionalRawArgs} 扩展。
+     * {@code dreamina session list}; filtering/pagination via {@code additionalRawArgs}.
      * <p>CLI 帮助（采集自本机 {@code dreamina session list -h}）：</p>
      * <pre>
      * Usage:
@@ -653,23 +653,23 @@ public class DreaminaCliExecutor {
      * {@code dreamina session ls}：{@code session list} 的官方别名；常用 {@code -n/--max-count} 可通过
      * {@code additionalRawArgs} 传入。
      *
-     * @param additionalRawArgs 可选 flag；可为 null
+     * @param additionalRawArgs Optional flags; may be null
      */
     public DreaminaCliResult sessionLs(List<String> additionalRawArgs) {
         return runSessionSub(DreaminaCliSubcommands.SessionSub.LS, null, null, additionalRawArgs);
     }
 
     /**
-     * {@code dreamina session search <searchTerm>}；无额外 flag。
+     * {@code dreamina session search <searchTerm>}; no extra flags.
      *
-     * @param searchTerm 检索关键词；可为 null（与 {@link #sessionSearch(String, List)} 一致，null 时不追加位置参数）
+     * @param searchTerm Search keyword; may be null (consistent with {@link #sessionSearch(String, List)}, null skips positional argument)
      */
     public DreaminaCliResult sessionSearch(String searchTerm) {
         return sessionSearch(searchTerm, Collections.emptyList());
     }
 
     /**
-     * {@code dreamina session search}。若 {@code searchTerm} 非空，在 {@code search} 子命令后追加一个 argv（常见为关键词；若官方仅支持 flag，可传 null 并在 {@code additionalRawArgs} 中写全量参数）。
+     * {@code dreamina session search}. If {@code searchTerm} is non-empty, appends one positional argv after the {@code search} subcommand.
      * <p>CLI 帮助（采集自本机 {@code dreamina session search -h}）：</p>
      * <pre>
      * Usage:
@@ -697,24 +697,24 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina session find <searchTerm>}：{@code session search} 的官方别名。
+     * {@code dreamina session find <searchTerm>}: official alias of {@code session search}.
      *
-     * @param searchTerm        检索词；可为 null
-     * @param additionalRawArgs 其它 flag；可为 null
+     * @param searchTerm        Search term; may be null
+     * @param additionalRawArgs Other flags; may be null
      */
     public DreaminaCliResult sessionFind(String searchTerm, List<String> additionalRawArgs) {
         return runSessionSub(DreaminaCliSubcommands.SessionSub.FIND, searchTerm, null, additionalRawArgs);
     }
 
     /**
-     * {@code dreamina session rename <sessionId> <newName>}。
+     * {@code dreamina session rename <sessionId> <newName>}.
      */
     public DreaminaCliResult sessionRename(String sessionId, String newName) {
         return sessionRename(sessionId, newName, Collections.emptyList());
     }
 
     /**
-     * {@code dreamina session rename <sessionId> <newName>}（后两项为独立 argv，含空格时由 Commons Exec 处理转义）。
+     * {@code dreamina session rename <sessionId> <newName>} (the last two are independent argv; spaces are handled by Commons Exec escaping).
      * <p>CLI 帮助（采集自本机 {@code dreamina session rename -h}）：</p>
      * <pre>
      * Usage:
@@ -755,7 +755,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina session update <sessionId> <newName>}：{@code session rename} 的官方别名。
+     * {@code dreamina session update <sessionId> <newName>}: official alias of {@code session rename}.
      */
     public DreaminaCliResult sessionUpdate(String sessionId, String newName) {
         return sessionUpdate(sessionId, newName, Collections.emptyList());
@@ -764,9 +764,9 @@ public class DreaminaCliExecutor {
     /**
      * {@code dreamina session update <sessionId> <newName>}。
      *
-     * @param sessionId         当前会话标识；不得为 null/空白
-     * @param newName           新显示名；不得为 null/空白
-     * @param additionalRawArgs 其它 flag；可为 null
+     * @param sessionId         Current session ID; must not be null/blank
+     * @param newName           New display name; must not be null/blank
+     * @param additionalRawArgs Other flags; may be null
      */
     public DreaminaCliResult sessionUpdate(String sessionId, String newName, List<String> additionalRawArgs) {
         Objects.requireNonNull(sessionId, "sessionId");
@@ -779,7 +779,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina session delete <sessionId>}。
+     * {@code dreamina session delete <sessionId>}.
      * <p>CLI 帮助（采集自本机 {@code dreamina session delete -h}）：</p>
      * <pre>
      * Usage:
@@ -812,8 +812,8 @@ public class DreaminaCliExecutor {
     /**
      * {@code dreamina session delete <sessionId>}。
      *
-     * @param sessionId         要删除的会话标识；不得为 null/空白
-     * @param additionalRawArgs 如 {@code --force} 等扩展 flag；可为 null
+     * @param sessionId         Session ID to delete; must not be null/blank
+     * @param additionalRawArgs Extension flags such as {@code --force}; may be null
      */
     public DreaminaCliResult sessionDelete(String sessionId, List<String> additionalRawArgs) {
         Objects.requireNonNull(sessionId, "sessionId");
@@ -824,7 +824,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina session rm <sessionId>}：{@code session delete} 的官方别名。
+     * {@code dreamina session rm <sessionId>}: official alias of {@code session delete}.
      */
     public DreaminaCliResult sessionRm(String sessionId) {
         return sessionRm(sessionId, Collections.emptyList());
@@ -869,16 +869,16 @@ public class DreaminaCliExecutor {
     // -------------------------------------------------------------------------
 
     /**
-     * 调用 {@code dreamina text2image --prompt=...} 触发文本到图像任务。
+     * Invokes {@code dreamina text2image --prompt=...} to trigger a text-to-image task.
      *
-     * @param prompt 必填提示词
+     * @param prompt Required prompt text
      */
     public DreaminaCliResult text2Image(String prompt) {
         return text2Image(prompt, Collections.emptyList());
     }
 
     /**
-     * 同上，附带额外原生参数片段（每项按单个 argv 传入，不做 shell 拆分）。
+     * Same as above, with extra raw parameter fragments (each passed as a single argv, no shell splitting).
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina text2image -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -892,14 +892,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina text2image}。
+     * Invokes {@code dreamina text2image} using a strongly-typed request object.
      * <p>
      * 将 Jimeng 技能中沉淀的 ratio / model / resolution / session / poll 约束固定在请求模型中，
      * 避免上层重复手写原始 flag。
      * </p>
      *
-     * @param request 文生图请求；不得为 null
-     * @return CLI 原始执行快照
+     * @param request Text-to-image request; must not be null
+     * @return Raw CLI execution snapshot
      */
     public DreaminaCliResult text2Image(DreaminaText2ImageRequest request) {
         Objects.requireNonNull(request, "request");
@@ -907,7 +907,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina image2image}：图生图，需传入参考图列表与编辑提示词。
+     * Invokes {@code dreamina image2image}: image-to-image, requires a reference image list and edit prompt.
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image2image -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -923,9 +923,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina image2image}。
+     * Invokes {@code dreamina image2image} using a strongly-typed request object.
      *
-     * @param request 图生图请求；不得为 null
+     * @param request Image-to-image request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult image2Image(DreaminaImage2ImageRequest request) {
@@ -934,14 +934,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina image_upscale}，无附加参数。
+     * {@code dreamina image_upscale}, no extra parameters.
      */
     public DreaminaCliResult imageUpscale() {
         return imageUpscale(Collections.emptyList());
     }
 
     /**
-     * 调用 {@code dreamina image_upscale}；具体必填参数由调用方在 {@code additionalRawArgs} 中给出。
+     * Invokes {@code dreamina image_upscale}; required parameters are provided by the caller in {@code additionalRawArgs}.
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image_upscale -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -953,9 +953,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina image_upscale}。
+     * Invokes {@code dreamina image_upscale} using a strongly-typed request object.
      *
-     * @param request 图像超分请求；不得为 null
+     * @param request Image upscale request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult imageUpscale(DreaminaImageUpscaleRequest request) {
@@ -968,7 +968,7 @@ public class DreaminaCliExecutor {
     // -------------------------------------------------------------------------
 
     /**
-     * 调用 {@code dreamina text2video --prompt=...} 触发文生视频。
+     * Invokes {@code dreamina text2video --prompt=...} to trigger text-to-video.
      *
      * @param prompt 必填提示词
      */
@@ -977,7 +977,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 文生视频并附加额外原生参数（如 {@code --duration=}、{@code --model_version=}、{@code --poll=}）。
+     * Text-to-video with extra raw parameters (e.g., {@code --duration=}, {@code --model_version=}, {@code --poll=}).
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina text2video -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -991,9 +991,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina text2video}。
+     * Invokes {@code dreamina text2video} using a strongly-typed request object.
      *
-     * @param request 文生视频请求；不得为 null
+     * @param request Text-to-video request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult text2video(DreaminaText2VideoRequest request) {
@@ -1005,7 +1005,7 @@ public class DreaminaCliExecutor {
      * 调用 {@code dreamina image2video}；CLI v1.4.14 起 {@code --prompt} 必填，
      * 因此调用方必须在 {@code additionalRawArgs} 中提供提示词。
      *
-     * @param imagePath         {@code --image=} 本地路径，必填
+     * @param imagePath         {@code --image=} local path, required
      * @param additionalRawArgs 其它 flag；可为 null
      */
     public DreaminaCliResult image2video(String imagePath, List<String> additionalRawArgs) {
@@ -1013,7 +1013,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina image2video}：单张参考图驱动视频。
+     * Invokes {@code dreamina image2video}: single reference image drives video generation.
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image2video -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -1033,9 +1033,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina image2video}。
+     * Invokes {@code dreamina image2video} using a strongly-typed request object.
      *
-     * @param request 单图生视频请求；不得为 null
+     * @param request Single-image-to-video request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult image2video(DreaminaImage2VideoRequest request) {
@@ -1044,14 +1044,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina frames2video}，参数均由 CLI 交互或后续调用方补充时使用空列表。
+     * {@code dreamina frames2video}, uses an empty list when parameters are filled via CLI interaction or subsequent calls.
      */
     public DreaminaCliResult frames2video() {
         return frames2video(Collections.emptyList());
     }
 
     /**
-     * {@code dreamina frames2video}：首尾帧过渡；必填参数放在 {@code additionalRawArgs}（如 {@code --first=} / {@code --last=}）。
+     * {@code dreamina frames2video}: first-last-frame transition; required parameters go in {@code additionalRawArgs} (e.g., {@code --first=} / {@code --last=}).
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina frames2video -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -1063,9 +1063,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina frames2video}。
+     * Invokes {@code dreamina frames2video} using a strongly-typed request object.
      *
-     * @param request 首尾帧视频请求；不得为 null
+     * @param request First-last-frame video request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult frames2video(DreaminaFrames2VideoRequest request) {
@@ -1074,14 +1074,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina multiframe2video}，无附加参数。
+     * {@code dreamina multiframe2video}, no extra parameters.
      */
     public DreaminaCliResult multiframe2video() {
         return multiframe2video(Collections.emptyList());
     }
 
     /**
-     * {@code dreamina multiframe2video}：多分镜图叙事；必填参数放在 {@code additionalRawArgs}。
+     * {@code dreamina multiframe2video}: multi-storyboard narrative; required parameters go in {@code additionalRawArgs}.
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina multiframe2video -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -1093,9 +1093,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina multiframe2video}。
+     * Invokes {@code dreamina multiframe2video} using a strongly-typed request object.
      *
-     * @param request 多帧故事视频请求；不得为 null
+     * @param request Multi-frame storyboard video request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult multiframe2video(DreaminaMultiframe2VideoRequest request) {
@@ -1104,14 +1104,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@code dreamina multimodal2video}，无附加参数。
+     * {@code dreamina multimodal2video}, no extra parameters.
      */
     public DreaminaCliResult multimodal2video() {
         return multimodal2video(Collections.emptyList());
     }
 
     /**
-     * {@code dreamina multimodal2video}：多模态合成；必填参数放在 {@code additionalRawArgs}。
+     * {@code dreamina multimodal2video}: multimodal synthesis; required parameters go in {@code additionalRawArgs}.
      * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina multimodal2video -h} 与
      * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
@@ -1123,9 +1123,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina multimodal2video}。
+     * Invokes {@code dreamina multimodal2video} using a strongly-typed request object.
      *
-     * @param request 多模态视频请求；不得为 null
+     * @param request Multimodal video request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult multimodal2video(DreaminaMultimodal2VideoRequest request) {
@@ -1138,16 +1138,16 @@ public class DreaminaCliExecutor {
     // -------------------------------------------------------------------------
 
     /**
-     * 调用 {@code dreamina query_result --submit_id=...} 查询任务状态或产物信息。
+     * Invokes {@code dreamina query_result --submit_id=...} to query task status or artifact information.
      *
-     * @param submitId Dreamina 侧提交编号
+     * @param submitId Dreamina-side submit ID
      */
     public DreaminaCliResult queryResult(String submitId) {
         return queryResult(submitId, Collections.emptyList());
     }
 
     /**
-     * 同上，并追加额外原生参数。
+     * Same as above, with extra raw parameters appended.
      * <p>CLI 帮助（采集自本机 {@code dreamina query_result -h}）：</p>
      * <pre>
      * Usage:
@@ -1177,9 +1177,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina query_result}。
+     * Invokes {@code dreamina query_result} using a strongly-typed request object.
      *
-     * @param request 查询请求；不得为 null
+     * @param request Query request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult queryResult(DreaminaQueryResultRequest request) {
@@ -1188,16 +1188,16 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 调用 {@code dreamina list_task} 枚举任务列表。
+     * Invokes {@code dreamina list_task} to enumerate the task list.
      *
-     * @return CLI 聚合后的标准输出/错误快照
+     * @return CLI aggregated stdout/stderr snapshot
      */
     public DreaminaCliResult listTask() {
         return listTask(Collections.emptyList());
     }
 
     /**
-     * {@code dreamina list_task} 并附加筛选参数（如 {@code --gen_status=success}）。
+     * {@code dreamina list_task} with filter parameters (e.g., {@code --gen_status=success}).
      * <p>CLI 帮助（采集自本机 {@code dreamina list_task -h}）：</p>
      * <pre>
      * Usage:
@@ -1227,9 +1227,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 使用强类型请求对象调用 {@code dreamina list_task}。
+     * Invokes {@code dreamina list_task} using a strongly-typed request object.
      *
-     * @param request 列表筛选请求；不得为 null
+     * @param request List filter request; must not be null
      * @return CLI 原始执行快照
      */
     public DreaminaCliResult listTask(DreaminaListTaskRequest request) {
@@ -1242,98 +1242,98 @@ public class DreaminaCliExecutor {
     // -------------------------------------------------------------------------
 
     /**
-     * {@link #version()} 的结构化视图。
+     * Structured view of {@link #version()}.
      *
-     * @return 绑定原始快照与 {@link DreaminaVersion}
+     * @return Binds the raw snapshot with {@link DreaminaVersion}
      */
     public DreaminaCliResponse<DreaminaVersion> versionInfo() {
         return structuredPayloadMapper.mapVersion(version());
     }
 
     /**
-     * {@link #userCredit()} 的结构化视图。
+     * Structured view of {@link #userCredit()}.
      */
     public DreaminaCliResponse<DreaminaUserCredit> userCreditInfo() {
         return structuredPayloadMapper.mapUserCredit(userCredit());
     }
 
     /**
-     * {@link #help()} 的结构化视图。
+     * Structured view of {@link #help()}.
      */
     public DreaminaCliResponse<DreaminaHelp> helpInfo() {
         return structuredPayloadMapper.mapHelp(null, help());
     }
 
     /**
-     * {@link #help(String)} 的结构化视图。
+     * Structured view of {@link #help(String)}.
      *
-     * @param subcommand 目标子命令名
+     * @param subcommand Target subcommand name
      */
     public DreaminaCliResponse<DreaminaHelp> helpInfo(String subcommand) {
         return structuredPayloadMapper.mapHelp(subcommand, help(subcommand));
     }
 
     /**
-     * {@link #help(String, List)} 的结构化视图。
+     * Structured view of {@link #help(String, List)}.
      *
      * @param subcommand        目标子命令名
-     * @param additionalRawArgs 追加原生参数
+     * @param additionalRawArgs Additional raw parameters
      */
     public DreaminaCliResponse<DreaminaHelp> helpInfo(String subcommand, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapHelp(subcommand, help(subcommand, additionalRawArgs));
     }
 
     /**
-     * {@link #login()} 的结构化视图。
+     * Structured view of {@link #login()}.
      */
     public DreaminaCliResponse<DreaminaLogin> loginInfo() {
         return structuredPayloadMapper.mapLogin(login());
     }
 
     /**
-     * {@link #login(List)} 的结构化视图。
+     * Structured view of {@link #login(List)}.
      */
     public DreaminaCliResponse<DreaminaLogin> loginInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapLogin(login(additionalRawArgs));
     }
 
     /**
-     * {@link #logout()} 的结构化视图。
+     * Structured view of {@link #logout()}.
      */
     public DreaminaCliResponse<DreaminaLogout> logoutInfo() {
         return structuredPayloadMapper.mapLogout(logout());
     }
 
     /**
-     * {@link #logout(List)} 的结构化视图。
+     * Structured view of {@link #logout(List)}.
      */
     public DreaminaCliResponse<DreaminaLogout> logoutInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapLogout(logout(additionalRawArgs));
     }
 
     /**
-     * {@link #relogin()} 的结构化视图。
+     * Structured view of {@link #relogin()}.
      */
     public DreaminaCliResponse<DreaminaRelogin> reloginInfo() {
         return structuredPayloadMapper.mapRelogin(relogin());
     }
 
     /**
-     * {@link #relogin(List)} 的结构化视图。
+     * Structured view of {@link #relogin(List)}.
      */
     public DreaminaCliResponse<DreaminaRelogin> reloginInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapRelogin(relogin(additionalRawArgs));
     }
 
     /**
-     * {@link #checkLogin(String, int)} 的结构化视图。
+     * Structured view of {@link #checkLogin(String, int)}.
      */
     public DreaminaCliResponse<DreaminaCheckLogin> checkLoginInfo(String deviceCode, int pollSeconds) {
         return structuredPayloadMapper.mapCheckLogin(checkLogin(deviceCode, pollSeconds));
     }
 
     /**
-     * {@link #checkLogin(String, int, List)} 的结构化视图。
+     * Structured view of {@link #checkLogin(String, int, List)}.
      */
     public DreaminaCliResponse<DreaminaCheckLogin> checkLoginInfo(
         String deviceCode, int pollSeconds, List<String> additionalRawArgs) {
@@ -1341,37 +1341,37 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #loginHeadless()} 的结构化视图：可能是 Device Flow JSON，也可能仅为「复用本地 OAuth」提示文本。
+     * Structured view of {@link #loginHeadless()}: may be Device Flow JSON or merely a "reuse local OAuth" hint.
      */
     public DreaminaCliResponse<DreaminaLogin> loginHeadlessInfo() {
         return structuredPayloadMapper.mapLogin(loginHeadless());
     }
 
     /**
-     * {@link #loginHeadless(List)} 的结构化视图。
+     * Structured view of {@link #loginHeadless(List)}.
      *
-     * @param additionalRawArgs headless 后缀参数
+     * @param additionalRawArgs Headless suffix parameters
      */
     public DreaminaCliResponse<DreaminaLogin> loginHeadlessInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapLogin(loginHeadless(additionalRawArgs));
     }
 
     /**
-     * 显式解析 Device Flow JSON（若 stdout 非 JSON 则字段为空）。
+     * Explicitly parses Device Flow JSON (fields are empty when stdout is not JSON).
      */
     public DreaminaCliResponse<DreaminaDeviceLogin> deviceLoginMaterial(DreaminaCliResult loginStdOutSnapshot) {
         return structuredPayloadMapper.mapDeviceLogin(loginStdOutSnapshot);
     }
 
     /**
-     * {@link #sessionList()} 的结构化视图。
+     * Structured view of {@link #sessionList()}.
      */
     public DreaminaCliResponse<DreaminaSessionList> sessionListInfo() {
         return structuredPayloadMapper.mapSessionList(sessionList());
     }
 
     /**
-     * {@link #sessionList(List)} 的结构化视图。
+     * Structured view of {@link #sessionList(List)}.
      *
      * @param additionalRawArgs 透传到 CLI 的 flag
      */
@@ -1380,25 +1380,25 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #sessionLs(List)} 的结构化视图。
+     * Structured view of {@link #sessionLs(List)}.
      *
-     * @param additionalRawArgs 透传到 CLI 的 flag，如 {@code -n=100}
+     * @param additionalRawArgs 透传到 CLI 的 flag，E.g., {@code -n=100}
      */
     public DreaminaCliResponse<DreaminaSessionList> sessionLsInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapSessionList(sessionLs(additionalRawArgs));
     }
 
     /**
-     * {@link #sessionSearch(String)} 的结构化视图。
+     * Structured view of {@link #sessionSearch(String)}.
      *
-     * @param searchTerm 检索关键字；可为 null（等同底层 CLI 语义）
+     * @param searchTerm Search keyword; may be null (consistent with underlying CLI semantics)
      */
     public DreaminaCliResponse<DreaminaSessionSearch> sessionSearchInfo(String searchTerm) {
         return structuredPayloadMapper.mapSessionSearch(searchTerm, sessionSearch(searchTerm));
     }
 
     /**
-     * {@link #sessionSearch(String, List)} 的结构化视图。
+     * Structured view of {@link #sessionSearch(String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionSearch> sessionSearchInfo(
         String searchTerm, List<String> additionalRawArgs) {
@@ -1406,7 +1406,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #sessionFind(String, List)} 的结构化视图。
+     * Structured view of {@link #sessionFind(String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionSearch> sessionFindInfo(
         String searchTerm, List<String> additionalRawArgs) {
@@ -1414,30 +1414,30 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #sessionCreate()} 的结构化视图。
+     * Structured view of {@link #sessionCreate()}.
      */
     public DreaminaCliResponse<DreaminaSessionMutation> sessionCreateInfo() {
         return structuredPayloadMapper.mapSessionMutation(sessionCreate());
     }
 
     /**
-     * {@link #sessionCreate(List)} 的结构化视图。
+     * Structured view of {@link #sessionCreate(List)}.
      *
-     * @param additionalRawArgs 会话名称或其它官方 flag
+     * @param additionalRawArgs Session name or other official flags
      */
     public DreaminaCliResponse<DreaminaSessionMutation> sessionCreateInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapSessionMutation(sessionCreate(additionalRawArgs));
     }
 
     /**
-     * {@link #sessionRename(String, String)} 的结构化视图。
+     * Structured view of {@link #sessionRename(String, String)}.
      */
     public DreaminaCliResponse<DreaminaSessionMutation> sessionRenameInfo(String sessionId, String newName) {
         return structuredPayloadMapper.mapSessionMutation(sessionRename(sessionId, newName));
     }
 
     /**
-     * {@link #sessionRename(String, String, List)} 的结构化视图。
+     * Structured view of {@link #sessionRename(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionMutation> sessionRenameInfo(
         String sessionId, String newName, List<String> additionalRawArgs) {
@@ -1445,7 +1445,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #sessionUpdate(String, String, List)} 的结构化视图。
+     * Structured view of {@link #sessionUpdate(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionMutation> sessionUpdateInfo(
         String sessionId, String newName, List<String> additionalRawArgs) {
@@ -1453,68 +1453,68 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #listTask()} 的结构化视图。
+     * Structured view of {@link #listTask()}.
      */
     public DreaminaCliResponse<List<DreaminaTaskItem>> listTaskInfo() {
         return structuredPayloadMapper.mapTaskList(listTask());
     }
 
     /**
-     * {@link #listTask(List)} 的结构化视图。
+     * Structured view of {@link #listTask(List)}.
      */
     public DreaminaCliResponse<List<DreaminaTaskItem>> listTaskInfo(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapTaskList(listTask(additionalRawArgs));
     }
 
     /**
-     * {@link #listTask(DreaminaListTaskRequest)} 的结构化视图。
+     * Structured view of {@link #listTask(DreaminaListTaskRequest)}.
      */
     public DreaminaCliResponse<List<DreaminaTaskItem>> listTaskInfo(DreaminaListTaskRequest request) {
         return structuredPayloadMapper.mapTaskList(listTask(request));
     }
 
     /**
-     * {@link #queryResult(String)} 的结构化视图。
+     * Structured view of {@link #queryResult(String)}.
      *
-     * @param submitId 提交编号
+     * @param submitId Submit ID
      */
     public DreaminaCliResponse<DreaminaQueryResult> queryResultInfo(String submitId) {
         return structuredPayloadMapper.mapQueryResult(queryResult(submitId));
     }
 
     /**
-     * {@link #queryResult(String, List)} 的结构化视图。
+     * Structured view of {@link #queryResult(String, List)}.
      */
     public DreaminaCliResponse<DreaminaQueryResult> queryResultInfo(String submitId, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapQueryResult(queryResult(submitId, additionalRawArgs));
     }
 
     /**
-     * {@link #queryResult(DreaminaQueryResultRequest)} 的结构化视图。
+     * Structured view of {@link #queryResult(DreaminaQueryResultRequest)}.
      */
     public DreaminaCliResponse<DreaminaQueryResult> queryResultInfo(DreaminaQueryResultRequest request) {
         return structuredPayloadMapper.mapQueryResult(queryResult(request));
     }
 
     /**
-     * {@link #text2Image(String, List)} 的结构化提交视图。
+     * Structured submit view of {@link #text2Image(String, List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> text2ImageSubmit(String prompt, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(text2Image(prompt, additionalRawArgs));
     }
 
     /**
-     * {@link #text2Image(DreaminaText2ImageRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #text2Image(DreaminaText2ImageRequest)}.
      *
-     * @param request 文生图请求
-     * @return 原始快照与结构化提交结果
+     * @param request Text-to-image request
+     * @return Raw snapshot and structured submit result
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> text2ImageSubmit(DreaminaText2ImageRequest request) {
         return structuredPayloadMapper.mapGenerateSubmit(text2Image(request));
     }
 
     /**
-     * {@link #image2Image(String, String, List)} 的结构化提交视图。
+     * Structured submit view of {@link #image2Image(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> image2ImageSubmit(
         String imagesCsv, String prompt, List<String> additionalRawArgs) {
@@ -1522,9 +1522,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #image2Image(DreaminaImage2ImageRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #image2Image(DreaminaImage2ImageRequest)}.
      *
-     * @param request 图生图请求
+     * @param request Image-to-image request
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> image2ImageSubmit(DreaminaImage2ImageRequest request) {
@@ -1532,16 +1532,16 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #imageUpscale(List)} 的结构化提交视图。
+     * Structured submit view of {@link #imageUpscale(List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> imageUpscaleSubmit(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(imageUpscale(additionalRawArgs));
     }
 
     /**
-     * {@link #imageUpscale(DreaminaImageUpscaleRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #imageUpscale(DreaminaImageUpscaleRequest)}.
      *
-     * @param request 图像超分请求
+     * @param request Image upscale request
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> imageUpscaleSubmit(DreaminaImageUpscaleRequest request) {
@@ -1549,16 +1549,16 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #text2video(String, List)} 的结构化提交视图。
+     * Structured submit view of {@link #text2video(String, List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> text2VideoSubmit(String prompt, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(text2video(prompt, additionalRawArgs));
     }
 
     /**
-     * {@link #text2video(DreaminaText2VideoRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #text2video(DreaminaText2VideoRequest)}.
      *
-     * @param request 文生视频请求
+     * @param request Text-to-video request
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> text2VideoSubmit(DreaminaText2VideoRequest request) {
@@ -1566,7 +1566,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #image2video(String, String, List)} 的结构化提交视图。
+     * Structured submit view of {@link #image2video(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> image2VideoSubmit(
         String imagePath, String prompt, List<String> additionalRawArgs) {
@@ -1574,9 +1574,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #image2video(DreaminaImage2VideoRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #image2video(DreaminaImage2VideoRequest)}.
      *
-     * @param request 单图生视频请求
+     * @param request Single-image-to-video request
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> image2VideoSubmit(DreaminaImage2VideoRequest request) {
@@ -1584,16 +1584,16 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #frames2video(List)} 的结构化提交视图。
+     * Structured submit view of {@link #frames2video(List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> frames2VideoSubmit(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(frames2video(additionalRawArgs));
     }
 
     /**
-     * {@link #frames2video(DreaminaFrames2VideoRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #frames2video(DreaminaFrames2VideoRequest)}.
      *
-     * @param request 首尾帧视频请求
+     * @param request First-last-frame video request
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> frames2VideoSubmit(DreaminaFrames2VideoRequest request) {
@@ -1601,14 +1601,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #multiframe2video(List)} 的结构化提交视图。
+     * Structured submit view of {@link #multiframe2video(List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> multiframe2VideoSubmit(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(multiframe2video(additionalRawArgs));
     }
 
     /**
-     * {@link #multiframe2video(DreaminaMultiframe2VideoRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #multiframe2video(DreaminaMultiframe2VideoRequest)}.
      *
      * @param request 多帧故事视频请求
      * @return 原始快照与结构化提交结果
@@ -1619,16 +1619,16 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * {@link #multimodal2video(List)} 的结构化提交视图。
+     * Structured submit view of {@link #multimodal2video(List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> multimodal2VideoSubmit(List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(multimodal2video(additionalRawArgs));
     }
 
     /**
-     * {@link #multimodal2video(DreaminaMultimodal2VideoRequest)} 的结构化提交视图。
+     * Structured submit view of {@link #multimodal2video(DreaminaMultimodal2VideoRequest)}.
      *
-     * @param request 多模态视频请求
+     * @param request Multimodal video request
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> multimodal2VideoSubmit(
@@ -1637,25 +1637,25 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 通用逃逸口：在执行任意子命令后映射为「生成提交」视图（若 JSON 不匹配则字段多为空）。
+     * Generic escape hatch: maps any subcommand result to a "generate submit" view (fields are mostly empty if JSON doesn't match).
      *
-     * @param raw 事先取得的 CLI 快照；不得为 null
+     * @param raw Pre-obtained CLI snapshot; must not be null
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> mapGenerateSubmitOnly(DreaminaCliResult raw) {
         return structuredPayloadMapper.mapGenerateSubmit(raw);
     }
 
     /**
-     * 通用：映射 {@link DreaminaQueryResult}。
+     * Generic: maps {@link DreaminaQueryResult}.
      *
-     * @param raw 事先取得的 CLI 快照；不得为 null
+     * @param raw 事先取得的 CLI snapshot; must not be null
      */
     public DreaminaCliResponse<DreaminaQueryResult> mapQueryResultOnly(DreaminaCliResult raw) {
         return structuredPayloadMapper.mapQueryResult(raw);
     }
 
     /**
-     * 通用：映射 {@link List<DreaminaTaskItem>}。
+     * Generic: maps {@link List<DreaminaTaskItem>}.
      *
      * @param raw 事先取得的 CLI 快照；不得为 null
      */
@@ -1664,9 +1664,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 通用：映射 {@link DreaminaHelp}。
+     * Generic: maps {@link DreaminaHelp}.
      *
-     * @param topic 帮助主题；可为 null
+     * @param topic Help topic; may be null
      * @param raw   CLI 快照；不得为 null
      */
     public DreaminaCliResponse<DreaminaHelp> mapHelpOnly(String topic, DreaminaCliResult raw) {
@@ -1674,20 +1674,20 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 暴露底层映射器：便于上层自定义组合或在测试中替换策略。
+     * Exposes the underlying mapper: allows the upper layer to compose custom logic or substitute strategies in tests.
      *
-     * @return 非 null 的默认映射器实例
+     * @return Non-null default mapper instance
      */
     public DreaminaCliStructuredPayloadMapper structuredPayloadMapper() {
         return structuredPayloadMapper;
     }
 
     /**
-     * 通用逃逸口：追加任意Dreamina支持的「一级子命令」及后续 argv。
-     * <p>适用于官方 CLI 先于本模块增加新 capability 的场景。</p>
+     * Generic escape hatch: appends any Dreamina-supported top-level subcommand and subsequent argv.
+     * <p>Applicable when the official CLI adds new capabilities before this module.</p>
      *
-     * @param subcommand        一级子命令名（如 {@code DreaminaCliSubcommands.Image#TEXT2IMAGE}），不得为空
-     * @param additionalRawArgs 子命令之后的参数；可为 null
+     * @param subcommand        Top-level subcommand name (e.g., {@code DreaminaCliSubcommands.Image#TEXT2IMAGE}); must not be empty
+     * @param additionalRawArgs Parameters after the subcommand; may be null
      */
     public DreaminaCliResult invoke(String subcommand, List<String> additionalRawArgs) {
         Objects.requireNonNull(subcommand, "subcommand");
@@ -1700,14 +1700,14 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 基于配置拼装可执行的 {@link CommandLine} 根命令。
+     * Assembles the executable {@link CommandLine} root command from configuration.
      */
     private CommandLine baseCommandLine() {
         return new CommandLine(properties.getExecutable());
     }
 
     /**
-     * 在根可执行名下追加一级子命令；返回的同一条命令行可继续挂载 flag。
+     * Appends a top-level subcommand under the root executable; the returned command line can have more flags attached.
      */
     private CommandLine newSubcommand(String subcommand) {
         return newSubcommandChain(subcommand);
@@ -1717,7 +1717,7 @@ public class DreaminaCliExecutor {
      * 追加从子命令起的连续 argv 段（不含可执行文件路径），用于 {@code dreamina login checklogin}、
      * {@code dreamina session create} 等多级子命令。
      *
-     * @param subcommandTokens 至少一段，每段为无空白的子命令 token
+     * @param subcommandTokens At least one segment; each must be a non-blank subcommand token
      */
     CommandLine newSubcommandChain(String... subcommandTokens) {
         if (subcommandTokens == null || subcommandTokens.length == 0) {
@@ -1734,7 +1734,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 文生图 / 文生视频等共用 {@code --prompt=} 拼装逻辑，减少重复。
+     * Shared {@code --prompt=} assembly logic for text-to-image / text-to-video, reducing duplication.
      */
     private DreaminaCliResult runWithPromptFlag(String subcommand, String prompt, List<String> additionalRawArgs) {
         CommandLine cmd = newSubcommand(subcommand);
@@ -1744,7 +1744,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 组装 {@code --key=value} 形式参数，{@code handleQuoting=true} 以避免空格或 shell 特殊字符问题。
+     * Assembles a {@code --key=value} style parameter with {@code handleQuoting=true} to avoid space or shell special character issues.
      */
     private static void appendQuotedKv(CommandLine cmd, String key, String value) {
         Objects.requireNonNull(key, "key");
@@ -1757,7 +1757,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 过滤空白项后逐个追加 CLI 片段。
+     * Appends CLI fragments one by one after filtering blank entries.
      */
     private static void appendCleanArgs(CommandLine cmd, List<String> args) {
         if (args == null || args.isEmpty()) {
@@ -1771,7 +1771,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * CLI v1.4.14 将图片/视频分辨率改为必填；原始参数逃逸口未显式提供时补齐稳定默认值。
+     * CLI v1.4.14 made image/video resolution mandatory; fills in a stable default when the raw parameter escape hatch doesn't explicitly provide one.
      */
     private static List<String> withDefaultFlag(
         List<String> additionalRawArgs,
@@ -1805,7 +1805,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 以 Commons Exec + Watchdog 执行命令行，并完成统一的结果与异常语义。
+     * Executes the command line with Commons Exec + Watchdog, completing unified result and exception semantics.
      */
     private DreaminaCliResult run(CommandLine commandLine) {
         long timeoutMs = properties.getCommandTimeoutMillis();
@@ -1837,7 +1837,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 解析并校验工作目录配置。
+     * Resolves and validates the working directory configuration.
      */
     private File resolveWorkingDirectory() {
         String wdProperty = properties.getWorkingDirectory();
@@ -1853,7 +1853,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 启动子进程（包内可见，供单测注入失败场景）。
+     * Starts the subprocess (package-visible, for test injection of failure scenarios).
      */
     SubprocessExecutionSupport.RunSession executeSubprocess(SubprocessExecutionSupport.ExecutionRequest request)
             throws IOException, InterruptedException {
@@ -1861,9 +1861,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 创建 {@link #run(CommandLine)} 使用的进程执行器（包内可见，供单测注入抛出 {@link IOException} 的子类）。
+     * Creates the process executor used by {@link #run(CommandLine)} (package-visible, for test injection of subclasses that throw {@link IOException}).
      *
-     * @deprecated 子进程执行已迁移至 {@link SubprocessExecutionSupport}；保留以兼容旧单测覆写点。
+     * @deprecated Subprocess execution has been migrated to {@link SubprocessExecutionSupport}; retained for backward compatibility with legacy test override points.
      */
     @Deprecated
     DefaultExecutor newRunExecutor() {
@@ -1871,9 +1871,9 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 子进程已结束后，解析输出并映射为 {@link DreaminaCliResult} 或抛出执行层异常（包内可见，供单测注入 handler）。
+     * After the subprocess completes, parses the output and maps to {@link DreaminaCliResult} or throws an execution-layer exception (package-visible, for test handler injection).
      *
-     * @param asyncFailureOverride 仅测试注入：非 null 时覆盖 {@link DefaultExecuteResultHandler#getException()} 结果
+     * @param asyncFailureOverride Test-only injection: when non-null, overrides {@link DefaultExecuteResultHandler#getException()} result
      */
     DreaminaCliResult completeAfterWait(
         CommandLine commandLine,
@@ -1930,7 +1930,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 静默读取异步 handler 退出码。
+     * Silently reads the async handler exit code.
      */
     private static Integer readExitQuietly(DefaultExecuteResultHandler handler) {
         try {
@@ -1942,7 +1942,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 将 Commons Exec 的「未定义」哨兵值规整为 {@code null}。
+     * Normalizes Commons Exec's "undefined" sentinel value to {@code null}.
      */
     private static Integer normalizeExitValue(int raw) {
         if (raw == org.apache.commons.exec.Executor.INVALID_EXITVALUE) {
@@ -1963,7 +1963,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 子进程无法启动时的统一异常（包内可见，供单测覆盖 spawn 失败分支）。
+     * Unified exception when the subprocess cannot be started (package-visible, for test coverage of spawn failure branches).
      */
     static DreaminaCliExecutableFailureException failedToStart(CommandLine commandLine, IOException cause) {
         log.warn("Dreamina CLI spawn failed commandLine={}, message={}", commandLine, cause.getMessage());
@@ -1972,7 +1972,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 非 {@link ExecuteException} 的异步失败（包内可见，供单测覆盖）。
+     * Async failure that is not an {@link ExecuteException} (package-visible, for test coverage).
      */
     static DreaminaCliException failedAsync(
         CommandLine commandLine, Exception asyncFailure, DreaminaCliResult partial) {
@@ -1983,7 +1983,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 进程结束但无法读取退出码（包内可见，供单测覆盖）。
+     * Process completed but exit code could not be read (package-visible, for test coverage).
      */
     static DreaminaCliException missingExitCode(
         CommandLine commandLine, IllegalStateException cause, DreaminaCliResult partial) {
@@ -1992,7 +1992,7 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * 非零退出且未包装为 {@link ExecuteException} 的场景（包内可见，供单测覆盖）。
+     * Non-zero exit without an {@link ExecuteException} wrapper (package-visible, for test coverage).
      */
     static DreaminaCliNonZeroExitException nonZeroExitWithoutExecuteException(
         CommandLine commandLine, int exitCode, DreaminaCliResult failed) {

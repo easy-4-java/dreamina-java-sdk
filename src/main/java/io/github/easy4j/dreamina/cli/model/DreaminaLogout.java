@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina logout} 解析体。
+ * Parsed body for {@code dreamina logout}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#logout()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

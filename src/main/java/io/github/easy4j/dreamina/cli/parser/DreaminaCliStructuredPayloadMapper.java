@@ -35,13 +35,17 @@ import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 将 {@link DreaminaCliResult} 转为 {@link DreaminaCliResponse}（原始输出 + 解析体 {@code body}）。
+ * Converts {@link DreaminaCliResult} to {@link DreaminaCliResponse} (raw output + parsed body).
  * <p>
- * JSON 命令：{@code body} 为与 CLI 字段对应的 {@code cli.model} 类型；文本/表格命令同理。
+ * For JSON commands, {@code body} is the corresponding {@code cli.model} type matching CLI fields;
+ * text/table commands follow the same pattern.
  * </p>
  *
+ * @see DreaminaCliResult
+ * @see DreaminaCliResponse
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Slf4j
 public final class DreaminaCliStructuredPayloadMapper {
@@ -64,25 +68,25 @@ public final class DreaminaCliStructuredPayloadMapper {
     private final ObjectMapper objectMapper;
 
     /**
-     * 默认构造函数：构造宽松 JSON 映射器。
+     * Default constructor: creates a lenient JSON mapper.
      */
     public DreaminaCliStructuredPayloadMapper() {
         this(defaultObjectMapper());
     }
 
     /**
-     * 允许测试注入自定义 {@link ObjectMapper}。
+     * Allows test injection of a custom {@link ObjectMapper}.
      *
-     * @param objectMapper Jackson 映射器；不得为 null
+     * @param objectMapper Jackson ObjectMapper; must not be null
      */
     public DreaminaCliStructuredPayloadMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     /**
-     * Dreamina 模块默认的 Jackson 配置（忽略未知字段，兼容 CLI 演进）。
+     * Default Jackson configuration for the Dreamina module (ignores unknown fields, compatible with CLI evolution).
      *
-     * @return 新的映射器实例
+     * @return A new ObjectMapper instance
      */
     public static ObjectMapper defaultObjectMapper() {
         ObjectMapper om = new ObjectMapper();
@@ -91,9 +95,9 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code version} 命令输出。
+     * Maps {@code version} command output.
      *
-     * @param raw CLI 快照；不得为 null
+     * @param raw CLI snapshot; must not be null
      */
     public DreaminaCliResponse<DreaminaVersion> mapVersion(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
@@ -101,7 +105,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code user_credit}。
+     * Maps {@code user_credit} output.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -111,9 +115,9 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code help}。
+     * Maps {@code help} output.
      *
-     * @param topic 子命令主题；根帮助时 {@code null}
+     * @param topic Subcommand topic; {@code null} for root help
      * @param raw   CLI 快照；不得为 null
      */
     public DreaminaCliResponse<DreaminaHelp> mapHelp(String topic, DreaminaCliResult raw) {
@@ -121,7 +125,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code logout}。
+     * Maps {@code logout} output.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -134,7 +138,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code relogin}。
+     * Maps {@code relogin} output.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -150,7 +154,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code login checklogin} JSON。
+     * Maps {@code login checklogin} JSON.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -160,7 +164,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code list_task} JSON 数组。
+     * Maps {@code list_task} JSON array.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -170,7 +174,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code query_result}。
+     * Maps {@code query_result} output.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -189,7 +193,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射异步生成命令的标准返回 JSON。
+     * Maps the standard return JSON from asynchronous generation commands.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -208,7 +212,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code session list} 表格。
+     * Maps {@code session list} table output.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -218,9 +222,9 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code session search}。
+     * Maps {@code session search} output.
      *
-     * @param queryTerm 调用侧关键字快照；可为 null
+     * @param queryTerm Caller-side keyword snapshot; may be null
      * @param raw       CLI 快照；不得为 null
      */
     public DreaminaCliResponse<DreaminaSessionSearch> mapSessionSearch(String queryTerm, DreaminaCliResult raw) {
@@ -232,7 +236,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code session delete}/{@code rm}。
+     * Maps {@code session delete}/{@code rm} output.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -242,7 +246,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code session create}/{@code rename}。
+     * Maps {@code session create}/{@code rename} output.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -277,7 +281,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 {@code login --headless} / {@code login} 的一般输出。
+     * Maps the general output of {@code login --headless} / {@code login}.
      *
      * @param raw CLI 快照；不得为 null
      */
@@ -296,7 +300,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 映射 Device Flow 材料。
+     * Maps Device Flow material.
      */
     public DreaminaCliResponse<DreaminaDeviceLogin> mapDeviceLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
@@ -304,7 +308,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 解析 Device Flow：优先 JSON，其次键值对文本。
+     * Resolves Device Flow: prefers JSON, then key-value text.
      */
     private DreaminaDeviceLogin resolveDeviceLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
@@ -326,22 +330,22 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 使用 Jackson 将 JSON 根节点反序列化为指定类型。
+     * Uses Jackson to deserialize a JSON root node to the specified type.
      *
-     * @param root JSON 根；可为 null
-     * @param type 目标类型
+     * @param root JSON root; may be null
+     * @param type Target type
      * @param <T>  类型参数
-     * @return 负载或 null
+     * @return Payload or null
      */
     private <T> T readPayload(JsonNode root, Class<T> type) {
         return treeToValue(root, type);
     }
 
     /**
-     * 将 JSON 数组根反序列化为任务列表。
+     * Deserializes a JSON array root into a task list.
      *
-     * @param root JSON 根
-     * @return 任务列表或 null
+     * @param root JSON root
+     * @return Task list or null
      */
     private List<DreaminaTaskItem> readTaskList(JsonNode root) {
         if (root == null || !root.isArray()) {
@@ -356,10 +360,10 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 解析会话表格行为统一的行列表。
+     * Parses session table rows into a unified row list.
      *
-     * @param combined 文本
-     * @param kind     表格形态
+     * @param combined Text
+     * @param kind     Table form
      */
     private List<DreaminaSessionRow> parseSessionRows(String combined, TableKind kind) {
         List<DreaminaSessionRow> rows = new ArrayList<>();
@@ -403,7 +407,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 单行解析：优先完整四列，其次搜索三列。
+     * Single row parsing: prefers full four columns, then search three columns.
      */
     private DreaminaSessionRow tryParseSessionRow(String line, TableKind preferred) {
         Matcher full = SESSION_LIST_ROW.matcher(line);
@@ -444,7 +448,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 尝试解析 JSON：优先 stdout，其次 bracket 扫描合并文本。
+     * Attempts to parse JSON: prefers stdout, then bracket-scans the combined text.
      */
     private JsonNode tryParseJsonTree(DreaminaCliResult raw) {
         JsonNode direct = tryParseSingle(raw.getStdout());
@@ -499,7 +503,7 @@ public final class DreaminaCliStructuredPayloadMapper {
     }
 
     /**
-     * 将 JSON 子树反序列化为强类型对象；节点缺失或解析失败时返回 {@code null}。
+     * Deserializes a JSON subtree into a strongly-typed object; returns {@code null} when the node is missing or parsing fails.
      */
     private <T> T treeToValue(JsonNode node, Class<T> type) {
         if (node == null || node.isNull()) {

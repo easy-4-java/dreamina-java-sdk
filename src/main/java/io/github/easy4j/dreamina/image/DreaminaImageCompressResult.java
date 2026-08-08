@@ -4,33 +4,35 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
- * 图片压缩结果摘要。
+ * Image compression result summary.
+ *
+ * @see DreaminaImageCompressSupport#compress(byte[], String, DreaminaImageCompressOptions)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Value
 @Builder
 public class DreaminaImageCompressResult {
 
-    /** 压缩后的图片字节。 */
+    /** Compressed image bytes. */
     byte[] bytes;
 
-    /** 是否实际执行了压缩（开关开启且输出与输入不同或尺寸/质量已调整）。 */
+    /** Whether compression was actually applied (toggle enabled and output differs from input or size/quality adjusted). */
     boolean applied;
 
-    /** 压缩前字节长度。 */
+    /** Byte length before compression. */
     int originalSize;
 
-    /** 压缩后字节长度。 */
+    /** Byte length after compression. */
     int compressedSize;
 
-    /** 实际使用的缩放比例。 */
+    /** Scale factor actually used. */
     double scale;
 
-    /** 实际使用的输出质量（1–100）。 */
+    /** Output quality actually used (1-100). */
     int quality;
 
-    /** 输出 ImageIO 格式名（如 jpg、png）。 */
+    /** Output ImageIO format name (e.g., jpg, png). */
     String outputFormat;
 }

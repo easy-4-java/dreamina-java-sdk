@@ -4,26 +4,29 @@ import io.github.easy4j.dreamina.cli.DreaminaCliResult;
 import lombok.Getter;
 
 /**
- * Dreamina CLI 执行层基础异常。
+ * Base exception for Dreamina CLI execution-layer failures.
  * <p>
- * 封装单次进程调用的诊断信息及可选快照，供上层决定是否重试、降级或告警；不耦合业务文案。
+ * Wraps diagnostic information and an optional snapshot from a single process invocation,
+ * allowing the upper layer to decide whether to retry, degrade, or alert; does not couple business copy.
  * </p>
  *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliResult
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 public class DreaminaCliException extends RuntimeException {
 
-    /** 最近一次可观测结果（例如在已拿到输出后超时或非零退出） */
+    /** The latest observable result (e.g., output captured before a timeout or non-zero exit) */
     private final DreaminaCliResult partialResult;
 
     /**
-     * 构造 Dreamina CLI 执行异常。
+     * Constructs a Dreamina CLI execution exception.
      *
-     * @param message        技术性说明（面向日志）
-     * @param cause          原始原因
-     * @param partialResult  若在失败前已形成结果则传入，否则为 null
+     * @param message        Technical description (for logging)
+     * @param cause          Root cause
+     * @param partialResult  The result snapshot formed before the failure, or null if unavailable
      */
     public DreaminaCliException(String message, Throwable cause, DreaminaCliResult partialResult) {
         super(message, cause);
@@ -31,10 +34,10 @@ public class DreaminaCliException extends RuntimeException {
     }
 
     /**
-     * 构造无 {@link #cause} 的执行异常。
+     * Constructs an execution exception without a {@link #cause}.
      *
      * @param message       技术性说明（面向日志）
-     * @param partialResult 部分结果快照
+     * @param partialResult Partial result snapshot
      */
     public DreaminaCliException(String message, DreaminaCliResult partialResult) {
         super(message);

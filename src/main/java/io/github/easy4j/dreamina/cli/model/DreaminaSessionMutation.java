@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina session create/rename} 解析体。
+ * Parsed body for {@code dreamina session create/rename}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#sessionCreate()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

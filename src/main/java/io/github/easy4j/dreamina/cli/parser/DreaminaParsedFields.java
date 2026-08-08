@@ -4,31 +4,34 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 对 Dreamina CLI 输出的「尽力而为」结构化解析快照。
+ * Best-effort structured parse snapshot of Dreamina CLI output.
  * <p>
- * 实际 CLI 文案或格式可能演进，解析失败时必须允许调用方降级为仅依赖 {@link DreaminaCliResult#getStdout()}
- * 与 {@link DreaminaCliResult#getStderr()} 的原始文本；本类型字段均可为空。
+ * The actual CLI copy or format may evolve; when parsing fails the caller must be allowed
+ * to degrade to relying solely on the raw text from {@link DreaminaCliResult#getStdout()}
+ * and {@link DreaminaCliResult#getStderr()}; all fields in this type may be null.
  * </p>
  *
+ * @see DreaminaCliOutputParser#parseBestEffort(String, String)
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
 public class DreaminaParsedFields {
 
     /**
-     * 任务提交成功后可能出现的提交 ID。
+     * The submit ID that may appear after a successful task submission.
      */
     private final String submitId;
 
     /**
-     * 若能从输出中识别的用户积分／额度类数值（语义依 Dreamina CLI 而定）。
+     * User credit/quota value identified from the output (semantics defined by the Dreamina CLI).
      */
     private final Long credit;
 
     /**
-     * 是否需要后续轮询（尽力从输出中识别的布尔提示；无法识别时为 null）。
+     * Whether follow-up polling is recommended (best-effort boolean hint from the output; null when unrecognizable).
      */
     private final Boolean pollRecommended;
 }

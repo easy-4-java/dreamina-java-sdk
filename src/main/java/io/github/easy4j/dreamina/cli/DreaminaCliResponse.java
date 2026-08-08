@@ -7,15 +7,19 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 单次 CLI 命令的<strong>所见即所得</strong>结果：原始输出 + 解析后的业务对象。
+ * WYSIWYG result for a single CLI command: raw output + parsed business object.
  * <p>
- * {@link #getBody()} 对应该命令 stdout 的结构化视图（JSON 反序列化或文本/表格解析）；
- * 解析失败时为 {@code null}，此时仍可通过 {@link #getStdout()} / {@link #getStderr()} 读取原文。
+ * {@link #getBody()} corresponds to the structured view of the command's stdout
+ * (JSON deserialization or text/table parsing); when parsing fails it is {@code null},
+ * and the caller can still read the raw text via {@link #getStdout()} / {@link #getStderr()}.
  * </p>
+ *
+ * @see DreaminaCliResult
+ * @see io.github.easy4j.dreamina.cli.parser.DreaminaCliStructuredPayloadMapper
  *
  * @param <T> 本命令解析体类型（如 {@link io.github.easy4j.dreamina.cli.model.DreaminaVersion}）
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
@@ -30,7 +34,7 @@ public final class DreaminaCliResponse<T> {
     private final JsonNode json;
 
     /**
-     * 绑定原始快照与解析体（无 JSON 树）。
+     * Binds a raw snapshot with a parsed body (no JSON tree).
      *
      * @param raw  CLI 原始结果
      * @param body 解析体，可为 null
@@ -40,7 +44,7 @@ public final class DreaminaCliResponse<T> {
     }
 
     /**
-     * 绑定原始快照、解析体与 JSON 根节点。
+     * Binds a raw snapshot, parsed body, and JSON root node.
      *
      * @param raw  CLI 原始结果
      * @param body 解析体，可为 null
@@ -59,7 +63,7 @@ public final class DreaminaCliResponse<T> {
     }
 
     /**
-     * @return 合并 stdout + stderr（与历史 {@code combinedText} 一致）
+     * @return Merges stdout + stderr (consistent with the legacy {@code combinedText}).
      */
     public String getCombinedText() {
         String out = stdout == null ? "" : stdout;
@@ -74,7 +78,7 @@ public final class DreaminaCliResponse<T> {
     }
 
     /**
-     * @return 是否解析出非空 body
+     * @return Whether a non-null body was parsed.
      */
     public boolean hasBody() {
         return body != null;

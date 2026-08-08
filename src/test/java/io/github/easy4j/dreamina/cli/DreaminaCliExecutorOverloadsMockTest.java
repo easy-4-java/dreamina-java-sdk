@@ -139,7 +139,7 @@ class DreaminaCliExecutorOverloadsMockTest {
 
     @Test void image2videoWithoutPromptOverload() throws Exception {
         assertThrows(IllegalArgumentException.class,
-            () -> executor.image2video(tinyPng.toString(), Arrays.asList("--poll=0")));
+            () -> executor.image2video(tinyPng.toString(), List.of("--poll=0")));
     }
 
     @Test void text2ImageSubmitRawArgsOverload() throws Exception {
