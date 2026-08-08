@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * {@code queue_info.debug_info} 内嵌 JSON 字符串解析后的诊断结构。
+ * Diagnostic structure parsed from the {@code queue_info.debug_info} embedded JSON string.
  * <p>
- * 该字段由 SDK 在映射阶段解析得到，并非 CLI 顶层独立键。
+ * This field is parsed by the SDK during the mapping phase and is not a top-level CLI key.
  * </p>
  *
+ * @see DreaminaQueryQueueInfo
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -4,10 +4,13 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * Dreamina CLI 生成任务状态。
+ * Dreamina CLI generation task status.
+ *
+ * @see DreaminaGenerateSubmit
+ * @see DreaminaQueryResult
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 2.0.0
+ * @since 3.0.0
  */
 public enum DreaminaGenerationStatus {
 
@@ -17,10 +20,10 @@ public enum DreaminaGenerationStatus {
     FAIL;
 
     /**
-     * 将 CLI 状态转换为稳定的 SDK 枚举。
+     * Converts the CLI status string to a stable SDK enum value.
      *
-     * @param cliValue CLI 返回的 gen_status
-     * @return SDK 状态；未知值返回 {@link #UNKNOWN}
+     * @param cliValue The gen_status value returned by the CLI
+     * @return The SDK status; unknown values return {@link #UNKNOWN}
      */
     public static DreaminaGenerationStatus fromCliValue(String cliValue) {
         if (Objects.isNull(cliValue) || cliValue.trim().isEmpty()) {
@@ -40,7 +43,7 @@ public enum DreaminaGenerationStatus {
     }
 
     /**
-     * @return 成功或失败均为终态
+     * @return Whether the status is terminal (success or fail).
      */
     public boolean isTerminal() {
         return this == SUCCESS || this == FAIL;

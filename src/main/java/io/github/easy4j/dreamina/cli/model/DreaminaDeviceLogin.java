@@ -6,10 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * OAuth Device Flow 材料（JSON 或 {@code relogin} 等命令的键值对文本）。
+ * OAuth Device Flow material (JSON or key-value text from commands such as {@code relogin}).
+ *
+ * @see io.github.easy4j.dreamina.cli.parser.DreaminaLoginTextParser#parseDeviceFlow(String)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,21 +30,21 @@ public class DreaminaDeviceLogin {
     private String userCode;
 
     /**
-     * 轮询间隔（如 {@code 1s}）；文本输出常见。
+     * Polling interval (e.g., {@code 1s}); common in text output.
      */
     @JsonProperty("poll_interval")
     private String pollInterval;
 
     /**
-     * 设备码过期时间（ISO-8601 字符串）。
+     * Device code expiration time (ISO-8601 string).
      */
     @JsonProperty("expires_at")
     private String expiresAt;
 
     /**
-     * 是否包含可用于 {@code checklogin} 的核心 Device Flow 字段。
+     * Whether the core Device Flow fields required for {@code checklogin} are present.
      *
-     * @return 有效为 true
+     * @return Returns true if the material is present.
      */
     public boolean isMaterialPresent() {
         return io.github.easy4j.dreamina.cli.parser.DreaminaLoginTextParser.hasDeviceFlowMaterial(this);

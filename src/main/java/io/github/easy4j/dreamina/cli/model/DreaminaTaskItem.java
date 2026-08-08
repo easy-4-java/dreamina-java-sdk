@@ -6,10 +6,12 @@ import java.util.Objects;
 import lombok.Data;
 
 /**
- * {@code dreamina list_task} 数组中单条任务记录。
+ * A single task record from the {@code dreamina list_task} array.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#listTask()
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -19,7 +21,7 @@ public class DreaminaTaskItem {
     private String submitId;
 
     /**
-     * 任务提示词（部分 {@code gen_task_type} 在 {@code list_task} 中返回）。
+     * Task prompt (returned by {@code list_task} for some {@code gen_task_type} values).
      */
     private String prompt;
 
@@ -36,19 +38,19 @@ public class DreaminaTaskItem {
     private DreaminaResultJson resultJson;
 
     /**
-     * 计费与权益信息（生产 {@code list_task} 将 {@code credit_count} 置于此对象内）。
+     * Billing and benefit info (production {@code list_task} places {@code credit_count} within this object).
      */
     @JsonProperty("commerce_info")
     private DreaminaCommerceInfo commerceInfo;
 
     /**
-     * 部分 CLI 版本在任务根上的积分字段；与 {@link #commerceInfo} 互斥时以 commerce 为准。
+     * Credit count field at the task root in some CLI versions; when both exist, commerce takes precedence.
      */
     @JsonProperty("credit_count")
     private Long creditCount;
 
     /**
-     * 解析本任务消耗的积分：优先 {@code commerce_info.credit_count}，否则根级 {@code credit_count}。
+     * Resolves the credit count consumed by this task: prefers {@code commerce_info.credit_count}, falls back to the root-level {@code credit_count}.
      *
      * @return 积分或 null
      */

@@ -3,7 +3,14 @@ package io.github.easy4j.dreamina.cli.opts;
 import lombok.Getter;
 
 /**
- * 图像模型版本枚举。
+ * Image model version enum.
+ * <p>
+ * Covers both text-to-image and image-to-image scenarios; whether a specific version
+ * is allowed for image-to-image is additionally constrained by the request object.
+ * </p>
+ *
+ * @see DreaminaText2ImageRequest
+ * @see DreaminaImage2ImageRequest
  * <p>
  * 同时覆盖文生图与图生图场景；图生图是否允许某一版本由请求对象额外约束。
  * </p>
@@ -17,7 +24,7 @@ import lombok.Getter;
  * </p>
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 public enum DreaminaImageModelVersion {
@@ -46,9 +53,9 @@ public enum DreaminaImageModelVersion {
     }
 
     /**
-     * 是否满足图生图最低版本要求（4.0+）。
+     * Whether this version meets the minimum requirement for image-to-image (4.0+).
      *
-     * @return true 表示可用于 image2image
+     * @return true if this version can be used for image2image
      */
     public boolean supportsImageToImage() {
         return this.ordinal() >= MODEL_4_0.ordinal();

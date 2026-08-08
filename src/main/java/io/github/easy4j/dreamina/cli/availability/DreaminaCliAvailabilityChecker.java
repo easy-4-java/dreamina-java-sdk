@@ -13,18 +13,22 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 探测本机 {@code dreamina} CLI 是否已安装且可执行 {@code dreamina version}。
+ * Probes whether the local {@code dreamina} CLI is installed and can execute {@code dreamina version}.
  * <p>
- * 供 Spring Boot Starter 在启动阶段调用，也可在纯 Java 应用中手动执行就绪检查。
+ * Can be called by a Spring Boot Starter during startup, or manually in a plain Java application
+ * to perform a readiness check.
  * </p>
  *
+ * @see DreaminaCliAvailabilityReport
+ * @see DreaminaCliAvailabilityStatus
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public class DreaminaCliAvailabilityChecker {
 
     /**
-     * 使用给定执行器与其绑定配置执行探测（推荐：与运行时共用同一 {@link DreaminaCliExecutor} Bean）。
+     * Performs the probe using the given executor and its bound configuration (recommended: share the same {@link DreaminaCliExecutor} bean with the runtime).
      *
      * @param executor 已构造的执行器，不得为 null
      * @return 探测报告
@@ -35,7 +39,7 @@ public class DreaminaCliAvailabilityChecker {
     }
 
     /**
-     * 根据配置构造临时执行器并探测 CLI 可用性。
+     * Constructs a temporary executor from the configuration and probes CLI availability.
      *
      * @param properties CLI 配置，不得为 null
      * @return 探测报告
@@ -123,7 +127,7 @@ public class DreaminaCliAvailabilityChecker {
     }
 
     /**
-     * 复制配置并缩短单次探测超时，避免启动检查占用默认命令超时。
+     * Copies the configuration and shortens the probe timeout to avoid startup checks consuming the default command timeout.
      */
     private static DreaminaCliProperties copyForProbe(DreaminaCliProperties source) {
         DreaminaCliProperties copy = new DreaminaCliProperties();
@@ -141,7 +145,7 @@ public class DreaminaCliAvailabilityChecker {
     }
 
     /**
-     * 解析可执行文件：绝对/相对路径直接检查；否则在 {@code PATH} 中查找。
+     * Resolves the executable: checks absolute/relative paths directly; otherwise searches {@code PATH}.
      */
     static Optional<String> resolveExecutablePath(String executable) {
         if (DreaminaStrings.isBlank(executable)) {

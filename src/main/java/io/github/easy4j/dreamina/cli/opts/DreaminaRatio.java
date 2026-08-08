@@ -3,10 +3,13 @@ package io.github.easy4j.dreamina.cli.opts;
 import lombok.Getter;
 
 /**
- * Dreamina 常见宽高比枚举。
+ * Common aspect ratio enum for Dreamina.
+ *
+ * @see DreaminaText2ImageRequest
+ * @see DreaminaMultimodal2VideoRequest
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 public enum DreaminaRatio {

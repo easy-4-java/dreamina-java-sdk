@@ -5,10 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * Dreamina CLI 启动/就绪探测结果（纯 SDK，无 Spring 依赖）。
+ * Dreamina CLI startup/readiness probe result (pure SDK, no Spring dependency).
+ *
+ * @see DreaminaCliAvailabilityChecker
+ * @see DreaminaCliAvailabilityStatus
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
@@ -22,14 +25,14 @@ public class DreaminaCliAvailabilityReport {
     private final DreaminaCliResult probeResult;
 
     /**
-     * @return 是否可安全调用 {@code dreamina} 子命令
+     * @return Whether it is safe to invoke {@code dreamina} subcommands.
      */
     public boolean isAvailable() {
         return available;
     }
 
     /**
-     * 构造面向日志/异常的诊断文本。
+     * Constructs a diagnostic message for logging or exceptions.
      *
      * @return 单行或多行说明
      */

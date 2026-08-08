@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.Singular;
 
 /**
- * 单图生视频请求对象。
+ * 单图生视频Single-image-to-video request object.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2video(String, String, java.util.List)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder

@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * {@code dreamina session search} 解析体。
+ * Parsed body for {@code dreamina session search}.
+ *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#sessionSearch(String)
  *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 @Getter
 @Builder
@@ -19,7 +21,7 @@ public class DreaminaSessionSearch {
     private final List<DreaminaSessionRow> rows;
 
     /**
-     * @return 非 null 匹配行
+     * @return Non-null matching rows.
      */
     public List<DreaminaSessionRow> safeRows() {
         return rows == null ? Collections.emptyList() : rows;

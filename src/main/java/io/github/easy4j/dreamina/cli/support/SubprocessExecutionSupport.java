@@ -17,18 +17,21 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * 基于 Apache Commons Exec 的子进程执行辅助：Watchdog 超时、有界 {@code waitFor}、并发限流。
+ * Subprocess execution support based on Apache Commons Exec: Watchdog timeout, bounded {@code waitFor}, and concurrency throttling.
  * <p>
- * 参考 Playwright Starter 中 {@code DefaultExecutor.builder()} + {@link ExecuteWatchdog} 模式，
- * 并补充异步 handler 与 Semaphore，避免高并发下线程因僵死子进程永久阻塞。
+ * Follows the {@code DefaultExecutor.builder()} + {@link ExecuteWatchdog} pattern from Playwright Starter,
+ * supplemented with an async handler and Semaphore to prevent threads from being permanently blocked
+ * by zombie subprocesses under high concurrency.
  * </p>
  *
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
- * @since 1.0.0
+ * @since 3.0.0
  */
 public final class SubprocessExecutionSupport {
 
-    /** Watchdog 触发后，handler 收尾等待的上限（毫秒）。 */
+    /** Maximum wait time (milliseconds) for handler cleanup after Watchdog triggers. */
     public static final long WAIT_GRACE_MILLIS = 5_000L;
 
     private static final int DEFAULT_MAX_CONCURRENT = Math.max(2, Runtime.getRuntime().availableProcessors());
@@ -40,9 +43,9 @@ public final class SubprocessExecutionSupport {
     }
 
     /**
-     * 配置本机 CLI 子进程全局并发上限；{@code maxConcurrent <= 0} 时恢复为默认值。
+     * Configures the global concurrency limit for local CLI subprocesses; restores the default when {@code maxConcurrent <= 0}.
      *
-     * @param maxConcurrent 允许同时运行的子进程数
+     * @param maxConcurrent Number of subprocesses allowed to run concurrently
      */
     public static void configureMaxConcurrentExecutions(int maxConcurrent) {
         if (maxConcurrent <= 0) {
@@ -53,17 +56,17 @@ public final class SubprocessExecutionSupport {
     }
 
     /**
-     * @return 未显式配置时的默认并发上限
+     * @return Default concurrency limit when not explicitly configured
      */
     public static int defaultMaxConcurrentExecutions() {
         return DEFAULT_MAX_CONCURRENT;
     }
 
     /**
-     * 在并发许可内启动子进程并阻塞至结束、超时或被强制销毁。
+     * Starts a subprocess within the concurrency permit and blocks until completion, timeout, or forced destruction.
      *
-     * @param request 命令行、工作目录、环境与超时
-     * @return 捕获的输出与 handler 状态
+     * @param request Command line, working directory, environment, and timeout
+     * @return Captured output and handler state
      */
     public static RunSession execute(ExecutionRequest request) throws IOException, InterruptedException {
         Objects.requireNonNull(request, "request");
@@ -123,7 +126,7 @@ public final class SubprocessExecutionSupport {
     }
 
     /**
-     * 单次子进程执行请求。
+     * A single subprocess execution request.
      */
     @Getter
     public static final class ExecutionRequest {
@@ -152,7 +155,7 @@ public final class SubprocessExecutionSupport {
     }
 
     /**
-     * 子进程执行会话结果（输出流仍保留，便于上层按需转字符串）。
+     * Subprocess execution session result (output streams are retained for the upper layer to convert to strings on demand).
      */
     @Getter
     public static final class RunSession {
@@ -180,7 +183,7 @@ public final class SubprocessExecutionSupport {
         }
 
         /**
-         * @return Watchdog 杀进程或 handler 等待超时
+         * @return Whether the Watchdog killed the process or the handler wait timed out.
          */
         public boolean timedOut() {
             return waitTimedOut || watchdog.killedProcess();
