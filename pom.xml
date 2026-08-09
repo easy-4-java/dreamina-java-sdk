@@ -366,7 +366,6 @@
                 <jdk>[1.8,)</jdk>
             </activation>
             <properties>
-                <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
                 <additionalparam>-Xdoclint:none -Xlint:unchecked</additionalparam>
                 <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
             
