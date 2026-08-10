@@ -6,7 +6,7 @@ import io.github.easy4j.dreamina.cli.DreaminaCliResult;
  *
  * @see DreaminaCliException
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 public class DreaminaCliTimeoutException extends DreaminaCliException {

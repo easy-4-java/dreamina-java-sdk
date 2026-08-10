@@ -22,7 +22,7 @@ import java.util.Optional;
  * @see DreaminaCliAvailabilityReport
  * @see DreaminaCliAvailabilityStatus
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 public class DreaminaCliAvailabilityChecker {

@@ -10,7 +10,7 @@ import lombok.Data;
  *
  * @see io.github.easy4j.dreamina.cli.parser.DreaminaLoginTextParser#parseDeviceFlow(String)
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Data

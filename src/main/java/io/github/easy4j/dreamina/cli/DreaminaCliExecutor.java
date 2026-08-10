@@ -124,7 +124,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
  *   dreamina query_result --submit_id=550e8400-e29b-41d4-a716-446655440000
  *   dreamina text2image --prompt="a cat portrait" --ratio=1:1 --resolution_type=2k
  * </pre>
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Slf4j
