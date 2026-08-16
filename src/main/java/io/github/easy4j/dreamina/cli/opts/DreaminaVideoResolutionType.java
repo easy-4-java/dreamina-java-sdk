@@ -23,7 +23,7 @@ import lombok.Getter;
  * 预校验（{@link DreaminaVideoModelVersion#SEEDANCE_2_0_VIP} / {@link DreaminaVideoModelVersion#SEEDANCE_2_5}）。
  * </p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

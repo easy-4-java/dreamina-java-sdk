@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * 安装可执行的 mock {@code dreamina} 脚本，记录 argv 并返回预设 JSON/文本。
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public final class MockDreaminaCli {

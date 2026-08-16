@@ -9,7 +9,7 @@ import lombok.Getter;
  * @see io.github.easy4j.dreamina.cli.availability.DreaminaCliAvailabilityReport
  * @see DreaminaCliException
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter
