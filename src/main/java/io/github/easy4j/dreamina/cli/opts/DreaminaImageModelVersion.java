@@ -23,7 +23,7 @@ import lombok.Getter;
  * 4.0+ 模型同时支持图生图。
  * </p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

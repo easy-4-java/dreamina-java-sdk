@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#invoke(String, java.util.List)
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 public interface DreaminaCliArgumentProvider {

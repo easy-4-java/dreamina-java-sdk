@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Dreamina CLI v1.4.15 新增 Seedance 2.5 / 480P / 多模态纯音频契约测试。
  *
- * @author wandl
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 2.0.0
  */
 class DreaminaCliV1415ContractTest {
