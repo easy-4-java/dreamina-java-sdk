@@ -1,6 +1,6 @@
 package io.github.easy4j.dreamina.cli.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.github.easy4j.dreamina.util.DreaminaStrings;
 
 /**

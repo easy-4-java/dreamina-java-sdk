@@ -1,6 +1,6 @@
 package io.github.easy4j.dreamina.cli;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import io.github.easy4j.dreamina.cli.parser.DreaminaParsedFields;
 import io.github.easy4j.dreamina.util.DreaminaStrings;
 import lombok.Builder;

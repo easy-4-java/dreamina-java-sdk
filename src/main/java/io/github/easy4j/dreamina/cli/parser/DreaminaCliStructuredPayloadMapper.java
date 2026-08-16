@@ -21,10 +21,11 @@ import io.github.easy4j.dreamina.cli.model.DreaminaTaskItem;
 import io.github.easy4j.dreamina.cli.model.DreaminaUserCredit;
 import io.github.easy4j.dreamina.cli.model.DreaminaVersion;
 import io.github.easy4j.dreamina.util.DreaminaStrings;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -89,9 +90,7 @@ public final class DreaminaCliStructuredPayloadMapper {
      * @return A new ObjectMapper instance
      */
     public static ObjectMapper defaultObjectMapper() {
-        ObjectMapper om = new ObjectMapper();
-        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return om;
+        return JsonMapper.builder().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).build();
     }
 
     /**

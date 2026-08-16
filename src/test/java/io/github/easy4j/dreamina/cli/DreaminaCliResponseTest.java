@@ -1,7 +1,8 @@
 package io.github.easy4j.dreamina.cli;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.github.easy4j.dreamina.cli.parser.DreaminaParsedFields;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,7 @@ class DreaminaCliResponseTest {
     void shouldCreateResponseWithJson() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
             .stdout("{}").exitCode(0).success(true).build();
-        ObjectMapper om = new ObjectMapper();
+        ObjectMapper om = new JsonMapper();
         JsonNode node = om.createObjectNode();
         DreaminaCliResponse<String> resp = DreaminaCliResponse.of(raw, "body", node);
         assertNotNull(resp.getJson());

@@ -1,6 +1,8 @@
 package io.github.easy4j.dreamina.cli.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DreaminaModelClassesTest {
 
-    private final ObjectMapper om = new ObjectMapper()
-        .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final ObjectMapper om = JsonMapper.builder().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).build();
 
     // --- DreaminaVersion ---
     @Test
