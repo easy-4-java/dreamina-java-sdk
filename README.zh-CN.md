@@ -22,7 +22,7 @@
 
 ## 1. 项目概览
 
-`dreamina-java-sdk` 是面向 JDK 8 版本线、无 Spring 依赖的 SDK，驱动官方 Dreamina 命令行客户端（`dreamina` CLI）。它封装子进程执行、解析结构化输出（JSON / 文本 / 表格），并为 CLI 的全部内建命令与生成命令提供强类型请求与结果对象。
+`dreamina-java-sdk` 当前 `feature/3.0.x` 是面向 JDK 21、无 Spring 依赖的 SDK，驱动官方 Dreamina 命令行客户端（`dreamina` CLI）。它封装子进程执行、解析结构化输出（JSON / 文本 / 表格），并为 CLI 的全部内建命令与生成命令提供强类型请求与结果对象。
 
 | 是什么 | 不是什么 |
 |:---|:---|
@@ -55,7 +55,7 @@
 | 结构化结果对象 | 可用 | `DreaminaCliResponse<T>`，含 `stdout` / `stderr` / `exitCode` / `body` / `json` |
 | 启动就绪探测 | 可用 | `DreaminaCliAvailabilityChecker.check(...)` -> `DreaminaCliAvailabilityReport` |
 | 图片压缩工具 | 可用 | `DreaminaImageCompressSupport`（基于 thumbnailator） |
-| CLI 契约测试（双向） | 可用 | `cli-contract/dreamina-v1.4.14-help.snapshot.tsv` 与 `v1.4.15` 快照 |
+| CLI 契约测试（双向） | 可用 | 版本化 CLI help 快照已覆盖至 `v1.4.17` |
 | Mock 单元测试 | 可用 | Bash-mock CLI，无需真实 `dreamina` 二进制 |
 | 可选本地审计测试 | 可用 | 针对真实已登录 CLI 运行；未登录时自动跳过 |
 | 覆盖率门禁 | 强制执行 | JaCoCo：`DreaminaCliExecutor` 100% LINE + BRANCH，`haltOnFailure=true` |
@@ -65,10 +65,10 @@
 
 | 依赖项 | 版本 |
 |:---|:---|
-| JDK | 8 |
-| Maven | 3.0+ |
+| JDK | 21 |
+| Maven | 使用仓库自带 Wrapper（`./mvnw`，Maven 4.0.0-rc-5） |
 | 本地 CLI | 官方 `dreamina` CLI（见安装章节） |
-| jackson-databind | 2.x（pom 声明） |
+| jackson-databind | 3.2.1（pom 声明） |
 | commons-exec | Apache Commons Exec（pom 声明） |
 | thumbnailator | 图片压缩支持（pom 声明） |
 
@@ -86,9 +86,11 @@ SDK 跟踪上游 CLI 契约；CLI 是真相来源（以本机 `dreamina help` �
 
 | 能力 / 模型 | 引入版本 | 枚举 / 字段 |
 |:---|:---|:---|
-| Seedream 5.0 Pro（旗舰） | CLI v1.4.12（2026-07-15） | `DreaminaImageModelVersion.MODEL_5_0_PRO` |
+| Seedream 5.0 Pro 模型 | CLI v1.4.12（2026-07-15） | `DreaminaImageModelVersion.MODEL_5_0_PRO` |
+| Seedream 5.0 Pro 1.5K/2K/4K 契约，移除旧 1K | CLI v1.4.16（2026-08-14） | `DreaminaImageResolutionType.RESOLUTION_1_5K` |
 | seedance 2.0 mini | CLI v1.4.8（2026-06-18） | `DreaminaVideoModelVersion.SEEDANCE_2_0_MINI` |
 | Seedance 2.5（480P/720P，4～30 秒） | CLI v1.4.15（2026-08-01） | `DreaminaVideoModelVersion.SEEDANCE_2_5`、`RESOLUTION_480P` |
+| Seedance 2.5 1080P 输出 | CLI v1.4.17（2026-08-18） | `DreaminaVideoResolutionType.RESOLUTION_1080P` |
 | 视频 4K 输出 | CLI v1.4.10（2026-06-26） | `DreaminaVideoResolutionType.RESOLUTION_4K`（需 `seedance2.0_vip` + VIP 账户） |
 | 自定义图片宽高 `--width / --height` | CLI v1.4.14（2026-07-21） | `DreaminaText2ImageRequest.width / height` |
 | `--resolution_type` / `--video_resolution` 必填 | CLI v1.4.14 | 类型化请求字段，默认 `2k` / `720p` |
@@ -240,7 +242,7 @@ if (!report.isAvailable()) {
 | `multiframe2video` | `multiframe2VideoSubmit(...)` |
 | `multimodal2video` | `multimodal2VideoSubmit(...)` |
 
-通用扩展：`invoke(subcommand, additionalRawArgs)`，或任意 Request 的 `additionalRawArgs(...)`，用于透传 SDK 未建模的 CLI flag。
+通用扩展：`invoke(subcommand, additionalRawArgs)`，或任意 Request 的 `additionalRawArgs(...)`，用于透传 SDK 未建模的 CLI flag。该 raw 路径有意不做完整契约校验；需要在本地拒绝废弃值或模型组合时，应优先使用强类型 Request。
 
 ### 8.3 登录与账号（OAuth Device Flow）
 
@@ -290,6 +292,7 @@ executor.queryResultInfo(query);
 ./mvnw test                        # bash-mock CLI 测试，不依赖真实 dreamina 二进制
 ./mvnw test jacoco:report          # 覆盖率报告：target/site/jacoco/index.html
 ./mvnw clean verify                # 门禁：DreaminaCliExecutor 100% LINE + BRANCH（jacoco:check）
+./mvnw -Dtest=DreaminaCliHelpSnapshotTest -Ddreamina.cli.contract.verify=true test  # 对比本机 CLI help
 ```
 
 可选的真实 CLI 验证（需已安装并登录的 CLI；未登录时自动跳过）：

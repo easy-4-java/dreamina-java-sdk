@@ -1,0 +1,35 @@
+# Captured from official installer build 673dd28-dirty, build_time 2026-08-17T16:06:28Z (CLI v1.4.17).
+# command	key	literal substring from `<command> -h`
+text2image	flags	--generate_num,--height,--model_version,--poll,--prompt,--ratio,--resolution_type,--session,--width
+text2image	models	model_version: 3.0, 3.1, 4.0, 4.1, 4.5, 4.6, 4.7, 5.0, 5.0Pro
+text2image	required-resolution	--resolution_type is required
+text2image	seedream-5.0-pro-resolution	5.0Pro -> resolution_type 1.5k, 2k, or 4k
+text2image	custom-size-1.5k	1.5k: each side 972-2268; total pixels <= 2359296
+image2image	flags	--generate_num,--height,--images,--model_version,--poll,--prompt,--ratio,--resolution_type,--session,--width
+image2image	models	model_version: 4.0, 4.1, 4.5, 4.6, 4.7, 5.0, 5.0Pro
+image2image	required-resolution	--resolution_type is required
+image2image	seedream-5.0-pro-resolution	5.0Pro -> resolution_type 1.5k, 2k, or 4k
+image2image	custom-size-1.5k	1.5k: each side 972-2268; total pixels <= 2359296
+text2video	flags	--duration,--model_version,--poll,--prompt,--ratio,--session,--video_resolution
+text2video	required-resolution	--video_resolution is required
+text2video	models	model_version: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini, seedance2.5
+text2video	seedance-2.5-resolution	seedance2.5 -> video_resolution 480p, 720p, or 1080p
+image2video	flags	--duration,--image,--model_version,--poll,--prompt,--session,--video_resolution
+image2video	required-parameters	--image, --prompt, and --video_resolution are required
+image2video	models	model_version values: seedance1.0fast, seedance1.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini, seedance2.5
+image2video	seedance-2.5-resolution	seedance2.5 -> video_resolution 480p, 720p, or 1080p
+frames2video	flags	--duration,--first,--last,--model_version,--poll,--prompt,--session,--video_resolution
+frames2video	required-resolution	--video_resolution is required
+frames2video	models	model_version: seedance1.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini, seedance2.5
+frames2video	seedance-2.5-resolution	seedance2.5 -> video_resolution 480p, 720p, or 1080p
+multimodal2video	flags	--audio,--duration,--image,--model_version,--poll,--prompt,--ratio,--session,--video,--video_resolution
+multimodal2video	required-resolution	--video_resolution is required
+multimodal2video	models	supported values: seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini, seedance2.5
+multimodal2video	seedance-2.5-resolution	video_resolution 480p, 720p, or 1080p
+multimodal2video	audio-only	seedance2.5 -> audio-only is allowed
+multimodal2video	limits	seedance2.5 -> audio-only is allowed; image<=30, video<=10, audio<=10, total inputs<=50
+multiframe2video	flags	--duration,--images,--poll,--prompt,--session,--transition-duration,--transition-prompt,--video_resolution
+multiframe2video	resolutions	supported values: 720p, 1080p
+multiframe2video	duration	supported range: 1-8; total duration must be >= 2
+image_upscale	flags	--image,--poll,--resolution_type,--session
+image_upscale	resolutions	supported values: 2k, 4k, 8k

@@ -22,7 +22,7 @@ A pure Java SDK (no Spring dependency) for invoking Dreamina (即梦 / Jimeng) c
 
 ## 1. Project Overview
 
-`dreamina-java-sdk` is a JDK 8 line, Spring-free SDK that drives the official Dreamina command line interface (`dreamina` CLI). It wraps subprocess execution, parses structured output (JSON / text / tables), and exposes strongly typed request and result objects for every built-in and generator command of the CLI.
+`dreamina-java-sdk` on the `feature/3.0.x` line is a JDK 21, Spring-free SDK that drives the official Dreamina command line interface (`dreamina` CLI). It wraps subprocess execution, parses structured output (JSON / text / tables), and exposes strongly typed request and result objects for every built-in and generator command of the CLI.
 
 | What it is | What it is not |
 |:---|:---|
@@ -54,7 +54,7 @@ Typical use cases:
 | Structured result objects | Available | `DreaminaCliResponse<T>` with `stdout` / `stderr` / `exitCode` / `body` / `json` |
 | Startup readiness probe | Available | `DreaminaCliAvailabilityChecker.check(...)` -> `DreaminaCliAvailabilityReport` |
 | Image compression helper | Available | `DreaminaImageCompressSupport` (thumbnailator based) |
-| CLI contract tests (bidirectional) | Available | `cli-contract/dreamina-v1.4.14-help.snapshot.tsv` and `v1.4.15` snapshots |
+| CLI contract tests (bidirectional) | Available | Versioned CLI help snapshots through `v1.4.17` |
 | Mock-based unit tests | Available | Bash-mock CLI, no real `dreamina` binary required |
 | Optional local audit tests | Available | Run against a real logged-in CLI; auto-skip when not logged in |
 | Coverage gate | Enforced | JaCoCo: `DreaminaCliExecutor` 100% LINE + BRANCH, `haltOnFailure=true` |
@@ -63,10 +63,10 @@ Typical use cases:
 
 | Requirement | Version |
 |:---|:---|
-| JDK | 8 |
-| Maven | 3.0+ |
+| JDK | 21 |
+| Maven | Use the included wrapper (`./mvnw`, Maven 4.0.0-rc-5) |
 | Local CLI | Official `dreamina` CLI (see Installation) |
-| jackson-databind | 2.x (declared in pom) |
+| jackson-databind | 3.2.1 (declared in pom) |
 | commons-exec | Apache Commons Exec (declared in pom) |
 | thumbnailator | Image compression support (declared in pom) |
 
@@ -84,9 +84,11 @@ The SDK tracks the upstream CLI contract; the CLI is the source of truth (`dream
 
 | Capability / model | Introduced in | Enum / field |
 |:---|:---|:---|
-| Seedream 5.0 Pro (flagship) | CLI v1.4.12 (2026-07-15) | `DreaminaImageModelVersion.MODEL_5_0_PRO` |
+| Seedream 5.0 Pro model | CLI v1.4.12 (2026-07-15) | `DreaminaImageModelVersion.MODEL_5_0_PRO` |
+| Seedream 5.0 Pro 1.5K/2K/4K contract; legacy 1K removed | CLI v1.4.16 (2026-08-14) | `DreaminaImageResolutionType.RESOLUTION_1_5K` |
 | seedance 2.0 mini | CLI v1.4.8 (2026-06-18) | `DreaminaVideoModelVersion.SEEDANCE_2_0_MINI` |
 | Seedance 2.5 (480P/720P, 4~30 s) | CLI v1.4.15 (2026-08-01) | `DreaminaVideoModelVersion.SEEDANCE_2_5`, `RESOLUTION_480P` |
+| Seedance 2.5 1080P output | CLI v1.4.17 (2026-08-18) | `DreaminaVideoResolutionType.RESOLUTION_1080P` |
 | Video 4K output | CLI v1.4.10 (2026-06-26) | `DreaminaVideoResolutionType.RESOLUTION_4K` (needs `seedance2.0_vip` + VIP account) |
 | Custom image width/height `--width / --height` | CLI v1.4.14 (2026-07-21) | `DreaminaText2ImageRequest.width / height` |
 | `--resolution_type` / `--video_resolution` required | CLI v1.4.14 | Typed request fields, defaults `2k` / `720p` |
@@ -233,7 +235,7 @@ Generator commands (all return `DreaminaCliResponse<DreaminaGenerateSubmit>`):
 | `multiframe2video` | `multiframe2VideoSubmit(...)` |
 | `multimodal2video` | `multimodal2VideoSubmit(...)` |
 
-Generic escape hatch: `invoke(subcommand, additionalRawArgs)` or the `additionalRawArgs(...)` on any request object, for CLI flags not modeled by the SDK.
+Generic escape hatch: `invoke(subcommand, additionalRawArgs)` or the `additionalRawArgs(...)` on any request object, for CLI flags not modeled by the SDK. This raw path is intentionally not contract-validated; prefer typed requests when deprecated or model-specific values must be rejected locally.
 
 ### 8.3 Login (OAuth Device Flow)
 
@@ -282,6 +284,7 @@ Common `body` types (in `cli.model`): `DreaminaVersion`, `DreaminaQueryResult`, 
 ./mvnw test                        # bash-mock CLI tests; no real dreamina binary needed
 ./mvnw test jacoco:report          # coverage report: target/site/jacoco/index.html
 ./mvnw clean verify                # enforces 100% LINE + BRANCH on DreaminaCliExecutor (jacoco:check)
+./mvnw -Dtest=DreaminaCliHelpSnapshotTest -Ddreamina.cli.contract.verify=true test  # compare installed CLI help
 ```
 
 Optional real-CLI validation (requires an installed, logged-in CLI; auto-skips otherwise):

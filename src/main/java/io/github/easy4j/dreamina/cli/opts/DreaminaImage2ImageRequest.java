@@ -9,18 +9,19 @@ import lombok.Singular;
 /**
  * 图生图Image-to-image request object.
  * <p>
- * Requires 1-10 local reference images, model version 4.0+, and resolution 2k/4k.
+ * Requires 1-10 local reference images and model version 4.0+; Seedream 5.0 Pro additionally supports 1.5k.
  * </p>
  *
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2Image(String, String, java.util.List)
  * <p>
- * 按 Jimeng 技能约束：必须提供 1-10 张本地图片，且模型版本需为 4.0+，分辨率仅支持 2k/4k。
+ * 必须提供 1-10 张本地图片，且模型版本需为 4.0+；Seedream 5.0 Pro 额外支持 1.5k。
  * </p>
  * <p>
  * 适配即梦 CLI v1.4.x：
  * <ul>
  *   <li>v1.4.10（2026-06-26）起支持 {@code --generate_num} 批量出图（1-10 张）→ {@link #generateNum}</li>
  *   <li>v1.4.4 起支持 4.7、v1.4.12 起支持 5.0 Pro</li>
+ *   <li>v1.4.16 起 5.0 Pro 支持 1.5K/2K/4K，并移除旧 1K</li>
  * </ul>
  * </p>
  *
