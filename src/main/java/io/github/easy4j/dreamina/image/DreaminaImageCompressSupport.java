@@ -245,20 +245,26 @@ public final class DreaminaImageCompressSupport {
      */
     static String resolveOutputFormat(String formatHint, String defaultFormat) {
         String fallback = defaultFormat != null ? defaultFormat : "jpg";
-        if (formatHint == null || formatHint.isBlank()) {
+        if (formatHint == null || formatHint.trim().isEmpty()) {
             return fallback;
         }
         String normalized = formatHint.trim().toLowerCase(Locale.ROOT);
         if (normalized.startsWith(".")) {
             normalized = normalized.substring(1);
         }
-        return switch (normalized) {
-            case "png" -> "png";
-            case "gif" -> "gif";
-            case "bmp" -> "bmp";
-            case "jpeg", "jpg" -> "jpg";
-            case "webp" -> "jpg";
-            default -> fallback;
-        };
+        switch (normalized) {
+            case "png":
+                return "png";
+            case "gif":
+                return "gif";
+            case "bmp":
+                return "bmp";
+            case "jpeg":
+            case "jpg":
+            case "webp":
+                return "jpg";
+            default:
+                return fallback;
+        }
     }
 }

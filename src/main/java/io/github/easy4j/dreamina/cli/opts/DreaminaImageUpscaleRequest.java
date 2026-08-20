@@ -33,7 +33,8 @@ public class DreaminaImageUpscaleRequest implements DreaminaCliArgumentProvider 
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(
             args, "--image", DreaminaCliRequestSupport.requireReadableFile(imagePath, "imagePath"));
-        if (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K) {
+        if (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K
+            || resolutionType == DreaminaImageResolutionType.RESOLUTION_1_5K) {
             throw new IllegalArgumentException("image_upscale only supports 2k, 4k or 8k resolution");
         }
         DreaminaCliRequestSupport.addFlag(

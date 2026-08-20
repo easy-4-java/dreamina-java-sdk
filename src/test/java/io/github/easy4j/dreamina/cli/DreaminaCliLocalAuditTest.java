@@ -52,7 +52,7 @@ class DreaminaCliLocalAuditTest {
     @BeforeEach
     void setUp() {
         String exe = System.getenv("DREAMINA_CLI_EXECUTABLE");
-        if (exe == null || exe.isBlank()) {
+        if (exe == null || exe.trim().isEmpty()) {
             exe = "dreamina";
         }
         DreaminaCliProperties props = new DreaminaCliProperties();
@@ -120,7 +120,7 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditSessionList() {
         DreaminaCliResponse<DreaminaSessionList> r =
-            executor.sessionListInfo(List.of("-n", "5"));
+            executor.sessionListInfo(java.util.Arrays.asList("-n", "5"));
         assumeTrue(r.isSuccess(), "session list failed: " + r.getCombinedText());
         List<DreaminaSessionRow> rows = r.getBody().safeRows();
         assumeTrue(!rows.isEmpty(), "session list returned no rows (empty account?)");
@@ -133,7 +133,7 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditListTask() {
         DreaminaCliResponse<List<DreaminaTaskItem>> r =
-            executor.listTaskInfo(List.of("--limit", "3"));
+            executor.listTaskInfo(java.util.Arrays.asList("--limit", "3"));
         assumeTrue(r.isSuccess(), "list_task failed: " + r.getCombinedText());
         assertNotNull(r.getBody());
         assumeTrue(!r.getBody().isEmpty(), "list_task returned empty array");
@@ -149,7 +149,7 @@ class DreaminaCliLocalAuditTest {
     void auditSessionSearch() {
         DreaminaCliResponse<?> r = executor.sessionSearchInfo("default");
         assumeTrue(r.isSuccess(), "session search failed: " + r.getCombinedText());
-        assertTrue(r.getCombinedText().contains("default") || !r.getCombinedText().isBlank());
+        assertTrue(r.getCombinedText().contains("default") || !r.getCombinedText().trim().isEmpty());
     }
 
     /**
@@ -158,11 +158,11 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditQueryResultFromListTask() {
         DreaminaCliResponse<List<DreaminaTaskItem>> list =
-            executor.listTaskInfo(List.of("--limit", "1"));
+            executor.listTaskInfo(java.util.Arrays.asList("--limit", "1"));
         assumeTrue(list.isSuccess() && list.getBody() != null && !list.getBody().isEmpty(),
             "list_task empty — skip query_result audit");
         String submitId = list.getBody().get(0).getSubmitId();
-        assumeTrue(submitId != null && !submitId.isBlank());
+        assumeTrue(submitId != null && !submitId.trim().isEmpty());
         DreaminaCliResponse<?> qr = executor.queryResultInfo(submitId);
         assumeTrue(qr.isSuccess(), "query_result failed: " + qr.getCombinedText());
         assertNotNull(qr.getBody());
@@ -173,7 +173,7 @@ class DreaminaCliLocalAuditTest {
      */
     @Test
     void auditSessionCreateHelpViaDashH() {
-        DreaminaCliResult raw = executor.session(List.of("create", "-h"));
+        DreaminaCliResult raw = executor.session(java.util.Arrays.asList("create", "-h"));
         assertTrue(raw.isSuccess());
         assertTrue(raw.getStdout().contains("session create"));
     }
@@ -183,7 +183,7 @@ class DreaminaCliLocalAuditTest {
      */
     @Test
     void auditSessionHelpAlias() {
-        DreaminaCliResult raw = executor.session(List.of("help"));
+        DreaminaCliResult raw = executor.session(java.util.Arrays.asList("help"));
         assertTrue(raw.isSuccess());
         assertTrue(raw.getStdout().contains("Manage Dreamina sessions"));
     }

@@ -101,7 +101,7 @@ class DreaminaModelClassesTest {
         DreaminaResultJson rj = new DreaminaResultJson();
         DreaminaQueryImage img = new DreaminaQueryImage();
         img.setImageUrl("https://example.com/img.png");
-        rj.setImages(List.of(img));
+        rj.setImages(java.util.Arrays.asList(img));
         qr.setResultJson(rj);
         assertEquals("https://example.com/img.png", qr.firstImageUrl());
     }
@@ -112,7 +112,7 @@ class DreaminaModelClassesTest {
         DreaminaResultJson rj = new DreaminaResultJson();
         DreaminaQueryVideo vid = new DreaminaQueryVideo();
         vid.setVideoUrl("https://example.com/vid.mp4");
-        rj.setVideos(List.of(vid));
+        rj.setVideos(java.util.Arrays.asList(vid));
         qr.setResultJson(rj);
         assertEquals("https://example.com/vid.mp4", qr.firstVideoUrl());
     }

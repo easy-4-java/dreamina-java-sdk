@@ -283,8 +283,8 @@ class DreaminaCliExecutorCoverageMockTest {
             method.invoke(target, args);
         } catch (InvocationTargetException ex) {
             Throwable cause = ex.getCause();
-            if (cause instanceof Exception e) {
-                throw e;
+            if (cause instanceof Exception) {
+                throw (Exception) cause;
             }
             throw ex;
         }

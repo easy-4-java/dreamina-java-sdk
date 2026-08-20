@@ -18,14 +18,7 @@ class DreaminaCliOutputParserTest {
      */
     @Test
     void parseBestEffort_shouldReadTotalCreditFromUserCreditJson() {
-        String stdout = """
-            {
-              "total_credit": 5877,
-              "user_id": 1552973852847448,
-              "user_name": "",
-              "vip_level": "maestro"
-            }
-            """;
+        String stdout = "{\n  \"total_credit\": 5877,\n  \"user_id\": 1552973852847448,\n  \"user_name\": \"\",\n  \"vip_level\": \"maestro\"\n}\n";
         DreaminaParsedFields f = DreaminaCliOutputParser.parseBestEffort(stdout, "");
         assertEquals(5877L, f.getCredit());
     }
@@ -64,12 +57,7 @@ class DreaminaCliOutputParserTest {
      */
     @Test
     void parseBestEffort_shouldReadSubmitIdFromQuotedJson() {
-        String stdout = """
-            {
-              "submit_id": "2fcc4089-f0d3-479c-a42f-f73c838cc626",
-              "gen_status": "querying"
-            }
-            """;
+        String stdout = "{\n  \"submit_id\": \"2fcc4089-f0d3-479c-a42f-f73c838cc626\",\n  \"gen_status\": \"querying\"\n}\n";
         DreaminaParsedFields f = DreaminaCliOutputParser.parseBestEffort(stdout, "");
         assertEquals("2fcc4089-f0d3-479c-a42f-f73c838cc626", f.getSubmitId());
     }

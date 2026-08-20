@@ -1,5 +1,6 @@
 package io.github.easy4j.dreamina.util;
 
+import java.lang.reflect.Constructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -37,7 +38,7 @@ class DreaminaStringsTest {
 
     @Test
     void shouldHavePrivateConstructor() throws ReflectiveOperationException {
-        var ctor = DreaminaStrings.class.getDeclaredConstructor();
-        assertFalse(ctor.canAccess(null));
+        Constructor<DreaminaStrings> ctor = DreaminaStrings.class.getDeclaredConstructor();
+        assertFalse(ctor.isAccessible());
     }
 }
