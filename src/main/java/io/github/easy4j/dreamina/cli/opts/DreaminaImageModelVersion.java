@@ -15,15 +15,16 @@ import lombok.Getter;
  * 同时覆盖文生图与图生图场景；图生图是否允许某一版本由请求对象额外约束。
  * </p>
  * <p>
- * 适配即梦 CLI v1.4.14（2026-07-21）：
+ * 适配即梦 CLI v1.4.x：
  * <ul>
  *   <li>v1.4.4（2026-06-03）新增 Seedream 4.7 → {@link #MODEL_4_7}</li>
  *   <li>v1.4.12（2026-07-15）新增 Seedream 5.0 Pro → {@link #MODEL_5_0_PRO}</li>
+ *   <li>v1.4.16（2026-08-14）Seedream 5.0 Pro 新增 1.5K，并移除 1K 支持</li>
  * </ul>
  * 4.0+ 模型同时支持图生图。
  * </p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter
@@ -39,7 +40,8 @@ public enum DreaminaImageModelVersion {
     MODEL_4_7("4.7"),
     MODEL_5_0("5.0"),
     /**
-     * CLI v1.4.12（2026-07-15）新增的 Seedream 5.0 Pro 旗舰版本。
+     * CLI v1.4.12（2026-07-15）新增的 Seedream 5.0 Pro 旗舰版本；
+     * CLI v1.4.16 起支持 1.5K/2K/4K，不再支持 1K。
      * <p>
      * CLI 参数值为 {@code 5.0Pro}，与人类可读名称“Seedream 5.0 Pro”不同。
      * </p>

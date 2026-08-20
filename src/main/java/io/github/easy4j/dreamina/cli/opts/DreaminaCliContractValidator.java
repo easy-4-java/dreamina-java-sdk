@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @see DreaminaCliRequestSupport
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 public final class DreaminaCliContractValidator {
@@ -39,7 +39,7 @@ public final class DreaminaCliContractValidator {
     }
 
     /**
-     * Validates the side-length and total-pixel limits for v1.4.14 custom image sizes.
+     * Validates the side-length and total-pixel limits for v1.4.14～v1.4.16 custom image sizes.
      *
      * @param width          自定义宽度
      * @param height         自定义高度
@@ -69,6 +69,11 @@ public final class DreaminaCliContractValidator {
                 minSide = 512;
                 maxSide = 2016;
                 maxPixels = 1_763_584L;
+                break;
+            case RESOLUTION_1_5K:
+                minSide = 972;
+                maxSide = 2268;
+                maxPixels = 2_359_296L;
                 break;
             case RESOLUTION_2K:
                 minSide = 768;
@@ -120,19 +125,26 @@ public final class DreaminaCliContractValidator {
         if (resolutionType == DreaminaImageResolutionType.RESOLUTION_8K) {
             throw new IllegalArgumentException("image generation does not support 8k resolution");
         }
-        if (Objects.isNull(modelVersion)) {
-            return;
-        }
-        if ((modelVersion == DreaminaImageModelVersion.MODEL_3_0
-            || modelVersion == DreaminaImageModelVersion.MODEL_3_1)
+        DreaminaImageModelVersion effectiveModel = Objects.isNull(modelVersion)
+            ? DreaminaImageModelVersion.MODEL_5_0
+            : modelVersion;
+        if ((effectiveModel == DreaminaImageModelVersion.MODEL_3_0
+            || effectiveModel == DreaminaImageModelVersion.MODEL_3_1)
             && resolutionType != DreaminaImageResolutionType.RESOLUTION_1K
             && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K) {
             throw new IllegalArgumentException("Seedream 3.x only supports 1k or 2k resolution");
         }
-        if (modelVersion != DreaminaImageModelVersion.MODEL_3_0
-            && modelVersion != DreaminaImageModelVersion.MODEL_3_1
-            && modelVersion != DreaminaImageModelVersion.MODEL_5_0_PRO
-            && resolutionType == DreaminaImageResolutionType.RESOLUTION_1K) {
+        if (effectiveModel == DreaminaImageModelVersion.MODEL_5_0_PRO
+            && resolutionType != DreaminaImageResolutionType.RESOLUTION_1_5K
+            && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K
+            && resolutionType != DreaminaImageResolutionType.RESOLUTION_4K) {
+            throw new IllegalArgumentException("Seedream 5.0 Pro only supports 1.5k, 2k or 4k resolution");
+        }
+        if (effectiveModel != DreaminaImageModelVersion.MODEL_3_0
+            && effectiveModel != DreaminaImageModelVersion.MODEL_3_1
+            && effectiveModel != DreaminaImageModelVersion.MODEL_5_0_PRO
+            && (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K
+                || resolutionType == DreaminaImageResolutionType.RESOLUTION_1_5K)) {
             throw new IllegalArgumentException("Seedream 4.x/5.0 only supports 2k or 4k resolution");
         }
     }

@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * 官方 CLI help 快照门禁。
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 2.0.0
  */
 class DreaminaCliHelpSnapshotTest {
@@ -38,6 +38,8 @@ class DreaminaCliHelpSnapshotTest {
         "/cli-contract/dreamina-v1.4.14-help.snapshot.tsv";
     private static final String SNAPSHOT_V1415 =
         "/cli-contract/dreamina-v1.4.15-help.snapshot.tsv";
+    private static final String SNAPSHOT_V1417 =
+        "/cli-contract/dreamina-v1.4.17-help.snapshot.tsv";
     private static final Pattern HELP_FLAG =
         Pattern.compile("^\\s+(?:-h,\\s+)?(--[a-z0-9_-]+)\\s+.*$");
 
@@ -91,22 +93,47 @@ class DreaminaCliHelpSnapshotTest {
     }
 
     @Test
+    void snapshot_v1417_shouldMatchSdkPublicTokens() throws IOException {
+        List<HelpContract> contracts = readContracts(SNAPSHOT_V1417);
+
+        assertSnapshotLiteral(contracts, "text2image", "seedream-5.0-pro-resolution",
+            "5.0Pro -> resolution_type 1.5k, 2k, or 4k");
+        assertSnapshotLiteral(contracts, "text2image", "custom-size-1.5k",
+            "1.5k: each side 972-2268; total pixels <= 2359296");
+        assertSnapshotLiteral(contracts, "image2image", "seedream-5.0-pro-resolution",
+            "5.0Pro -> resolution_type 1.5k, 2k, or 4k");
+        assertSnapshotLiteral(contracts, "image2image", "custom-size-1.5k",
+            "1.5k: each side 972-2268; total pixels <= 2359296");
+        assertSnapshotLiteral(contracts, "text2video", "seedance-2.5-resolution",
+            "seedance2.5 -> video_resolution 480p, 720p, or 1080p");
+        assertSnapshotLiteral(contracts, "image2video", "seedance-2.5-resolution",
+            "seedance2.5 -> video_resolution 480p, 720p, or 1080p");
+        assertSnapshotLiteral(contracts, "frames2video", "seedance-2.5-resolution",
+            "seedance2.5 -> video_resolution 480p, 720p, or 1080p");
+        assertSnapshotLiteral(contracts, "multimodal2video", "seedance-2.5-resolution",
+            "video_resolution 480p, 720p, or 1080p");
+
+        Map<String, Set<String>> sdkFlags = sdkFlags(/* seedance25 = */ true);
+        for (HelpContract contract : contracts) {
+            if (!"flags".equals(contract.key())) {
+                continue;
+            }
+            assertEquals(parseSnapshotFlags(contract.literal()), sdkFlags.get(contract.command()),
+                contract.command() + " v1.4.17 SDK flags drifted from the committed CLI help snapshot");
+        }
+    }
+
+    @Test
     void installedCliHelp_shouldMatchCommittedSnapshot() throws IOException, InterruptedException {
         Assumptions.assumeTrue(Boolean.getBoolean("dreamina.cli.contract.verify"),
             "set -Ddreamina.cli.contract.verify=true to compare the installed CLI");
         String executable = System.getProperty("dreamina.cli.executable", "dreamina");
 
-        // 优先验证 v1.4.15（v1.4.14 仅在装了旧 CLI 时才相关；CI 默认装最新）
-        boolean v1415Checked = verifyAgainstSnapshot(executable, SNAPSHOT_V1415, "v1.4.15");
-        if (!v1415Checked) {
-            // 退化到 v1.4.14（旧 CLI 兼容）
-            verifyAgainstSnapshot(executable, SNAPSHOT, "v1.4.14");
-        }
+        verifyAgainstSnapshot(executable, SNAPSHOT_V1417);
     }
 
-    private boolean verifyAgainstSnapshot(String executable, String snapshotPath, String label)
+    private void verifyAgainstSnapshot(String executable, String snapshotPath)
             throws IOException, InterruptedException {
-        boolean allFlagsMatched = true;
         for (HelpContract contract : readContracts(snapshotPath)) {
             Process process = new ProcessBuilder(executable, contract.command(), "-h")
                 .redirectErrorStream(true)
@@ -119,20 +146,15 @@ class DreaminaCliHelpSnapshotTest {
             }
             String help = new String(output.toByteArray(), StandardCharsets.UTF_8);
             int exit = process.waitFor();
-            if (exit != 0) {
-                return false; // 子命令在当前 CLI 不存在, 说明版本不匹配
-            }
+            assertEquals(0, exit, contract.command() + " help command failed");
             if ("flags".equals(contract.key())) {
-                if (!parseSnapshotFlags(contract.literal()).equals(extractHelpFlags(help))) {
-                    return false;
-                }
+                assertEquals(parseSnapshotFlags(contract.literal()), extractHelpFlags(help),
+                    contract.command() + " installed CLI flags drifted from " + snapshotPath);
             } else {
-                if (!help.contains(contract.literal())) {
-                    return false;
-                }
+                assertTrue(help.contains(contract.literal()),
+                    contract.command() + "/" + contract.key() + " missing literal: " + contract.literal());
             }
         }
-        return allFlagsMatched;
     }
 
     private Map<String, Set<String>> sdkFlags() throws IOException {
@@ -356,7 +378,7 @@ class DreaminaCliHelpSnapshotTest {
     private List<HelpContract> readContracts(String snapshotPath) throws IOException {
         InputStream input = getClass().getResourceAsStream(snapshotPath);
         if (Objects.isNull(input)) {
-            throw new IllegalStateException("missing CLI help snapshot: " + SNAPSHOT);
+            throw new IllegalStateException("missing CLI help snapshot: " + snapshotPath);
         }
         List<HelpContract> contracts = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {

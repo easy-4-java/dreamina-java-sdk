@@ -12,7 +12,7 @@ import lombok.Getter;
  *
  * @see io.github.easy4j.dreamina.cli.DreaminaCliResult
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

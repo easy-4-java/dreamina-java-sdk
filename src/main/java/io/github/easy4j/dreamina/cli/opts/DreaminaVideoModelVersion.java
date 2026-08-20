@@ -21,10 +21,11 @@ import lombok.Getter;
  *       {@code seedance1.0fast}/{@code seedance1.5pro}，首尾帧公开 {@code seedance1.5pro}</li>
  *   <li>v1.4.15（2026-08-01）新增 Seedance 2.5（{@link #SEEDANCE_2_5}），支持 480P/720P 与 4～30 秒输出，
  *       多模态支持 2～30 秒参考音视频及纯音频输入；CLI 参数值 {@code seedance2.5}</li>
+ *   <li>v1.4.17（2026-08-18）Seedance 2.5 新增 1080P 输出支持</li>
  * </ul>
  * </p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter
@@ -40,7 +41,7 @@ public enum DreaminaVideoModelVersion {
      * CLI v1.4.15（2026-08-01）新增的 Seedance 2.5。
      * <p>
      * 适用于 {@code text2video}/{@code image2video}/{@code frames2video}/{@code multimodal2video}，
-     * 支持 480P / 720P 输出，时长范围 4～30 秒；多模态场景额外允许 2～30 秒参考音视频及纯音频输入。
+     * 支持 480P / 720P / 1080P 输出，时长范围 4～30 秒；多模态场景额外允许 2～30 秒参考音视频及纯音频输入。
      * {@code multiframe2video} 不在本模型支持范围内。
      * </p>
      */

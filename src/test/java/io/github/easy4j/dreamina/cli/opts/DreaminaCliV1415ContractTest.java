@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Dreamina CLI v1.4.15 新增 Seedance 2.5 / 480P / 多模态纯音频契约测试。
  *
- * @author wandl
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 2.0.0
  */
 class DreaminaCliV1415ContractTest {
@@ -54,22 +54,6 @@ class DreaminaCliV1415ContractTest {
 
         assertThrows(IllegalArgumentException.class, fastWith480p::toCliArgs);
         assertThrows(IllegalArgumentException.class, vipWith480p::toCliArgs);
-    }
-
-    @Test
-    void videoResolution_shouldAccept1080pForSeedance25() throws IOException {
-        Path image = createTempFile("seedance25-1080p.png");
-        DreaminaImage2VideoRequest valid = DreaminaImage2VideoRequest.builder()
-            .imagePath(image.toString())
-            .prompt("1080p 测试")
-            .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_5)
-            .videoResolution(DreaminaVideoResolutionType.RESOLUTION_1080P)
-            .durationSeconds(8)
-            .build();
-
-        List<String> args = valid.toCliArgs();
-        assertTrue(args.contains("--model_version=seedance2.5"));
-        assertTrue(args.contains("--video_resolution=1080p"));
     }
 
     @Test

@@ -2,9 +2,47 @@
 
 > 采集脚本：`scripts/dreamina-cli-audit.sh`（三阶段） / `scripts/dreamina-cli-audit-interactive.sh`（本机 Terminal，需 Keychain）  
 > 原始输出：`.cli-audit/exec_*.txt`、`.cli-audit/*_h.txt`  
-> SDK 映射：[`DreaminaCliStructuredPayloadMapper`](../src/main/java/io/github/hiwepy/dreamina/cli/parser/DreaminaCliStructuredPayloadMapper.java)
+> SDK 映射：[`DreaminaCliStructuredPayloadMapper`](../src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaCliStructuredPayloadMapper.java)
 
 **约束**：审计与 SDK 测试**不执行** `login` / `logout` / `relogin`，以免打断 OAuth。Cursor Agent 沙箱常因 macOS Keychain 导致 `user_credit` exit 1；已登录样例来自历史 `.cli-audit/list_task_n3.txt` 等本机采集。
+
+## CLI v1.4.17 全命令参数基线
+
+2026-08-20 通过官方安装脚本更新并审计构建 `673dd28-dirty`（build time `2026-08-17T16:06:28Z`）。
+审计脚本 Help Collection 阶段共采集 52 份输出；未执行生成命令，不消耗积分。
+
+| 命令 | 位置参数 / 命令参数（不含全局 `--version` 与 `--help`） |
+|------|---------------------------------------------------------|
+| `help` | `[command]` |
+| `version` | 无 |
+| `user_credit` | 无 |
+| `login` | `--headless` |
+| `login checklogin` | `--device_code`、`--poll` |
+| `logout` | 无 |
+| `relogin` | `--headless` |
+| `list_task` | `--gen_status`、`--gen_task_type`、`--limit`、`--offset`、`--submit_id` |
+| `query_result` | `--submit_id`、`--download_dir` |
+| `session` | 子命令 `create/list/ls/search/find/rename/update/delete/rm` |
+| `session create` | `[name]` |
+| `session list` / `ls` | `-n` / `--max-count` |
+| `session search` / `find` | `<name>` |
+| `session rename` / `update` | `<session_id> <new_name>` |
+| `session delete` / `rm` | `<session_id>` |
+| `text2image` | `--prompt`、`--session`、`--ratio`、`--resolution_type`、`--width`、`--height`、`--model_version`、`--generate_num`、`--poll` |
+| `image2image` | `--images`、`--prompt`、`--session`、`--ratio`、`--resolution_type`、`--width`、`--height`、`--model_version`、`--generate_num`、`--poll` |
+| `image_upscale` | `--image`、`--session`、`--resolution_type`、`--poll` |
+| `text2video` | `--prompt`、`--session`、`--duration`、`--ratio`、`--video_resolution`、`--model_version`、`--poll` |
+| `image2video` | `--image`、`--prompt`、`--duration`、`--video_resolution`、`--model_version`、`--session`、`--poll` |
+| `frames2video` | `--first`、`--last`、`--prompt`、`--session`、`--duration`、`--video_resolution`、`--model_version`、`--poll` |
+| `multiframe2video` | `--images`、`--prompt`、`--duration`、`--video_resolution`、`--transition-prompt`、`--transition-duration`、`--session`、`--poll` |
+| `multimodal2video` | `--image`、`--video`、`--audio`、`--prompt`、`--duration`、`--ratio`、`--video_resolution`、`--model_version`、`--session`、`--poll` |
+
+v1.4.16 / v1.4.17 的参数变化：
+
+- Seedream 5.0 Pro 的 `resolution_type` 为 `1.5k/2k/4k`，旧 `1k` 已移除。
+- 1.5K 自定义宽高：单边 972～2268，总像素不超过 2,359,296。
+- Seedance 2.5 的 `video_resolution` 为 `480p/720p/1080p`。
+- 本次审计未发现命令名或 flag 集合变化；变化集中在既有参数的允许值与组合约束。
 
 ---
 

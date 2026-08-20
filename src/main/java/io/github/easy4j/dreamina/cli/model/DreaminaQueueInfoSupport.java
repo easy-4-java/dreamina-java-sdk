@@ -8,7 +8,7 @@ import io.github.easy4j.dreamina.util.DreaminaStrings;
  *
  * @see DreaminaQueryQueueInfo#parsedDebugInfo
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 public final class DreaminaQueueInfoSupport {

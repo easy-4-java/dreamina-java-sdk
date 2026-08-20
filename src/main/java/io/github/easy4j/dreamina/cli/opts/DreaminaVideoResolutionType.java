@@ -16,6 +16,7 @@ import lombok.Getter;
  *   <li>v1.4.3（2026-05-07）：{@link #RESOLUTION_1080P} 仅 {@code seedance2.0_vip} 可用</li>
  *   <li>v1.4.10（2026-06-26）：{@link #RESOLUTION_4K} 仅 {@code seedance2.0_vip} + VIP 账户可用</li>
  *   <li>v1.4.15（2026-08-01）：{@link #RESOLUTION_480P} 仅 Seedance 2.5（{@code seedance2.5}）可用</li>
+ *   <li>v1.4.17（2026-08-18）：Seedance 2.5 新增 {@link #RESOLUTION_1080P} 支持</li>
  * </ul>
  * </p>
  * <p>
@@ -23,7 +24,7 @@ import lombok.Getter;
  * 预校验（{@link DreaminaVideoModelVersion#SEEDANCE_2_0_VIP} / {@link DreaminaVideoModelVersion#SEEDANCE_2_5}）。
  * </p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

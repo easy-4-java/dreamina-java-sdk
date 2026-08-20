@@ -11,7 +11,7 @@ import lombok.Singular;
  *
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2video(String, String, java.util.List)
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

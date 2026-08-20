@@ -11,7 +11,7 @@ import lombok.Singular;
  *
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#imageUpscale()
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter
@@ -33,7 +33,8 @@ public class DreaminaImageUpscaleRequest implements DreaminaCliArgumentProvider 
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(
             args, "--image", DreaminaCliRequestSupport.requireReadableFile(imagePath, "imagePath"));
-        if (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K) {
+        if (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K
+            || resolutionType == DreaminaImageResolutionType.RESOLUTION_1_5K) {
             throw new IllegalArgumentException("image_upscale only supports 2k, 4k or 8k resolution");
         }
         DreaminaCliRequestSupport.addFlag(

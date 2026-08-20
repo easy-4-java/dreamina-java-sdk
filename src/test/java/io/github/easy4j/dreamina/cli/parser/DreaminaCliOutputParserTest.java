@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * {@link DreaminaCliOutputParser} 单元测试：覆盖真实 CLI（如 user_credit）常见 JSON 与文本降级格式。
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 class DreaminaCliOutputParserTest {

@@ -21,10 +21,11 @@ import lombok.Singular;
  *   <li>v1.4.12（2026-07-15）起支持 {@code Seedream 5.0 Pro}（最强旗舰）</li>
  *   <li>v1.4.10（2026-06-26）起支持 {@code --generate_num} 批量出图（1-10 张）→ {@link #generateNum}</li>
  *   <li>v1.4.14（2026-07-21）起分辨率必须显式提供，并支持互斥于 ratio 的自定义宽高</li>
+ *   <li>v1.4.16（2026-08-14）Seedream 5.0 Pro 支持 1.5K/2K/4K，并移除旧 1K</li>
  * </ul>
  * </p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter
