@@ -18,7 +18,9 @@ public enum DreaminaImageResolutionType {
     RESOLUTION_2K("2k"),
     RESOLUTION_4K("4k"),
     /** 仅 {@code image_upscale} 支持；4k/8k 需 VIP。 */
-    RESOLUTION_8K("8k");
+    RESOLUTION_8K("8k"),
+    /** CLI v1.4.16（2026-08-14）新增，仅 Seedream 5.0 Pro 支持。 */
+    RESOLUTION_1_5K("1.5k");
 
     private final String cliValue;
 

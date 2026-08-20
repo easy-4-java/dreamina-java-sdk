@@ -879,8 +879,8 @@ public class DreaminaCliExecutor {
 
     /**
      * Same as above, with extra raw parameter fragments (each passed as a single argv, no shell splitting).
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina text2image -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina text2image -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult text2Image(String prompt, List<String> additionalRawArgs) {
@@ -908,8 +908,8 @@ public class DreaminaCliExecutor {
 
     /**
      * Invokes {@code dreamina image2image}: image-to-image, requires a reference image list and edit prompt.
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image2image -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina image2image -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult image2Image(String imagesCsv, String prompt, List<String> additionalRawArgs) {
@@ -942,8 +942,10 @@ public class DreaminaCliExecutor {
 
     /**
      * Invokes {@code dreamina image_upscale}; required parameters are provided by the caller in {@code additionalRawArgs}.
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image_upscale -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * Raw arguments are intentionally passed through without model/resolution validation; use
+     * {@link #imageUpscale(DreaminaImageUpscaleRequest)} when deprecated values must be rejected locally.
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina image_upscale -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult imageUpscale(List<String> additionalRawArgs) {
@@ -978,8 +980,8 @@ public class DreaminaCliExecutor {
 
     /**
      * Text-to-video with extra raw parameters (e.g., {@code --duration=}, {@code --model_version=}, {@code --poll=}).
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina text2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina text2video -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult text2video(String prompt, List<String> additionalRawArgs) {
@@ -1014,8 +1016,8 @@ public class DreaminaCliExecutor {
 
     /**
      * Invokes {@code dreamina image2video}: single reference image drives video generation.
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina image2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina image2video -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult image2video(String imagePath, String prompt, List<String> additionalRawArgs) {
@@ -1052,8 +1054,8 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina frames2video}: first-last-frame transition; required parameters go in {@code additionalRawArgs} (e.g., {@code --first=} / {@code --last=}).
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina frames2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina frames2video -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult frames2video(List<String> additionalRawArgs) {
@@ -1082,8 +1084,8 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina multiframe2video}: multi-storyboard narrative; required parameters go in {@code additionalRawArgs}.
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina multiframe2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina multiframe2video -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult multiframe2video(List<String> additionalRawArgs) {
@@ -1112,8 +1114,8 @@ public class DreaminaCliExecutor {
 
     /**
      * {@code dreamina multimodal2video}: multimodal synthesis; required parameters go in {@code additionalRawArgs}.
-     * <p>CLI v1.4.14/v1.4.15 的完整参数契约由 {@code dreamina multimodal2video -h} 与
-     * {@code dreamina-v1.4.14-help.snapshot.tsv} / {@code dreamina-v1.4.15-help.snapshot.tsv}
+     * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina multimodal2video -h} 与
+     * 对应版本的 {@code dreamina-v*-help.snapshot.tsv}
      * 双向契约测试共同维护，避免在执行器 JavaDoc 中复制易漂移的第二份帮助文本。</p>
      */
     public DreaminaCliResult multimodal2video(List<String> additionalRawArgs) {

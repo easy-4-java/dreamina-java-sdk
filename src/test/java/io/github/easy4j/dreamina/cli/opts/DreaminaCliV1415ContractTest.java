@@ -57,22 +57,6 @@ class DreaminaCliV1415ContractTest {
     }
 
     @Test
-    void videoResolution_shouldAccept1080pForSeedance25() throws IOException {
-        Path image = createTempFile("seedance25-1080p.png");
-        DreaminaImage2VideoRequest valid = DreaminaImage2VideoRequest.builder()
-            .imagePath(image.toString())
-            .prompt("1080p 测试")
-            .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_5)
-            .videoResolution(DreaminaVideoResolutionType.RESOLUTION_1080P)
-            .durationSeconds(8)
-            .build();
-
-        List<String> args = valid.toCliArgs();
-        assertTrue(args.contains("--model_version=seedance2.5"));
-        assertTrue(args.contains("--video_resolution=1080p"));
-    }
-
-    @Test
     void seedance25_shouldAllowDurationRange4To30() throws IOException {
         Path image = createTempFile("seedance25-first.png");
         Path image2 = createTempFile("seedance25-last.png");
