@@ -1,21 +1,23 @@
 package io.github.easy4j.dreamina.cli.opts;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 文生视频Text-to-video request object.
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2video(String)
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2video(String)
  * @since 3.0.0
+ * @deprecated 旧 model_version/video_resolution/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaText2VideoRequest implements DreaminaCliArgumentProvider {
 
     /**

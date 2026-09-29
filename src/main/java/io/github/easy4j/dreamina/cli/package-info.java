@@ -1,14 +1,6 @@
-/**
- * Dreamina CLI Java SDK 入口包。
- * <p>
- * 对外稳定 API：{@link io.github.easy4j.dreamina.cli.DreaminaCliExecutor}、
- * {@link io.github.easy4j.dreamina.cli.DreaminaCliResult}、
- * {@link io.github.easy4j.dreamina.cli.DreaminaCliResponse}、
- * {@link io.github.easy4j.dreamina.cli.DreaminaCliSubcommands}。
- * </p>
- * <p>
- * 结构化解析体见 {@code cli.model.*}；请求参数见 {@code cli.opts.*}；
- * 映射见 {@code cli.parser.*}。
- * </p>
- */
-package io.github.easy4j.dreamina.cli;
+/**
+ * 即梦 CLI 入口。新集成使用 {@link io.github.easy4j.dreamina.cli.DreaminaCanvasCliExecutor}。
+ * 请求位于 opts，模型位于 model，解析位于 parser，执行工具位于 support，异常位于原 exception 包。
+ * 旧协议专属类型按逐对象审计标记废弃；通用配置、结果、请求接口与异常继续复用。
+ */
+package io.github.easy4j.dreamina.cli;

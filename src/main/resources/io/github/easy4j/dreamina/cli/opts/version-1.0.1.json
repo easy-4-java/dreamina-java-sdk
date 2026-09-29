@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1",
+  "ok": true,
+  "data": {
+    "version": "1.0.1",
+    "commit": "09307bb",
+    "buildTime": "2026-09-16T08:11:25Z",
+    "edition": "public",
+    "distribution": "cn",
+    "releaseDate": "2026-09-11",
+    "releaseNotes": "优化安装、认证与本地存储错误提示，改进已受理生成任务的恢复指引，并在授权链接已包含授权码时省略重复输码提示。"
+  }
+}
