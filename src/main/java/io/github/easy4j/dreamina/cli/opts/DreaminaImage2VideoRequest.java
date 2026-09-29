@@ -1,21 +1,23 @@
 package io.github.easy4j.dreamina.cli.opts;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 单图生视频Single-image-to-video request object.
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2video(String, String, java.util.List)
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2video(String, String, java.util.List)
  * @since 3.0.0
+ * @deprecated 旧本地 image 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
 
     /**
@@ -69,9 +71,9 @@ public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
         DreaminaCliContractValidator.validateVideoModelResolution(modelVersion, videoResolution);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(
-            args, "--image", DreaminaCliRequestSupport.requireReadableFile(imagePath, "imagePath"));
+                args, "--image", DreaminaCliRequestSupport.requireReadableFile(imagePath, "imagePath"));
         DreaminaCliRequestSupport.addFlag(
-            args, "--prompt", DreaminaCliRequestSupport.requireNonBlank(prompt, "prompt"));
+                args, "--prompt", DreaminaCliRequestSupport.requireNonBlank(prompt, "prompt"));
         DreaminaCliRequestSupport.requireVideoDuration(durationSeconds, modelVersion, "durationSeconds");
         DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);
         DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion == null ? null : modelVersion.getCliValue());

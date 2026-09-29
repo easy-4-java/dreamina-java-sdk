@@ -6,11 +6,12 @@ import io.github.easy4j.dreamina.util.DreaminaStrings;
 /**
  * Post-mapping support for {@link DreaminaQueryQueueInfo} (parses the embedded {@code debug_info}).
  *
- * @see DreaminaQueryQueueInfo#parsedDebugInfo
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaQueryQueueInfo#parsedDebugInfo
  * @since 3.0.0
+ * @deprecated 仅解析旧 queue_info.debug_info；替代：Canvas operation/meta 结构，无需沿用旧嵌套字符串解析。
  */
+@Deprecated
 public final class DreaminaQueueInfoSupport {
 
     private DreaminaQueueInfoSupport() {
@@ -28,7 +29,7 @@ public final class DreaminaQueueInfoSupport {
         }
         try {
             DreaminaQueryQueueDebugInfo parsed =
-                objectMapper.readValue(queueInfo.getDebugInfo().trim(), DreaminaQueryQueueDebugInfo.class);
+                    objectMapper.readValue(queueInfo.getDebugInfo().trim(), DreaminaQueryQueueDebugInfo.class);
             queueInfo.setParsedDebugInfo(parsed);
         } catch (Exception ignored) {
             // 保留原始 debug_info 字符串，不阻断主流程

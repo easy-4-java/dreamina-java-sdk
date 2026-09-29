@@ -35,4 +35,8 @@ public class DreaminaLoginAccount {
      * Remaining credits.
      */
     private Long totalCredit;
+    /**
+     * Canvas 账号会员标识，不根据等级猜测。
+     */
+    private Boolean isVip;
 }

@@ -1,10 +1,11 @@
 package io.github.easy4j.dreamina.cli.opts;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 图生图Image-to-image request object.
@@ -12,6 +13,7 @@ import lombok.Singular;
  * Requires 1-10 local reference images and model version 4.0+; Seedream 5.0 Pro additionally supports 1.5k.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2Image(String, String, java.util.List)
  * <p>
  * 必须提供 1-10 张本地图片，且模型版本需为 4.0+；Seedream 5.0 Pro 额外支持 1.5k。
@@ -24,12 +26,12 @@ import lombok.Singular;
  *   <li>v1.4.16 起 5.0 Pro 支持 1.5K/2K/4K，并移除旧 1K</li>
  * </ul>
  * </p>
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 本地图片路径及旧 model_version/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
 
     /**
@@ -60,10 +62,14 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
     @Builder.Default
     private final DreaminaImageResolutionType resolutionType = DreaminaImageResolutionType.RESOLUTION_2K;
 
-    /** 自定义宽度，必须与 height 成对提供，并与 ratio 互斥。 */
+    /**
+     * 自定义宽度，必须与 height 成对提供，并与 ratio 互斥。
+     */
     private final Integer width;
 
-    /** 自定义高度，必须与 width 成对提供，并与 ratio 互斥。 */
+    /**
+     * 自定义高度，必须与 width 成对提供，并与 ratio 互斥。
+     */
     private final Integer height;
 
     /**
@@ -93,7 +99,7 @@ public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
         DreaminaCliContractValidator.validateCustomImageSize(width, height, ratio);
         DreaminaCliContractValidator.validateImageModelResolution(modelVersion, resolutionType);
         DreaminaCliContractValidator.validateCustomImageBounds(
-            width, height, modelVersion, resolutionType);
+                width, height, modelVersion, resolutionType);
         if (modelVersion == null || !modelVersion.supportsImageToImage()) {
             throw new IllegalArgumentException("image2image requires modelVersion 4.0+");
         }

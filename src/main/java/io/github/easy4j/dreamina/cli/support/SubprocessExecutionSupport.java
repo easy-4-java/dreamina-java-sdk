@@ -1,11 +1,7 @@
 package io.github.easy4j.dreamina.cli.support;
 
 import lombok.Getter;
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecuteResultHandler;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.ExecuteWatchdog;
-import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.exec.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,14 +20,17 @@ import java.util.concurrent.atomic.AtomicReference;
  * by zombie subprocesses under high concurrency.
  * </p>
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
  * @since 3.0.0
+ * @deprecated 全局信号量、无界输出与仅进程超时无法满足 Canvas 实例隔离及总预算；替代：DreaminaCanvasProcessRunner，保留旧调用行为。
  */
+@Deprecated
 public final class SubprocessExecutionSupport {
 
-    /** Maximum wait time (milliseconds) for handler cleanup after Watchdog triggers. */
+    /**
+     * Maximum wait time (milliseconds) for handler cleanup after Watchdog triggers.
+     */
     public static final long WAIT_GRACE_MILLIS = 5_000L;
 
     private static final int DEFAULT_MAX_CONCURRENT = Math.max(2, Runtime.getRuntime().availableProcessors());

@@ -7,7 +7,7 @@
     <artifactId>dreamina-java-sdk</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <url>https://github.com/easy-4-java/${project.artifactId}</url>
-    <version>3.0.x.20260630-SNAPSHOT</version>
+    <version>3.0.x.20260830-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>Dreamina (即梦) official CLI integration SDK for Java — JDK 21 line</description>
     <!-- 开源协议采用 Apache 2.0 协议 -->
@@ -46,6 +46,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Dependency versions -->
         <commons-exec.version>1.4.0</commons-exec.version>
+        <commons-lang3.version>3.20.0</commons-lang3.version>
+        <canvas-jackson.version>2.18.9</canvas-jackson.version>
         <jackson-bom.version>3.2.1</jackson-bom.version>
         <jackson.version>3.2.1</jackson.version>
         <junit-jupiter.version>6.1.0</junit-jupiter.version>
@@ -116,10 +118,20 @@
     </dependencyManagement>
     <!-- 项目依赖（dependencies） -->
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
         <!-- For Jackson -->
         <dependency>
             <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${canvas-jackson.version}</version>
         </dependency>
         <!-- For Commons Exec -->
         <dependency>
@@ -379,6 +391,14 @@
                     <includes>
                         <include>io.github.easy4j.dreamina.cli.DreaminaCliExecutor</include>
                         <include>io/github/easy4j/dreamina/cli/DreaminaCliExecutor*</include>
+                        <include>io/github/easy4j/dreamina/cli/DreaminaCanvasCliExecutor*</include>
+                        <include>io/github/easy4j/dreamina/cli/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/opts/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/model/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/parser/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/support/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/exception/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/DreaminaCanvasCliProperties*</include>
                     </includes>
                 </configuration>
                 <executions>
@@ -419,6 +439,34 @@
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
                                             <minimum>0.99</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <includes>
+                                        <include>io.github.easy4j.dreamina.cli.opts</include>
+                                        <include>io.github.easy4j.dreamina.cli.parser</include>
+                                        <include>io.github.easy4j.dreamina.cli.support</include>
+                                    </includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.85</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                                <rule>
+                                    <element>CLASS</element>
+                                    <includes>
+                                        <include>io.github.easy4j.dreamina.cli.DreaminaCanvasCliExecutor</include>
+                                    </includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.85</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

@@ -1,0 +1,172 @@
+[
+  {
+    "command": "auth status",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "version",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "schema",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth account",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929141415A9A8CDAB24C001DDE31F",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291414157D167BE1620C1354C181",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092914141532339668FF3C1ADE7BC8",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291414166585D74E5B768D32AB7E",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model find",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929141416C4A762BECF548328B4F7",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929141416202BF179F13A23743600",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "voice list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092914141789CB5DB9D18C20E261DB",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "canvas ls",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291414175CBC25DF1BB6A42BF4FD",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "completion bash",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "completion zsh",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "completion fish",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "completion powershell",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "help",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "node show",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291414171EA26F03427A692C47B7",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth status",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "canvas ls",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291414184DD77A7D65EED29567A9",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  }
+]

@@ -2,22 +2,24 @@ package io.github.easy4j.dreamina.cli.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import lombok.Data;
 
 /**
  * Parsed body for {@code dreamina query_result} (one-to-one mapping with the CLI JSON).
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#queryResult(String)
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#queryResult(String)
  * @since 3.0.0
+ * @deprecated 旧 query_result 的 gen_status/result_json 与 Canvas operation/resource 分离协议不同；替代：OPERATION_STATUS 与 RESOURCE_GET。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class DreaminaQueryResult {
 
     @JsonProperty("submit_id")
@@ -102,10 +104,10 @@ public class DreaminaQueryResult {
      */
     public String firstImageUrl() {
         return images().stream()
-            .map(DreaminaQueryImage::getImageUrl)
-            .filter(Objects::nonNull)
-            .findFirst()
-            .orElse(null);
+                .map(DreaminaQueryImage::getImageUrl)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -113,10 +115,10 @@ public class DreaminaQueryResult {
      */
     public String firstVideoUrl() {
         return videos().stream()
-            .map(DreaminaQueryVideo::getVideoUrl)
-            .filter(Objects::nonNull)
-            .findFirst()
-            .orElse(null);
+                .map(DreaminaQueryVideo::getVideoUrl)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
