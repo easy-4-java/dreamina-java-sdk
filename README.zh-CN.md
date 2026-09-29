@@ -152,14 +152,14 @@ SDK 跟踪上游 CLI 契约；CLI 是真相来源（以本机 `dreamina help` �
 <dependency>
     <groupId>io.github.easy4j</groupId>
     <artifactId>dreamina-java-sdk</artifactId>
-    <version>1.0.x.20260630-SNAPSHOT</version>
+    <version>1.0.x.20260830-SNAPSHOT</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'io.github.easy4j:dreamina-java-sdk:1.0.x.20260630-SNAPSHOT'
+implementation 'io.github.easy4j:dreamina-java-sdk:1.0.x.20260830-SNAPSHOT'
 ```
 
 **可用性：** 构件发布至阿里云私有 Maven 仓库，并通过 GitHub Releases 分发；尚未发布到 Maven Central。

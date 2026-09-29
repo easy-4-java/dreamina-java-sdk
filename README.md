@@ -151,14 +151,14 @@ Single module, jar packaging:
 <dependency>
     <groupId>io.github.easy4j</groupId>
     <artifactId>dreamina-java-sdk</artifactId>
-    <version>1.0.x.20260630-SNAPSHOT</version>
+    <version>1.0.x.20260830-SNAPSHOT</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'io.github.easy4j:dreamina-java-sdk:1.0.x.20260630-SNAPSHOT'
+implementation 'io.github.easy4j:dreamina-java-sdk:1.0.x.20260830-SNAPSHOT'
 ```
 
 **Availability:** the artifact is published to the Aliyun private Maven repository and distributed through GitHub
