@@ -1,0 +1,31 @@
+{
+  "cliVersion": "1.0.1",
+  "javaVersion": "8",
+  "businessCommands": 37,
+  "auxiliaryCommands": 5,
+  "flags": 259,
+  "positionals": 7,
+  "responseFieldPaths": 3781,
+  "tests": 573,
+  "passed": 561,
+  "skipped": 12,
+  "failures": 0,
+  "errors": 0,
+  "canvasTests": 188,
+  "canvasSkipped": 0,
+  "build": "SUCCESS",
+  "realTypedVerification": [
+    "operation status",
+    "operation wait",
+    "node show",
+    "resource get",
+    "resource download"
+  ],
+  "realImage": {
+    "width": 1024,
+    "height": 1024,
+    "bytes": 987513,
+    "sha256": "bad93aebd8c4bee4561bda4798caa5821305b0ca36a7c22aa3c35e462b4ef4bf"
+  },
+  "historicalRealCoverage": "37 business + help + 4 completions; see existing command-coverage report, not all reexecuted in this typed revision"
+}

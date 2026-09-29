@@ -1,0 +1,1388 @@
+[
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/DreaminaCanvasCliProperties.java",
+    "type": "DreaminaCanvasCliProperties",
+    "status": "new-adapter",
+    "reason": "仅新增 profile/region/maxOutputBytes，继承通用配置。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/DreaminaCliProperties.java",
+    "type": "DreaminaCliProperties",
+    "status": "shared",
+    "reason": "新配置继承原 executable/workDir/timeout/concurrency 字段，未复制定义。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCanvasCliExecutor.java",
+    "type": "DreaminaCanvasCliExecutor",
+    "status": "new-adapter",
+    "reason": "Canvas 路由入口；旧入口的业务方法/默认值不可改写。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCanvasCommand.java",
+    "type": "DreaminaCanvasCommand",
+    "status": "new-adapter",
+    "reason": "37 条 Canvas 命令身份，旧下划线路由不能复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCanvasResponse.java",
+    "type": "DreaminaCanvasResponse",
+    "status": "new-adapter",
+    "reason": "独立的强类型 envelope，底层复用 DreaminaCliResult；旧 DreaminaCliResponse 含历史 JSON 树，故不暴露给 Canvas API。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCliExecutor.java",
+    "type": "DreaminaCliExecutor",
+    "status": "legacy-only",
+    "reason": "旧 dreamina 命令执行入口；替代：DreaminaCanvasCliExecutor。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCliResponse.java",
+    "type": "DreaminaCliResponse",
+    "status": "shared",
+    "reason": "保留旧协议兼容响应；Canvas 使用新强类型 envelope，底层继续共享 DreaminaCliResult。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCliResult.java",
+    "type": "DreaminaCliResult",
+    "status": "shared",
+    "reason": "新进程执行、帮助/补全、异常诊断均直接使用原结果类型。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCliSubcommands.java",
+    "type": "DreaminaCliSubcommands",
+    "status": "legacy-only",
+    "reason": "旧 login/session/text2image/query_result 路由常量与 Canvas 路由不兼容；替代：DreaminaCanvasCommand。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/availability/DreaminaCliAvailabilityChecker.java",
+    "type": "DreaminaCliAvailabilityChecker",
+    "status": "shared",
+    "reason": "增加 checkCanvas 复用路径解析、报告和状态；旧 check 重载方法单独废弃。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/availability/DreaminaCliAvailabilityReport.java",
+    "type": "DreaminaCliAvailabilityReport",
+    "status": "shared",
+    "reason": "checkCanvas 直接返回原报告。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/availability/DreaminaCliAvailabilityStatus.java",
+    "type": "DreaminaCliAvailabilityStatus",
+    "status": "shared",
+    "reason": "checkCanvas 直接使用原可用性分类。"
+  },
+  {
+    "name": "DreaminaCanvasApproval",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasApproval.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasArgument",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasArgument.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthLoginResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasAuthLoginResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthRefreshResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasAuthRefreshResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthStatusResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasAuthStatusResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthWaitResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasAuthWaitResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAwaitingConfirmation",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasAwaitingConfirmation.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasBinding",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasBinding.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasClip",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasClip.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasConstraint",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasConstraint.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasCreateResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasCreateResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasCreateResultProject",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasCreateResultProject.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasCreditConfirmation",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasCreditConfirmation.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasEffectiveGeneration",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasEffectiveGeneration.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasError.java",
+    "type": "DreaminaCanvasError",
+    "status": "new-adapter",
+    "reason": "CLI envelope 的 code/class/message/retryable/requiredAction/validation；不再使用 JSON 树。"
+  },
+  {
+    "name": "DreaminaCanvasErrorDetails",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasErrorDetails.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasField",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasField.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasFlag",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasFlag.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasGeneration",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasGeneration.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasGenerationDiff",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasGenerationDiff.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasGenerationParam",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasGenerationParam.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasInitialPosition",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasInitialPosition.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasItem",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasItem.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasLayout",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasLayout.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasLimit",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasLimit.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasLocalStorageWarning",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasLocalStorageWarning.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasLsResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasLsResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasMatche",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasMatche.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasMaterial",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasMaterial.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasMeta",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasMeta.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasMode",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasMode.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModeReference",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModeReference.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModeReferenceType",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModeReferenceType.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModel",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModel.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelFindResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModelFindResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelItem",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModelItem.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelListResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModelListResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelListResultItem",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModelListResultItem.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasModelResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasMutation",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasMutation.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNode",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNode.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeConfirmResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeConfirmResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateAudioResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeCreateAudioResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateElementResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeCreateElementResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateImageResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeCreateImageResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateTextResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeCreateTextResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateTimelineResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeCreateTimelineResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateVideoResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeCreateVideoResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditAudioResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeEditAudioResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditElementResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeEditElementResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditImageResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeEditImageResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditTextResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeEditTextResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditTimelineResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeEditTimelineResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditVideoResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeEditVideoResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeFindResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeFindResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeFindResultItem",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeFindResultItem.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeGeneration",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeGeneration.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeGenerationReference",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeGenerationReference.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeQuoteResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeQuoteResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeQuoteResultItem",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeQuoteResultItem.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeResource",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeResource.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeRunResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeRunResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeRunResultItem",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeRunResultItem.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeShowResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeShowResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeShowResultNode",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeShowResultNode.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeUpscaleImageResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeUpscaleImageResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeUpscaleImageResultItem",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeUpscaleImageResultItem.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeUpscaleImageResultItemError",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeUpscaleImageResultItemError.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasOperationStatusResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasOperationStatusResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasOperationStatusResultSubmission",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasOperationStatusResultSubmission.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasOperationWaitResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasOperationWaitResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasParam",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasParam.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasParameterRule",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasParameterRule.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPartialData",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPartialData.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPlan",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPlan.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPlanGeneration",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPlanGeneration.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPlanSubmission",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPlanSubmission.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPostEdit",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPostEdit.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasProject",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasProject.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPromptPart",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPromptPart.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPropertie",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPropertie.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasQuote",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasQuote.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasReference",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasReference.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasReferenceRule",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasReferenceRule.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasResource",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasResource.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasResourceDownloadResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasResourceDownloadResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasResourceGetResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasResourceGetResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasResourceUploadResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasResourceUploadResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSchema",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSchema.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSchemaCommand",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSchemaCommand.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSchemaField",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSchemaField.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSchemaFlag",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSchemaFlag.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasServiceError",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasServiceError.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSourceRange",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSourceRange.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasState",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasState.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSubjectBinding",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSubjectBinding.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSubmission",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSubmission.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSubmissionError",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSubmissionError.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSubmissionResource",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSubmissionResource.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSuccessData",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSuccessData.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasTimeline",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTimeline.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasTimelineTrack",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTimelineTrack.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasTimelineTrackValue",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTimelineTrackValue.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasTimelineTrackValueClip",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTimelineTrackValueClip.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasTotalCount",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTotalCount.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasTrack",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTrack.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasType",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasType.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasValidation",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasValidation.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasVipConfig",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasVipConfig.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasVoiceListResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasVoiceListResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasWritebackBlocker",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasWritebackBlocker.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCheckLogin.java",
+    "type": "DreaminaCheckLogin",
+    "status": "legacy-only",
+    "reason": "旧 gen_status/message 登录轮询体不同于 auth wait envelope；替代：AUTH_WAIT 的 data/error。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCommerceInfo.java",
+    "type": "DreaminaCommerceInfo",
+    "status": "legacy-only",
+    "reason": "旧 list_task commerce_info，不等同 Canvas node quote 报价；替代：NODE_QUOTE data。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCommerceTriplet.java",
+    "type": "DreaminaCommerceTriplet",
+    "status": "legacy-only",
+    "reason": "旧计费 triplet 结构，Canvas quote 不返回该协议；替代：NODE_QUOTE data。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaDeviceLogin.java",
+    "type": "DreaminaDeviceLogin",
+    "status": "shared",
+    "reason": "复用原设备授权对象，补齐 verificationUriComplete/pollSeconds，保留旧字段别名。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaGenerateSubmit.java",
+    "type": "DreaminaGenerateSubmit",
+    "status": "legacy-only",
+    "reason": "旧 gen_status/queue_info 提交体与 Canvas operations/partialData 不同；替代：NODE_RUN 响应。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaGenerationStatus.java",
+    "type": "DreaminaGenerationStatus",
+    "status": "legacy-only",
+    "reason": "旧 querying/success/fail 状态集合不能无损表示 Canvas operation 状态；替代：OPERATION_STATUS data.state。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaHelp.java",
+    "type": "DreaminaHelp",
+    "status": "shared",
+    "reason": "helpDetails 复用原帮助主题对象与 mapHelp。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaLogin.java",
+    "type": "DreaminaLogin",
+    "status": "legacy-only",
+    "reason": "旧文本解析 oauthSessionReused/account/device 聚合；替代：AUTH_LOGIN envelope，challenge 可复用 DreaminaDeviceLogin。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaLoginAccount.java",
+    "type": "DreaminaLoginAccount",
+    "status": "shared",
+    "reason": "复用账号 userId/vipLevel 并新增 isVip；不臆造未返回的积分。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaLogout.java",
+    "type": "DreaminaLogout",
+    "status": "shared",
+    "reason": "复用凭据清除语义；增加 loggedOut 映射，保留 localSessionCleared getter 和 builder。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryImage.java",
+    "type": "DreaminaQueryImage",
+    "status": "legacy-only",
+    "reason": "旧 result_json.images[].image_url 结构；Canvas 用 resourceId 与资源查询，不能靠字段映射自动完成下载；替代：RESOURCE_GET/DOWNLOAD。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryQueueDebugInfo.java",
+    "type": "DreaminaQueryQueueDebugInfo",
+    "status": "legacy-only",
+    "reason": "旧 queue_info.debug_info 内嵌结构；Canvas 无该协议，使用 operation/meta 原始数据。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryQueueInfo.java",
+    "type": "DreaminaQueryQueueInfo",
+    "status": "legacy-only",
+    "reason": "旧 queue_info 排队字段与 Canvas operation 结构不同；替代：OPERATION_STATUS data。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryResult.java",
+    "type": "DreaminaQueryResult",
+    "status": "legacy-only",
+    "reason": "旧 query_result 的 gen_status/result_json 与 Canvas operation/resource 分离协议不同；替代：OPERATION_STATUS 与 RESOURCE_GET。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryVideo.java",
+    "type": "DreaminaQueryVideo",
+    "status": "legacy-only",
+    "reason": "旧 result_json.videos[].video_url/cover_url 结构与 Canvas 资源协议不同；替代：RESOURCE_GET/DOWNLOAD。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueueInfoSupport.java",
+    "type": "DreaminaQueueInfoSupport",
+    "status": "legacy-only",
+    "reason": "仅解析旧 queue_info.debug_info；替代：Canvas operation/meta 结构，无需沿用旧嵌套字符串解析。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaRelogin.java",
+    "type": "DreaminaRelogin",
+    "status": "legacy-only",
+    "reason": "旧 relogin 文本 requiresBrowserOAuth/device 聚合；替代：AUTH_LOGIN/AUTH_REFRESH。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaResultJson.java",
+    "type": "DreaminaResultJson",
+    "status": "legacy-only",
+    "reason": "旧 images/videos 输出集合，Canvas 返回资源身份和独立查询；替代：operation resources 与 RESOURCE_GET。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionDelete.java",
+    "type": "DreaminaSessionDelete",
+    "status": "legacy-only",
+    "reason": "旧 session delete，Canvas 1.0.1 未提供画布删除；无等价命令，不伪造替代。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionList.java",
+    "type": "DreaminaSessionList",
+    "status": "legacy-only",
+    "reason": "旧数字 session 表格，不是 Canvas UUID 画布列表；替代：CANVAS_LS data.items。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionMutation.java",
+    "type": "DreaminaSessionMutation",
+    "status": "legacy-only",
+    "reason": "旧 session create/rename；创建改用 CANVAS_CREATE，当前无画布重命名命令。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionRow.java",
+    "type": "DreaminaSessionRow",
+    "status": "legacy-only",
+    "reason": "旧 session id/pinned/updated 表格行与 Canvas projectId 结构不同；替代：CANVAS_LS data.items。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionSearch.java",
+    "type": "DreaminaSessionSearch",
+    "status": "legacy-only",
+    "reason": "旧 session search，当前无等价远端画布搜索；可在 CANVAS_LS 结果中由调用者筛选。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaTaskItem.java",
+    "type": "DreaminaTaskItem",
+    "status": "legacy-only",
+    "reason": "旧 list_task 任务/计费汇总，Canvas 无同形列表；替代：已知 submitId 的 OPERATION_STATUS。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaUserCredit.java",
+    "type": "DreaminaUserCredit",
+    "status": "legacy-only",
+    "reason": "旧 user_credit 余额字段，Canvas auth account 不返回积分余额；报价使用 NODE_QUOTE，不能拿会员状态充当余额。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaVersion.java",
+    "type": "DreaminaVersion",
+    "status": "shared",
+    "reason": "复用原对象，补齐 edition/distribution/releaseDate/releaseNotes，兼容 build_time/buildTime。"
+  },
+  {
+    "name": "DreaminaCanvasArguments",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasArguments.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthAccountRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasAuthAccountRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthLoginRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasAuthLoginRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthLogoutRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasAuthLogoutRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthRefreshRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasAuthRefreshRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthStatusRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasAuthStatusRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasAuthWaitRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasAuthWaitRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasCompletionBashRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasCompletionBashRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasCompletionFishRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasCompletionFishRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasCompletionPowershellRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasCompletionPowershellRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasCompletionZshRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasCompletionZshRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasContract.java",
+    "type": "DreaminaCanvasContract",
+    "status": "new-adapter",
+    "reason": "读取递归 Java schema 对象，复用旧范围校验，校验具体请求的参数。"
+  },
+  {
+    "name": "DreaminaCanvasCreateRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasCreateRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasHelpRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasHelpRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasLsRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasLsRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelFindRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasModelFindRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelListRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasModelListRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasModelRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasModelRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeConfirmRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeConfirmRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateAudioRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeCreateAudioRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateElementRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeCreateElementRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateImageRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeCreateImageRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateTextRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeCreateTextRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateTimelineRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeCreateTimelineRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeCreateVideoRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeCreateVideoRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditAudioRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeEditAudioRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditElementRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeEditElementRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditImageRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeEditImageRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditTextRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeEditTextRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditTimelineRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeEditTimelineRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeEditVideoRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeEditVideoRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeFindRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeFindRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeQuoteRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeQuoteRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeRunRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeRunRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeShowRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeShowRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeUpscaleImageRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeUpscaleImageRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasOperationStatusRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasOperationStatusRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasOperationWaitRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasOperationWaitRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasParameter",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasParameter.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasRequest.java",
+    "type": "DreaminaCanvasRequest",
+    "status": "new-adapter",
+    "reason": "绑定具体响应类型的请求基类；复用 DreaminaCliArgumentProvider，不提供字符串键参数 builder。"
+  },
+  {
+    "name": "DreaminaCanvasResourceDownloadRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasResourceDownloadRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasResourceGetRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasResourceGetRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasResourceUploadRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasResourceUploadRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasSchemaRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasSchemaRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasVersionRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasVersionRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasVoiceListRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasVoiceListRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.1 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCliArgumentProvider.java",
+    "type": "DreaminaCliArgumentProvider",
+    "status": "shared",
+    "reason": "新请求实现原接口，toCliArgs 不含完整命令路径。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCliContractValidator.java",
+    "type": "DreaminaCliContractValidator",
+    "status": "legacy-only",
+    "reason": "校验旧 v1.4 模型/请求约束；替代：DreaminaCanvasContract 与实时 model list/find。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCliRequestSupport.java",
+    "type": "DreaminaCliRequestSupport",
+    "status": "shared",
+    "reason": "新契约直接复用 requireRange；会 trim 文本的 addFlag 不用于原样 prompt。旧视频约束方法单独废弃。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaFrames2VideoRequest.java",
+    "type": "DreaminaFrames2VideoRequest",
+    "status": "legacy-only",
+    "reason": "旧 first/last frame 本地路径 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImage2ImageRequest.java",
+    "type": "DreaminaImage2ImageRequest",
+    "status": "legacy-only",
+    "reason": "本地图片路径及旧 model_version/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImage2VideoRequest.java",
+    "type": "DreaminaImage2VideoRequest",
+    "status": "legacy-only",
+    "reason": "旧本地 image 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImageModelVersion.java",
+    "type": "DreaminaImageModelVersion",
+    "status": "legacy-only",
+    "reason": "旧值 4.7/5.0Pro 不是 Canvas canonical 模型 ID；替代：实时 model list/find 返回值。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImageResolutionType.java",
+    "type": "DreaminaImageResolutionType",
+    "status": "shared",
+    "reason": "新 request.option 直接接受原枚举，适配 Canvas 的 K 大小写；可用档位仍由实时模型决定。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImageUpscaleRequest.java",
+    "type": "DreaminaImageUpscaleRequest",
+    "status": "legacy-only",
+    "reason": "旧 image 路径/resolution 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_UPSCALE_IMAGE，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaListTaskRequest.java",
+    "type": "DreaminaListTaskRequest",
+    "status": "legacy-only",
+    "reason": "旧 list_task 的分页/任务状态；新 CLI 无同形任务列表 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + OPERATION_STATUS，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaMultiframe2VideoRequest.java",
+    "type": "DreaminaMultiframe2VideoRequest",
+    "status": "legacy-only",
+    "reason": "旧 transition 参数及本地路径 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaMultimodal2VideoRequest.java",
+    "type": "DreaminaMultimodal2VideoRequest",
+    "status": "legacy-only",
+    "reason": "旧 image/video/audio 路径和旧模型默认值 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaQueryResultRequest.java",
+    "type": "DreaminaQueryResultRequest",
+    "status": "legacy-only",
+    "reason": "旧 submit_id/download_dir 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + OPERATION_STATUS/RESOURCE_DOWNLOAD，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaRatio.java",
+    "type": "DreaminaRatio",
+    "status": "shared",
+    "reason": "新 request.option 直接接受原枚举并取原 cliValue；不另建比例枚举。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaText2ImageRequest.java",
+    "type": "DreaminaText2ImageRequest",
+    "status": "legacy-only",
+    "reason": "model_version/generate_num/session_id/poll 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaText2VideoRequest.java",
+    "type": "DreaminaText2VideoRequest",
+    "status": "legacy-only",
+    "reason": "旧 model_version/video_resolution/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaVideoModelVersion.java",
+    "type": "DreaminaVideoModelVersion",
+    "status": "legacy-only",
+    "reason": "硬编码旧模型路由及模态/时长能力，不能代表 Canvas 实时 generation spec；替代：model list/find。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaVideoResolutionType.java",
+    "type": "DreaminaVideoResolutionType",
+    "status": "shared",
+    "reason": "新 request.option 直接接受原枚举，保留 p 并适配 K；可用档位由实时模型决定。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaCanvasResponseParser.java",
+    "type": "DreaminaCanvasResponseParser",
+    "status": "new-adapter",
+    "reason": "严格 schemaVersion/ok JSON envelope 与旧宽松文本解析规则不兼容，复用 Jackson 工厂。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaCliJsonExtract.java",
+    "type": "DreaminaCliJsonExtract",
+    "status": "shared",
+    "reason": "通用混合文本 JSON 提取工具保留；Canvas 要求严格 envelope，不能用宽松提取掩盖畸形响应。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaCliOutputParser.java",
+    "type": "DreaminaCliOutputParser",
+    "status": "legacy-only",
+    "reason": "旧文本/正则提取 gen_status/submit_id，不支持 Canvas ok/partialData；替代：DreaminaCanvasResponseParser。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaCliStructuredPayloadMapper.java",
+    "type": "DreaminaCliStructuredPayloadMapper",
+    "status": "shared",
+    "reason": "新 parser/contract 复用 Jackson 工厂，新 helpDetails 复用 mapHelp；其余旧协议 map 方法单独废弃。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaLoginTextParser.java",
+    "type": "DreaminaLoginTextParser",
+    "status": "shared",
+    "reason": "DreaminaDeviceLogin 继续复用 hasDeviceFlowMaterial；旧文本检测/解析方法单独废弃。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaParsedFields.java",
+    "type": "DreaminaParsedFields",
+    "status": "shared",
+    "reason": "原始结果保留的通用可选诊断快照，旧消费者继续使用；Canvas 不填不可靠的正则推断。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/support/DreaminaCanvasProcessRunner.java",
+    "type": "DreaminaCanvasProcessRunner",
+    "status": "new-adapter",
+    "reason": "实例并发/总超时/有界输出无法直接使用旧全局限流工具，返回共享结果及通用异常。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/support/SubprocessExecutionSupport.java",
+    "type": "SubprocessExecutionSupport",
+    "status": "legacy-only",
+    "reason": "全局信号量、无界输出与仅进程超时无法满足 Canvas 实例隔离及总预算；替代：DreaminaCanvasProcessRunner，保留旧调用行为。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/exception/DreaminaCanvasCliException.java",
+    "type": "DreaminaCanvasCliException",
+    "status": "new-adapter",
+    "reason": "继承原异常，只补原层级未表达的协议/中断/输出限制故障。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/exception/DreaminaCliException.java",
+    "type": "DreaminaCliException",
+    "status": "shared",
+    "reason": "新协议异常继续继承此通用异常基类，诊断快照复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/exception/DreaminaCliExecutableFailureException.java",
+    "type": "DreaminaCliExecutableFailureException",
+    "status": "shared",
+    "reason": "Canvas 启动失败直接抛出原异常类型。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/exception/DreaminaCliNonZeroExitException.java",
+    "type": "DreaminaCliNonZeroExitException",
+    "status": "shared",
+    "reason": "保留通用非零退出异常供旧执行与严格调用方使用；Canvas 合法业务错误作为响应，不强行改为异常。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/exception/DreaminaCliStartupException.java",
+    "type": "DreaminaCliStartupException",
+    "status": "shared",
+    "reason": "可继续包装复用的 Canvas availabilityReport 供应用启动 fail-fast 使用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/exception/DreaminaCliTimeoutException.java",
+    "type": "DreaminaCliTimeoutException",
+    "status": "shared",
+    "reason": "Canvas 排队/执行/排空超时直接抛出原异常，保留 partialResult。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/image/DreaminaImageCompressOptions.java",
+    "type": "DreaminaImageCompressOptions",
+    "status": "shared",
+    "reason": "Canvas 下载图片可直接使用原压缩选项。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/image/DreaminaImageCompressResult.java",
+    "type": "DreaminaImageCompressResult",
+    "status": "shared",
+    "reason": "Canvas 下载图片可直接使用原压缩结果。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/image/DreaminaImageCompressSupport.java",
+    "type": "DreaminaImageCompressSupport",
+    "status": "shared",
+    "reason": "与 CLI 协议无关，继续直接处理 Canvas 下载文件，不新增压缩实现。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/util/DreaminaStrings.java",
+    "type": "DreaminaStrings",
+    "status": "shared",
+    "reason": "原共享工具仍被复用的请求/认证/可用性对象调用；新增 StringUtils 遵循项目规范，无需删除或废弃原工具。"
+  }
+]

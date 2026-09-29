@@ -2,19 +2,21 @@ package io.github.easy4j.dreamina.cli.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Objects;
 import lombok.Data;
+
+import java.util.Objects;
 
 /**
  * A single task record from the {@code dreamina list_task} array.
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#listTask()
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#listTask()
  * @since 3.0.0
+ * @deprecated 旧 list_task 任务/计费汇总，Canvas 无同形列表；替代：已知 submitId 的 OPERATION_STATUS。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class DreaminaTaskItem {
 
     @JsonProperty("submit_id")

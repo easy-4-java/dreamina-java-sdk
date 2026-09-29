@@ -7,13 +7,14 @@ import lombok.Data;
 /**
  * Single video artifact from {@code result_json.videos[]}.
  *
- * @see DreaminaQueryResult#videos()
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaQueryResult#videos()
  * @since 3.0.0
+ * @deprecated 旧 result_json.videos[].video_url/cover_url 结构与 Canvas 资源协议不同；替代：RESOURCE_GET/DOWNLOAD。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class DreaminaQueryVideo {
 
     /**

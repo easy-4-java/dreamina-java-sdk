@@ -1,30 +1,15 @@
 package io.github.easy4j.dreamina.cli.parser;
 
-import io.github.easy4j.dreamina.cli.DreaminaCliResponse;
-import io.github.easy4j.dreamina.cli.DreaminaCliResult;
-import io.github.easy4j.dreamina.cli.model.DreaminaCheckLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaDeviceLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaGenerateSubmit;
-import io.github.easy4j.dreamina.cli.model.DreaminaHelp;
-import io.github.easy4j.dreamina.cli.model.DreaminaLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaLoginAccount;
-import io.github.easy4j.dreamina.cli.model.DreaminaLogout;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryResult;
-import io.github.easy4j.dreamina.cli.model.DreaminaRelogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueueInfoSupport;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionDelete;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionList;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionMutation;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionRow;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionSearch;
-import io.github.easy4j.dreamina.cli.model.DreaminaTaskItem;
-import io.github.easy4j.dreamina.cli.model.DreaminaUserCredit;
-import io.github.easy4j.dreamina.cli.model.DreaminaVersion;
-import io.github.easy4j.dreamina.util.DreaminaStrings;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.easy4j.dreamina.cli.DreaminaCliResponse;
+import io.github.easy4j.dreamina.cli.DreaminaCliResult;
+import io.github.easy4j.dreamina.cli.model.*;
+import io.github.easy4j.dreamina.util.DreaminaStrings;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -32,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Converts {@link DreaminaCliResult} to {@link DreaminaCliResponse} (raw output + parsed body).
@@ -41,29 +25,29 @@ import lombok.extern.slf4j.Slf4j;
  * text/table commands follow the same pattern.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaCliResult
  * @see DreaminaCliResponse
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Slf4j
 public final class DreaminaCliStructuredPayloadMapper {
 
     private static final TypeReference<List<DreaminaTaskItem>> TASK_LIST_TYPE =
-        new TypeReference<List<DreaminaTaskItem>>() {};
+            new TypeReference<List<DreaminaTaskItem>>() {
+            };
 
     private static final Pattern SESSION_LIST_ROW = Pattern.compile(
-        "^(?<id>\\d+)\\s+(?<name>.+?)\\s+(?<pinned>Yes|No)\\s+(?<updated>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2})$");
+            "^(?<id>\\d+)\\s+(?<name>.+?)\\s+(?<pinned>Yes|No)\\s+(?<updated>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2})$");
 
     private static final Pattern SESSION_SEARCH_ROW = Pattern.compile(
-        "^(?<id>\\d+)\\s+(?<name>.+?)\\s+(?<updated>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2})$");
+            "^(?<id>\\d+)\\s+(?<name>.+?)\\s+(?<updated>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2})$");
 
     private static final Pattern SESSION_CREATED = Pattern.compile(
-        "Created\\s+session\\s+\"([^\"]+)\"\\s+\\(ID:\\s*(\\d+)\\)\\s*", Pattern.CASE_INSENSITIVE);
+            "Created\\s+session\\s+\"([^\"]+)\"\\s+\\(ID:\\s*(\\d+)\\)\\s*", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern SESSION_RENAMED = Pattern.compile(
-        "Renamed\\s+session\\s+(\\d+)\\s+to\\s+\"([^\"]+)\"\\s*", Pattern.CASE_INSENSITIVE);
+            "Renamed\\s+session\\s+(\\d+)\\s+to\\s+\"([^\"]+)\"\\s*", Pattern.CASE_INSENSITIVE);
 
     private final ObjectMapper objectMapper;
 
@@ -94,11 +78,36 @@ public final class DreaminaCliStructuredPayloadMapper {
         return om;
     }
 
+    private static String combinedText(DreaminaCliResult raw) {
+        return DreaminaCliResponse.of(raw, null).getCombinedText();
+    }
+
+    private static String summarized(String s) {
+        if (s.length() <= 256) {
+            return s;
+        }
+        return s.substring(0, 256) + "...";
+    }
+
+    private static String mergeStreams(DreaminaCliResult raw) {
+        String out = raw.getStdout() == null ? "" : raw.getStdout();
+        String err = raw.getStderr() == null ? "" : raw.getStderr();
+        if (err.isEmpty()) {
+            return out;
+        }
+        if (out.isEmpty()) {
+            return err;
+        }
+        return out + "\n" + err;
+    }
+
     /**
      * Maps {@code version} command output.
      *
      * @param raw CLI snapshot; must not be null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 versionDetails()。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaVersion> mapVersion(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readPayload(root, DreaminaVersion.class), root);
@@ -108,7 +117,9 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code user_credit} output.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 NODE_QUOTE（报价不是余额，当前无余额命令）。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaUserCredit> mapUserCredit(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readPayload(root, DreaminaUserCredit.class), root);
@@ -128,36 +139,42 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code logout} output.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGOUT。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaLogout> mapLogout(DreaminaCliResult raw) {
         boolean cleared = DreaminaLoginTextParser.detectsLogoutCleared(combinedText(raw));
         return DreaminaCliResponse.of(
-            raw,
-            DreaminaLogout.builder().localSessionCleared(cleared ? Boolean.TRUE : null).build(),
-            null);
+                raw,
+                DreaminaLogout.builder().localSessionCleared(cleared ? Boolean.TRUE : null).build(),
+                null);
     }
 
     /**
      * Maps {@code relogin} output.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGIN / AUTH_REFRESH。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaRelogin> mapRelogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         DreaminaDeviceLogin device = resolveDeviceLogin(raw);
         boolean browser = DreaminaLoginTextParser.detectsDeviceFlowBrowserPrompt(combinedText(raw));
         Boolean requiresBrowser = browser || (device != null && device.isMaterialPresent()) ? Boolean.TRUE : null;
         return DreaminaCliResponse.of(
-            raw,
-            DreaminaRelogin.builder().requiresBrowserOAuth(requiresBrowser).device(device).build(),
-            root);
+                raw,
+                DreaminaRelogin.builder().requiresBrowserOAuth(requiresBrowser).device(device).build(),
+                root);
     }
 
     /**
      * Maps {@code login checklogin} JSON.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_WAIT。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaCheckLogin> mapCheckLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readPayload(root, DreaminaCheckLogin.class), root);
@@ -167,7 +184,9 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code list_task} JSON array.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 OPERATION_STATUS（当前无同形任务列表）。
      */
+    @Deprecated
     public DreaminaCliResponse<List<DreaminaTaskItem>> mapTaskList(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readTaskList(root), root);
@@ -177,15 +196,17 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code query_result} output.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 OPERATION_STATUS + RESOURCE_GET。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaQueryResult> mapQueryResult(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         DreaminaQueryResult body = readPayload(root, DreaminaQueryResult.class);
         if (body != null) {
             DreaminaQueueInfoSupport.enrichParsedDebugInfo(objectMapper, body.getQueueInfo());
             if (DreaminaStrings.isBlank(body.getSubmitId())
-                && raw.getParsed() != null
-                && DreaminaStrings.isNotBlank(raw.getParsed().getSubmitId())) {
+                    && raw.getParsed() != null
+                    && DreaminaStrings.isNotBlank(raw.getParsed().getSubmitId())) {
                 body.setSubmitId(raw.getParsed().getSubmitId());
             }
         }
@@ -196,15 +217,17 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps the standard return JSON from asynchronous generation commands.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 NODE_RUN。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaGenerateSubmit> mapGenerateSubmit(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         DreaminaGenerateSubmit body = readPayload(root, DreaminaGenerateSubmit.class);
         if (body != null) {
             DreaminaQueueInfoSupport.enrichParsedDebugInfo(objectMapper, body.getQueueInfo());
             if (DreaminaStrings.isBlank(body.getSubmitId())
-                && raw.getParsed() != null
-                && DreaminaStrings.isNotBlank(raw.getParsed().getSubmitId())) {
+                    && raw.getParsed() != null
+                    && DreaminaStrings.isNotBlank(raw.getParsed().getSubmitId())) {
                 body.setSubmitId(raw.getParsed().getSubmitId());
             }
         }
@@ -215,7 +238,9 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code session list} table output.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 CANVAS_LS。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaSessionList> mapSessionList(DreaminaCliResult raw) {
         List<DreaminaSessionRow> rows = parseSessionRows(combinedText(raw), TableKind.FULL);
         return DreaminaCliResponse.of(raw, DreaminaSessionList.builder().rows(rows).build(), null);
@@ -226,20 +251,24 @@ public final class DreaminaCliStructuredPayloadMapper {
      *
      * @param queryTerm Caller-side keyword snapshot; may be null
      * @param raw       CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 CANVAS_LS 后由调用方筛选。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaSessionSearch> mapSessionSearch(String queryTerm, DreaminaCliResult raw) {
         List<DreaminaSessionRow> rows = parseSessionRows(combinedText(raw), TableKind.SEARCH);
         return DreaminaCliResponse.of(
-            raw,
-            DreaminaSessionSearch.builder().queryTerm(queryTerm).rows(rows).build(),
-            null);
+                raw,
+                DreaminaSessionSearch.builder().queryTerm(queryTerm).rows(rows).build(),
+                null);
     }
 
     /**
      * Maps {@code session delete}/{@code rm} output.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 当前无画布删除命令。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaSessionDelete> mapSessionDelete(DreaminaCliResult raw) {
         boolean deleted = combinedText(raw).trim().equalsIgnoreCase("deleted");
         return DreaminaCliResponse.of(raw, DreaminaSessionDelete.builder().deleted(deleted).build(), null);
@@ -249,42 +278,46 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code session create}/{@code rename} output.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 CANVAS_CREATE（当前无画布重命名命令）。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaSessionMutation> mapSessionMutation(DreaminaCliResult raw) {
         String combined = combinedText(raw).trim();
         Matcher c = SESSION_CREATED.matcher(combined);
         if (c.matches()) {
             return DreaminaCliResponse.of(
-                raw,
-                DreaminaSessionMutation.builder()
-                    .kind(DreaminaSessionMutation.Kind.CREATE)
-                    .sessionId(c.group(2))
-                    .sessionName(c.group(1))
-                    .build(),
-                null);
+                    raw,
+                    DreaminaSessionMutation.builder()
+                            .kind(DreaminaSessionMutation.Kind.CREATE)
+                            .sessionId(c.group(2))
+                            .sessionName(c.group(1))
+                            .build(),
+                    null);
         }
         Matcher r = SESSION_RENAMED.matcher(combined);
         if (r.matches()) {
             return DreaminaCliResponse.of(
-                raw,
-                DreaminaSessionMutation.builder()
-                    .kind(DreaminaSessionMutation.Kind.RENAME)
-                    .sessionId(r.group(1))
-                    .sessionName(r.group(2))
-                    .build(),
-                null);
+                    raw,
+                    DreaminaSessionMutation.builder()
+                            .kind(DreaminaSessionMutation.Kind.RENAME)
+                            .sessionId(r.group(1))
+                            .sessionName(r.group(2))
+                            .build(),
+                    null);
         }
         return DreaminaCliResponse.of(
-            raw,
-            DreaminaSessionMutation.builder().kind(DreaminaSessionMutation.Kind.UNKNOWN).build(),
-            null);
+                raw,
+                DreaminaSessionMutation.builder().kind(DreaminaSessionMutation.Kind.UNKNOWN).build(),
+                null);
     }
 
     /**
      * Maps the general output of {@code login --headless} / {@code login}.
      *
      * @param raw CLI 快照；不得为 null
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGIN，challenge 可映射到 DreaminaDeviceLogin。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaLogin> mapLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         String combined = combinedText(raw);
@@ -292,16 +325,19 @@ public final class DreaminaCliStructuredPayloadMapper {
         DreaminaLoginAccount account = DreaminaLoginTextParser.parseReusedAccount(combined);
         Boolean reusedFlag = reuseDetected ? Boolean.TRUE : (account != null ? Boolean.TRUE : null);
         DreaminaLogin body = DreaminaLogin.builder()
-            .oauthSessionReused(reusedFlag)
-            .account(account)
-            .device(resolveDeviceLogin(raw))
-            .build();
+                .oauthSessionReused(reusedFlag)
+                .account(account)
+                .device(resolveDeviceLogin(raw))
+                .build();
         return DreaminaCliResponse.of(raw, body, root);
     }
 
     /**
      * Maps Device Flow material.
+     *
+     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGIN 的 data.challenge 映射到 DreaminaDeviceLogin。
      */
+    @Deprecated
     public DreaminaCliResponse<DreaminaDeviceLogin> mapDeviceLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, resolveDeviceLogin(raw), root);
@@ -318,15 +354,6 @@ public final class DreaminaCliStructuredPayloadMapper {
         }
         DreaminaDeviceLogin fromText = DreaminaLoginTextParser.parseDeviceFlow(combinedText(raw));
         return DreaminaLoginTextParser.hasDeviceFlowMaterial(fromText) ? fromText : null;
-    }
-
-    private static String combinedText(DreaminaCliResult raw) {
-        return DreaminaCliResponse.of(raw, null).getCombinedText();
-    }
-
-    private enum TableKind {
-        FULL,
-        SEARCH
     }
 
     /**
@@ -387,7 +414,7 @@ public final class DreaminaCliStructuredPayloadMapper {
                     continue;
                 }
                 if (!seenHeader
-                    && (t.startsWith("ID ")
+                        && (t.startsWith("ID ")
                         || SESSION_LIST_ROW.matcher(t).matches()
                         || SESSION_SEARCH_ROW.matcher(t).matches())) {
                     seenHeader = true;
@@ -414,35 +441,35 @@ public final class DreaminaCliStructuredPayloadMapper {
         Matcher search = SESSION_SEARCH_ROW.matcher(line);
         if (preferred == TableKind.FULL && full.matches()) {
             return DreaminaSessionRow.builder()
-                .id(full.group("id"))
-                .name(full.group("name").trim())
-                .pinned(full.group("pinned"))
-                .updatedAt(full.group("updated"))
-                .build();
+                    .id(full.group("id"))
+                    .name(full.group("name").trim())
+                    .pinned(full.group("pinned"))
+                    .updatedAt(full.group("updated"))
+                    .build();
         }
         if (preferred == TableKind.SEARCH && search.matches()) {
             return DreaminaSessionRow.builder()
-                .id(search.group("id"))
-                .name(search.group("name").trim())
-                .pinned(null)
-                .updatedAt(search.group("updated"))
-                .build();
+                    .id(search.group("id"))
+                    .name(search.group("name").trim())
+                    .pinned(null)
+                    .updatedAt(search.group("updated"))
+                    .build();
         }
         if (full.matches()) {
             return DreaminaSessionRow.builder()
-                .id(full.group("id"))
-                .name(full.group("name").trim())
-                .pinned(full.group("pinned"))
-                .updatedAt(full.group("updated"))
-                .build();
+                    .id(full.group("id"))
+                    .name(full.group("name").trim())
+                    .pinned(full.group("pinned"))
+                    .updatedAt(full.group("updated"))
+                    .build();
         }
         if (search.matches()) {
             return DreaminaSessionRow.builder()
-                .id(search.group("id"))
-                .name(search.group("name").trim())
-                .pinned(null)
-                .updatedAt(search.group("updated"))
-                .build();
+                    .id(search.group("id"))
+                    .name(search.group("name").trim())
+                    .pinned(null)
+                    .updatedAt(search.group("updated"))
+                    .build();
         }
         return null;
     }
@@ -483,25 +510,6 @@ public final class DreaminaCliStructuredPayloadMapper {
         }
     }
 
-    private static String summarized(String s) {
-        if (s.length() <= 256) {
-            return s;
-        }
-        return s.substring(0, 256) + "...";
-    }
-
-    private static String mergeStreams(DreaminaCliResult raw) {
-        String out = raw.getStdout() == null ? "" : raw.getStdout();
-        String err = raw.getStderr() == null ? "" : raw.getStderr();
-        if (err.isEmpty()) {
-            return out;
-        }
-        if (out.isEmpty()) {
-            return err;
-        }
-        return out + "\n" + err;
-    }
-
     /**
      * Deserializes a JSON subtree into a strongly-typed object; returns {@code null} when the node is missing or parsing fails.
      */
@@ -513,12 +521,17 @@ public final class DreaminaCliStructuredPayloadMapper {
             return objectMapper.treeToValue(node, type);
         } catch (Exception ex) {
             log.trace(
-                "Dreamina treeToValue failed type={} snippet={}",
-                type.getSimpleName(),
-                summarized(node.toString()),
-                ex);
+                    "Dreamina treeToValue failed type={} snippet={}",
+                    type.getSimpleName(),
+                    summarized(node.toString()),
+                    ex);
             return null;
         }
+    }
+
+    private enum TableKind {
+        FULL,
+        SEARCH
     }
 
 }

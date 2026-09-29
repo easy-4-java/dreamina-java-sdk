@@ -1,10 +1,11 @@
 package io.github.easy4j.dreamina.cli.opts;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 多帧故事视频Multi-frame storyboard video request object.
@@ -13,34 +14,43 @@ import lombok.Singular;
  * {@code --transition-prompt}/{@code --transition-duration}.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#multiframe2video()
  * <p>
  * 对齐 {@code dreamina multiframe2video -h}：2 张图用 {@code --prompt}/{@code --duration}；
  * 3 张及以上重复 {@code --transition-prompt}/{@code --transition-duration}；
  * CLI v1.4.14 起显式支持 720p/1080p 分辨率。
  * </p>
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 旧 transition 参数及本地路径 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvider {
 
     @Singular("image")
     private final List<String> images;
 
-    /** 2 张图时的叙事提示词。 */
+    /**
+     * 2 张图时的叙事提示词。
+     */
     private final String prompt;
 
-    /** 2 张图时的过渡时长（秒，[2,8]；CLI 单段范围为 [1,8]，同时要求总时长至少 2 秒）。 */
+    /**
+     * 2 张图时的过渡时长（秒，[2,8]；CLI 单段范围为 [1,8]，同时要求总时长至少 2 秒）。
+     */
     private final Double durationSeconds;
 
-    /** 3+ 张图时每段 transition 提示词（N 张图需 N-1 条）。 */
+    /**
+     * 3+ 张图时每段 transition 提示词（N 张图需 N-1 条）。
+     */
     @Singular("transitionPrompt")
     private final List<String> transitionPrompts;
 
-    /** 3+ 张图时每段 transition 时长。 */
+    /**
+     * 3+ 张图时每段 transition 时长。
+     */
     @Singular("transitionDuration")
     private final List<String> transitionDurations;
 
@@ -70,7 +80,7 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
                 int expected = cleanedImages.size() - 1;
                 if (transitionPrompts.size() != expected) {
                     throw new IllegalArgumentException(
-                        "transitionPrompts size must be " + expected + " for " + cleanedImages.size() + " images");
+                            "transitionPrompts size must be " + expected + " for " + cleanedImages.size() + " images");
                 }
                 DreaminaCliRequestSupport.addRepeatedFlag(args, "--transition-prompt", transitionPrompts);
             }
@@ -78,7 +88,7 @@ public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvi
                 int expected = cleanedImages.size() - 1;
                 if (transitionDurations.size() != expected) {
                     throw new IllegalArgumentException(
-                        "transitionDurations size must be " + expected + " for " + cleanedImages.size() + " images");
+                            "transitionDurations size must be " + expected + " for " + cleanedImages.size() + " images");
                 }
                 DreaminaCliContractValidator.validateMultiframeTransitionDurations(transitionDurations);
                 DreaminaCliRequestSupport.addRepeatedFlag(args, "--transition-duration", transitionDurations);

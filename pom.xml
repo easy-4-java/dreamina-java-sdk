@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.easy4j</groupId>
     <artifactId>dreamina-java-sdk</artifactId>
@@ -48,6 +49,7 @@
         <!-- Dependency versions -->
         <additionalparam>-Xdoclint:none -Xlint:unchecked</additionalparam>
         <commons-exec.version>1.4.0</commons-exec.version>
+        <commons-lang3.version>3.20.0</commons-lang3.version>
         <jackson-bom.version>2.18.9</jackson-bom.version>
         <junit.version>5.11.4</junit.version>
         <junit-jupiter.version>5.11.4</junit-jupiter.version>
@@ -119,6 +121,11 @@
 
     <!-- 项目依赖（dependencies） -->
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
         <!-- For Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -229,11 +236,15 @@
                             <configuration>
                                 <rules>
                                     <requireMavenVersion>
-                                        <message>You are running an older version of Maven. This project requires at least Maven ${maven.version}.</message>
+                                        <message>You are running an older version of Maven. This project requires at
+                                            least Maven ${maven.version}.
+                                        </message>
                                         <version>[${maven.version},)</version>
                                     </requireMavenVersion>
                                     <requireJavaVersion>
-                                        <message>You are running an older version of Java. This project requires at least JDK ${java.version}.</message>
+                                        <message>You are running an older version of Java. This project requires at
+                                            least JDK ${java.version}.
+                                        </message>
                                         <version>[${java.version}.0,)</version>
                                     </requireJavaVersion>
                                 </rules>
@@ -395,6 +406,14 @@
                     <includes>
                         <include>io.github.easy4j.dreamina.cli.DreaminaCliExecutor</include>
                         <include>io/github/easy4j/dreamina/cli/DreaminaCliExecutor*</include>
+                        <include>io/github/easy4j/dreamina/cli/DreaminaCanvasCliExecutor*</include>
+                        <include>io/github/easy4j/dreamina/cli/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/opts/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/model/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/parser/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/cli/support/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/exception/DreaminaCanvas*</include>
+                        <include>io/github/easy4j/dreamina/DreaminaCanvasCliProperties*</include>
                     </includes>
                 </configuration>
                 <executions>
@@ -435,6 +454,34 @@
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
                                             <minimum>0.99</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <includes>
+                                        <include>io.github.easy4j.dreamina.cli.opts</include>
+                                        <include>io.github.easy4j.dreamina.cli.parser</include>
+                                        <include>io.github.easy4j.dreamina.cli.support</include>
+                                    </includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.85</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                                <rule>
+                                    <element>CLASS</element>
+                                    <includes>
+                                        <include>io.github.easy4j.dreamina.cli.DreaminaCanvasCliExecutor</include>
+                                    </includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.85</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

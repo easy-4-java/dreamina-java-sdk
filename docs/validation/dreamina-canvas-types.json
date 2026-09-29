@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "1",
+  "cliVersion": "1.0.1",
+  "commands": [
+    {
+      "command": "model",
+      "request": "DreaminaCanvasModelRequest",
+      "data": "DreaminaCanvasModelResult"
+    },
+    {
+      "command": "model list",
+      "request": "DreaminaCanvasModelListRequest",
+      "data": "DreaminaCanvasModelListResult"
+    },
+    {
+      "command": "model find",
+      "request": "DreaminaCanvasModelFindRequest",
+      "data": "DreaminaCanvasModelFindResult"
+    },
+    {
+      "command": "voice list",
+      "request": "DreaminaCanvasVoiceListRequest",
+      "data": "DreaminaCanvasVoiceListResult"
+    },
+    {
+      "command": "node create image",
+      "request": "DreaminaCanvasNodeCreateImageRequest",
+      "data": "DreaminaCanvasNodeCreateImageResult"
+    },
+    {
+      "command": "node create video",
+      "request": "DreaminaCanvasNodeCreateVideoRequest",
+      "data": "DreaminaCanvasNodeCreateVideoResult"
+    },
+    {
+      "command": "node create audio",
+      "request": "DreaminaCanvasNodeCreateAudioRequest",
+      "data": "DreaminaCanvasNodeCreateAudioResult"
+    },
+    {
+      "command": "node create element",
+      "request": "DreaminaCanvasNodeCreateElementRequest",
+      "data": "DreaminaCanvasNodeCreateElementResult"
+    },
+    {
+      "command": "node create text",
+      "request": "DreaminaCanvasNodeCreateTextRequest",
+      "data": "DreaminaCanvasNodeCreateTextResult"
+    },
+    {
+      "command": "node create timeline",
+      "request": "DreaminaCanvasNodeCreateTimelineRequest",
+      "data": "DreaminaCanvasNodeCreateTimelineResult"
+    },
+    {
+      "command": "node edit image",
+      "request": "DreaminaCanvasNodeEditImageRequest",
+      "data": "DreaminaCanvasNodeEditImageResult"
+    },
+    {
+      "command": "node edit video",
+      "request": "DreaminaCanvasNodeEditVideoRequest",
+      "data": "DreaminaCanvasNodeEditVideoResult"
+    },
+    {
+      "command": "node edit audio",
+      "request": "DreaminaCanvasNodeEditAudioRequest",
+      "data": "DreaminaCanvasNodeEditAudioResult"
+    },
+    {
+      "command": "node edit element",
+      "request": "DreaminaCanvasNodeEditElementRequest",
+      "data": "DreaminaCanvasNodeEditElementResult"
+    },
+    {
+      "command": "node edit text",
+      "request": "DreaminaCanvasNodeEditTextRequest",
+      "data": "DreaminaCanvasNodeEditTextResult"
+    },
+    {
+      "command": "node edit timeline",
+      "request": "DreaminaCanvasNodeEditTimelineRequest",
+      "data": "DreaminaCanvasNodeEditTimelineResult"
+    },
+    {
+      "command": "node upscale image",
+      "request": "DreaminaCanvasNodeUpscaleImageRequest",
+      "data": "DreaminaCanvasNodeUpscaleImageResult"
+    },
+    {
+      "command": "node show",
+      "request": "DreaminaCanvasNodeShowRequest",
+      "data": "DreaminaCanvasNodeShowResult"
+    },
+    {
+      "command": "node find",
+      "request": "DreaminaCanvasNodeFindRequest",
+      "data": "DreaminaCanvasNodeFindResult"
+    },
+    {
+      "command": "node quote",
+      "request": "DreaminaCanvasNodeQuoteRequest",
+      "data": "DreaminaCanvasNodeQuoteResult"
+    },
+    {
+      "command": "node confirm",
+      "request": "DreaminaCanvasNodeConfirmRequest",
+      "data": "DreaminaCanvasNodeConfirmResult"
+    },
+    {
+      "command": "node run",
+      "request": "DreaminaCanvasNodeRunRequest",
+      "data": "DreaminaCanvasNodeRunResult"
+    },
+    {
+      "command": "operation status",
+      "request": "DreaminaCanvasOperationStatusRequest",
+      "data": "DreaminaCanvasOperationStatusResult"
+    },
+    {
+      "command": "operation wait",
+      "request": "DreaminaCanvasOperationWaitRequest",
+      "data": "DreaminaCanvasOperationWaitResult"
+    },
+    {
+      "command": "resource download",
+      "request": "DreaminaCanvasResourceDownloadRequest",
+      "data": "DreaminaCanvasResourceDownloadResult"
+    },
+    {
+      "command": "resource get",
+      "request": "DreaminaCanvasResourceGetRequest",
+      "data": "DreaminaCanvasResourceGetResult"
+    },
+    {
+      "command": "resource upload",
+      "request": "DreaminaCanvasResourceUploadRequest",
+      "data": "DreaminaCanvasResourceUploadResult"
+    },
+    {
+      "command": "canvas create",
+      "request": "DreaminaCanvasCreateRequest",
+      "data": "DreaminaCanvasCreateResult"
+    },
+    {
+      "command": "canvas ls",
+      "request": "DreaminaCanvasLsRequest",
+      "data": "DreaminaCanvasLsResult"
+    },
+    {
+      "command": "auth account",
+      "request": "DreaminaCanvasAuthAccountRequest",
+      "data": "DreaminaLoginAccount"
+    },
+    {
+      "command": "auth login",
+      "request": "DreaminaCanvasAuthLoginRequest",
+      "data": "DreaminaCanvasAuthLoginResult"
+    },
+    {
+      "command": "auth logout",
+      "request": "DreaminaCanvasAuthLogoutRequest",
+      "data": "DreaminaLogout"
+    },
+    {
+      "command": "auth status",
+      "request": "DreaminaCanvasAuthStatusRequest",
+      "data": "DreaminaCanvasAuthStatusResult"
+    },
+    {
+      "command": "auth wait",
+      "request": "DreaminaCanvasAuthWaitRequest",
+      "data": "DreaminaCanvasAuthWaitResult"
+    },
+    {
+      "command": "auth refresh",
+      "request": "DreaminaCanvasAuthRefreshRequest",
+      "data": "DreaminaCanvasAuthRefreshResult"
+    },
+    {
+      "command": "schema",
+      "request": "DreaminaCanvasSchemaRequest",
+      "data": "DreaminaCanvasSchema"
+    },
+    {
+      "command": "version",
+      "request": "DreaminaCanvasVersionRequest",
+      "data": "DreaminaVersion"
+    }
+  ]
+}

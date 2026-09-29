@@ -1,0 +1,715 @@
+[
+  {
+    "command": "auth status",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "version",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "schema",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth account",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291349215CBC25DF1BB6A42A9653",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929134921D973B232C61129D8732F",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291349211F6301369B887E2C3956",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092913492249FCD0779000FF2F530C",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model find",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291349226E35E9004FE2867F7301",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "model",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291349222E2D686438829C718259",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "voice list",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929134922900BC1A75529103B25B9",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "canvas ls",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929134923AC62A0ED6DCF50349961",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "completion bash",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "completion zsh",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "completion fish",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "completion powershell",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "help",
+    "testMode": "text",
+    "ok": true,
+    "exitCode": 0
+  },
+  {
+    "command": "canvas create",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135004E12AD1E4E98CBA729822",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "resource upload",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350061950E92BF40D5C3FEF08",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "resource get",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092913500739821DCC563B9B3156F1",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "resource download",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135008C5A393718E9972366B6F",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node create image",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135009F9B472B8FDB02E386036",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node edit image",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092913500977EC37CAF0041E359679",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node create video",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350094A359EEB6A61E32D0CD3",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node edit video",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350106185468EB120B0307988",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node create audio",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092913501062E3283CE356BFDEA844",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node edit audio",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135012E6F8E4DEAAAABC34FFE4",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node create element",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350124D61CE6FD2B89DD70595",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node edit element",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135012D404BA4EC9AA7530D0CB",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node create text",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135013CD77EBF17711FF2C062E",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node edit text",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350134F2550ADF0EEC5455BA5",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node create timeline",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135014DC4E1CE5D1BAEFE39556",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node edit timeline",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135014CAA951CD7B33642F55CE",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node show",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350146E35E9004FE2867F811E",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node find",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350157829C4EE693B05D7135C",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node quote",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291350159939D2D3AF74A6E79212",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": "",
+    "totalMaxCredits": 1
+  },
+  {
+    "command": "auth login",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth refresh",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth login",
+    "testMode": "isolated-login-challenge",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "expected-pending-auth",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth logout",
+    "testMode": "isolated-profile",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node confirm",
+    "testMode": "expected-unauthenticated",
+    "ok": false,
+    "exitCode": 11,
+    "requestId": "",
+    "errorCode": "cli.authentication_required",
+    "requiredAction": "login",
+    "operationState": ""
+  },
+  {
+    "command": "operation status",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291351485E3C9FDE20057A51ADFC",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": "succeeded"
+  },
+  {
+    "command": "node run",
+    "testMode": "completed-submission-replay",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291351495C7E4D2D1F2CB2DCC5CB",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "operation wait",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092913514986DE79969475DADCE6AF",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": "succeeded"
+  },
+  {
+    "command": "node upscale image",
+    "testMode": "dry-run",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node upscale image",
+    "testMode": "awaiting-credit-confirmation",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291351502E2D686438829C71A498",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": "",
+    "totalMaxCredits": 0
+  },
+  {
+    "command": "operation wait",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135335760458651BF5F58CD400",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": "succeeded"
+  },
+  {
+    "command": "resource get",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291353361791595C19F7D02DFDB3",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "resource download",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "2026092913533672A70B3442438C322B5D",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node show",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291356499425416936C8CB8E9293",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth status",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "canvas ls",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135650207D74BD7D464EEB6966",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node quote",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135911920F2A38F25DDB4C2DEC",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": "",
+    "totalMaxCredits": 1
+  },
+  {
+    "command": "node confirm",
+    "testMode": "explicitly-approved-confirmation",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "20260929135911BCA8DD5A352A0D445FBB",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth login",
+    "testMode": "user-authorized-login",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": false,
+    "exitCode": 20,
+    "requestId": "",
+    "errorCode": "cli.login_wait_timeout",
+    "requiredAction": "resume",
+    "operationState": ""
+  },
+  {
+    "command": "auth wait",
+    "testMode": "interactive-authorized-wait",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth status",
+    "testMode": "authorized-profile-status",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth logout",
+    "testMode": "isolated-profile-cleanup",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "node show",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291416195F73C935728B36915B07",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "auth status",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  },
+  {
+    "command": "canvas ls",
+    "testMode": "business",
+    "ok": true,
+    "exitCode": 0,
+    "requestId": "202609291416205E09B75C6C7B56417045",
+    "errorCode": "",
+    "requiredAction": "",
+    "operationState": ""
+  }
+]

@@ -3,6 +3,7 @@ package io.github.easy4j.dreamina.cli.parser;
 import io.github.easy4j.dreamina.cli.model.DreaminaDeviceLogin;
 import io.github.easy4j.dreamina.cli.model.DreaminaLoginAccount;
 import io.github.easy4j.dreamina.util.DreaminaStrings;
+
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,16 +11,15 @@ import java.util.regex.Pattern;
 /**
  * Parses the plain-text output of {@code dreamina login} / {@code relogin} / {@code logout}.
  *
- * @see DreaminaCliStructuredPayloadMapper#mapLogin(io.github.easy4j.dreamina.cli.DreaminaCliResult)
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaCliStructuredPayloadMapper#mapLogin(io.github.easy4j.dreamina.cli.DreaminaCliResult)
  * @since 3.0.0
  */
 public final class DreaminaLoginTextParser {
 
     private static final Pattern KV_LINE = Pattern.compile(
-        "^(?<key>[a-z_][a-z0-9_]*)\\s*:\\s*(?<value>.+)$",
-        Pattern.CASE_INSENSITIVE);
+            "^(?<key>[a-z_][a-z0-9_]*)\\s*:\\s*(?<value>.+)$",
+            Pattern.CASE_INSENSITIVE);
 
     private DreaminaLoginTextParser() {
     }
@@ -29,7 +29,9 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined Combined stdout/stderr text
      * @return Returns true if reuse semantics are detected
+     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
+    @Deprecated
     public static boolean detectsOAuthReuse(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return false;
@@ -39,8 +41,8 @@ public final class DreaminaLoginTextParser {
         }
         String lower = combined.toLowerCase(Locale.ROOT);
         return (lower.contains("reuse") && lower.contains("oauth"))
-            || lower.contains("already logged")
-            || lower.contains("still valid");
+                || lower.contains("already logged")
+                || lower.contains("still valid");
     }
 
     /**
@@ -48,7 +50,9 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined Combined text
      * @return Returns true if a successful logout message is detected
+     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
+    @Deprecated
     public static boolean detectsLogoutCleared(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return false;
@@ -61,13 +65,15 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined 合并文本
      * @return Returns true if browser-based OAuth is required
+     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
+    @Deprecated
     public static boolean detectsDeviceFlowBrowserPrompt(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return false;
         }
         return combined.contains("OAuth Device Flow")
-            || combined.contains("请使用浏览器");
+                || combined.contains("请使用浏览器");
     }
 
     /**
@@ -75,7 +81,9 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined CLI combined text
      * @return Returns the object if at least one field was parsed, otherwise null
+     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
+    @Deprecated
     public static DreaminaLoginAccount parseReusedAccount(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return null;
@@ -127,7 +135,9 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined CLI 合并文本
      * @return Returns the object if it contains at least one of device_code / verification_uri / user_code, otherwise null
+     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
+    @Deprecated
     public static DreaminaDeviceLogin parseDeviceFlow(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return null;
@@ -185,8 +195,8 @@ public final class DreaminaLoginTextParser {
             return false;
         }
         return DreaminaStrings.isNotBlank(payload.getDeviceCode())
-            || DreaminaStrings.isNotBlank(payload.getVerificationUri())
-            || DreaminaStrings.isNotBlank(payload.getUserCode());
+                || DreaminaStrings.isNotBlank(payload.getVerificationUri())
+                || DreaminaStrings.isNotBlank(payload.getUserCode());
     }
 
     private static Long parseLong(String value) {

@@ -6,13 +6,14 @@ import lombok.Getter;
 /**
  * A single row summary from the {@code dreamina session list} table.
  *
- * @see DreaminaSessionList
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaSessionList
  * @since 3.0.0
+ * @deprecated 旧 session id/pinned/updated 表格行与 Canvas projectId 结构不同；替代：CANVAS_LS data.items。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaSessionRow {
 
     /**

@@ -1,5 +1,13 @@
 # dreamina-java-sdk
 
+## 即梦画布 CLI（推荐）
+
+旧 Dreamina CLI 官方公告自 11 月起停止维护。逐对象确认复用：29 个共享类型继续使用，38 个旧协议专属类型标注废弃及替代路径，原有签名和行为保留。新接入使用
+**`DreaminaCanvasCliExecutor`**，覆盖 Canvas **1.0.1** 的 **37 个业务入口**、各级帮助和四种 shell 补全，继续支持 Java 8。
+
+请阅读 [Canvas API 与迁移指南](docs/DREAMINA_CANVAS.md)、[完整命令目录](docs/DREAMINA_CANVAS_COMMANDS.md)
+和[验收记录](docs/DREAMINA_CANVAS_ACCEPTANCE.md)。下文为保留的 **旧 CLI API 参考**。
+
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
 [![Java](https://img.shields.io/badge/Java-8-orange)](https://github.com/easy-4-java/dreamina-java-sdk) [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
@@ -22,82 +30,86 @@
 
 ## 1. 项目概览
 
-`dreamina-java-sdk` 当前 `feature/1.0.x` 是面向 JDK 8、无 Spring 依赖的 SDK，驱动官方 Dreamina 命令行客户端（`dreamina` CLI）。它封装子进程执行、解析结构化输出（JSON / 文本 / 表格），并为 CLI 的全部内建命令与生成命令提供强类型请求与结果对象。
+`dreamina-java-sdk` 当前 `feature/1.0.x` 是面向 JDK 8、无 Spring 依赖的 SDK，驱动官方 Dreamina 命令行客户端（`dreamina`
+CLI）。它封装子进程执行、解析结构化输出（JSON / 文本 / 表格），并为 CLI 的全部内建命令与生成命令提供强类型请求与结果对象。
 
-| 是什么 | 不是什么 |
-|:---|:---|
+| 是什么                                 | 不是什么                                    |
+|:---------------------------------------|:--------------------------------------------|
 | 本地 `dreamina` CLI 的类型化 Java 封装 | HTTP API 客户端（不提供公开 HTTP 端点抽象） |
-| 子进程管理（超时、退出码、可用性） | UI 或 Web 服务 |
-| JSON / 文本 / 表格输出的结构化解析 | 第三方云 SDK 的封装 |
+| 子进程管理（超时、退出码、可用性）     | UI 或 Web 服务                              |
+| JSON / 文本 / 表格输出的结构化解析     | 第三方云 SDK 的封装                         |
 
 典型使用场景：
 
-| 场景 | 说明 |
-|:---|:---|
-| 文生图 / 图生图（`text2image`、`image2image`、`image_upscale`） | 类型化 `*Submit` 请求，支持 `--poll` 语义 |
-| 视频生成（`text2video`、`image2video`、`frames2video`、`multiframe2video`、`multimodal2video`） | 模型与分辨率枚举、时长校验 |
-| 任务查询与下载（`query_result`、`list_task`） | 轮询状态，可将结果下载到指定目录 |
-| 会话工作区管理（`session create/list/search/rename/delete`） | 所有生成命令支持 `--session=<id>` |
-| 登录与账户（`login`、`logout`、`relogin`、`user_credit`、`version`） | OAuth Device Flow、headless 登录 |
-| 启动就绪探测 | `DreaminaCliAvailabilityChecker` 执行 `dreamina version` |
+| 场景                                                                                            | 说明                                                     |
+|:------------------------------------------------------------------------------------------------|:---------------------------------------------------------|
+| 文生图 / 图生图（`text2image`、`image2image`、`image_upscale`）                                 | 类型化 `*Submit` 请求，支持 `--poll` 语义                |
+| 视频生成（`text2video`、`image2video`、`frames2video`、`multiframe2video`、`multimodal2video`） | 模型与分辨率枚举、时长校验                               |
+| 任务查询与下载（`query_result`、`list_task`）                                                   | 轮询状态，可将结果下载到指定目录                         |
+| 会话工作区管理（`session create/list/search/rename/delete`）                                    | 所有生成命令支持 `--session=<id>`                        |
+| 登录与账户（`login`、`logout`、`relogin`、`user_credit`、`version`）                            | OAuth Device Flow、headless 登录                         |
+| 启动就绪探测                                                                                    | `DreaminaCliAvailabilityChecker` 执行 `dreamina version` |
 
-**项目状态：** 活跃开发；SDK 持续与上游 `dreamina` CLI 契约对齐（当前 v1.4.x）。
+**项目状态：** 新集成面向 Canvas CLI 1.0.1；下文旧 v1.4.x 适配器已废弃，保留兼容。
 
 <a id="2-features--status"></a>
+
 ## 2. 功能与状态
 
-| 能力 | 状态 | 说明 |
-|:---|:---|:---|
-| 基于 Apache Commons Exec 的子进程执行 | 可用 | 可配置超时、工作目录、并发上限 |
-| 类型化异常映射 | 可用 | 超时 / 非零退出码 / 可执行文件不可用 / 启动失败 |
-| 内建命令（`help`、`version`、`user_credit`、登录与会话命令） | 可用 | `DreaminaCliExecutor` 方法，原始与结构化两种形态 |
-| 全部生成命令 | 可用 | `text2ImageSubmit`、`image2ImageSubmit`、`imageUpscaleSubmit`、`text2VideoSubmit`、`image2VideoSubmit`、`frames2VideoSubmit`、`multiframe2VideoSubmit`、`multimodal2VideoSubmit` |
-| 结构化结果对象 | 可用 | `DreaminaCliResponse<T>`，含 `stdout` / `stderr` / `exitCode` / `body` / `json` |
-| 启动就绪探测 | 可用 | `DreaminaCliAvailabilityChecker.check(...)` -> `DreaminaCliAvailabilityReport` |
-| 图片压缩工具 | 可用 | `DreaminaImageCompressSupport`（基于 thumbnailator） |
-| CLI 契约测试（双向） | 可用 | 版本化 CLI help 快照已覆盖至 `v1.4.17` |
-| Mock 单元测试 | 可用 | Bash-mock CLI，无需真实 `dreamina` 二进制 |
-| 可选本地审计测试 | 可用 | 针对真实已登录 CLI 运行；未登录时自动跳过 |
-| 覆盖率门禁 | 强制执行 | JaCoCo：`DreaminaCliExecutor` 100% LINE + BRANCH，`haltOnFailure=true` |
+| 能力                                                         | 状态     | 说明                                                                                                                                                                             |
+|:-------------------------------------------------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 基于 Apache Commons Exec 的子进程执行                        | 可用     | 可配置超时、工作目录、并发上限                                                                                                                                                   |
+| 类型化异常映射                                               | 可用     | 超时 / 非零退出码 / 可执行文件不可用 / 启动失败                                                                                                                                  |
+| 内建命令（`help`、`version`、`user_credit`、登录与会话命令） | 可用     | `DreaminaCliExecutor` 方法，原始与结构化两种形态                                                                                                                                 |
+| 全部生成命令                                                 | 可用     | `text2ImageSubmit`、`image2ImageSubmit`、`imageUpscaleSubmit`、`text2VideoSubmit`、`image2VideoSubmit`、`frames2VideoSubmit`、`multiframe2VideoSubmit`、`multimodal2VideoSubmit` |
+| 结构化结果对象                                               | 可用     | `DreaminaCliResponse<T>`，含 `stdout` / `stderr` / `exitCode` / `body` / `json`                                                                                                  |
+| 启动就绪探测                                                 | 可用     | `DreaminaCliAvailabilityChecker.check(...)` -> `DreaminaCliAvailabilityReport`                                                                                                   |
+| 图片压缩工具                                                 | 可用     | `DreaminaImageCompressSupport`（基于 thumbnailator）                                                                                                                             |
+| CLI 契约测试（双向）                                         | 可用     | 版本化 CLI help 快照已覆盖至 `v1.4.17`                                                                                                                                           |
+| Mock 单元测试                                                | 可用     | Bash-mock CLI，无需真实 `dreamina` 二进制                                                                                                                                        |
+| 可选本地审计测试                                             | 可用     | 针对真实已登录 CLI 运行；未登录时自动跳过                                                                                                                                        |
+| 覆盖率门禁                                                   | 强制执行 | JaCoCo：`DreaminaCliExecutor` 100% LINE + BRANCH，`haltOnFailure=true`                                                                                                           |
 
 <a id="3-requirements--compatibility"></a>
+
 ## 3. 环境要求与兼容性
 
-| 依赖项 | 版本 |
-|:---|:---|
-| JDK | 8 |
-| Maven | 使用仓库自带 Wrapper（`./mvnw`，Maven 3.9.16） |
-| 本地 CLI | 官方 `dreamina` CLI（见安装章节） |
-| jackson-databind | 2.18.9（通过 Jackson BOM 管理） |
-| commons-exec | Apache Commons Exec（pom 声明） |
-| thumbnailator | 图片压缩支持（pom 声明） |
+| 依赖项           | 版本                                           |
+|:-----------------|:-----------------------------------------------|
+| JDK              | 8                                              |
+| Maven            | 使用仓库自带 Wrapper（`./mvnw`，Maven 3.9.16） |
+| 本地 CLI         | 官方 `dreamina` CLI（见安装章节）              |
+| jackson-databind | 2.18.9（通过 Jackson BOM 管理）                |
+| commons-exec     | Apache Commons Exec（pom 声明）                |
+| thumbnailator    | 图片压缩支持（pom 声明）                       |
 
 ### 版本线矩阵
 
-| 分支 | JDK | 版本号模式 |
-|:---|:---|:---|
-| `feature/1.0.x` | JDK 8 | `1.0.x.*` |
-| `feature/2.0.x` | JDK 17 | `2.0.x.*` |
-| `feature/3.0.x` | JDK 21 | `3.0.x.*` |
+| 分支            | JDK    | 版本号模式 |
+|:----------------|:-------|:-----------|
+| `feature/1.0.x` | JDK 8  | `1.0.x.*`  |
+| `feature/2.0.x` | JDK 17 | `2.0.x.*`  |
+| `feature/3.0.x` | JDK 21 | `3.0.x.*`  |
 
 ### CLI 兼容性（适配要点）
 
 SDK 跟踪上游 CLI 契约；CLI 是真相来源（以本机 `dreamina help` 输出为准）。要点如下：
 
-| 能力 / 模型 | 引入版本 | 枚举 / 字段 |
-|:---|:---|:---|
-| Seedream 5.0 Pro 模型 | CLI v1.4.12（2026-07-15） | `DreaminaImageModelVersion.MODEL_5_0_PRO` |
-| Seedream 5.0 Pro 1.5K/2K/4K 契约，移除旧 1K | CLI v1.4.16（2026-08-14） | `DreaminaImageResolutionType.RESOLUTION_1_5K` |
-| seedance 2.0 mini | CLI v1.4.8（2026-06-18） | `DreaminaVideoModelVersion.SEEDANCE_2_0_MINI` |
-| Seedance 2.5（480P/720P，4～30 秒） | CLI v1.4.15（2026-08-01） | `DreaminaVideoModelVersion.SEEDANCE_2_5`、`RESOLUTION_480P` |
-| Seedance 2.5 1080P 输出 | CLI v1.4.17（2026-08-18） | `DreaminaVideoResolutionType.RESOLUTION_1080P` |
-| 视频 4K 输出 | CLI v1.4.10（2026-06-26） | `DreaminaVideoResolutionType.RESOLUTION_4K`（需 `seedance2.0_vip` + VIP 账户） |
-| 自定义图片宽高 `--width / --height` | CLI v1.4.14（2026-07-21） | `DreaminaText2ImageRequest.width / height` |
-| `--resolution_type` / `--video_resolution` 必填 | CLI v1.4.14 | 类型化请求字段，默认 `2k` / `720p` |
-| 批量出图 `--generate_num` 1～10 | CLI v1.4.10 | `DreaminaText2ImageRequest.generateNum` |
-| Session 完整 CRUD | CLI v1.3.5（2026-04-16） | `session create/list/search/rename/delete` |
+| 能力 / 模型                                     | 引入版本                  | 枚举 / 字段                                                                    |
+|:------------------------------------------------|:--------------------------|:-------------------------------------------------------------------------------|
+| Seedream 5.0 Pro 模型                           | CLI v1.4.12（2026-07-15） | `DreaminaImageModelVersion.MODEL_5_0_PRO`                                      |
+| Seedream 5.0 Pro 1.5K/2K/4K 契约，移除旧 1K     | CLI v1.4.16（2026-08-14） | `DreaminaImageResolutionType.RESOLUTION_1_5K`                                  |
+| seedance 2.0 mini                               | CLI v1.4.8（2026-06-18）  | `DreaminaVideoModelVersion.SEEDANCE_2_0_MINI`                                  |
+| Seedance 2.5（480P/720P，4～30 秒）             | CLI v1.4.15（2026-08-01） | `DreaminaVideoModelVersion.SEEDANCE_2_5`、`RESOLUTION_480P`                    |
+| Seedance 2.5 1080P 输出                         | CLI v1.4.17（2026-08-18） | `DreaminaVideoResolutionType.RESOLUTION_1080P`                                 |
+| 视频 4K 输出                                    | CLI v1.4.10（2026-06-26） | `DreaminaVideoResolutionType.RESOLUTION_4K`（需 `seedance2.0_vip` + VIP 账户） |
+| 自定义图片宽高 `--width / --height`             | CLI v1.4.14（2026-07-21） | `DreaminaText2ImageRequest.width / height`                                     |
+| `--resolution_type` / `--video_resolution` 必填 | CLI v1.4.14               | 类型化请求字段，默认 `2k` / `720p`                                             |
+| 批量出图 `--generate_num` 1～10                 | CLI v1.4.10               | `DreaminaText2ImageRequest.generateNum`                                        |
+| Session 完整 CRUD                               | CLI v1.3.5（2026-04-16）  | `session create/list/search/rename/delete`                                     |
 
 <a id="4-architecture--modules"></a>
+
 ## 4. 架构与模块
 
 ```text
@@ -118,19 +130,20 @@ SDK 跟踪上游 CLI 契约；CLI 是真相来源（以本机 `dreamina help` �
 
 单一模块，jar 打包：
 
-| 包 | 职责 |
-|:---|:---|
-| `io.github.easy4j.dreamina` | `DreaminaCliProperties`（运行时配置） |
-| `io.github.easy4j.dreamina.cli` | `DreaminaCliExecutor`（唯一执行入口）、`DreaminaCliResult` / `DreaminaCliResponse` |
-| `io.github.easy4j.dreamina.cli.opts` | 强类型 CLI 参数（请求、枚举、校验） |
-| `io.github.easy4j.dreamina.cli.model` | 结构化解析体（version、submit、query、login、session 等） |
-| `io.github.easy4j.dreamina.cli.parser` | stdout 解析与载荷映射 |
-| `io.github.easy4j.dreamina.cli.availability` | 启动探测（`DreaminaCliAvailabilityChecker`） |
-| `io.github.easy4j.dreamina.cli.support` | 子进程执行支持 |
-| `io.github.easy4j.dreamina.image` | 图片压缩工具（`DreaminaImageCompressSupport`） |
-| `io.github.easy4j.dreamina.exception` | 类型化异常（`DreaminaCliException` 及其子类） |
+| 包                                           | 职责                                                                               |
+|:---------------------------------------------|:-----------------------------------------------------------------------------------|
+| `io.github.easy4j.dreamina`                  | `DreaminaCliProperties`（运行时配置）                                              |
+| `io.github.easy4j.dreamina.cli`              | `DreaminaCliExecutor`（唯一执行入口）、`DreaminaCliResult` / `DreaminaCliResponse` |
+| `io.github.easy4j.dreamina.cli.opts`         | 强类型 CLI 参数（请求、枚举、校验）                                                |
+| `io.github.easy4j.dreamina.cli.model`        | 结构化解析体（version、submit、query、login、session 等）                          |
+| `io.github.easy4j.dreamina.cli.parser`       | stdout 解析与载荷映射                                                              |
+| `io.github.easy4j.dreamina.cli.availability` | 启动探测（`DreaminaCliAvailabilityChecker`）                                       |
+| `io.github.easy4j.dreamina.cli.support`      | 子进程执行支持                                                                     |
+| `io.github.easy4j.dreamina.image`            | 图片压缩工具（`DreaminaImageCompressSupport`）                                     |
+| `io.github.easy4j.dreamina.exception`        | 类型化异常（`DreaminaCliException` 及其子类）                                      |
 
 <a id="5-installation"></a>
+
 ## 5. 安装
 
 ### Maven
@@ -162,6 +175,7 @@ dreamina help
 > CLI 是真相来源：以本机 `dreamina` 的命令与 flag 为准，优先于任何文档。
 
 <a id="6-quick-start"></a>
+
 ## 6. 快速开始
 
 ```java
@@ -184,23 +198,27 @@ DreaminaCliResponse<DreaminaGenerateSubmit> submit =
 String submitId = submit.getBody().getSubmitId();   // CLI JSON 输出中的 submit_id
 ```
 
-预期结果：得到包含 `submitId` 的 `DreaminaGenerateSubmit` 响应体（来自 `dreamina text2image --poll=0`）。命令为异步提交；之后用 `queryResultInfo(submitId)` 轮询。
+预期结果：得到包含 `submitId` 的 `DreaminaGenerateSubmit` 响应体（来自 `dreamina text2image --poll=0`）。命令为异步提交；之后用
+`queryResultInfo(submitId)` 轮询。
 
 <a id="7-configuration"></a>
+
 ## 7. 配置
 
-配置保存在纯 POJO `DreaminaCliProperties` 中（无 Spring 依赖；Spring Boot 应用可通过 `@ConfigurationProperties(prefix = "dreamina.cli")` 等方式绑定同一组字段，参见类 Javadoc）：
+配置保存在纯 POJO `DreaminaCliProperties` 中（无 Spring 依赖；Spring Boot 应用可通过
+`@ConfigurationProperties(prefix = "dreamina.cli")` 等方式绑定同一组字段，参见类 Javadoc）：
 
-| 属性 | 默认值 | 说明 |
-|:---|:---|:---|
-| `executable` | `dreamina` | CLI 可执行文件名或绝对路径 |
-| `workingDirectory` | — | 子进程工作目录 |
-| `commandTimeoutMillis` | `120000` | 单次 CLI 调用超时（毫秒） |
-| `maxConcurrentExecutions` | `0` | 子进程最大并发数；小于等于 0 时使用 `max(CPU 核心数, 2)` |
-| `startupProbeTimeoutMillis` | `30000` | 启动探测（`dreamina version`）专用超时（毫秒） |
-| `defaultPollIntervalSeconds` | `5` | 编排层建议轮询间隔（秒） |
+| 属性                         | 默认值     | 说明                                                     |
+|:-----------------------------|:-----------|:---------------------------------------------------------|
+| `executable`                 | `dreamina` | CLI 可执行文件名或绝对路径                               |
+| `workingDirectory`           | —          | 子进程工作目录                                           |
+| `commandTimeoutMillis`       | `120000`   | 单次 CLI 调用超时（毫秒）                                |
+| `maxConcurrentExecutions`    | `0`        | 子进程最大并发数；小于等于 0 时使用 `max(CPU 核心数, 2)` |
+| `startupProbeTimeoutMillis`  | `30000`    | 启动探测（`dreamina version`）专用超时（毫秒）           |
+| `defaultPollIntervalSeconds` | `5`        | 编排层建议轮询间隔（秒）                                 |
 
 <a id="8-core-usage--api"></a>
+
 ## 8. 核心用法 / API
 
 ### 8.1 启动就绪探测
@@ -208,9 +226,13 @@ String submitId = submit.getBody().getSubmitId();   // CLI JSON 输出中的 sub
 ```java
 DreaminaCliAvailabilityChecker checker = new DreaminaCliAvailabilityChecker();
 DreaminaCliAvailabilityReport report = checker.check(executor);
-if (!report.isAvailable()) {
-    throw new IllegalStateException(report.toDiagnosticMessage());
-}
+if(!report.
+
+isAvailable()){
+        throw new
+
+IllegalStateException(report.toDiagnosticMessage());
+        }
 ```
 
 ### 8.2 命令面
@@ -219,41 +241,42 @@ if (!report.isAvailable()) {
 
 内建命令：
 
-| CLI | 结构化方法 | 原始方法 |
-|:---|:---|:---|
-| `help` | `helpInfo()` / `helpInfo(subcommand)` | `help()` |
-| `version` | `versionInfo()` | `version()` |
-| `user_credit` | `userCreditInfo()` | `userCredit()` |
-| `login` / `logout` / `relogin` | `loginHeadlessInfo()` 等 | `login()` / `logout()` / `relogin()` |
-| `session create/list/search/rename/delete` | `sessionCreateInfo()` 等 | `sessionCreate()` 等 |
-| `list_task` | `listTaskInfo()` | `listTask()` |
-| `query_result` | `queryResultInfo()` | `queryResult()` |
+| CLI                                        | 结构化方法                            | 原始方法                             |
+|:-------------------------------------------|:--------------------------------------|:-------------------------------------|
+| `help`                                     | `helpInfo()` / `helpInfo(subcommand)` | `help()`                             |
+| `version`                                  | `versionInfo()`                       | `version()`                          |
+| `user_credit`                              | `userCreditInfo()`                    | `userCredit()`                       |
+| `login` / `logout` / `relogin`             | `loginHeadlessInfo()` 等              | `login()` / `logout()` / `relogin()` |
+| `session create/list/search/rename/delete` | `sessionCreateInfo()` 等              | `sessionCreate()` 等                 |
+| `list_task`                                | `listTaskInfo()`                      | `listTask()`                         |
+| `query_result`                             | `queryResultInfo()`                   | `queryResult()`                      |
 
 生成命令（均返回 `DreaminaCliResponse<DreaminaGenerateSubmit>`）：
 
-| CLI | 结构化方法 |
-|:---|:---|
-| `text2image` | `text2ImageSubmit(...)` |
-| `image2image` | `image2ImageSubmit(...)` |
-| `image_upscale` | `imageUpscaleSubmit(...)` |
-| `text2video` | `text2VideoSubmit(...)` |
-| `image2video` | `image2VideoSubmit(...)` |
-| `frames2video` | `frames2VideoSubmit(...)` |
+| CLI                | 结构化方法                    |
+|:-------------------|:------------------------------|
+| `text2image`       | `text2ImageSubmit(...)`       |
+| `image2image`      | `image2ImageSubmit(...)`      |
+| `image_upscale`    | `imageUpscaleSubmit(...)`     |
+| `text2video`       | `text2VideoSubmit(...)`       |
+| `image2video`      | `image2VideoSubmit(...)`      |
+| `frames2video`     | `frames2VideoSubmit(...)`     |
 | `multiframe2video` | `multiframe2VideoSubmit(...)` |
 | `multimodal2video` | `multimodal2VideoSubmit(...)` |
 
-通用扩展：`invoke(subcommand, additionalRawArgs)`，或任意 Request 的 `additionalRawArgs(...)`，用于透传 SDK 未建模的 CLI flag。该 raw 路径有意不做完整契约校验；需要在本地拒绝废弃值或模型组合时，应优先使用强类型 Request。
+通用扩展：`invoke(subcommand, additionalRawArgs)`，或任意 Request 的 `additionalRawArgs(...)`，用于透传 SDK 未建模的 CLI
+flag。该 raw 路径有意不做完整契约校验；需要在本地拒绝废弃值或模型组合时，应优先使用强类型 Request。
 
 ### 8.3 登录与账号（OAuth Device Flow）
 
-| CLI | SDK 方法 |
-|:---|:---|
-| `dreamina login` | `login()` |
-| `dreamina login --headless` | `loginHeadless()` / `loginHeadlessInfo()` |
+| CLI                                                     | SDK 方法                                   |
+|:--------------------------------------------------------|:-------------------------------------------|
+| `dreamina login`                                        | `login()`                                  |
+| `dreamina login --headless`                             | `loginHeadless()` / `loginHeadlessInfo()`  |
 | `dreamina login checklogin --device_code=... --poll=30` | `checkLogin(deviceCode, pollSeconds, ...)` |
-| `dreamina logout` | `logout()` |
-| `dreamina relogin` | `relogin()` |
-| `dreamina user_credit` | `userCreditInfo()` |
+| `dreamina logout`                                       | `logout()`                                 |
+| `dreamina relogin`                                      | `relogin()`                                |
+| `dreamina user_credit`                                  | `userCreditInfo()`                         |
 
 Headless 流程：`loginHeadlessInfo()` 解析出 `device_code`，再由 `checkLogin(...)` 轮询完成授权。
 
@@ -266,7 +289,8 @@ Headless 流程：`loginHeadlessInfo()` 解析出 `device_code`，再由 `checkL
 4. OPTIONAL-> listTaskInfo(gen_status=success)  # 列表复核（Query）
 ```
 
-`--poll` 语义：提交命令带 `--poll=N` 时，CLI 每秒轮询最多 N 秒；完成则直出结果，超时则返回 `querying`，后续用 `query_result` 继续查。
+`--poll` 语义：提交命令带 `--poll=N` 时，CLI 每秒轮询最多 N 秒；完成则直出结果，超时则返回 `querying`，后续用 `query_result`
+继续查。
 
 ### 8.5 任务查询示例
 
@@ -275,7 +299,9 @@ DreaminaQueryResultRequest query = DreaminaQueryResultRequest.builder()
         .submitId(submitId)
         .downloadDir("./downloads")
         .build();
-executor.queryResultInfo(query);
+executor.
+
+queryResultInfo(query);
 ```
 
 ### 8.6 结果模型
@@ -283,9 +309,12 @@ executor.queryResultInfo(query);
 - `DreaminaCliResult` — 原始结果（退出码、stdout/stderr）
 - `DreaminaCliResponse<T>` — 结构化结果：`stdout` / `stderr` / `exitCode` / `body` / `json` / `getCombinedText()`
 
-常见 `body` 类型（位于 `cli.model`）：`DreaminaVersion`、`DreaminaQueryResult`、`DreaminaGenerateSubmit`、`DreaminaLogin`、`DreaminaSessionList` 等。全部结构化映射由 `DreaminaCliStructuredPayloadMapper` 完成；未知扩展字段保留在结果的 `json`（`JsonNode`）中。
+常见 `body` 类型（位于 `cli.model`）：`DreaminaVersion`、`DreaminaQueryResult`、`DreaminaGenerateSubmit`、`DreaminaLogin`、
+`DreaminaSessionList` 等。全部结构化映射由 `DreaminaCliStructuredPayloadMapper` 完成；未知扩展字段保留在结果的 `json`（
+`JsonNode`）中。
 
 <a id="9-testing--build"></a>
+
 ## 9. 测试与构建
 
 ```bash
@@ -310,34 +339,39 @@ export DREAMINA_CLI_AUDIT=true
   -Dexec.classpathScope=test
 ```
 
-其它资产：`docs/CLI_EXEC_CATALOG.md`（命令目录与真实执行样例）、`scripts/dreamina-cli-audit*.sh`（将真实 stdout/stderr 采集到 `.cli-audit/`（gitignore），用于对齐解析与补测试）。
+其它资产：`docs/CLI_EXEC_CATALOG.md`（命令目录与真实执行样例）、`scripts/dreamina-cli-audit*.sh`（将真实 stdout/stderr 采集到
+`.cli-audit/`（gitignore），用于对齐解析与补测试）。
 
 ### 常见问题与本地文件
 
-| 路径 | 说明 |
-|:---|:---|
-| `~/.dreamina_cli/config.toml` | 环境配置 |
-| `~/.dreamina_cli/tasks.db` | 本地任务记录 |
-| `~/.dreamina_cli/logs/` | 运行日志 |
+| 路径                          | 说明         |
+|:------------------------------|:-------------|
+| `~/.dreamina_cli/config.toml` | 环境配置     |
+| `~/.dreamina_cli/tasks.db`    | 本地任务记录 |
+| `~/.dreamina_cli/logs/`       | 运行日志     |
 
-排障：先 `user_credit` 确认登录；生成失败时提供完整命令、报错与 logs 目录内容。查看子命令参数用 `dreamina <cmd> -h`（或 `dreamina help <cmd>`）；CLI 本身是真相来源。
+排障：先 `user_credit` 确认登录；生成失败时提供完整命令、报错与 logs 目录内容。查看子命令参数用 `dreamina <cmd> -h`（或
+`dreamina help <cmd>`）；CLI 本身是真相来源。
 
 <a id="10-versioning--branches"></a>
+
 ## 10. 版本线与分支
 
 仓库维护三条并行版本线：
 
-| 分支 | JDK | 版本号模式 |
-|:---|:---|:---|
-| `feature/1.0.x` | JDK 8 | `1.0.x.*` |
-| `feature/2.0.x` | JDK 17 | `2.0.x.*` |
-| `feature/3.0.x` | JDK 21 | `3.0.x.*` |
+| 分支            | JDK    | 版本号模式 |
+|:----------------|:-------|:-----------|
+| `feature/1.0.x` | JDK 8  | `1.0.x.*`  |
+| `feature/2.0.x` | JDK 17 | `2.0.x.*`  |
+| `feature/3.0.x` | JDK 21 | `3.0.x.*`  |
 
-维护策略：在 JDK 8 作为基线的同时，1.0.x 版本线持续与上游 `dreamina` CLI 契约对齐（契约测试守护 help 快照面）；新功能开发面向 2.0.x / 3.0.x 版本线。
+维护策略：当前 1.0.x 版本线以 Java 8 为基线新增 Canvas CLI 集成；旧 Dreamina CLI API 保留并废弃。本次仅修改当前分支。
 
 <a id="11-contributing--license"></a>
+
 ## 11. 参与贡献与许可协议
 
 欢迎参与贡献——请通过 Issue 反馈问题，或向对应版本线分支提交 Pull Request（JDK 8 相关改动提交到 `feature/1.0.x`）。
 
-本项目基于 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) 许可发布。详见仓库根目录的 `LICENSE` 文件。
+本项目基于 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) 许可发布。详见仓库根目录的
+`LICENSE` 文件。

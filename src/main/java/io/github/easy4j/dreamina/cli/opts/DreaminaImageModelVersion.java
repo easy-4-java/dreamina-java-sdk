@@ -9,6 +9,7 @@ import lombok.Getter;
  * is allowed for image-to-image is additionally constrained by the request object.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaText2ImageRequest
  * @see DreaminaImage2ImageRequest
  * <p>
@@ -23,11 +24,11 @@ import lombok.Getter;
  * </ul>
  * 4.0+ 模型同时支持图生图。
  * </p>
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 旧值 4.7/5.0Pro 不是 Canvas canonical 模型 ID；替代：实时 model list/find 返回值。
  */
 @Getter
+@Deprecated
 public enum DreaminaImageModelVersion {
 
     MODEL_3_0("3.0"),
@@ -36,7 +37,9 @@ public enum DreaminaImageModelVersion {
     MODEL_4_1("4.1"),
     MODEL_4_5("4.5"),
     MODEL_4_6("4.6"),
-    /** CLI v1.4.4（2026-06-03）新增。 */
+    /**
+     * CLI v1.4.4（2026-06-03）新增。
+     */
     MODEL_4_7("4.7"),
     MODEL_5_0("5.0"),
     /**

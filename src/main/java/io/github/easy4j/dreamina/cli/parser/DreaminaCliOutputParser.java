@@ -11,38 +11,39 @@ import java.util.regex.Pattern;
  * and the caller must fall back to the raw strings.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaParsedFields
  * @see DreaminaCliStructuredPayloadMapper
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 旧文本/正则提取 gen_status/submit_id，不支持 Canvas ok/partialData；替代：DreaminaCanvasResponseParser。
  */
+@Deprecated
 public final class DreaminaCliOutputParser {
 
     private static final Pattern SUBMIT_ID_PATTERN = Pattern.compile(
-        "(?:--submit[_-]?id=|^\\s*submit[_-]?id\\s*[:=]\\s*)(\\S+)",
-        Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+            "(?:--submit[_-]?id=|^\\s*submit[_-]?id\\s*[:=]\\s*)(\\S+)",
+            Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 
     private static final Pattern SUBMIT_ID_ALT = Pattern.compile(
-        "\\bsubmit[_-]?id\\b\\s*[:=]\\s*[\"']?([A-Za-z0-9_-]+)", Pattern.CASE_INSENSITIVE);
+            "\\bsubmit[_-]?id\\b\\s*[:=]\\s*[\"']?([A-Za-z0-9_-]+)", Pattern.CASE_INSENSITIVE);
 
     /**
      * The {@code "submit_id":"..."} in compact JSON from task submission/query command output (takes priority over loose text matching).
      */
     private static final Pattern SUBMIT_ID_JSON = Pattern.compile(
-        "\"submit_id\"\\s*:\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
+            "\"submit_id\"\\s*:\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern CREDIT_PATTERN = Pattern.compile(
-        "(?:(?:user[_-]?)?credits?)\\s*[:=]\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
+            "(?:(?:user[_-]?)?credits?)\\s*[:=]\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
 
     /**
      * The credit field in JSON returned by commands like {@code user_credit} (whitespace allowed between key and number).
      */
     private static final Pattern CREDIT_TOTAL_JSON = Pattern.compile(
-        "\"total_credit\"\\s*:\\s*(\\d+)\\b", Pattern.CASE_INSENSITIVE);
+            "\"total_credit\"\\s*:\\s*(\\d+)\\b", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern POLL_HINT = Pattern.compile(
-        "\\b(pending|queued|running)\\b", Pattern.CASE_INSENSITIVE);
+            "\\b(pending|queued|running)\\b", Pattern.CASE_INSENSITIVE);
 
     private DreaminaCliOutputParser() {
     }
@@ -70,10 +71,10 @@ public final class DreaminaCliOutputParser {
         }
 
         return DreaminaParsedFields.builder()
-            .submitId(submitId)
-            .credit(credit)
-            .pollRecommended(pollRecommended)
-            .build();
+                .submitId(submitId)
+                .credit(credit)
+                .pollRecommended(pollRecommended)
+                .build();
     }
 
     /**
