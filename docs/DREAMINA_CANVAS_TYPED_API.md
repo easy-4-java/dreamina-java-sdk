@@ -1,5 +1,7 @@
 # Canvas 强类型 API 验收
 
+> 分支同步说明：下文的 Java 8、1.0.x 统计与真实生成记录是源分支历史证据。当前 `feature/3.0.x` 以 Java 21、`3.0.x.20260830-SNAPSHOT` 完成 `clean verify`：591 项测试、579 通过、12 跳过、0 失败，JaCoCo 门禁通过。Canvas 使用独立的 Jackson 2 解析路径，原有 CLI 保持 Jackson 3。
+
 本轮规格：`typed-canvas-command-api`，2026-09-29。基线为本机官方 CLI 1.0.1，Java 8。原目录结构不变。
 
 ## 实现
