@@ -12,6 +12,16 @@ import lombok.Getter;
 @Builder
 public final class DreaminaCanvasNodeEditElementRequest extends DreaminaCanvasRequest<DreaminaCanvasNodeEditElementResult> {
     /**
+     * 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；--x。
+     */
+    @DreaminaCanvasParameter(value = "x", positional = false)
+    private final java.math.BigDecimal x;
+    /**
+     * 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；--y。
+     */
+    @DreaminaCanvasParameter(value = "y", positional = false)
+    private final java.math.BigDecimal y;
+    /**
      * 项目 UUID；省略时使用当前项目；--project-id。
      */
     @DreaminaCanvasParameter(value = "project-id", positional = false)
@@ -31,6 +41,12 @@ public final class DreaminaCanvasNodeEditElementRequest extends DreaminaCanvasRe
      */
     @DreaminaCanvasParameter(value = "dry-run", positional = false)
     private final Boolean dryRun;
+    /**
+     * 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；--resource-source。
+     */
+    @DreaminaCanvasParameter(value = "resource-source", positional = false)
+    @lombok.Singular("addResourceSource")
+    private final java.util.List<String> resourceSource;
     /**
      * Element 标题；未给出则保持；--title。
      */
@@ -106,10 +122,13 @@ public final class DreaminaCanvasNodeEditElementRequest extends DreaminaCanvasRe
     @Override
     protected DreaminaCanvasArguments arguments() {
         DreaminaCanvasArguments args = new DreaminaCanvasArguments();
+        args.flag("x", x);
+        args.flag("y", y);
         args.flag("project-id", projectId);
         args.flag("node-id", nodeId);
         args.flag("update-id", updateId);
         args.flag("dry-run", dryRun);
+        args.flag("resource-source", resourceSource);
         args.flag("title", title);
         args.flag("description", description);
         args.flag("tag", tag);

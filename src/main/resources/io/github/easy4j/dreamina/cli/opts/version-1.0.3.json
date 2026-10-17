@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1",
+  "ok": true,
+  "data": {
+    "version": "1.0.3",
+    "commit": "244064d",
+    "buildTime": "2026-10-14T03:28:54Z",
+    "edition": "public",
+    "distribution": "cn",
+    "releaseDate": "2026-10-09",
+    "releaseNotes": "全能配音支持选择一个音色作为音频参考，并根据模型规格预检参考素材，保留旧版音频协议。"
+  }
+}

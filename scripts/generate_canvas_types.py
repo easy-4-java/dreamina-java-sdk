@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""根据已审阅的 CLI 1.0.1 契约生成具体 Java 类型。运行后必须执行字段覆盖测试。"""
+"""根据已审阅的 CLI 1.0.3 契约生成具体 Java 类型。运行后必须执行字段覆盖测试。"""
 import json, re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 BASE=ROOT/'src/main/java/io/github/easy4j/dreamina/cli'
-SCHEMA=json.loads((ROOT/'src/main/resources/io/github/easy4j/dreamina/cli/opts/schema-1.0.1.json').read_text())
+SCHEMA=json.loads((ROOT/'src/main/resources/io/github/easy4j/dreamina/cli/opts/schema-1.0.3.json').read_text())
 PRIMITIVES={'string':'String','integer':'Long','number':'java.math.BigDecimal','boolean':'Boolean','duration':'java.time.Duration'}
 def pas(s): return ''.join(w[0].upper()+w[1:] for w in re.split(r'[- _]',s))
 def java(s): return {'default':'defaultValue','wait':'waitForCompletion','clear-auxiliary':'clearAuxiliaryBindings'}.get(s,s.split('-')[0]+''.join(pas(x) for x in s.split('-')[1:]))
@@ -62,6 +62,7 @@ def typefor(f,parent):
     typ=f['type']
     if typ in PRIMITIVES:return PRIMITIVES[typ]
     if typ.startswith('array<') and typ!='array<object>':return 'java.util.List<'+PRIMITIVES[typ[6:-1]]+'>'
+    if typ.startswith('map<string,') and typ!='map<string,object>':return 'java.util.Map<String, '+PRIMITIVES[typ[11:-1]]+'>'
     fields=f.get('fields',[])
     if not fields:
         t={'rule':'DreaminaCanvasParameterRule','fields':'DreaminaCanvasSchemaField','subcommands':'DreaminaCanvasSchemaCommand'}.get(f['name'])
@@ -86,39 +87,42 @@ while len(done)<len(classes):
     for f in classes[name]:typefor(f,name)
     done.add(name)
 for name,fields in classes.items():
-    lines=['package io.github.easy4j.dreamina.cli.model;','','import com.fasterxml.jackson.annotation.JsonIgnoreProperties;','import com.fasterxml.jackson.annotation.JsonProperty;','import lombok.Getter;','import lombok.Setter;','', '/** 画布 CLI 契约对象；由 scripts/generate_canvas_types.py 维护。 */','@Getter','@Setter','@JsonIgnoreProperties(ignoreUnknown = true)','public final class '+name+' {']
+    lines=['package io.github.easy4j.dreamina.cli.model;','','import com.fasterxml.jackson.annotation.JsonIgnoreProperties;','import com.fasterxml.jackson.annotation.JsonProperty;','import lombok.Getter;','import lombok.Setter;','', '/**',' * 画布 CLI 契约对象；由 scripts/generate_canvas_types.py 维护。',' */','@Getter','@Setter','@JsonIgnoreProperties(ignoreUnknown = true)','public final class '+name+' {']
     for f in fields:
-        lines+=['    /** 契约字段 {@code '+f['name']+'}。 */','    @JsonProperty("'+f['name']+'")','    private '+typefor(f,name)+' '+java(f['name'])+';']
+        lines+=['    /**','     * 契约字段 {@code '+f['name']+'}。','     */','    @JsonProperty("'+f['name']+'")','    private '+typefor(f,name)+' '+java(f['name'])+';']
     lines+=['}','']
     (BASE/'model'/f'{name}.java').write_text('\n'.join(lines))
 for p,c in commands:
     name=('DreaminaCanvas'+pas(p)+'Request').replace('DreaminaCanvasCanvas','DreaminaCanvas'); t=command_types[p]
-    lines=['package io.github.easy4j.dreamina.cli.opts;','','import io.github.easy4j.dreamina.cli.DreaminaCanvasCommand;','import io.github.easy4j.dreamina.cli.model.'+t+';','import lombok.Builder;','import lombok.Getter;','', '/** '+c['summary']+'。仅显式参数进入命令，不自动运行或批准积分。 */','@Getter','@Builder','public final class '+name+' extends DreaminaCanvasRequest<'+t+'> {']
+    lines=['package io.github.easy4j.dreamina.cli.opts;','','import io.github.easy4j.dreamina.cli.DreaminaCanvasCommand;','import io.github.easy4j.dreamina.cli.model.'+t+';','import lombok.Builder;','import lombok.Getter;','', '/**',' * '+c['summary']+'。仅显式参数进入命令，不自动运行或批准积分。',' */','@Getter','@Builder','public final class '+name+' extends DreaminaCanvasRequest<'+t+'> {']
     entries=[]
     for f in c.get('flags',[]):entries.append((f,False))
     for f in c.get('arguments',[]):entries.append((dict(f,type='string[]' if f.get('repeatable') else 'string'),True))
     for f,pos in entries:
         ty='java.util.List<String>' if f['type']=='string[]' else PRIMITIVES[f['type']]
-        lines+=['    /** '+f.get('description',f['name'])+'；'+('位置参数' if pos else '--'+f['name'])+'。 */','    @DreaminaCanvasParameter(value = "'+f['name']+'", positional = '+str(pos).lower()+')',*((['    @lombok.Singular("add'+pas(java(f['name']))+'")'] if f['type']=='string[]' else [])), '    private final '+ty+' '+java(f['name'])+';']
-    lines+=['    /** 显式启用确认策略，不替代积分凭证。 */','    private final boolean yes;','','    @Override public DreaminaCanvasCommand getCommand() { return DreaminaCanvasCommand.'+p.upper().replace(' ','_')+'; }','    @Override public Class<'+t+'> getDataType() { return '+t+'.class; }','','    @Override protected DreaminaCanvasArguments arguments() {','        DreaminaCanvasArguments args = new DreaminaCanvasArguments();']
+        lines+=['    /**','     * '+f.get('description',f['name'])+'；'+('位置参数' if pos else '--'+f['name'])+'。','     */','    @DreaminaCanvasParameter(value = "'+f['name']+'", positional = '+str(pos).lower()+')',*((['    @lombok.Singular("add'+pas(java(f['name']))+'")'] if f['type']=='string[]' else [])), '    private final '+ty+' '+java(f['name'])+';']
+    lines+=['    /**','     * 显式启用确认策略，不替代积分凭证。','     */','    private final boolean yes;','','    @Override','    public DreaminaCanvasCommand getCommand() {','        return DreaminaCanvasCommand.'+p.upper().replace(' ','_')+';','    }','','    @Override','    public Class<'+t+'> getDataType() {','        return '+t+'.class;','    }','','    @Override','    protected DreaminaCanvasArguments arguments() {','        DreaminaCanvasArguments args = new DreaminaCanvasArguments();']
     for f,pos in entries:
         lines+=['        args.'+('position' if pos else 'flag')+'('+('' if pos else '"'+f['name']+'", ')+java(f['name'])+');']
     lines+=['        args.yes(yes);','        return args;','    }']
     overloads=[]
     for f,pos in entries:
         n=f['name']
-        if n=='ratio':overloads+=['        /** 复用既有画幅枚举。 */','        public '+name+'Builder ratio(DreaminaRatio value) { this.ratio = java.util.Objects.isNull(value) ? null : value.getCliValue(); return this; }','        public '+name+'Builder ratio(String value) { this.ratio = value; return this; }']
+        if n=='ratio':overloads+=['        /**','         * 复用既有画幅枚举。','         */','        public '+name+'Builder ratio(DreaminaRatio value) {','            this.ratio = java.util.Objects.isNull(value) ? null : value.getCliValue();','            return this;','        }','','        public '+name+'Builder ratio(String value) {','            this.ratio = value;','            return this;','        }']
         if n=='resolution':
             et='DreaminaImageResolutionType' if p.endswith('image') else 'DreaminaVideoResolutionType'
-            overloads+=['        /** 复用既有分辨率枚举，转换 Canvas 大写 K。 */','        public '+name+'Builder resolution('+et+' value) { this.resolution = java.util.Objects.isNull(value) ? null : value.getCliValue().replace("k", "K"); return this; }','        public '+name+'Builder resolution(String value) { this.resolution = value; return this; }']
-    if overloads:lines+=['    public static class '+name+'Builder {']+overloads+['    }']
+            overloads+=['        /**','         * 复用既有分辨率枚举，转换 Canvas 大写 K。','         */','        public '+name+'Builder resolution('+et+' value) {','            this.resolution = java.util.Objects.isNull(value) ? null : value.getCliValue().replace("k", "K");','            return this;','        }','','        public '+name+'Builder resolution(String value) {','            this.resolution = value;','            return this;','        }']
+    if overloads:lines+=['','    public static class '+name+'Builder {']+overloads+['    }']
     lines+=['}','']
-    (BASE/'opts'/f'{name}.java').write_text('\n'.join(lines).replace('java.util.Objects','Objects').replace('import lombok.Getter;','import lombok.Getter;\nimport java.util.Objects;'))
+    content='\n'.join(lines)
+    if overloads:
+        content=content.replace('java.util.Objects','Objects').replace('import lombok.Getter;','import lombok.Getter;\n\nimport java.util.Objects;')
+    (BASE/'opts'/f'{name}.java').write_text(content)
 # 生成逐指令入口，避免手工漏挂载新命令。
 methods=[]
 for p,c in commands:
     req=('DreaminaCanvas'+pas(p)+'Request').replace('DreaminaCanvasCanvas','DreaminaCanvas'); rt=command_types[p];method=pas(p);method=method[0].lower()+method[1:]
-    methods+=['    /** '+c['summary']+'。 */','    public DreaminaCanvasResponse<'+rt+'> '+method+'('+req+' request) {','        return execute(request);','    }']
+    methods+=['    /**','     * '+c['summary']+'。','     */','    public DreaminaCanvasResponse<'+rt+'> '+method+'('+req+' request) {','        return execute(request);','    }']
 (ROOT/'scripts/canvas_executor_methods.txt').write_text('\n'.join(methods)+'\n')
-(ROOT/'docs/validation/dreamina-canvas-types.json').write_text(json.dumps({'schemaVersion':'1','cliVersion':'1.0.1','commands':[{'command':p,'request':('DreaminaCanvas'+pas(p)+'Request').replace('DreaminaCanvasCanvas','DreaminaCanvas'),'data':command_types[p]} for p,c in commands]},indent=2)+'\n')
+(ROOT/'docs/validation/dreamina-canvas-types.json').write_text(json.dumps({'schemaVersion':'1','cliVersion':'1.0.3','commands':[{'command':p,'request':('DreaminaCanvas'+pas(p)+'Request').replace('DreaminaCanvasCanvas','DreaminaCanvas'),'data':command_types[p]} for p,c in commands]},indent=2)+'\n')
 print('Generated',len(commands),'requests,',len(classes),'response objects')

@@ -43,7 +43,7 @@ class DreaminaCanvasParserBoundaryTest {
 
     @Test
     void successfulDataStillRequiresZeroExitAndOk() {
-        String json = "{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.1\"}}";
+        String json = "{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.3\"}}";
         assertTrue(parser.parse("version", raw(json, "", 0), DreaminaVersion.class).isSuccess());
         assertFalse(parser.parse("version", raw(json, "", 2), DreaminaVersion.class).isSuccess());
         assertFalse(parser.parse("version", raw(json.replace("true", "false"), "", 0), DreaminaVersion.class).isSuccess());

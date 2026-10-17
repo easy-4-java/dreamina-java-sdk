@@ -36,7 +36,7 @@ public final class DreaminaCanvasNodeRunResultItem {
      * 契约字段 {@code error}。
      */
     @JsonProperty("error")
-    private DreaminaCanvasServiceError error;
+    private DreaminaCanvasSubmissionError error;
     /**
      * 契约字段 {@code generationDiff}。
      */

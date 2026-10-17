@@ -1,6 +1,6 @@
 # 即梦画布 Java SDK
 
-契约基线：官方 `dreamina-canvas 1.0.1`，commit `09307bb`，schemaVersion `1`，Java 8。
+契约基线：官方 `dreamina-canvas 1.0.3`，commit `244064d`，schemaVersion `1`，Java 8。
 
 `DreaminaCanvasCliExecutor` 提供 37 条业务指令的独立请求和具体响应类型，以及帮助和四种 shell
 补全请求。参数、位置参数、成功响应、dry-run、错误、恢复上下文均由 Java 对象表达。Canvas 代码不使用 JSON 树、任意 Object 属性或字符串键

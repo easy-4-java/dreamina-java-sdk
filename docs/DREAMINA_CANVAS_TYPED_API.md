@@ -1,6 +1,6 @@
 # Canvas 强类型 API 验收
 
-本轮规格：`typed-canvas-command-api`，2026-09-29。基线为本机官方 CLI 1.0.1，Java 8。原目录结构不变。
+本轮规格：`typed-canvas-command-api`，2026-09-29。基线为本机官方 CLI 1.0.3，Java 8。原目录结构不变。
 
 ## 实现
 

@@ -13,6 +13,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasNode {
     /**
+     * 契约字段 {@code parentNodeId}。
+     */
+    @JsonProperty("parentNodeId")
+    private String parentNodeId;
+    /**
      * 契约字段 {@code nodeId}。
      */
     @JsonProperty("nodeId")

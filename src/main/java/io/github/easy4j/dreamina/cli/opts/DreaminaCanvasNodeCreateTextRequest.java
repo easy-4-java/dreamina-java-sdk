@@ -12,6 +12,16 @@ import lombok.Getter;
 @Builder
 public final class DreaminaCanvasNodeCreateTextRequest extends DreaminaCanvasRequest<DreaminaCanvasNodeCreateTextResult> {
     /**
+     * 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；--x。
+     */
+    @DreaminaCanvasParameter(value = "x", positional = false)
+    private final java.math.BigDecimal x;
+    /**
+     * 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；--y。
+     */
+    @DreaminaCanvasParameter(value = "y", positional = false)
+    private final java.math.BigDecimal y;
+    /**
      * 项目 UUID；省略时使用当前项目；--project-id。
      */
     @DreaminaCanvasParameter(value = "project-id", positional = false)
@@ -47,16 +57,6 @@ public final class DreaminaCanvasNodeCreateTextRequest extends DreaminaCanvasReq
     @DreaminaCanvasParameter(value = "import-kind", positional = false)
     private final String importKind;
     /**
-     * external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供；--x。
-     */
-    @DreaminaCanvasParameter(value = "x", positional = false)
-    private final java.math.BigDecimal x;
-    /**
-     * external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供；--y。
-     */
-    @DreaminaCanvasParameter(value = "y", positional = false)
-    private final java.math.BigDecimal y;
-    /**
      * 显式启用确认策略，不替代积分凭证。
      */
     private final boolean yes;
@@ -74,6 +74,8 @@ public final class DreaminaCanvasNodeCreateTextRequest extends DreaminaCanvasReq
     @Override
     protected DreaminaCanvasArguments arguments() {
         DreaminaCanvasArguments args = new DreaminaCanvasArguments();
+        args.flag("x", x);
+        args.flag("y", y);
         args.flag("project-id", projectId);
         args.flag("node-id", nodeId);
         args.flag("update-id", updateId);
@@ -81,8 +83,6 @@ public final class DreaminaCanvasNodeCreateTextRequest extends DreaminaCanvasReq
         args.flag("title", title);
         args.flag("text", text);
         args.flag("import-kind", importKind);
-        args.flag("x", x);
-        args.flag("y", y);
         args.yes(yes);
         return args;
     }

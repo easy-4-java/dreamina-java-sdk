@@ -41,7 +41,7 @@ public final class DreaminaCanvasOperationWaitResult {
      * 契约字段 {@code submissionError}。
      */
     @JsonProperty("submissionError")
-    private DreaminaCanvasSubmissionError submissionError;
+    private DreaminaCanvasServiceError submissionError;
     /**
      * 契约字段 {@code awaitingConfirmation}。
      */

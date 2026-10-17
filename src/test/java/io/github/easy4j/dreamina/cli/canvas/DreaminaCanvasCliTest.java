@@ -105,8 +105,8 @@ class DreaminaCanvasCliTest {
 
     @Test
     void typedBodyAndExitCodeMustBothSucceed() throws Exception {
-        DreaminaCanvasCliExecutor cli = fake(output("{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.1\",\"future\":1}}", 0), 5000);
-        assertEquals("1.0.1", cli.version().getData().getVersion());
+        DreaminaCanvasCliExecutor cli = fake(output("{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.3\",\"future\":1}}", 0), 5000);
+        assertEquals("1.0.3", cli.version().getData().getVersion());
         assertFalse(fake(output("{\"schemaVersion\":\"1\",\"ok\":true}", 2), 5000).version().isSuccess());
     }
 

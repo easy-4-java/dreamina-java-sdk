@@ -18,6 +18,11 @@ public final class DreaminaCanvasGeneration {
     @JsonProperty("model")
     private String model;
     /**
+     * 契约字段 {@code scenario}。
+     */
+    @JsonProperty("scenario")
+    private String scenario;
+    /**
      * 契约字段 {@code mode}。
      */
     @JsonProperty("mode")
