@@ -1,4 +1,4 @@
-## MODIFIED Requirements
+## ADDED Requirements
 
 ### Requirement: Bundled contract snapshot matches the installed public CLI
 
@@ -25,3 +25,24 @@ routes remain exactly equal.
   the official schema
 - **THEN** the bundled validator rejects requests missing it before any
   process is spawned, without SDK-specific validation code
+
+## MODIFIED Requirements
+
+### Requirement: Complete versioned command contract
+
+The SDK SHALL represent every executable business command in the installed public Canvas CLI schema captured by the
+bundled versioned snapshot, including the callable model group, and SHALL expose help and four shell completion
+commands separately as text outputs. The bundled contract SHALL preserve flags, positional arguments, repeated values
+and declared exit codes without inventing dynamic model values. On every CLI upgrade the snapshot SHALL be refreshed
+from read-only output and the generated surfaces SHALL be regenerated so schema routes, enum constants and tested
+routes remain exactly equal.
+
+#### Scenario: All executable commands have an SDK route
+
+- **WHEN** the versioned schema is enumerated
+- **THEN** every leaf command and `model <name>` maps to a public command identifier and can be passed to the client
+
+#### Scenario: Typed options become argv without shell execution
+
+- **WHEN** a prompt contains spaces, quotes, newlines or shell syntax, or repeated references are supplied
+- **THEN** each option is passed as a separate literal argv value and reference order is preserved
