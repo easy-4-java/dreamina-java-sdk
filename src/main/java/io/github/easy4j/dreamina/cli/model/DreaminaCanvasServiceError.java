@@ -23,6 +23,21 @@ public final class DreaminaCanvasServiceError {
     @JsonProperty("message")
     private String message;
     /**
+     * 契约字段 {@code reason}。
+     */
+    @JsonProperty("reason")
+    private String reason;
+    /**
+     * 契约字段 {@code retryable}。
+     */
+    @JsonProperty("retryable")
+    private Boolean retryable;
+    /**
+     * 契约字段 {@code requiredAction}。
+     */
+    @JsonProperty("requiredAction")
+    private String requiredAction;
+    /**
      * 契约字段 {@code validation}。
      */
     @JsonProperty("validation")

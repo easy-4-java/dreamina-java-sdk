@@ -12,6 +12,16 @@ import lombok.Getter;
 @Builder
 public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRequest<DreaminaCanvasNodeCreateAudioResult> {
     /**
+     * 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；--x。
+     */
+    @DreaminaCanvasParameter(value = "x", positional = false)
+    private final java.math.BigDecimal x;
+    /**
+     * 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；--y。
+     */
+    @DreaminaCanvasParameter(value = "y", positional = false)
+    private final java.math.BigDecimal y;
+    /**
      * 项目 UUID；省略时使用当前项目；--project-id。
      */
     @DreaminaCanvasParameter(value = "project-id", positional = false)
@@ -31,6 +41,12 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
      */
     @DreaminaCanvasParameter(value = "dry-run", positional = false)
     private final Boolean dryRun;
+    /**
+     * 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；--resource-source。
+     */
+    @DreaminaCanvasParameter(value = "resource-source", positional = false)
+    @lombok.Singular("addResourceSource")
+    private final java.util.List<String> resourceSource;
     /**
      * 节点标题；按 flag 出现更新；--title。
      */
@@ -58,7 +74,7 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
     @DreaminaCanvasParameter(value = "prompt", positional = false)
     private final String prompt;
     /**
-     * music 模式必填；从当前环境 model list --type audio 返回的 mode=music 结果选择；--model。
+     * music 必填；tts 可指定模型并同时提供 --scenario；从 model list --type audio 选择；--model。
      */
     @DreaminaCanvasParameter(value = "model", positional = false)
     private final String model;
@@ -68,10 +84,21 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
     @DreaminaCanvasParameter(value = "duration", positional = false)
     private final java.math.BigDecimal duration;
     /**
-     * tts 音色名称；从 voice list 选择，由服务端解析成权威身份；--voice-name。
+     * 音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考；--voice-name。
      */
     @DreaminaCanvasParameter(value = "voice-name", positional = false)
     private final String voiceName;
+    /**
+     * 模型场景：text-reading（朗读）或 omni-dubbing（全能配音）；--scenario。
+     */
+    @DreaminaCanvasParameter(value = "scenario", positional = false)
+    private final String scenario;
+    /**
+     * 全能配音参考素材：node:<id> 或 res:<id>，可重复；--ref。
+     */
+    @DreaminaCanvasParameter(value = "ref", positional = false)
+    @lombok.Singular("addRef")
+    private final java.util.List<String> ref;
     /**
      * 本节点已有产物的资源 UUID，可重复传入；需同时提供 --import-kind local_upload 或 external_generated。多个视为同一批次内的候选，顺序即候选顺序，首个为主选。资源须已登记、状态成功且类型为音频；--resource-id。
      */
@@ -83,16 +110,6 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
      */
     @DreaminaCanvasParameter(value = "import-kind", positional = false)
     private final String importKind;
-    /**
-     * external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供；--x。
-     */
-    @DreaminaCanvasParameter(value = "x", positional = false)
-    private final java.math.BigDecimal x;
-    /**
-     * external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供；--y。
-     */
-    @DreaminaCanvasParameter(value = "y", positional = false)
-    private final java.math.BigDecimal y;
     /**
      * 保存后依次报价、批准并运行该节点；--run。
      */
@@ -146,10 +163,13 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
     @Override
     protected DreaminaCanvasArguments arguments() {
         DreaminaCanvasArguments args = new DreaminaCanvasArguments();
+        args.flag("x", x);
+        args.flag("y", y);
         args.flag("project-id", projectId);
         args.flag("node-id", nodeId);
         args.flag("update-id", updateId);
         args.flag("dry-run", dryRun);
+        args.flag("resource-source", resourceSource);
         args.flag("title", title);
         args.flag("tag", tag);
         args.flag("clear-tags", clearTags);
@@ -158,10 +178,10 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
         args.flag("model", model);
         args.flag("duration", duration);
         args.flag("voice-name", voiceName);
+        args.flag("scenario", scenario);
+        args.flag("ref", ref);
         args.flag("resource-id", resourceId);
         args.flag("import-kind", importKind);
-        args.flag("x", x);
-        args.flag("y", y);
         args.flag("run", run);
         args.flag("submit-id", submitId);
         args.flag("credit-token", creditToken);

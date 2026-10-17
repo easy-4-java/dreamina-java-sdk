@@ -13,6 +13,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasMode {
     /**
+     * 契约字段 {@code scenario}。
+     */
+    @JsonProperty("scenario")
+    private String scenario;
+    /**
      * 契约字段 {@code name}。
      */
     @JsonProperty("name")

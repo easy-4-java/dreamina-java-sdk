@@ -172,6 +172,27 @@ public final class DreaminaCanvasCliExecutor {
     }
 
     /**
+     * 确认后批量删除节点；暂不支持群组。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasNodeDeleteResult> nodeDelete(DreaminaCanvasNodeDeleteRequest request) {
+        return execute(request);
+    }
+
+    /**
+     * 明确批准指定批次，签发删除凭证；不删除节点。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasNodeDeleteConfirmResult> nodeDeleteConfirm(DreaminaCanvasNodeDeleteConfirmRequest request) {
+        return execute(request);
+    }
+
+    /**
+     * 只读查询该批次首次删除结果；不签发凭证、不删除节点。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasNodeDeleteStatusResult> nodeDeleteStatus(DreaminaCanvasNodeDeleteStatusRequest request) {
+        return execute(request);
+    }
+
+    /**
      * 读取给定节点的视图。
      */
     public DreaminaCanvasResponse<DreaminaCanvasNodeShowResult> nodeShow(DreaminaCanvasNodeShowRequest request) {

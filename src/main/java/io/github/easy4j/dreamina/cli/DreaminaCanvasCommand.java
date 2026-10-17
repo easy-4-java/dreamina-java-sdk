@@ -4,7 +4,7 @@ package io.github.easy4j.dreamina.cli;
 import lombok.Getter;
 
 /**
- * Canvas CLI 1.0.1 全部业务调用入口；模型与音色通过运行时命令发现。
+ * Canvas CLI 1.0.3 全部业务调用入口；模型与音色通过运行时命令发现。
  */
 @Getter
 public enum DreaminaCanvasCommand {
@@ -76,6 +76,18 @@ public enum DreaminaCanvasCommand {
      * 图片超清：提交即执行，无 --run；等待终态直接使用 --wait。
      */
     NODE_UPSCALE_IMAGE("node upscale image"),
+    /**
+     * 确认后批量删除节点；暂不支持群组。
+     */
+    NODE_DELETE("node delete"),
+    /**
+     * 明确批准指定批次，签发删除凭证；不删除节点。
+     */
+    NODE_DELETE_CONFIRM("node delete confirm"),
+    /**
+     * 只读查询该批次首次删除结果；不签发凭证、不删除节点。
+     */
+    NODE_DELETE_STATUS("node delete status"),
     /**
      * 读取给定节点的视图。
      */

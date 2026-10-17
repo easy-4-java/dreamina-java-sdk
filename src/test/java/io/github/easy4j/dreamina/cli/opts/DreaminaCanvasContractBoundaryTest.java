@@ -63,8 +63,8 @@ class DreaminaCanvasContractBoundaryTest {
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_a", "node_b")).submitId(Arrays.asList(ID, ID)).build().toArguments());
         assertEquals(2, DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_a", "node_b")).submitId(Arrays.asList(ID, OTHER)).build().getSubmitId().size());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasResourceUploadRequest.builder().build().toArguments());
-        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasResourceUploadRequest.builder().file("a").sourceUrl("https://example.test/a").build().toArguments());
-        assertTrue(DreaminaCanvasResourceUploadRequest.builder().file("a.png").build().toArguments().contains("--file=a.png"));
+        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasResourceUploadRequest.builder().projectId(ID).file("a").sourceUrl("https://example.test/a").build().toArguments());
+        assertTrue(DreaminaCanvasResourceUploadRequest.builder().projectId(ID).file("a.png").build().toArguments().contains("--file=a.png"));
     }
 
     @Test

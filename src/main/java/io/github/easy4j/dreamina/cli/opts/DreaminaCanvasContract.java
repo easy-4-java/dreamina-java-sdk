@@ -31,7 +31,7 @@ public final class DreaminaCanvasContract {
      * 读取独立的契约对象，调用者修改不会污染后续请求。
      */
     public static DreaminaCanvasSchema schema() {
-        try (InputStream stream = DreaminaCanvasContract.class.getResourceAsStream("schema-1.0.1.json")) {
+        try (InputStream stream = DreaminaCanvasContract.class.getResourceAsStream("schema-1.0.3.json")) {
             if (Objects.isNull(stream)) {
                 throw new IllegalStateException("Missing Canvas schema resource");
             }

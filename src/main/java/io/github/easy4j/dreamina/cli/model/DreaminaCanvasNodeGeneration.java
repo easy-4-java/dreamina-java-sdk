@@ -48,6 +48,11 @@ public final class DreaminaCanvasNodeGeneration {
     @JsonProperty("durationSeconds")
     private java.math.BigDecimal durationSeconds;
     /**
+     * 契约字段 {@code scenario}。
+     */
+    @JsonProperty("scenario")
+    private String scenario;
+    /**
      * 契约字段 {@code voiceName}。
      */
     @JsonProperty("voiceName")

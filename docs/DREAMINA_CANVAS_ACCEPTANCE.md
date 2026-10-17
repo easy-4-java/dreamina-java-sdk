@@ -25,7 +25,7 @@ flowchart TB
     App[Java 应用] --> Canvas[DreaminaCanvasCliExecutor]
     App --> Legacy[DreaminaCliExecutor 已废弃]
     Canvas --> Request[CanvasRequest 不可变参数]
-    Request --> Contract[CanvasContract 1.0.1 schema]
+    Request --> Contract[CanvasContract 1.0.3 schema]
     Canvas --> Runner[CanvasProcessRunner 每客户端限流]
     Runner --> Process[ProcessBuilder 无 shell 执行]
     Process --> Binary[dreamina-canvas 真实程序]
@@ -38,7 +38,7 @@ flowchart TB
 ```
 
 首轮新链路没有调用旧 Executor、旧静态模型枚举、旧文本解析器或旧共享限流器。入口支持 `execute(request, Class<T>)` 自定义
-DTO，同时保留原始 envelope。命令枚举覆盖 37 个业务入口；参数由已安装 CLI 的完整 1.0.1 schema 驱动，动态 model/voice
+DTO，同时保留原始 envelope。命令枚举覆盖 40 个业务入口；参数由已安装 CLI 的完整 1.0.3 schema 驱动，动态 model/voice
 保持运行时发现。输入生成文本按独立 argv 传递，位置参数用 `--` 隔离。
 
 `DreaminaCanvasCliProperties` 固定非交互 JSON 业务模式，默认 11 分钟总预算、4 并发、每输出流 16
@@ -81,7 +81,7 @@ Canvas 入口/包均设置 85% 行覆盖率门禁，本次全部满足。没有�
 
 | 项目           | 实际结果                                                           |
 |----------------|--------------------------------------------------------------------|
-| Canvas CLI     | 1.0.1 / 09307bb / public / cn                                      |
+| Canvas CLI     | 1.0.3 / 244064d / public / cn                                      |
 | 模型与数量     | 实时 model list 发现的 seedream_4.7，1:1，1K，1 张                 |
 | projectId      | `56200e1c-dbd7-449d-b245-172d91e75af4`                             |
 | nodeId         | `node_5991phj02v`                                                  |

@@ -32,4 +32,9 @@ public final class DreaminaCanvasModeReference {
      */
     @JsonProperty("requireAnyOfTypes")
     private java.util.List<String> requireAnyOfTypes;
+    /**
+     * 契约字段 {@code mutuallyExclusiveTypes}。
+     */
+    @JsonProperty("mutuallyExclusiveTypes")
+    private java.util.List<String> mutuallyExclusiveTypes;
 }

@@ -43,6 +43,11 @@ public final class DreaminaCanvasEffectiveGeneration {
     @JsonProperty("outputCount")
     private Long outputCount;
     /**
+     * 契约字段 {@code scenario}。
+     */
+    @JsonProperty("scenario")
+    private String scenario;
+    /**
      * 契约字段 {@code voiceName}。
      */
     @JsonProperty("voiceName")

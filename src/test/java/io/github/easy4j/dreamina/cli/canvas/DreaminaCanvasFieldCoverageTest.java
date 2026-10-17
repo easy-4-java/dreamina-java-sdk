@@ -118,10 +118,12 @@ class DreaminaCanvasFieldCoverageTest {
             Type element = parameter.getActualTypeArguments()[wire.startsWith("array") ? 0 : 1];
             DreaminaCanvasSchemaField nested = new DreaminaCanvasSchemaField();
             nested.setName(spec.getName());
-            nested.setType(wire.startsWith("array") ? wire.substring(6, wire.length() - 1) : "object");
+            boolean isArrayWire = wire.startsWith("array");
+            String valueWire = isArrayWire ? wire.substring(6, wire.length() - 1) : wire.substring(11, wire.length() - 1);
+            nested.setType(valueWire);
             nested.setFields(spec.getFields());
             Object value = sample(element, nested, path + "[]");
-            return wire.startsWith("array") ? Collections.singletonList(value) : Collections.singletonMap("dynamic-model", value);
+            return isArrayWire ? Collections.singletonList(value) : Collections.singletonMap("dynamic-model", value);
         }
         if ("object".equals(wire)) {
             assertInstanceOf(Class.class, type, path);

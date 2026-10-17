@@ -58,7 +58,7 @@ class DreaminaCanvasBundledSchemaFailureTest {
 
             @Override
             public InputStream getResourceAsStream(String path) {
-                if (path.endsWith("schema-1.0.1.json")) {
+                if (path.endsWith("schema-1.0.3.json")) {
                     return Objects.isNull(schema) ? null : new ByteArrayInputStream(schema);
                 }
                 return super.getResourceAsStream(path);

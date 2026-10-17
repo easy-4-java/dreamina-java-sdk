@@ -28,6 +28,6 @@ public final class DreaminaCanvasPipeChildMain {
                 .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 .redirectError(ProcessBuilder.Redirect.INHERIT)
                 .start();
-        System.out.println("{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.1\"}}");
+        System.out.println("{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.3\"}}");
     }
 }

@@ -113,6 +113,11 @@
                     "type": "string"
                   },
                   {
+                    "name": "scenario",
+                    "type": "string",
+                    "optional": true
+                  },
+                  {
                     "name": "mode",
                     "type": "string"
                   },
@@ -355,6 +360,11 @@
                         "fields": [
                           {
                             "name": "requireAnyOfTypes",
+                            "type": "array<string>",
+                            "optional": true
+                          },
+                          {
+                            "name": "mutuallyExclusiveTypes",
                             "type": "array<string>",
                             "optional": true
                           }
@@ -624,6 +634,11 @@
                     "type": "array<object>",
                     "fields": [
                       {
+                        "name": "scenario",
+                        "type": "string",
+                        "optional": true
+                      },
+                      {
                         "name": "name",
                         "type": "string"
                       },
@@ -705,6 +720,11 @@
                           },
                           {
                             "name": "requireAnyOfTypes",
+                            "type": "array<string>",
+                            "optional": true
+                          },
+                          {
+                            "name": "mutuallyExclusiveTypes",
                             "type": "array<string>",
                             "optional": true
                           }
@@ -788,6 +808,11 @@
                     "type": "array<object>",
                     "fields": [
                       {
+                        "name": "scenario",
+                        "type": "string",
+                        "optional": true
+                      },
+                      {
                         "name": "name",
                         "type": "string"
                       },
@@ -869,6 +894,11 @@
                           },
                           {
                             "name": "requireAnyOfTypes",
+                            "type": "array<string>",
+                            "optional": true
+                          },
+                          {
+                            "name": "mutuallyExclusiveTypes",
                             "type": "array<string>",
                             "optional": true
                           }
@@ -996,7 +1026,7 @@
     },
     {
       "name": "node",
-      "summary": "创建、编辑、读取或运行 typed 画布节点",
+      "summary": "创建、编辑、删除、读取或运行 typed 画布节点",
       "reads": true,
       "writes": true,
       "formats": [
@@ -1063,6 +1093,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -1090,6 +1134,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -1171,21 +1222,7 @@
                   "type": "string",
                   "required": false,
                   "description": "节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇",
-                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id; custom position requires external_generated"
-                },
-                {
-                  "name": "x",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供",
-                  "constraints": "requires import-kind=external_generated and y"
-                },
-                {
-                  "name": "y",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供",
-                  "constraints": "requires import-kind=external_generated and x"
+                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id"
                 },
                 {
                   "name": "run",
@@ -1249,6 +1286,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -1382,6 +1424,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -2063,6 +2110,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -2255,6 +2307,11 @@
                     "type": "object",
                     "fields": [
                       {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
+                      {
                         "name": "action",
                         "type": "string"
                       },
@@ -2401,6 +2458,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -2537,7 +2599,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -2630,6 +2692,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -2657,6 +2733,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -2746,21 +2829,7 @@
                   "type": "string",
                   "required": false,
                   "description": "节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇",
-                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id; custom position requires external_generated"
-                },
-                {
-                  "name": "x",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供",
-                  "constraints": "requires import-kind=external_generated and y"
-                },
-                {
-                  "name": "y",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供",
-                  "constraints": "requires import-kind=external_generated and x"
+                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id"
                 },
                 {
                   "name": "run",
@@ -2824,6 +2893,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -2957,6 +3031,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -3638,6 +3717,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -3830,6 +3914,11 @@
                     "type": "object",
                     "fields": [
                       {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
+                      {
                         "name": "action",
                         "type": "string"
                       },
@@ -3976,6 +4065,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -4112,7 +4206,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -4205,6 +4299,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -4232,6 +4340,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -4272,8 +4387,8 @@
                   "name": "model",
                   "type": "string",
                   "required": false,
-                  "description": "music 模式必填；从当前环境 model list --type audio 返回的 mode=music 结果选择",
-                  "constraints": "required for music; select a mode=music result from current-environment `model list --type audio`; forbidden for tts; availability validated by Core"
+                  "description": "music 必填；tts 可指定模型并同时提供 --scenario；从 model list --type audio 选择",
+                  "constraints": "required for music; select a mode=music result from current-environment `model list --type audio`; tts with a model requires scenario; availability validated by Core"
                 },
                 {
                   "name": "duration",
@@ -4287,8 +4402,22 @@
                   "name": "voice-name",
                   "type": "string",
                   "required": false,
-                  "description": "tts 音色名称；从 voice list 选择，由服务端解析成权威身份",
-                  "constraints": "required for tts; choose from `voice list`; resolved server-side"
+                  "description": "音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考",
+                  "constraints": "required for legacy tts and text-reading; optional single catalog voice for omni-dubbing, converted server-side to an audio reference; choose from voice list --model; shares discovered reference limits"
+                },
+                {
+                  "name": "scenario",
+                  "type": "string",
+                  "required": false,
+                  "description": "模型场景：text-reading（朗读）或 omni-dubbing（全能配音）",
+                  "constraints": "text-reading|omni-dubbing; requires tts and explicit model"
+                },
+                {
+                  "name": "ref",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "全能配音参考素材：node:<id> 或 res:<id>，可重复",
+                  "constraints": "omni-dubbing only; typed node:<id>|res:<id>|uri:<value>|vid:<value>"
                 },
                 {
                   "name": "resource-id",
@@ -4302,21 +4431,7 @@
                   "type": "string",
                   "required": false,
                   "description": "节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇",
-                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id; custom position requires external_generated"
-                },
-                {
-                  "name": "x",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供",
-                  "constraints": "requires import-kind=external_generated and y"
-                },
-                {
-                  "name": "y",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供",
-                  "constraints": "requires import-kind=external_generated and x"
+                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id"
                 },
                 {
                   "name": "run",
@@ -4380,6 +4495,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -4513,6 +4633,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -5191,6 +5316,11 @@
                           {
                             "name": "outputCount",
                             "type": "integer",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -5386,6 +5516,11 @@
                     "type": "object",
                     "fields": [
                       {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
+                      {
                         "name": "action",
                         "type": "string"
                       },
@@ -5532,6 +5667,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -5668,7 +5808,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -5759,6 +5899,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -5786,6 +5940,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -5841,21 +6002,7 @@
                   "type": "string",
                   "required": false,
                   "description": "节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇",
-                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id; custom position requires external_generated"
-                },
-                {
-                  "name": "x",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供",
-                  "constraints": "requires import-kind=external_generated and y"
-                },
-                {
-                  "name": "y",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供",
-                  "constraints": "requires import-kind=external_generated and x"
+                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id"
                 }
               ],
               "successData": {
@@ -5866,6 +6013,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -5999,6 +6151,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -6680,6 +6837,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -6729,6 +6891,11 @@
                     "name": "plan",
                     "type": "object",
                     "fields": [
+                      {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
                       {
                         "name": "action",
                         "type": "string"
@@ -6876,6 +7043,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -7012,7 +7184,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -7103,6 +7275,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -7149,21 +7335,7 @@
                   "type": "string",
                   "required": false,
                   "description": "节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇",
-                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id; custom position requires external_generated"
-                },
-                {
-                  "name": "x",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供",
-                  "constraints": "requires import-kind=external_generated and y"
-                },
-                {
-                  "name": "y",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供",
-                  "constraints": "requires import-kind=external_generated and x"
+                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id"
                 }
               ],
               "successData": {
@@ -7174,6 +7346,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -7307,6 +7484,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -7988,6 +8170,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -8037,6 +8224,11 @@
                     "name": "plan",
                     "type": "object",
                     "fields": [
+                      {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
                       {
                         "name": "action",
                         "type": "string"
@@ -8184,6 +8376,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -8320,7 +8517,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -8411,6 +8608,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -8440,6 +8651,13 @@
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
                 },
                 {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
+                },
+                {
                   "name": "title",
                   "type": "string",
                   "required": false,
@@ -8465,21 +8683,7 @@
                   "type": "string",
                   "required": false,
                   "description": "节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇",
-                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id; custom position requires external_generated"
-                },
-                {
-                  "name": "x",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供",
-                  "constraints": "requires import-kind=external_generated and y"
-                },
-                {
-                  "name": "y",
-                  "type": "number",
-                  "required": false,
-                  "description": "external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供",
-                  "constraints": "requires import-kind=external_generated and x"
+                  "constraints": "local_upload | external_generated; may stand alone; required by resource-id"
                 }
               ],
               "constraints": [
@@ -8498,6 +8702,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -8631,6 +8840,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -9312,6 +9526,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -9361,6 +9580,11 @@
                     "name": "plan",
                     "type": "object",
                     "fields": [
+                      {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
                       {
                         "name": "action",
                         "type": "string"
@@ -9508,6 +9732,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -9644,7 +9873,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -9761,6 +9990,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -9788,6 +10031,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -9927,6 +10177,11 @@
                     "optional": true,
                     "fields": [
                       {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
+                      {
                         "name": "nodeId",
                         "type": "string"
                       },
@@ -10059,6 +10314,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -10740,6 +11000,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -10932,6 +11197,11 @@
                     "type": "object",
                     "fields": [
                       {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
+                      {
                         "name": "action",
                         "type": "string"
                       },
@@ -11078,6 +11348,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -11214,7 +11489,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -11307,6 +11582,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -11334,6 +11623,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -11481,6 +11777,11 @@
                     "optional": true,
                     "fields": [
                       {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
+                      {
                         "name": "nodeId",
                         "type": "string"
                       },
@@ -11613,6 +11914,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -12294,6 +12600,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -12486,6 +12797,11 @@
                     "type": "object",
                     "fields": [
                       {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
+                      {
                         "name": "action",
                         "type": "string"
                       },
@@ -12632,6 +12948,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -12768,7 +13089,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -12861,6 +13182,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -12888,6 +13223,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -12935,8 +13277,8 @@
                   "name": "model",
                   "type": "string",
                   "required": false,
-                  "description": "music 模式必填；从当前环境 model list --type audio 返回的 mode=music 结果选择",
-                  "constraints": "required for music; select a mode=music result from current-environment `model list --type audio`; forbidden for tts; availability validated by Core"
+                  "description": "music 必填；tts 可指定模型并同时提供 --scenario；从 model list --type audio 选择",
+                  "constraints": "required for music; select a mode=music result from current-environment `model list --type audio`; tts with a model requires scenario; availability validated by Core"
                 },
                 {
                   "name": "duration",
@@ -12950,8 +13292,22 @@
                   "name": "voice-name",
                   "type": "string",
                   "required": false,
-                  "description": "tts 音色名称；从 voice list 选择，由服务端解析成权威身份",
-                  "constraints": "required for tts; choose from `voice list`; resolved server-side"
+                  "description": "音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考",
+                  "constraints": "required for legacy tts and text-reading; optional single catalog voice for omni-dubbing, converted server-side to an audio reference; choose from voice list --model; shares discovered reference limits"
+                },
+                {
+                  "name": "scenario",
+                  "type": "string",
+                  "required": false,
+                  "description": "模型场景：text-reading（朗读）或 omni-dubbing（全能配音）",
+                  "constraints": "text-reading|omni-dubbing; requires tts and explicit model"
+                },
+                {
+                  "name": "ref",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "全能配音参考素材：node:<id> 或 res:<id>，可重复",
+                  "constraints": "omni-dubbing only; typed node:<id>|res:<id>|uri:<value>|vid:<value>"
                 },
                 {
                   "name": "run",
@@ -13015,6 +13371,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -13148,6 +13509,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -13826,6 +14192,11 @@
                           {
                             "name": "outputCount",
                             "type": "integer",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -14021,6 +14392,11 @@
                     "type": "object",
                     "fields": [
                       {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
+                      {
                         "name": "action",
                         "type": "string"
                       },
@@ -14167,6 +14543,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -14303,7 +14684,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -14394,6 +14775,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -14421,6 +14816,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -14513,6 +14915,11 @@
                     "optional": true,
                     "fields": [
                       {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
+                      {
                         "name": "nodeId",
                         "type": "string"
                       },
@@ -14645,6 +15052,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -15326,6 +15738,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -15375,6 +15792,11 @@
                     "name": "plan",
                     "type": "object",
                     "fields": [
+                      {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
                       {
                         "name": "action",
                         "type": "string"
@@ -15522,6 +15944,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -15658,7 +16085,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -15749,6 +16176,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -15799,6 +16240,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -15932,6 +16378,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -16613,6 +17064,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -16662,6 +17118,11 @@
                     "name": "plan",
                     "type": "object",
                     "fields": [
+                      {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
                       {
                         "name": "action",
                         "type": "string"
@@ -16809,6 +17270,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -16945,7 +17411,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -17036,6 +17502,20 @@
               ],
               "flags": [
                 {
+                  "name": "x",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 X；组内为父组相对坐标；与 --y 成组提供",
+                  "constraints": "finite; requires y; node left; parent-local when grouped"
+                },
+                {
+                  "name": "y",
+                  "type": "number",
+                  "required": false,
+                  "description": "节点左上角 Y；组内为父组相对坐标；与 --x 成组提供",
+                  "constraints": "finite; requires x; node top; parent-local when grouped"
+                },
+                {
                   "name": "project-id",
                   "type": "string",
                   "required": false,
@@ -17063,6 +17543,13 @@
                   "default": "false",
                   "description": "只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分",
                   "constraints": "local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects"
+                },
+                {
+                  "name": "resource-source",
+                  "type": "string[]",
+                  "required": false,
+                  "description": "跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源",
+                  "constraints": "repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected"
                 },
                 {
                   "name": "title",
@@ -17102,6 +17589,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -17235,6 +17727,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -17916,6 +18413,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -17965,6 +18467,11 @@
                     "name": "plan",
                     "type": "object",
                     "fields": [
+                      {
+                        "name": "resourceSourceProjects",
+                        "type": "map<string,string>",
+                        "optional": true
+                      },
                       {
                         "name": "action",
                         "type": "string"
@@ -18112,6 +18619,11 @@
                             "optional": true
                           },
                           {
+                            "name": "scenario",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
                             "name": "voiceName",
                             "type": "string",
                             "optional": true
@@ -18248,7 +18760,7 @@
                         "optional": true
                       },
                       {
-                        "name": "initialPosition",
+                        "name": "position",
                         "type": "object",
                         "optional": true,
                         "fields": [
@@ -18719,6 +19231,263 @@
           ]
         },
         {
+          "name": "delete",
+          "summary": "确认后批量删除节点；暂不支持群组",
+          "reads": true,
+          "writes": true,
+          "formats": [
+            "json",
+            "table"
+          ],
+          "confirmation": true,
+          "declaredExitCodes": [
+            0,
+            2,
+            11,
+            12,
+            13,
+            21,
+            22,
+            1,
+            10,
+            20
+          ],
+          "flags": [
+            {
+              "name": "project-id",
+              "type": "string",
+              "required": false,
+              "description": "项目 UUID；省略时使用当前画布",
+              "constraints": "UUID; defaults to current canvas"
+            },
+            {
+              "name": "node-id",
+              "type": "string[]",
+              "required": true,
+              "description": "指定 Node ID，可重复或逗号分隔，按顺序去重；不支持 group",
+              "constraints": "1..100 distinct non-empty IDs; deduplicated in order; groups are unsupported"
+            },
+            {
+              "name": "update-id",
+              "type": "string",
+              "required": false,
+              "description": "稳定更新 UUID；省略时生成；确认和重试必须复用",
+              "constraints": "UUID; generated when omitted; required with delete-token; reuse for approval and retries"
+            },
+            {
+              "name": "delete-token",
+              "type": "string",
+              "required": false,
+              "description": "node delete confirm 签发的短期凭证；必须复用同一 --update-id",
+              "constraints": "short-lived token from node delete confirm; --yes cannot replace it"
+            }
+          ],
+          "successData": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "nodeIds",
+                "type": "array<string>"
+              },
+              {
+                "name": "updateId",
+                "type": "string"
+              },
+              {
+                "name": "savedDraftVersion",
+                "type": "integer"
+              },
+              {
+                "name": "idempotentReplay",
+                "type": "boolean"
+              }
+            ]
+          },
+          "subcommands": [
+            {
+              "name": "confirm",
+              "summary": "明确批准指定批次，签发删除凭证；不删除节点",
+              "reads": true,
+              "writes": true,
+              "formats": [
+                "json",
+                "table"
+              ],
+              "confirmation": false,
+              "declaredExitCodes": [
+                0,
+                2,
+                11,
+                12,
+                13,
+                21,
+                22,
+                1,
+                20
+              ],
+              "flags": [
+                {
+                  "name": "project-id",
+                  "type": "string",
+                  "required": false,
+                  "description": "项目 UUID；省略时使用当前画布",
+                  "constraints": "UUID; defaults to current canvas"
+                },
+                {
+                  "name": "node-id",
+                  "type": "string[]",
+                  "required": true,
+                  "description": "指定 Node ID，可重复或逗号分隔，按顺序去重；不支持 group",
+                  "constraints": "1..100 distinct non-empty IDs; deduplicated in order; groups are unsupported"
+                },
+                {
+                  "name": "update-id",
+                  "type": "string",
+                  "required": true,
+                  "description": "摘要返回的稳定更新 UUID；必填，确认、执行与恢复须相同",
+                  "constraints": "UUID; must match approval, execution and recovery"
+                }
+              ],
+              "successData": {
+                "type": "object",
+                "fields": [
+                  {
+                    "name": "deleteConfirmationToken",
+                    "type": "string"
+                  },
+                  {
+                    "name": "expiresAtMs",
+                    "type": "integer"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "status",
+              "summary": "只读查询该批次首次删除结果；不签发凭证、不删除节点",
+              "reads": true,
+              "writes": false,
+              "formats": [
+                "json",
+                "table"
+              ],
+              "confirmation": false,
+              "declaredExitCodes": [
+                0,
+                2,
+                11,
+                12,
+                21,
+                22,
+                1
+              ],
+              "flags": [
+                {
+                  "name": "project-id",
+                  "type": "string",
+                  "required": false,
+                  "description": "项目 UUID；省略时使用当前画布",
+                  "constraints": "UUID; defaults to current canvas"
+                },
+                {
+                  "name": "node-id",
+                  "type": "string[]",
+                  "required": true,
+                  "description": "指定 Node ID，可重复或逗号分隔，按顺序去重；不支持 group",
+                  "constraints": "1..100 distinct non-empty IDs; deduplicated in order; groups are unsupported"
+                },
+                {
+                  "name": "update-id",
+                  "type": "string",
+                  "required": true,
+                  "description": "摘要返回的稳定更新 UUID；必填，确认、执行与恢复须相同",
+                  "constraints": "UUID; must match approval, execution and recovery"
+                }
+              ],
+              "successData": {
+                "type": "object",
+                "fields": [
+                  {
+                    "name": "found",
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "nodeIds",
+                    "type": "array<string>"
+                  },
+                  {
+                    "name": "updateId",
+                    "type": "string"
+                  },
+                  {
+                    "name": "result",
+                    "type": "string",
+                    "optional": true
+                  },
+                  {
+                    "name": "savedDraftVersion",
+                    "type": "integer",
+                    "optional": true
+                  },
+                  {
+                    "name": "idempotentReplay",
+                    "type": "boolean",
+                    "optional": true
+                  },
+                  {
+                    "name": "error",
+                    "type": "object",
+                    "optional": true,
+                    "fields": [
+                      {
+                        "name": "serviceCode",
+                        "type": "integer"
+                      },
+                      {
+                        "name": "message",
+                        "type": "string"
+                      },
+                      {
+                        "name": "reason",
+                        "type": "string",
+                        "optional": true
+                      },
+                      {
+                        "name": "retryable",
+                        "type": "boolean"
+                      },
+                      {
+                        "name": "requiredAction",
+                        "type": "string"
+                      },
+                      {
+                        "name": "validation",
+                        "type": "object",
+                        "optional": true,
+                        "fields": [
+                          {
+                            "name": "reasonCode",
+                            "type": "string"
+                          },
+                          {
+                            "name": "fieldPath",
+                            "type": "string",
+                            "optional": true
+                          },
+                          {
+                            "name": "detail",
+                            "type": "string"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "show",
           "summary": "读取给定节点的视图",
           "reads": true,
@@ -18773,6 +19542,11 @@
                     "type": "object",
                     "optional": true,
                     "fields": [
+                      {
+                        "name": "parentNodeId",
+                        "type": "string",
+                        "optional": true
+                      },
                       {
                         "name": "nodeId",
                         "type": "string"
@@ -18906,6 +19680,11 @@
                           {
                             "name": "durationSeconds",
                             "type": "number",
+                            "optional": true
+                          },
+                          {
+                            "name": "scenario",
+                            "type": "string",
                             "optional": true
                           },
                           {
@@ -20713,9 +21492,9 @@
             {
               "name": "project-id",
               "type": "string",
-              "required": false,
-              "description": "项目 UUID；省略时使用当前项目",
-              "constraints": "UUID"
+              "required": true,
+              "description": "目标项目 UUID；必填，即使已指定 resource-id",
+              "constraints": "UUID; explicit target project required"
             },
             {
               "name": "resource-id",

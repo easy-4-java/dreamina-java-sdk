@@ -3,7 +3,7 @@
 ## 即梦画布 CLI（推荐）
 
 旧 Dreamina CLI 官方公告自 11 月起停止维护。逐对象确认复用：29 个共享类型继续使用，38 个旧协议专属类型标注废弃及替代路径，原有签名和行为保留。新接入使用
-**`DreaminaCanvasCliExecutor`**，覆盖 Canvas **1.0.1** 的 **37 个业务入口**、各级帮助和四种 shell 补全，本分支使用 Java 17。
+**`DreaminaCanvasCliExecutor`**，覆盖 Canvas **1.0.3** 的 **40 个业务入口**、各级帮助和四种 shell 补全，本分支使用 Java 17。
 
 请阅读 [Canvas API 与迁移指南](docs/DREAMINA_CANVAS.md)、[完整命令目录](docs/DREAMINA_CANVAS_COMMANDS.md)
 和[验收记录](docs/DREAMINA_CANVAS_ACCEPTANCE.md)。下文为保留的 **旧 CLI API 参考**。
@@ -49,7 +49,7 @@
 | 登录与账户（`login`、`logout`、`relogin`、`user_credit`、`version`）                            | OAuth Device Flow、headless 登录                         |
 | 启动就绪探测                                                                                    | `DreaminaCliAvailabilityChecker` 执行 `dreamina version` |
 
-**项目状态：** 新集成面向 Canvas CLI 1.0.1；下文旧 v1.4.x 适配器已废弃，保留兼容。
+**项目状态：** 新集成面向 Canvas CLI 1.0.3；下文旧 v1.4.x 适配器已废弃，保留兼容。
 
 <a id="2-features--status"></a>
 
