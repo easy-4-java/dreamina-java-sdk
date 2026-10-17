@@ -1,42 +1,21 @@
 package io.github.easy4j.dreamina.cli;
 
-import io.github.easy4j.dreamina.util.DreaminaStrings;
 import io.github.easy4j.dreamina.DreaminaCliProperties;
-import io.github.easy4j.dreamina.cli.DreaminaCliSubcommands;
-import io.github.easy4j.dreamina.exception.DreaminaCliExecutableFailureException;
+import io.github.easy4j.dreamina.cli.model.*;
+import io.github.easy4j.dreamina.cli.opts.*;
+import io.github.easy4j.dreamina.cli.parser.DreaminaCliOutputParser;
+import io.github.easy4j.dreamina.cli.parser.DreaminaCliStructuredPayloadMapper;
+import io.github.easy4j.dreamina.cli.parser.DreaminaParsedFields;
+import io.github.easy4j.dreamina.cli.support.SubprocessExecutionSupport;
 import io.github.easy4j.dreamina.exception.DreaminaCliException;
+import io.github.easy4j.dreamina.exception.DreaminaCliExecutableFailureException;
 import io.github.easy4j.dreamina.exception.DreaminaCliNonZeroExitException;
 import io.github.easy4j.dreamina.exception.DreaminaCliTimeoutException;
-import io.github.easy4j.dreamina.cli.parser.DreaminaCliStructuredPayloadMapper;
-import io.github.easy4j.dreamina.cli.parser.DreaminaCliOutputParser;
-import io.github.easy4j.dreamina.cli.parser.DreaminaParsedFields;
-import io.github.easy4j.dreamina.cli.opts.DreaminaFrames2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImage2ImageRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImage2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImageUpscaleRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaListTaskRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaQueryResultRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaMultiframe2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaMultimodal2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaText2ImageRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaText2VideoRequest;
-import io.github.easy4j.dreamina.cli.DreaminaCliResponse;
-import io.github.easy4j.dreamina.cli.model.DreaminaCheckLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaDeviceLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaGenerateSubmit;
-import io.github.easy4j.dreamina.cli.model.DreaminaHelp;
-import io.github.easy4j.dreamina.cli.model.DreaminaLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaLogout;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryResult;
-import io.github.easy4j.dreamina.cli.model.DreaminaRelogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionDelete;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionList;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionMutation;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionSearch;
-import io.github.easy4j.dreamina.cli.model.DreaminaTaskItem;
-import io.github.easy4j.dreamina.cli.model.DreaminaUserCredit;
-import io.github.easy4j.dreamina.cli.model.DreaminaVersion;
-import io.github.easy4j.dreamina.cli.DreaminaCliResult;
+import io.github.easy4j.dreamina.util.DreaminaStrings;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.exec.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -45,14 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import io.github.easy4j.dreamina.cli.support.SubprocessExecutionSupport;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecuteResultHandler;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.ExecuteException;
-import org.apache.commons.exec.ExecuteWatchdog;
 
 /**
  * 基于 Apache Commons Exec 的 Dreamina CLI 进程执行封装。
@@ -124,11 +95,14 @@ import org.apache.commons.exec.ExecuteWatchdog;
  *   dreamina query_result --submit_id=550e8400-e29b-41d4-a716-446655440000
  *   dreamina text2image --prompt="a cat portrait" --ratio=1:1 --resolution_type=2k
  * </pre>
+ *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 旧 Dreamina CLI 已进入迁移期，请使用 {@link io.github.easy4j.dreamina.cli.DreaminaCanvasCliExecutor}。
  */
 @Slf4j
 @Getter
+@Deprecated
 public class DreaminaCliExecutor {
 
     private final DreaminaCliProperties properties;
@@ -153,30 +127,166 @@ public class DreaminaCliExecutor {
     // -------------------------------------------------------------------------
 
     /**
+     * Assembles a {@code --key=value} style parameter with {@code handleQuoting=true} to avoid space or shell special character issues.
+     */
+    private static void appendQuotedKv(CommandLine cmd, String key, String value) {
+        Objects.requireNonNull(key, "key");
+        Objects.requireNonNull(value, "value");
+        if (!key.startsWith("--")) {
+            throw new IllegalArgumentException("CLI key must start with '--', got: " + key);
+        }
+        String prefix = key.endsWith("=") ? key.substring(0, key.length() - 1) : key;
+        cmd.addArgument(prefix + "=" + value, true);
+    }
+
+    /**
+     * Appends CLI fragments one by one after filtering blank entries.
+     */
+    private static void appendCleanArgs(CommandLine cmd, List<String> args) {
+        if (args == null || args.isEmpty()) {
+            return;
+        }
+        for (String a : args) {
+            if (a != null && !a.trim().isEmpty()) {
+                cmd.addArgument(a, false);
+            }
+        }
+    }
+
+    /**
+     * CLI v1.4.14 made image/video resolution mandatory; fills in a stable default when the raw parameter escape hatch doesn't explicitly provide one.
+     */
+    private static List<String> withDefaultFlag(
+            List<String> additionalRawArgs,
+            String flag,
+            String defaultValue) {
+        if (containsFlag(additionalRawArgs, flag)) {
+            return additionalRawArgs;
+        }
+        List<String> normalized = new ArrayList<>();
+        if (Objects.nonNull(additionalRawArgs)) {
+            normalized.addAll(additionalRawArgs);
+        }
+        normalized.add(flag + "=" + defaultValue);
+        return normalized;
+    }
+
+    // -------------------------------------------------------------------------
+    // 账号与会话（version / user_credit / login / logout / relogin / session）
+    // -------------------------------------------------------------------------
+
+    private static boolean containsFlag(List<String> additionalRawArgs, String flag) {
+        if (Objects.isNull(additionalRawArgs) || additionalRawArgs.isEmpty()) {
+            return false;
+        }
+        for (String argument : additionalRawArgs) {
+            if (DreaminaStrings.isBlank(argument)) {
+                continue;
+            }
+            String normalized = argument.trim();
+            if (flag.equals(normalized) || normalized.startsWith(flag + "=")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Silently reads the async handler exit code.
+     */
+    private static Integer readExitQuietly(DefaultExecuteResultHandler handler) {
+        try {
+            int v = handler.getExitValue();
+            return normalizeExitValue(v);
+        } catch (IllegalStateException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Normalizes Commons Exec's "undefined" sentinel value to {@code null}.
+     */
+    private static Integer normalizeExitValue(int raw) {
+        if (raw == org.apache.commons.exec.Executor.INVALID_EXITVALUE) {
+            return null;
+        }
+        return raw;
+    }
+
+    private static DreaminaCliResult snapshot(
+            String stdoutStr, String stderrStr, Integer exitCode, DreaminaParsedFields parsed) {
+        return DreaminaCliResult.builder()
+                .stdout(stdoutStr == null ? "" : stdoutStr)
+                .stderr(stderrStr == null ? "" : stderrStr)
+                .exitCode(exitCode)
+                .success(false)
+                .parsed(parsed)
+                .build();
+    }
+
+    /**
+     * Unified exception when the subprocess cannot be started (package-visible, for test coverage of spawn failure branches).
+     */
+    static DreaminaCliExecutableFailureException failedToStart(CommandLine commandLine, IOException cause) {
+        log.warn("Dreamina CLI spawn failed commandLine={}, message={}", commandLine, cause.getMessage());
+        return new DreaminaCliExecutableFailureException(
+                "Dreamina CLI could not be started (check PATH or executable path): " + commandLine, cause);
+    }
+
+    /**
+     * Async failure that is not an {@link ExecuteException} (package-visible, for test coverage).
+     */
+    static DreaminaCliException failedAsync(
+            CommandLine commandLine, Exception asyncFailure, DreaminaCliResult partial) {
+        return new DreaminaCliException(
+                "Dreamina CLI async failure: " + commandLine + " cause=" + asyncFailure.getMessage(),
+                asyncFailure,
+                partial);
+    }
+
+    /**
+     * Process completed but exit code could not be read (package-visible, for test coverage).
+     */
+    static DreaminaCliException missingExitCode(
+            CommandLine commandLine, IllegalStateException cause, DreaminaCliResult partial) {
+        return new DreaminaCliException(
+                "Dreamina CLI completed without observable exit code: " + commandLine, cause, partial);
+    }
+
+    /**
+     * Non-zero exit without an {@link ExecuteException} wrapper (package-visible, for test coverage).
+     */
+    static DreaminaCliNonZeroExitException nonZeroExitWithoutExecuteException(
+            CommandLine commandLine, int exitCode, DreaminaCliResult failed) {
+        return new DreaminaCliNonZeroExitException(
+                "Dreamina CLI non-zero exit (exitCode=" + exitCode + "): " + commandLine, failed);
+    }
+
+    /**
      * Invokes {@code dreamina help} to print the overall help or equivalent output.
      * <p>CLI 帮助（采集自本机 {@code dreamina help}）：</p>
      * <pre>
      * Usage:
      *   dreamina [flags]
-     * 
+     *
      * 即梦 official AIGC CLI tool for login, account, and generation workflows
-     * 
+     *
      * About:
      *   dreamina is the 即梦 official AIGC CLI tool.
-     * 
+     *
      * Quick start:
      *   1. Run "dreamina login" to complete OAuth device login.
      *   2. For headless login, run "dreamina login --headless", then "dreamina login checklogin --device_code=<device_code>".
      *   3. Run a generator command such as "dreamina text2image --prompt=\"a cat portrait\"".
      *   4. Use "dreamina query_result --submit_id=<id>" for async tasks, or "dreamina list_task" to review saved tasks.
      *   5. Use "dreamina user_credit" to check the current account credit balance.
-     * 
+     *
      * Tips:
      *   Run "dreamina <subcommand> -h" to view detailed help for any subcommand.
      *   Login now uses OAuth Device Flow and prints verification_uri, user_code, and device_code in the terminal.
      *   All generation operations consume credits.
      *   Seedance 2.0 family is a flagship video generation model family and is a strong choice when output quality matters most.
-     * 
+     *
      * Built-in Commands:
      *   help                 Help about any command
      *   list_task            List saved tasks with status and result summary
@@ -187,8 +297,8 @@ public class DreaminaCliExecutor {
      *   session              Manage sessions (create/list/search/rename/delete)
      *   user_credit          Show the current user's remaining credit balance
      *   version              Print build version and commit information
-     * 
-     * 
+     *
+     *
      * Generator Commands:
      *   frames2video         Submit a Dreamina first-last-frames video task
      *   image2image          Submit a Dreamina image-to-image task
@@ -198,8 +308,8 @@ public class DreaminaCliExecutor {
      *   multimodal2video     Dreamina flagship video mode (全能参考 / formerly ref2video) with all-around references and Seedance 2.0
      *   text2image           Submit a Dreamina text-to-image task
      *   text2video           Submit a Dreamina text-to-video task
-     * 
-     * 
+     *
+     *
      * Examples:
      *   dreamina login
      *   dreamina login --headless
@@ -241,26 +351,22 @@ public class DreaminaCliExecutor {
         return run(cmd);
     }
 
-    // -------------------------------------------------------------------------
-    // 账号与会话（version / user_credit / login / logout / relogin / session）
-    // -------------------------------------------------------------------------
-
     /**
      * Invokes {@code dreamina version} to query local CLI version information (typically JSON).
      * <p>CLI 帮助（采集自本机 {@code dreamina version -h}）：</p>
      * <pre>
      * Usage:
      *   dreamina version [flags]
-     * 
+     *
      * Print build version and commit information
-     * 
-     * 
+     *
+     *
      * Flags:
      *   -h, --help   help for version
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina version
      * </pre>
@@ -275,16 +381,16 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina user_credit [flags]
-     * 
+     *
      * Query the current logged-in user's remaining Dreamina credits.
-     * 
-     * 
+     *
+     *
      * Flags:
      *   -h, --help   help for user_credit
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina user_credit
      * </pre>
@@ -312,20 +418,20 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina login [flags]
-     * 
+     *
      * Reuse the current local OAuth login state when it is still valid; otherwise start OAuth Device Flow.
      * By default the CLI prints verification_uri, user_code, and device_code, then waits for authorization to complete.
      * With --headless, the CLI prints the authorization material and exits without polling checklogin.
      * The legacy browser callback and manual-import login flow are no longer used.
-     * 
-     * 
+     *
+     *
      * Flags:
      *       --headless   print OAuth authorization material and exit without polling checklogin
      *   -h, --help       help for login
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina login
      *   dreamina login --headless
@@ -370,7 +476,7 @@ public class DreaminaCliExecutor {
     /**
      * Invokes {@code dreamina login checklogin --device_code=... --poll=...} to poll for OAuth completion by device code.
      *
-     * @param deviceCode device_code returned by the headless flow
+     * @param deviceCode  device_code returned by the headless flow
      * @param pollSeconds Polling interval in seconds, corresponding to {@code --poll=}
      */
     public DreaminaCliResult checkLogin(String deviceCode, int pollSeconds) {
@@ -383,20 +489,20 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina login checklogin [flags]
-     * 
+     *
      * Check the authorization result for a prior headless OAuth Device Flow login.
      * Pass the device_code printed by "dreamina login --headless" or "dreamina relogin --headless".
      * --poll=N waits for up to N seconds; --poll=0 checks only once.
-     * 
-     * 
+     *
+     *
      * Flags:
      *       --device_code string   device code printed by a prior headless OAuth login
      *   -h, --help                 help for checklogin
      *       --poll int             wait for up to N seconds before timing out; 0 checks once
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina login checklogin --device_code=<device_code>
      *   dreamina login checklogin --device_code=<device_code> --poll=30
@@ -411,7 +517,7 @@ public class DreaminaCliExecutor {
             throw new IllegalArgumentException("pollSeconds must be non-negative");
         }
         CommandLine cmd = newSubcommandChain(
-            DreaminaCliSubcommands.Account.LOGIN, DreaminaCliSubcommands.LoginSub.CHECKLOGIN);
+                DreaminaCliSubcommands.Account.LOGIN, DreaminaCliSubcommands.LoginSub.CHECKLOGIN);
         appendQuotedKv(cmd, "--device_code", deviceCode.trim());
         cmd.addArgument("--poll=" + pollSeconds, false);
         appendCleanArgs(cmd, additionalRawArgs);
@@ -433,16 +539,16 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina logout [flags]
-     * 
+     *
      * Remove the local OAuth login state without touching tasks or config.
-     * 
-     * 
+     *
+     *
      * Flags:
      *   -h, --help   help for logout
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina logout
      * </pre>
@@ -466,19 +572,19 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina relogin [flags]
-     * 
+     *
      * Remove the local OAuth login state first, then force a fresh OAuth Device Flow login.
      * By default the CLI prints verification_uri, user_code, and device_code, then waits for authorization to complete.
      * With --headless, the CLI prints the authorization material and exits without polling checklogin.
-     * 
-     * 
+     *
+     *
      * Flags:
      *       --headless   print OAuth authorization material and exit without polling checklogin
      *   -h, --help       help for relogin
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina relogin
      *   dreamina relogin --headless
@@ -503,46 +609,46 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina session [flags]
-     * 
+     *
      * Manage Dreamina sessions (create, list, search, rename, delete).
-     * 
+     *
      * A session is a container for organizing your creation history.
      * All generator commands accept a --session=<id> flag to submit tasks into a specific session.
-     * 
+     *
      * Available Commands:
      *   create    Create a new session (auto-named or custom)
      *   list      List your recent sessions (alias: ls)
      *   search    Find a session ID by its name (alias: find)
      *   rename    Change a session's name (alias: update)
      *   delete    Delete a session (alias: rm)
-     * 
+     *
      * Notes:
      * - All session commands require login (run "dreamina login" first).
      * - Session 0 is the default session. It cannot be renamed or deleted.
      * - Deleting a session will safely move its history back to the default session.
-     * 
-     * 
+     *
+     *
      * Flags:
      *   -h, --help   help for session
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   # 1. Create a session
      *   dreamina session create
      *   dreamina session create "My Video Project"
-     * 
+     *
      *   # 2. List sessions (default 30; user-specified -n is capped at 100)
      *   dreamina session list
      *   dreamina session ls -n 100
-     * 
+     *
      *   # 3. Find a session by name
      *   dreamina session search "Video"
-     * 
+     *
      *   # 4. Rename a session
      *   dreamina session rename 10086 "New Project Name"
-     * 
+     *
      *   # 5. Delete a session
      *   dreamina session rm 10086
      * </pre>
@@ -580,23 +686,23 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina session create [name] [flags]
-     * 
+     *
      * Create a new session.
-     * 
+     *
      * Args:
      * - name (optional): session name. If omitted, the backend generates a default name like "新对话 01-04 10:30".
-     * 
+     *
      * Notes:
      * - name must be 1-50 characters after trimming spaces.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * Flags:
      *   -h, --help   help for create
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina session create
      *   dreamina session create "我的视频项目"
@@ -619,26 +725,26 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina session list [flags]
-     * 
+     *
      * List recent sessions.
-     * 
+     *
      * By default it requests and shows the latest 30 sessions from the backend, ordered by pinned first and then updated time descending.
      * If you pass -n/--max-count, the CLI requests that many sessions from the backend.
      * User-specified values are capped at 100.
-     * 
+     *
      * Output:
      * - Table columns: ID, NAME, PINNED, UPDATED_AT
      * - UPDATED_AT is formatted as local time: YYYY-MM-DD HH:MM
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * Flags:
      *   -h, --help            help for list
      *   -n, --max-count int   maximum number of sessions to display (default 30)
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina session list
      *   dreamina session list -n 5
@@ -668,25 +774,29 @@ public class DreaminaCliExecutor {
         return sessionSearch(searchTerm, Collections.emptyList());
     }
 
+    // -------------------------------------------------------------------------
+    // 图片生成（text2image / image2image / image_upscale）
+    // -------------------------------------------------------------------------
+
     /**
      * {@code dreamina session search}. If {@code searchTerm} is non-empty, appends one positional argv after the {@code search} subcommand.
      * <p>CLI 帮助（采集自本机 {@code dreamina session search -h}）：</p>
      * <pre>
      * Usage:
      *   dreamina session search <name> [flags]
-     * 
+     *
      * Search sessions by name.
-     * 
+     *
      * The CLI requests the first 100 sessions from the backend and matches records whose name contains the input string. Matching is case-sensitive.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * Flags:
      *   -h, --help   help for search
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina session search "视频"
      *   dreamina session search "我的年度总结"
@@ -719,27 +829,27 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina session rename <session_id> <new_name> [flags]
-     * 
+     *
      * Rename a session.
-     * 
+     *
      * This command only exposes renaming. Pin/unpin is intentionally not exposed in CLI.
-     * 
+     *
      * Args:
      * - session_id: the target session ID
      * - new_name: the new session name (1-50 characters)
-     * 
+     *
      * Notes:
      * - Session 0 is the default session and cannot be renamed.
      * - Negative session IDs are invalid.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * Flags:
      *   -h, --help   help for rename
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina session rename 10086 "2024年度宣传片"
      * </pre>
@@ -751,7 +861,7 @@ public class DreaminaCliExecutor {
             throw new IllegalArgumentException("sessionId and newName must not be blank");
         }
         return runSessionSub(
-            DreaminaCliSubcommands.SessionSub.RENAME, sessionId.trim(), newName.trim(), additionalRawArgs);
+                DreaminaCliSubcommands.SessionSub.RENAME, sessionId.trim(), newName.trim(), additionalRawArgs);
     }
 
     /**
@@ -775,7 +885,7 @@ public class DreaminaCliExecutor {
             throw new IllegalArgumentException("sessionId and newName must not be blank");
         }
         return runSessionSub(
-            DreaminaCliSubcommands.SessionSub.UPDATE, sessionId.trim(), newName.trim(), additionalRawArgs);
+                DreaminaCliSubcommands.SessionSub.UPDATE, sessionId.trim(), newName.trim(), additionalRawArgs);
     }
 
     /**
@@ -784,22 +894,22 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina session delete <session_id> [flags]
-     * 
+     *
      * Delete a session.
-     * 
+     *
      * Notes:
      * - Session 0 is the default session and cannot be deleted.
      * - Negative session IDs are invalid.
      * - This operation is safe. The backend performs a soft delete and will move related history records back to the default session.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * Flags:
      *   -h, --help   help for delete
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina session delete 10085
      *   dreamina session rm 10085
@@ -822,6 +932,10 @@ public class DreaminaCliExecutor {
         }
         return runSessionSub(DreaminaCliSubcommands.SessionSub.DELETE, sessionId.trim(), null, additionalRawArgs);
     }
+
+    // -------------------------------------------------------------------------
+    // 视频生成（text2video / image2video / frames2video / multiframe2video / multimodal2video）
+    // -------------------------------------------------------------------------
 
     /**
      * {@code dreamina session rm <sessionId>}: official alias of {@code session delete}.
@@ -848,10 +962,10 @@ public class DreaminaCliExecutor {
      * 拼装 {@code dreamina session &lt;verb&gt;} 及可选的一到两个位置参数后执行。
      */
     private DreaminaCliResult runSessionSub(
-        String verb,
-        String firstPositional,
-        String secondPositional,
-        List<String> additionalRawArgs) {
+            String verb,
+            String firstPositional,
+            String secondPositional,
+            List<String> additionalRawArgs) {
         Objects.requireNonNull(verb, "verb");
         CommandLine cmd = newSubcommandChain(DreaminaCliSubcommands.Account.SESSION, verb);
         if (DreaminaStrings.isNotBlank(firstPositional)) {
@@ -863,10 +977,6 @@ public class DreaminaCliExecutor {
         appendCleanArgs(cmd, additionalRawArgs);
         return run(cmd);
     }
-
-    // -------------------------------------------------------------------------
-    // 图片生成（text2image / image2image / image_upscale）
-    // -------------------------------------------------------------------------
 
     /**
      * Invokes {@code dreamina text2image --prompt=...} to trigger a text-to-image task.
@@ -886,9 +996,9 @@ public class DreaminaCliExecutor {
     public DreaminaCliResult text2Image(String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(prompt, "prompt");
         return runWithPromptFlag(
-            DreaminaCliSubcommands.Image.TEXT2IMAGE,
-            prompt,
-            withDefaultFlag(additionalRawArgs, "--resolution_type", "2k"));
+                DreaminaCliSubcommands.Image.TEXT2IMAGE,
+                prompt,
+                withDefaultFlag(additionalRawArgs, "--resolution_type", "2k"));
     }
 
     /**
@@ -950,8 +1060,8 @@ public class DreaminaCliExecutor {
      */
     public DreaminaCliResult imageUpscale(List<String> additionalRawArgs) {
         return invoke(
-            DreaminaCliSubcommands.Image.IMAGE_UPSCALE,
-            withDefaultFlag(additionalRawArgs, "--resolution_type", "2k"));
+                DreaminaCliSubcommands.Image.IMAGE_UPSCALE,
+                withDefaultFlag(additionalRawArgs, "--resolution_type", "2k"));
     }
 
     /**
@@ -964,10 +1074,6 @@ public class DreaminaCliExecutor {
         Objects.requireNonNull(request, "request");
         return invoke(DreaminaCliSubcommands.Image.IMAGE_UPSCALE, request.toCliArgs());
     }
-
-    // -------------------------------------------------------------------------
-    // 视频生成（text2video / image2video / frames2video / multiframe2video / multimodal2video）
-    // -------------------------------------------------------------------------
 
     /**
      * Invokes {@code dreamina text2video --prompt=...} to trigger text-to-video.
@@ -987,9 +1093,9 @@ public class DreaminaCliExecutor {
     public DreaminaCliResult text2video(String prompt, List<String> additionalRawArgs) {
         Objects.requireNonNull(prompt, "prompt");
         return runWithPromptFlag(
-            DreaminaCliSubcommands.Video.TEXT2VIDEO,
-            prompt,
-            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
+                DreaminaCliSubcommands.Video.TEXT2VIDEO,
+                prompt,
+                withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -1013,6 +1119,10 @@ public class DreaminaCliExecutor {
     public DreaminaCliResult image2video(String imagePath, List<String> additionalRawArgs) {
         return image2video(imagePath, null, additionalRawArgs);
     }
+
+    // -------------------------------------------------------------------------
+    // 任务查询（query_result / list_task）
+    // -------------------------------------------------------------------------
 
     /**
      * Invokes {@code dreamina image2video}: single reference image drives video generation.
@@ -1060,8 +1170,8 @@ public class DreaminaCliExecutor {
      */
     public DreaminaCliResult frames2video(List<String> additionalRawArgs) {
         return invoke(
-            DreaminaCliSubcommands.Video.FRAMES2VIDEO,
-            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
+                DreaminaCliSubcommands.Video.FRAMES2VIDEO,
+                withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -1082,6 +1192,10 @@ public class DreaminaCliExecutor {
         return multiframe2video(Collections.emptyList());
     }
 
+    // -------------------------------------------------------------------------
+    // 结构化便捷封装（所见即所得：{@link DreaminaCliResponse}）
+    // -------------------------------------------------------------------------
+
     /**
      * {@code dreamina multiframe2video}: multi-storyboard narrative; required parameters go in {@code additionalRawArgs}.
      * <p>CLI v1.4.14～v1.4.17 的完整参数契约由 {@code dreamina multiframe2video -h} 与
@@ -1090,8 +1204,8 @@ public class DreaminaCliExecutor {
      */
     public DreaminaCliResult multiframe2video(List<String> additionalRawArgs) {
         return invoke(
-            DreaminaCliSubcommands.Video.MULTIFRAME2VIDEO,
-            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
+                DreaminaCliSubcommands.Video.MULTIFRAME2VIDEO,
+                withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -1120,8 +1234,8 @@ public class DreaminaCliExecutor {
      */
     public DreaminaCliResult multimodal2video(List<String> additionalRawArgs) {
         return invoke(
-            DreaminaCliSubcommands.Video.MULTIMODAL2VIDEO,
-            withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
+                DreaminaCliSubcommands.Video.MULTIMODAL2VIDEO,
+                withDefaultFlag(additionalRawArgs, "--video_resolution", "720p"));
     }
 
     /**
@@ -1134,10 +1248,6 @@ public class DreaminaCliExecutor {
         Objects.requireNonNull(request, "request");
         return invoke(DreaminaCliSubcommands.Video.MULTIMODAL2VIDEO, request.toCliArgs());
     }
-
-    // -------------------------------------------------------------------------
-    // 任务查询（query_result / list_task）
-    // -------------------------------------------------------------------------
 
     /**
      * Invokes {@code dreamina query_result --submit_id=...} to query task status or artifact information.
@@ -1154,18 +1264,18 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina query_result [flags]
-     * 
+     *
      * Query one async task by submit_id.
-     * 
-     * 
+     *
+     *
      * Flags:
      *       --download_dir string   download result media into the target directory
      *   -h, --help                  help for query_result
      *       --submit_id string      task submit_id
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina query_result --submit_id=3f6eb41f425d23a3
      * </pre>
@@ -1204,10 +1314,10 @@ public class DreaminaCliExecutor {
      * <pre>
      * Usage:
      *   dreamina list_task [flags]
-     * 
+     *
      * List tasks saved for the current logged-in user.
-     * 
-     * 
+     *
+     *
      * Flags:
      *       --gen_status string      filter by gen_status
      *       --gen_task_type string   filter by gen_task_type
@@ -1215,10 +1325,10 @@ public class DreaminaCliExecutor {
      *       --limit int              max number of tasks to return (default 20)
      *       --offset int             offset for pagination
      *       --submit_id string       filter by submit_id
-     * 
+     *
      * Global Flags:
      *       --version   print build version information
-     * 
+     *
      * Examples:
      *   dreamina list_task
      *   dreamina list_task --gen_status=success
@@ -1238,10 +1348,6 @@ public class DreaminaCliExecutor {
         Objects.requireNonNull(request, "request");
         return invoke(DreaminaCliSubcommands.Task.LIST_TASK, request.toCliArgs());
     }
-
-    // -------------------------------------------------------------------------
-    // 结构化便捷封装（所见即所得：{@link DreaminaCliResponse}）
-    // -------------------------------------------------------------------------
 
     /**
      * Structured view of {@link #version()}.
@@ -1338,7 +1444,7 @@ public class DreaminaCliExecutor {
      * Structured view of {@link #checkLogin(String, int, List)}.
      */
     public DreaminaCliResponse<DreaminaCheckLogin> checkLoginInfo(
-        String deviceCode, int pollSeconds, List<String> additionalRawArgs) {
+            String deviceCode, int pollSeconds, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapCheckLogin(checkLogin(deviceCode, pollSeconds, additionalRawArgs));
     }
 
@@ -1403,7 +1509,7 @@ public class DreaminaCliExecutor {
      * Structured view of {@link #sessionSearch(String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionSearch> sessionSearchInfo(
-        String searchTerm, List<String> additionalRawArgs) {
+            String searchTerm, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapSessionSearch(searchTerm, sessionSearch(searchTerm, additionalRawArgs));
     }
 
@@ -1411,7 +1517,7 @@ public class DreaminaCliExecutor {
      * Structured view of {@link #sessionFind(String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionSearch> sessionFindInfo(
-        String searchTerm, List<String> additionalRawArgs) {
+            String searchTerm, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapSessionSearch(searchTerm, sessionFind(searchTerm, additionalRawArgs));
     }
 
@@ -1442,7 +1548,7 @@ public class DreaminaCliExecutor {
      * Structured view of {@link #sessionRename(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionMutation> sessionRenameInfo(
-        String sessionId, String newName, List<String> additionalRawArgs) {
+            String sessionId, String newName, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapSessionMutation(sessionRename(sessionId, newName, additionalRawArgs));
     }
 
@@ -1450,7 +1556,7 @@ public class DreaminaCliExecutor {
      * Structured view of {@link #sessionUpdate(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaSessionMutation> sessionUpdateInfo(
-        String sessionId, String newName, List<String> additionalRawArgs) {
+            String sessionId, String newName, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapSessionMutation(sessionUpdate(sessionId, newName, additionalRawArgs));
     }
 
@@ -1519,7 +1625,7 @@ public class DreaminaCliExecutor {
      * Structured submit view of {@link #image2Image(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> image2ImageSubmit(
-        String imagesCsv, String prompt, List<String> additionalRawArgs) {
+            String imagesCsv, String prompt, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(image2Image(imagesCsv, prompt, additionalRawArgs));
     }
 
@@ -1571,7 +1677,7 @@ public class DreaminaCliExecutor {
      * Structured submit view of {@link #image2video(String, String, List)}.
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> image2VideoSubmit(
-        String imagePath, String prompt, List<String> additionalRawArgs) {
+            String imagePath, String prompt, List<String> additionalRawArgs) {
         return structuredPayloadMapper.mapGenerateSubmit(image2video(imagePath, prompt, additionalRawArgs));
     }
 
@@ -1616,7 +1722,7 @@ public class DreaminaCliExecutor {
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> multiframe2VideoSubmit(
-        DreaminaMultiframe2VideoRequest request) {
+            DreaminaMultiframe2VideoRequest request) {
         return structuredPayloadMapper.mapGenerateSubmit(multiframe2video(request));
     }
 
@@ -1634,7 +1740,7 @@ public class DreaminaCliExecutor {
      * @return 原始快照与结构化提交结果
      */
     public DreaminaCliResponse<DreaminaGenerateSubmit> multimodal2VideoSubmit(
-        DreaminaMultimodal2VideoRequest request) {
+            DreaminaMultimodal2VideoRequest request) {
         return structuredPayloadMapper.mapGenerateSubmit(multimodal2video(request));
     }
 
@@ -1746,67 +1852,6 @@ public class DreaminaCliExecutor {
     }
 
     /**
-     * Assembles a {@code --key=value} style parameter with {@code handleQuoting=true} to avoid space or shell special character issues.
-     */
-    private static void appendQuotedKv(CommandLine cmd, String key, String value) {
-        Objects.requireNonNull(key, "key");
-        Objects.requireNonNull(value, "value");
-        if (!key.startsWith("--")) {
-            throw new IllegalArgumentException("CLI key must start with '--', got: " + key);
-        }
-        String prefix = key.endsWith("=") ? key.substring(0, key.length() - 1) : key;
-        cmd.addArgument(prefix + "=" + value, true);
-    }
-
-    /**
-     * Appends CLI fragments one by one after filtering blank entries.
-     */
-    private static void appendCleanArgs(CommandLine cmd, List<String> args) {
-        if (args == null || args.isEmpty()) {
-            return;
-        }
-        for (String a : args) {
-            if (a != null && !a.trim().isEmpty()) {
-                cmd.addArgument(a, false);
-            }
-        }
-    }
-
-    /**
-     * CLI v1.4.14 made image/video resolution mandatory; fills in a stable default when the raw parameter escape hatch doesn't explicitly provide one.
-     */
-    private static List<String> withDefaultFlag(
-        List<String> additionalRawArgs,
-        String flag,
-        String defaultValue) {
-        if (containsFlag(additionalRawArgs, flag)) {
-            return additionalRawArgs;
-        }
-        List<String> normalized = new ArrayList<>();
-        if (Objects.nonNull(additionalRawArgs)) {
-            normalized.addAll(additionalRawArgs);
-        }
-        normalized.add(flag + "=" + defaultValue);
-        return normalized;
-    }
-
-    private static boolean containsFlag(List<String> additionalRawArgs, String flag) {
-        if (Objects.isNull(additionalRawArgs) || additionalRawArgs.isEmpty()) {
-            return false;
-        }
-        for (String argument : additionalRawArgs) {
-            if (DreaminaStrings.isBlank(argument)) {
-                continue;
-            }
-            String normalized = argument.trim();
-            if (flag.equals(normalized) || normalized.startsWith(flag + "=")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Executes the command line with Commons Exec + Watchdog, completing unified result and exception semantics.
      */
     private DreaminaCliResult run(CommandLine commandLine) {
@@ -1878,14 +1923,14 @@ public class DreaminaCliExecutor {
      * @param asyncFailureOverride Test-only injection: when non-null, overrides {@link DefaultExecuteResultHandler#getException()} result
      */
     DreaminaCliResult completeAfterWait(
-        CommandLine commandLine,
-        long timeoutMs,
-        ByteArrayOutputStream out,
-        ByteArrayOutputStream err,
-        DefaultExecuteResultHandler handler,
-        ExecuteWatchdog watchdog,
-        boolean waitTimedOut,
-        Exception asyncFailureOverride) {
+            CommandLine commandLine,
+            long timeoutMs,
+            ByteArrayOutputStream out,
+            ByteArrayOutputStream err,
+            DefaultExecuteResultHandler handler,
+            ExecuteWatchdog watchdog,
+            boolean waitTimedOut,
+            Exception asyncFailureOverride) {
         String stdoutStr = new String(out.toByteArray(), StandardCharsets.UTF_8);
         String stderrStr = new String(err.toByteArray(), StandardCharsets.UTF_8);
         DreaminaParsedFields parsed = DreaminaCliOutputParser.parseBestEffort(stdoutStr, stderrStr);
@@ -1894,7 +1939,7 @@ public class DreaminaCliExecutor {
         if (waitTimedOut || watchdog.killedProcess()) {
             DreaminaCliResult partial = snapshot(stdoutStr, stderrStr, readExitQuietly(handler), parsed);
             throw new DreaminaCliTimeoutException(
-                "Dreamina CLI timed out after " + timeoutMs + " ms: " + commandLine, partial);
+                    "Dreamina CLI timed out after " + timeoutMs + " ms: " + commandLine, partial);
         }
 
         // --- ExecuteException：通常对应非零退出或进程被破坏 ---
@@ -1903,7 +1948,7 @@ public class DreaminaCliExecutor {
             ExecuteException ex = (ExecuteException) asyncFailure;
             DreaminaCliResult failed = snapshot(stdoutStr, stderrStr, normalizeExitValue(ex.getExitValue()), parsed);
             throw new DreaminaCliNonZeroExitException(
-                "Dreamina CLI failed (exitCode=" + ex.getExitValue() + "): " + commandLine, failed);
+                    "Dreamina CLI failed (exitCode=" + ex.getExitValue() + "): " + commandLine, failed);
         }
         if (asyncFailure != null) {
             DreaminaCliResult partial = snapshot(stdoutStr, stderrStr, readExitQuietly(handler), parsed);
@@ -1923,82 +1968,11 @@ public class DreaminaCliExecutor {
         }
 
         return DreaminaCliResult.builder()
-            .stdout(stdoutStr)
-            .stderr(stderrStr)
-            .exitCode(exit)
-            .success(true)
-            .parsed(parsed)
-            .build();
-    }
-
-    /**
-     * Silently reads the async handler exit code.
-     */
-    private static Integer readExitQuietly(DefaultExecuteResultHandler handler) {
-        try {
-            int v = handler.getExitValue();
-            return normalizeExitValue(v);
-        } catch (IllegalStateException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Normalizes Commons Exec's "undefined" sentinel value to {@code null}.
-     */
-    private static Integer normalizeExitValue(int raw) {
-        if (raw == org.apache.commons.exec.Executor.INVALID_EXITVALUE) {
-            return null;
-        }
-        return raw;
-    }
-
-    private static DreaminaCliResult snapshot(
-        String stdoutStr, String stderrStr, Integer exitCode, DreaminaParsedFields parsed) {
-        return DreaminaCliResult.builder()
-            .stdout(stdoutStr == null ? "" : stdoutStr)
-            .stderr(stderrStr == null ? "" : stderrStr)
-            .exitCode(exitCode)
-            .success(false)
-            .parsed(parsed)
-            .build();
-    }
-
-    /**
-     * Unified exception when the subprocess cannot be started (package-visible, for test coverage of spawn failure branches).
-     */
-    static DreaminaCliExecutableFailureException failedToStart(CommandLine commandLine, IOException cause) {
-        log.warn("Dreamina CLI spawn failed commandLine={}, message={}", commandLine, cause.getMessage());
-        return new DreaminaCliExecutableFailureException(
-            "Dreamina CLI could not be started (check PATH or executable path): " + commandLine, cause);
-    }
-
-    /**
-     * Async failure that is not an {@link ExecuteException} (package-visible, for test coverage).
-     */
-    static DreaminaCliException failedAsync(
-        CommandLine commandLine, Exception asyncFailure, DreaminaCliResult partial) {
-        return new DreaminaCliException(
-            "Dreamina CLI async failure: " + commandLine + " cause=" + asyncFailure.getMessage(),
-            asyncFailure,
-            partial);
-    }
-
-    /**
-     * Process completed but exit code could not be read (package-visible, for test coverage).
-     */
-    static DreaminaCliException missingExitCode(
-        CommandLine commandLine, IllegalStateException cause, DreaminaCliResult partial) {
-        return new DreaminaCliException(
-            "Dreamina CLI completed without observable exit code: " + commandLine, cause, partial);
-    }
-
-    /**
-     * Non-zero exit without an {@link ExecuteException} wrapper (package-visible, for test coverage).
-     */
-    static DreaminaCliNonZeroExitException nonZeroExitWithoutExecuteException(
-        CommandLine commandLine, int exitCode, DreaminaCliResult failed) {
-        return new DreaminaCliNonZeroExitException(
-            "Dreamina CLI non-zero exit (exitCode=" + exitCode + "): " + commandLine, failed);
+                .stdout(stdoutStr)
+                .stderr(stderrStr)
+                .exitCode(exit)
+                .success(true)
+                .parsed(parsed)
+                .build();
     }
 }

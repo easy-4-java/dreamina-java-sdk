@@ -6,12 +6,13 @@ import java.util.Objects;
 /**
  * Dreamina CLI generation task status.
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaGenerateSubmit
  * @see DreaminaQueryResult
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 旧 querying/success/fail 状态集合不能无损表示 Canvas operation 状态；替代：OPERATION_STATUS data.state。
  */
+@Deprecated
 public enum DreaminaGenerationStatus {
 
     UNKNOWN,

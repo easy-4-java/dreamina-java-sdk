@@ -1,17 +1,19 @@
 package io.github.easy4j.dreamina.cli.opts;
 
 import io.github.easy4j.dreamina.util.DreaminaStrings;
+
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Centralized validator for Dreamina CLI's volatile parameter contracts.
  *
- * @see DreaminaCliRequestSupport
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaCliRequestSupport
  * @since 3.0.0
+ * @deprecated 校验旧 v1.4 模型/请求约束；替代：DreaminaCanvasContract 与实时 model list/find。
  */
+@Deprecated
 public final class DreaminaCliContractValidator {
 
     private DreaminaCliContractValidator() {
@@ -47,17 +49,17 @@ public final class DreaminaCliContractValidator {
      * @param resolutionType Image resolution
      */
     public static void validateCustomImageBounds(
-        Integer width,
-        Integer height,
-        DreaminaImageModelVersion modelVersion,
-        DreaminaImageResolutionType resolutionType) {
+            Integer width,
+            Integer height,
+            DreaminaImageModelVersion modelVersion,
+            DreaminaImageResolutionType resolutionType) {
         if (Objects.isNull(width) || Objects.isNull(height)) {
             return;
         }
         requireImageResolution(resolutionType);
         if ((modelVersion == DreaminaImageModelVersion.MODEL_3_0
-            || modelVersion == DreaminaImageModelVersion.MODEL_3_1)
-            && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K) {
+                || modelVersion == DreaminaImageModelVersion.MODEL_3_1)
+                && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K) {
             throw new IllegalArgumentException("Seedream 3.x custom width/height requires 2k resolution");
         }
 
@@ -90,11 +92,11 @@ public final class DreaminaCliContractValidator {
         }
         if (width < minSide || width > maxSide || height < minSide || height > maxSide) {
             throw new IllegalArgumentException(
-                "width and height must each be in range [" + minSide + ", " + maxSide + "]");
+                    "width and height must each be in range [" + minSide + ", " + maxSide + "]");
         }
         if ((long) width * height > maxPixels) {
             throw new IllegalArgumentException(
-                "width * height must not exceed " + maxPixels + " pixels for " + resolutionType.getCliValue());
+                    "width * height must not exceed " + maxPixels + " pixels for " + resolutionType.getCliValue());
         }
     }
 
@@ -105,7 +107,7 @@ public final class DreaminaCliContractValidator {
      * @return Non-null image resolution
      */
     public static DreaminaImageResolutionType requireImageResolution(
-        DreaminaImageResolutionType resolutionType) {
+            DreaminaImageResolutionType resolutionType) {
         if (Objects.isNull(resolutionType)) {
             throw new IllegalArgumentException("resolutionType is required by Dreamina CLI v1.4.14+");
         }
@@ -119,31 +121,31 @@ public final class DreaminaCliContractValidator {
      * @param resolutionType 图片分辨率
      */
     public static void validateImageModelResolution(
-        DreaminaImageModelVersion modelVersion,
-        DreaminaImageResolutionType resolutionType) {
+            DreaminaImageModelVersion modelVersion,
+            DreaminaImageResolutionType resolutionType) {
         requireImageResolution(resolutionType);
         if (resolutionType == DreaminaImageResolutionType.RESOLUTION_8K) {
             throw new IllegalArgumentException("image generation does not support 8k resolution");
         }
         DreaminaImageModelVersion effectiveModel = Objects.isNull(modelVersion)
-            ? DreaminaImageModelVersion.MODEL_5_0
-            : modelVersion;
+                ? DreaminaImageModelVersion.MODEL_5_0
+                : modelVersion;
         if ((effectiveModel == DreaminaImageModelVersion.MODEL_3_0
-            || effectiveModel == DreaminaImageModelVersion.MODEL_3_1)
-            && resolutionType != DreaminaImageResolutionType.RESOLUTION_1K
-            && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K) {
+                || effectiveModel == DreaminaImageModelVersion.MODEL_3_1)
+                && resolutionType != DreaminaImageResolutionType.RESOLUTION_1K
+                && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K) {
             throw new IllegalArgumentException("Seedream 3.x only supports 1k or 2k resolution");
         }
         if (effectiveModel == DreaminaImageModelVersion.MODEL_5_0_PRO
-            && resolutionType != DreaminaImageResolutionType.RESOLUTION_1_5K
-            && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K
-            && resolutionType != DreaminaImageResolutionType.RESOLUTION_4K) {
+                && resolutionType != DreaminaImageResolutionType.RESOLUTION_1_5K
+                && resolutionType != DreaminaImageResolutionType.RESOLUTION_2K
+                && resolutionType != DreaminaImageResolutionType.RESOLUTION_4K) {
             throw new IllegalArgumentException("Seedream 5.0 Pro only supports 1.5k, 2k or 4k resolution");
         }
         if (effectiveModel != DreaminaImageModelVersion.MODEL_3_0
-            && effectiveModel != DreaminaImageModelVersion.MODEL_3_1
-            && effectiveModel != DreaminaImageModelVersion.MODEL_5_0_PRO
-            && (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K
+                && effectiveModel != DreaminaImageModelVersion.MODEL_3_1
+                && effectiveModel != DreaminaImageModelVersion.MODEL_5_0_PRO
+                && (resolutionType == DreaminaImageResolutionType.RESOLUTION_1K
                 || resolutionType == DreaminaImageResolutionType.RESOLUTION_1_5K)) {
             throw new IllegalArgumentException("Seedream 4.x/5.0 only supports 2k or 4k resolution");
         }
@@ -156,22 +158,22 @@ public final class DreaminaCliContractValidator {
      * @param videoResolution Video resolution
      */
     public static void validateVideoModelResolution(
-        DreaminaVideoModelVersion modelVersion,
-        DreaminaVideoResolutionType videoResolution) {
+            DreaminaVideoModelVersion modelVersion,
+            DreaminaVideoResolutionType videoResolution) {
         if (Objects.isNull(videoResolution)) {
             throw new IllegalArgumentException("videoResolution is required by Dreamina CLI v1.4.14+");
         }
         if (videoResolution == DreaminaVideoResolutionType.RESOLUTION_480P
-            && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_5) {
+                && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_5) {
             throw new IllegalArgumentException("480p video requires seedance2.5");
         }
         if (videoResolution == DreaminaVideoResolutionType.RESOLUTION_4K
-            && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_0_VIP) {
+                && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_0_VIP) {
             throw new IllegalArgumentException("4k video requires seedance2.0_vip");
         }
         if (videoResolution == DreaminaVideoResolutionType.RESOLUTION_1080P
-            && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_0_VIP
-            && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_5) {
+                && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_0_VIP
+                && modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_5) {
             throw new IllegalArgumentException("1080p video requires seedance2.0_vip or seedance2.5");
         }
     }
@@ -228,12 +230,12 @@ public final class DreaminaCliContractValidator {
                 duration = Double.parseDouble(rawDuration.trim());
             } catch (NumberFormatException ex) {
                 throw new IllegalArgumentException(
-                    "transitionDurations[" + i + "] must be a number", ex);
+                        "transitionDurations[" + i + "] must be a number", ex);
             }
             validateFiniteDuration(duration, "transitionDurations[" + i + "]");
             if (duration < 1.0 || duration > 8.0) {
                 throw new IllegalArgumentException(
-                    "transitionDurations[" + i + "] must be in range [1.0, 8.0]");
+                        "transitionDurations[" + i + "] must be in range [1.0, 8.0]");
             }
             totalDuration += duration;
         }

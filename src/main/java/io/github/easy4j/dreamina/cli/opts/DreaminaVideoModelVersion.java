@@ -8,6 +8,7 @@ import lombok.Getter;
  * Adapted for Dreamina CLI v1.4.x with Seedance 1.x/2.x model families.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaText2VideoRequest
  * @see DreaminaImage2VideoRequest
  * <p>
@@ -24,18 +25,20 @@ import lombok.Getter;
  *   <li>v1.4.17（2026-08-18）Seedance 2.5 新增 1080P 输出支持</li>
  * </ul>
  * </p>
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 硬编码旧模型路由及模态/时长能力，不能代表 Canvas 实时 generation spec；替代：model list/find。
  */
 @Getter
+@Deprecated
 public enum DreaminaVideoModelVersion {
 
     SEEDANCE_2_0_FAST("seedance2.0fast"),
     SEEDANCE_2_0("seedance2.0"),
     SEEDANCE_2_0_FAST_VIP("seedance2.0fast_vip"),
     SEEDANCE_2_0_VIP("seedance2.0_vip"),
-    /** CLI v1.4.8（2026-06-18）新增的轻量版 Seedance 2.0 mini。 */
+    /**
+     * CLI v1.4.8（2026-06-18）新增的轻量版 Seedance 2.0 mini。
+     */
     SEEDANCE_2_0_MINI("seedance2.0mini"),
     /**
      * CLI v1.4.15（2026-08-01）新增的 Seedance 2.5。
@@ -46,11 +49,17 @@ public enum DreaminaVideoModelVersion {
      * </p>
      */
     SEEDANCE_2_5("seedance2.5"),
-    /** Web/CLI 统一命名后的 Seedance 1.0 快速模型。 */
+    /**
+     * Web/CLI 统一命名后的 Seedance 1.0 快速模型。
+     */
     SEEDANCE_1_0_FAST("seedance1.0fast"),
-    /** Web/CLI 统一命名后的 Seedance 1.0 模型。 */
+    /**
+     * Web/CLI 统一命名后的 Seedance 1.0 模型。
+     */
     SEEDANCE_1_0("seedance1.0"),
-    /** Web/CLI 统一命名后的 Seedance 1.5 Pro 模型。 */
+    /**
+     * Web/CLI 统一命名后的 Seedance 1.5 Pro 模型。
+     */
     SEEDANCE_1_5_PRO("seedance1.5pro"),
 
     /**
@@ -66,7 +75,9 @@ public enum DreaminaVideoModelVersion {
     MODEL_3_0_PRO("3.0pro"),
     @Deprecated
     MODEL_3_5_PRO("3.5pro"),
-    /** image2video 接受的 CLI 别名。 */
+    /**
+     * image2video 接受的 CLI 别名。
+     */
     @Deprecated
     MODEL_3_0_FAST_UNDERSCORE("3.0_fast"),
     @Deprecated
@@ -87,11 +98,11 @@ public enum DreaminaVideoModelVersion {
      */
     public boolean supportsText2Video() {
         return this == SEEDANCE_2_0
-            || this == SEEDANCE_2_0_FAST
-            || this == SEEDANCE_2_0_VIP
-            || this == SEEDANCE_2_0_FAST_VIP
-            || this == SEEDANCE_2_0_MINI
-            || this == SEEDANCE_2_5;
+                || this == SEEDANCE_2_0_FAST
+                || this == SEEDANCE_2_0_VIP
+                || this == SEEDANCE_2_0_FAST_VIP
+                || this == SEEDANCE_2_0_MINI
+                || this == SEEDANCE_2_5;
     }
 
     /**
@@ -101,8 +112,8 @@ public enum DreaminaVideoModelVersion {
      */
     public boolean supportsImage2Video() {
         return this == SEEDANCE_1_0_FAST
-            || this == SEEDANCE_1_5_PRO
-            || supportsText2Video();
+                || this == SEEDANCE_1_5_PRO
+                || supportsText2Video();
     }
 
     /**
@@ -131,7 +142,7 @@ public enum DreaminaVideoModelVersion {
             return 5;
         }
         if (this == MODEL_3_0 || this == MODEL_3_0_FAST || this == MODEL_3_0_PRO
-            || this == MODEL_3_0_FAST_UNDERSCORE || this == MODEL_3_0_PRO_UNDERSCORE) {
+                || this == MODEL_3_0_FAST_UNDERSCORE || this == MODEL_3_0_PRO_UNDERSCORE) {
             return 3;
         }
         if (this == MODEL_3_5_PRO || this == MODEL_3_5_PRO_UNDERSCORE) {
@@ -154,7 +165,7 @@ public enum DreaminaVideoModelVersion {
             return 12;
         }
         if (this == MODEL_3_0 || this == MODEL_3_0_FAST || this == MODEL_3_0_PRO
-            || this == MODEL_3_0_FAST_UNDERSCORE || this == MODEL_3_0_PRO_UNDERSCORE) {
+                || this == MODEL_3_0_FAST_UNDERSCORE || this == MODEL_3_0_PRO_UNDERSCORE) {
             return 10;
         }
         if (this == MODEL_3_5_PRO || this == MODEL_3_5_PRO_UNDERSCORE) {

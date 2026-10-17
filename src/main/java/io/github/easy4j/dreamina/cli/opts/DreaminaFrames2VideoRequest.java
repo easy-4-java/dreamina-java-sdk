@@ -1,21 +1,23 @@
 package io.github.easy4j.dreamina.cli.opts;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 首尾帧视频First-last-frames video request object.
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#frames2video()
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#frames2video()
  * @since 3.0.0
+ * @deprecated 旧 first/last frame 本地路径 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaFrames2VideoRequest implements DreaminaCliArgumentProvider {
 
     /**
@@ -74,9 +76,9 @@ public class DreaminaFrames2VideoRequest implements DreaminaCliArgumentProvider 
         DreaminaCliContractValidator.validateVideoModelResolution(modelVersion, videoResolution);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(
-            args, "--first", DreaminaCliRequestSupport.requireReadableFile(firstImagePath, "firstImagePath"));
+                args, "--first", DreaminaCliRequestSupport.requireReadableFile(firstImagePath, "firstImagePath"));
         DreaminaCliRequestSupport.addFlag(
-            args, "--last", DreaminaCliRequestSupport.requireReadableFile(lastImagePath, "lastImagePath"));
+                args, "--last", DreaminaCliRequestSupport.requireReadableFile(lastImagePath, "lastImagePath"));
         DreaminaCliRequestSupport.addFlag(args, "--prompt", prompt);
         DreaminaCliRequestSupport.requireVideoDuration(durationSeconds, modelVersion, "durationSeconds");
         DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);

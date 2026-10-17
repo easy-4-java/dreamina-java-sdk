@@ -1,10 +1,11 @@
 package io.github.easy4j.dreamina.cli.opts;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 文生图Text-to-image request object.
@@ -13,6 +14,7 @@ import lombok.Singular;
  * batch generation with {@code --generate_num} (v1.4.10), and explicit resolution (v1.4.14).
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2Image(String)
  * <p>
  * 适配即梦 CLI v1.4.x：
@@ -24,12 +26,12 @@ import lombok.Singular;
  *   <li>v1.4.16（2026-08-14）Seedream 5.0 Pro 支持 1.5K/2K/4K，并移除旧 1K</li>
  * </ul>
  * </p>
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated model_version/generate_num/session_id/poll 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaText2ImageRequest implements DreaminaCliArgumentProvider {
 
     /**
@@ -58,10 +60,14 @@ public class DreaminaText2ImageRequest implements DreaminaCliArgumentProvider {
     @Builder.Default
     private final DreaminaImageResolutionType resolutionType = DreaminaImageResolutionType.RESOLUTION_2K;
 
-    /** 自定义宽度，必须与 height 成对提供，并与 ratio 互斥。 */
+    /**
+     * 自定义宽度，必须与 height 成对提供，并与 ratio 互斥。
+     */
     private final Integer width;
 
-    /** 自定义高度，必须与 width 成对提供，并与 ratio 互斥。 */
+    /**
+     * 自定义高度，必须与 width 成对提供，并与 ratio 互斥。
+     */
     private final Integer height;
 
     /**
@@ -93,7 +99,7 @@ public class DreaminaText2ImageRequest implements DreaminaCliArgumentProvider {
         DreaminaCliContractValidator.validateCustomImageSize(width, height, ratio);
         DreaminaCliContractValidator.validateImageModelResolution(modelVersion, resolutionType);
         DreaminaCliContractValidator.validateCustomImageBounds(
-            width, height, modelVersion, resolutionType);
+                width, height, modelVersion, resolutionType);
         List<String> args = new ArrayList<>();
         DreaminaCliRequestSupport.addFlag(args, "--prompt", DreaminaCliRequestSupport.requireNonBlank(prompt, "prompt"));
         DreaminaCliRequestSupport.addFlag(args, "--ratio", ratio == null ? null : ratio.getCliValue());

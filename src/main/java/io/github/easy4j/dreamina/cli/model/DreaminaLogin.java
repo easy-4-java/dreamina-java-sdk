@@ -6,13 +6,14 @@ import lombok.Getter;
 /**
  * Parsed body for {@code dreamina login} / {@code login --headless}.
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#login()
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#login()
  * @since 3.0.0
+ * @deprecated 旧文本解析 oauthSessionReused/account/device 聚合；替代：AUTH_LOGIN envelope，challenge 可复用 DreaminaDeviceLogin。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaLogin {
 
     private final Boolean oauthSessionReused;
@@ -31,7 +32,7 @@ public class DreaminaLogin {
      */
     public boolean isOAuthReuseOnly() {
         return Boolean.TRUE.equals(oauthSessionReused)
-            && account == null
-            && (device == null || !device.isMaterialPresent());
+                && account == null
+                && (device == null || !device.isMaterialPresent());
     }
 }

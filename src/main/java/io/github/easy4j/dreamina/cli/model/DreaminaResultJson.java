@@ -1,20 +1,22 @@
 package io.github.easy4j.dreamina.cli.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
 import java.util.Collections;
 import java.util.List;
-import lombok.Data;
 
 /**
  * The {@code result_json} object within a {@code query_result} response.
  *
- * @see DreaminaQueryResult
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaQueryResult
  * @since 3.0.0
+ * @deprecated 旧 images/videos 输出集合，Canvas 返回资源身份和独立查询；替代：operation resources 与 RESOURCE_GET。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class DreaminaResultJson {
 
     /**

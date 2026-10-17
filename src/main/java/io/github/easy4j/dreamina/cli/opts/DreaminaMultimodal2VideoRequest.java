@@ -1,11 +1,12 @@
 package io.github.easy4j.dreamina.cli.opts;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 多模态视频Multimodal video request object (formerly ref2video).
@@ -14,18 +15,19 @@ import lombok.Singular;
  * Seedance 2.5 (CLI v1.4.15) allows audio-only input.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#multimodal2video()
  * <p>
  * 适配即梦 CLI v1.4.15（2026-08-01）新增 Seedance 2.5：当 {@link #modelVersion} 显式指定为
  * {@link DreaminaVideoModelVersion#SEEDANCE_2_5} 时，{@code audios} 字段可单独提供（即「纯音频输入」），
  * 并允许时长范围 4～30 秒；其他模型仍要求至少一个 {@code --image} 或 {@code --video} 输入。
  * </p>
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
+ * @deprecated 旧 image/video/audio 路径和旧模型默认值 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
+@Deprecated
 public class DreaminaMultimodal2VideoRequest implements DreaminaCliArgumentProvider {
 
     @Singular("image")
@@ -62,20 +64,20 @@ public class DreaminaMultimodal2VideoRequest implements DreaminaCliArgumentProvi
         int maxVideos = seedance25 ? 10 : 3;
         int maxAudios = seedance25 ? 10 : 3;
         List<String> cleanedImages = images == null || images.isEmpty() ? Collections.emptyList()
-            : DreaminaCliRequestSupport.requireReadableFiles(images, "images", 1, maxImages);
+                : DreaminaCliRequestSupport.requireReadableFiles(images, "images", 1, maxImages);
         List<String> cleanedVideos = videos == null || videos.isEmpty() ? Collections.emptyList()
-            : DreaminaCliRequestSupport.requireReadableFiles(videos, "videos", 1, maxVideos);
+                : DreaminaCliRequestSupport.requireReadableFiles(videos, "videos", 1, maxVideos);
         List<String> cleanedAudios = audios == null || audios.isEmpty() ? Collections.emptyList()
-            : DreaminaCliRequestSupport.requireReadableFiles(audios, "audios", 1, maxAudios);
+                : DreaminaCliRequestSupport.requireReadableFiles(audios, "audios", 1, maxAudios);
         if (cleanedImages.isEmpty() && cleanedVideos.isEmpty() && cleanedAudios.isEmpty()) {
             throw new IllegalArgumentException(
-                "multimodal2video requires at least one image/video/audio input");
+                    "multimodal2video requires at least one image/video/audio input");
         }
         if (cleanedImages.isEmpty() && cleanedVideos.isEmpty() && cleanedAudios.isEmpty() == false) {
             // cleanedAudios non-empty here; only Seedance 2.5 (v1.4.15) allows audio-only.
             if (modelVersion != DreaminaVideoModelVersion.SEEDANCE_2_5) {
                 throw new IllegalArgumentException(
-                    "multimodal2video audio-only input requires seedance2.5 (Dreamina CLI v1.4.15+)");
+                        "multimodal2video audio-only input requires seedance2.5 (Dreamina CLI v1.4.15+)");
             }
         }
         if (modelVersion != null && !modelVersion.supportsMultimodal2Video()) {

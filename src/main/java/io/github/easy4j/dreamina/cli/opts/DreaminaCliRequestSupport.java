@@ -1,6 +1,7 @@
 package io.github.easy4j.dreamina.cli.opts;
 
 import io.github.easy4j.dreamina.util.DreaminaStrings;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,10 +12,9 @@ import java.util.List;
 /**
  * Common validation and argument assembly support for Dreamina CLI request objects.
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaCliContractValidator
  * @see DreaminaCliArgumentProvider
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 public final class DreaminaCliRequestSupport {
@@ -152,7 +152,10 @@ public final class DreaminaCliRequestSupport {
 
     /**
      * Validates video duration (seconds) by model version.
+     *
+     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
+    @Deprecated
     public static void requireVideoDuration(Integer durationSeconds, DreaminaVideoModelVersion modelVersion, String label) {
         if (durationSeconds == null) {
             return;

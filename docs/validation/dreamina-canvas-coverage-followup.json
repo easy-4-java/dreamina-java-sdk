@@ -1,0 +1,50 @@
+{
+  "date": "2026-09-29",
+  "command": "mvn -B --no-transfer-progress -Ddreamina.canvas.live=true clean verify",
+  "javaVersion": "8",
+  "build": "SUCCESS",
+  "tests": 592,
+  "passed": 580,
+  "skipped": 12,
+  "failures": 0,
+  "errors": 0,
+  "jacocoScope": "166 classes matched by pom.xml JaCoCo includes; not the entire SDK",
+  "jacoco": {
+    "line": {
+      "covered": 1333,
+      "total": 1340,
+      "percent": 99.48
+    },
+    "branch": {
+      "covered": 376,
+      "total": 394,
+      "percent": 95.43
+    },
+    "canvasExecutor": {
+      "line": {
+        "covered": 95,
+        "total": 95
+      },
+      "branch": {
+        "covered": 22,
+        "total": 22
+      }
+    },
+    "canvasParser": {
+      "line": {
+        "covered": 23,
+        "total": 23
+      },
+      "branch": {
+        "covered": 10,
+        "total": 10
+      }
+    }
+  },
+  "remaining": {
+    "lines": 7,
+    "branches": 18,
+    "notes": "Mostly bundled schema failure paths and rare subprocess I/O failure/cleanup paths. Isolated ClassLoader tests for missing/corrupt/incomplete schema pass but are not credited by JaCoCo in the main class report."
+  },
+  "realGenerationRetested": false
+}

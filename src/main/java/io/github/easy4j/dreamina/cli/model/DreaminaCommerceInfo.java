@@ -2,20 +2,22 @@ package io.github.easy4j.dreamina.cli.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
 import java.util.Collections;
 import java.util.List;
-import lombok.Data;
 
 /**
  * Billing/benefit summary from the {@code commerce_info} field returned by commands such as {@code list_task}.
  *
- * @see DreaminaTaskItem
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaTaskItem
  * @since 3.0.0
+ * @deprecated 旧 list_task commerce_info，不等同 Canvas node quote 报价；替代：NODE_QUOTE data。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Deprecated
 public class DreaminaCommerceInfo {
 
     @JsonProperty("credit_count")
