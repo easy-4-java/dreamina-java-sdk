@@ -58,6 +58,9 @@ class DreaminaCanvasCommandCoverageTest {
             }
         }
         add(cases, DreaminaCanvasCommand.NODE_UPSCALE_IMAGE, "node-id=" + NODE, "mode=normal", "dry-run=true");
+        add(cases, DreaminaCanvasCommand.NODE_DELETE, "node-id=" + NODE, "node-id=node_0000000002", "update-id=" + ID, "delete-token=test-only-token");
+        add(cases, DreaminaCanvasCommand.NODE_DELETE_CONFIRM, "node-id=" + NODE, "update-id=" + ID);
+        add(cases, DreaminaCanvasCommand.NODE_DELETE_STATUS, "node-id=" + NODE, "update-id=" + ID);
         add(cases, DreaminaCanvasCommand.NODE_SHOW, "node-id=" + NODE, "node-id=node_0000000002");
         add(cases, DreaminaCanvasCommand.NODE_FIND, "name=SDK", "type=image", "type=video", "limit=2");
         add(cases, DreaminaCanvasCommand.NODE_QUOTE, "node-id=" + NODE);
@@ -67,7 +70,7 @@ class DreaminaCanvasCommandCoverageTest {
         add(cases, DreaminaCanvasCommand.OPERATION_WAIT, "@" + ID, "timeout=0", "interval=1s");
         add(cases, DreaminaCanvasCommand.RESOURCE_DOWNLOAD, "@" + ID, "output=path with spaces.png");
         add(cases, DreaminaCanvasCommand.RESOURCE_GET, "@" + ID);
-        add(cases, DreaminaCanvasCommand.RESOURCE_UPLOAD, "file=path with spaces.png", "type=image", "resource-id=" + ID);
+        add(cases, DreaminaCanvasCommand.RESOURCE_UPLOAD, "project-id=" + ID, "file=path with spaces.png", "type=image", "resource-id=" + ID);
         add(cases, DreaminaCanvasCommand.CANVAS_CREATE, "@--a literal name", "project-id=" + ID, "use=false");
         add(cases, DreaminaCanvasCommand.CANVAS_LS, "limit=1");
         add(cases, DreaminaCanvasCommand.AUTH_ACCOUNT);

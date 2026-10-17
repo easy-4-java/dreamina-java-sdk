@@ -1384,5 +1384,47 @@
     "type": "DreaminaStrings",
     "status": "shared",
     "reason": "原共享工具仍被复用的请求/认证/可用性对象调用；新增 StringUtils 遵循项目规范，无需删除或废弃原工具。"
+  },
+  {
+    "name": "DreaminaCanvasNodeDeleteConfirmResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeDeleteConfirmResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeDeleteResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeDeleteResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeDeleteStatusResult",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeDeleteStatusResult.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasPosition",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPosition.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeDeleteConfirmRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeDeleteConfirmRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeDeleteRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeDeleteRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "name": "DreaminaCanvasNodeDeleteStatusRequest",
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeDeleteStatusRequest.java",
+    "status": "new-adapter",
+    "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
   }
 ]

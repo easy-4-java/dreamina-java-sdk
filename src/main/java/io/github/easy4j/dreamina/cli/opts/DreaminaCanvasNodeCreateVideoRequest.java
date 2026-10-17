@@ -14,6 +14,16 @@ import java.util.Objects;
 @Builder
 public final class DreaminaCanvasNodeCreateVideoRequest extends DreaminaCanvasRequest<DreaminaCanvasNodeCreateVideoResult> {
     /**
+     * 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；--x。
+     */
+    @DreaminaCanvasParameter(value = "x", positional = false)
+    private final java.math.BigDecimal x;
+    /**
+     * 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；--y。
+     */
+    @DreaminaCanvasParameter(value = "y", positional = false)
+    private final java.math.BigDecimal y;
+    /**
      * 项目 UUID；省略时使用当前项目；--project-id。
      */
     @DreaminaCanvasParameter(value = "project-id", positional = false)
@@ -33,6 +43,12 @@ public final class DreaminaCanvasNodeCreateVideoRequest extends DreaminaCanvasRe
      */
     @DreaminaCanvasParameter(value = "dry-run", positional = false)
     private final Boolean dryRun;
+    /**
+     * 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；--resource-source。
+     */
+    @DreaminaCanvasParameter(value = "resource-source", positional = false)
+    @lombok.Singular("addResourceSource")
+    private final java.util.List<String> resourceSource;
     /**
      * 节点标题；按 flag 出现更新；--title。
      */
@@ -102,16 +118,6 @@ public final class DreaminaCanvasNodeCreateVideoRequest extends DreaminaCanvasRe
     @DreaminaCanvasParameter(value = "import-kind", positional = false)
     private final String importKind;
     /**
-     * external_generated 导入节点在根画布中的 X 坐标；必须与 --y 成组提供；--x。
-     */
-    @DreaminaCanvasParameter(value = "x", positional = false)
-    private final java.math.BigDecimal x;
-    /**
-     * external_generated 导入节点在根画布中的 Y 坐标；必须与 --x 成组提供；--y。
-     */
-    @DreaminaCanvasParameter(value = "y", positional = false)
-    private final java.math.BigDecimal y;
-    /**
      * 保存后依次报价、批准并运行该节点；--run。
      */
     @DreaminaCanvasParameter(value = "run", positional = false)
@@ -164,10 +170,13 @@ public final class DreaminaCanvasNodeCreateVideoRequest extends DreaminaCanvasRe
     @Override
     protected DreaminaCanvasArguments arguments() {
         DreaminaCanvasArguments args = new DreaminaCanvasArguments();
+        args.flag("x", x);
+        args.flag("y", y);
         args.flag("project-id", projectId);
         args.flag("node-id", nodeId);
         args.flag("update-id", updateId);
         args.flag("dry-run", dryRun);
+        args.flag("resource-source", resourceSource);
         args.flag("title", title);
         args.flag("tag", tag);
         args.flag("clear-tags", clearTags);
@@ -181,8 +190,6 @@ public final class DreaminaCanvasNodeCreateVideoRequest extends DreaminaCanvasRe
         args.flag("ref", ref);
         args.flag("resource-id", resourceId);
         args.flag("import-kind", importKind);
-        args.flag("x", x);
-        args.flag("y", y);
         args.flag("run", run);
         args.flag("submit-id", submitId);
         args.flag("credit-token", creditToken);
@@ -207,7 +214,6 @@ public final class DreaminaCanvasNodeCreateVideoRequest extends DreaminaCanvasRe
             this.ratio = value;
             return this;
         }
-
         /**
          * 复用既有分辨率枚举，转换 Canvas 大写 K。
          */

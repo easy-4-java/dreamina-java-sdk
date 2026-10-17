@@ -13,6 +13,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasPlan {
     /**
+     * 契约字段 {@code resourceSourceProjects}。
+     */
+    @JsonProperty("resourceSourceProjects")
+    private java.util.Map<String, String> resourceSourceProjects;
+    /**
      * 契约字段 {@code action}。
      */
     @JsonProperty("action")
@@ -73,10 +78,10 @@ public final class DreaminaCanvasPlan {
     @JsonProperty("importKind")
     private String importKind;
     /**
-     * 契约字段 {@code initialPosition}。
+     * 契约字段 {@code position}。
      */
-    @JsonProperty("initialPosition")
-    private DreaminaCanvasInitialPosition initialPosition;
+    @JsonProperty("position")
+    private DreaminaCanvasPosition position;
     /**
      * 契约字段 {@code submission}。
      */

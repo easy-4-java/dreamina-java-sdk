@@ -31,7 +31,7 @@ class DreaminaCanvasInstalledCliTest {
         assertTrue(version.isSuccess());
         assertEquals(version.getData().getBuildTime(), cli.versionDetails().getData().getBuildTime());
         assertTrue(new io.github.easy4j.dreamina.cli.availability.DreaminaCliAvailabilityChecker().checkCanvas(cli.getProperties()).isAvailable());
-        assertEquals("1.0.1", version.getData().getVersion());
+        assertEquals("1.0.3", version.getData().getVersion());
         DreaminaCanvasResponse<DreaminaCanvasSchema> schema = cli.schema();
         assertTrue(schema.isSuccess());
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();

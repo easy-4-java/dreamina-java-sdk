@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "cliVersion": "1.0.1",
+  "cliVersion": "1.0.3",
   "commands": [
     {
       "command": "model",
@@ -86,6 +86,21 @@
       "command": "node upscale image",
       "request": "DreaminaCanvasNodeUpscaleImageRequest",
       "data": "DreaminaCanvasNodeUpscaleImageResult"
+    },
+    {
+      "command": "node delete",
+      "request": "DreaminaCanvasNodeDeleteRequest",
+      "data": "DreaminaCanvasNodeDeleteResult"
+    },
+    {
+      "command": "node delete confirm",
+      "request": "DreaminaCanvasNodeDeleteConfirmRequest",
+      "data": "DreaminaCanvasNodeDeleteConfirmResult"
+    },
+    {
+      "command": "node delete status",
+      "request": "DreaminaCanvasNodeDeleteStatusRequest",
+      "data": "DreaminaCanvasNodeDeleteStatusResult"
     },
     {
       "command": "node show",

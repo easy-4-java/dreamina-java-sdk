@@ -28,7 +28,7 @@ class DreaminaCanvasAvailabilityReuseTest {
 
     @Test
     void existingReportAndStartupExceptionWorkForCanvas() throws Exception {
-        DreaminaCanvasCliProperties config = executable("#!/bin/sh\necho '{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.1\"}}'\n");
+        DreaminaCanvasCliProperties config = executable("#!/bin/sh\necho '{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.3\"}}'\n");
         DreaminaCliAvailabilityReport report = checker.checkCanvas(config);
         assertTrue(report.isAvailable());
         assertEquals(DreaminaCliAvailabilityStatus.AVAILABLE, report.getStatus());

@@ -27,7 +27,7 @@ public final class DreaminaCanvasResourceUploadRequest extends DreaminaCanvasReq
     @DreaminaCanvasParameter(value = "source-url", positional = false)
     private final String sourceUrl;
     /**
-     * 项目 UUID；省略时使用当前项目；--project-id。
+     * 目标项目 UUID；必填，即使已指定 resource-id；--project-id。
      */
     @DreaminaCanvasParameter(value = "project-id", positional = false)
     private final String projectId;

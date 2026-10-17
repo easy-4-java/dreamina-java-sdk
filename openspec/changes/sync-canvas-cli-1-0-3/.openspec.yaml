@@ -1,0 +1,3 @@
+schema: spec-driven
+created: 2026-10-17
+goal: 将 typed Canvas 集成的契约基线从 CLI 1.0.1 同步到公开版 1.0.3（244064d）：补 node delete 三入口、逐命令新增 flag、resource upload project-id 转必填，并刷新随包 schema/version 快照与文档；三个分支（1.0.x/2.0.x/3.0.x）同步落地。

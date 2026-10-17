@@ -42,7 +42,7 @@ class DreaminaCanvasProcessBoundaryTest {
 
     @Test
     void inheritedPipeCannotHangAfterParentExits() throws Exception {
-        DreaminaCanvasCliExecutor cli = fake("printf '%s\\n' '{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.1\"}}'\nsleep 0.5 &\nexit 0\n", 120, 4096, null);
+        DreaminaCanvasCliExecutor cli = fake("printf '%s\\n' '{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.3\"}}'\nsleep 0.5 &\nexit 0\n", 120, 4096, null);
         long start = System.nanoTime();
         assertThrows(DreaminaCliTimeoutException.class, cli::version);
         assertTrue(Duration.ofNanos(System.nanoTime() - start).toMillis() < 1000);
@@ -52,9 +52,9 @@ class DreaminaCanvasProcessBoundaryTest {
     void workingDirectoryIsUsedAndInvalidDirectoryIsClassified() throws Exception {
         Path work = dir.resolve("working");
         Files.createDirectory(work);
-        DreaminaCanvasCliExecutor cli = fake("printf '%s\\n' '{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.1\"}}'\npwd > cwd.txt\n", 5000, 4096, work.toString());
+        DreaminaCanvasCliExecutor cli = fake("printf '%s\\n' '{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{\"version\":\"1.0.3\"}}'\npwd > cwd.txt\n", 5000, 4096, work.toString());
         DreaminaVersion result = cli.version().getData();
-        assertEquals("1.0.1", result.getVersion());
+        assertEquals("1.0.3", result.getVersion());
         assertEquals(work.toRealPath(), java.nio.file.Paths.get(new String(Files.readAllBytes(work.resolve("cwd.txt")), StandardCharsets.UTF_8).trim()).toRealPath());
         DreaminaCanvasCliExecutor invalid = fake("exit 0\n", 5000, 4096, dir.resolve("missing").toString());
         assertThrows(DreaminaCliExecutableFailureException.class, invalid::version);
