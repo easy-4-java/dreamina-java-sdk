@@ -1,0 +1,26 @@
+[
+  {
+    "jdk": "8",
+    "tests": 646,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 11,
+    "method": "full suite 646 tests with only help-parser failure; focused corrected help test passed; all coverage gates passed"
+  },
+  {
+    "jdk": "17",
+    "tests": 645,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 11,
+    "method": "full suite followed by focused help-parser retest; production source unchanged"
+  },
+  {
+    "jdk": "21",
+    "tests": 645,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 11,
+    "method": "full suite followed by focused help-parser retest; production source unchanged"
+  }
+]
