@@ -32,8 +32,8 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCliExecutor.java",
     "type": "DreaminaCliExecutor",
-    "status": "legacy-only",
-    "reason": "旧 dreamina 命令执行入口；替代：DreaminaCanvasCliExecutor。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCliResponse.java",
@@ -50,14 +50,14 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/DreaminaCliSubcommands.java",
     "type": "DreaminaCliSubcommands",
-    "status": "legacy-only",
-    "reason": "旧 login/session/text2image/query_result 路由常量与 Canvas 路由不兼容；替代：DreaminaCanvasCommand。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/availability/DreaminaCliAvailabilityChecker.java",
     "type": "DreaminaCliAvailabilityChecker",
     "status": "shared",
-    "reason": "增加 checkCanvas 复用路径解析、报告和状态；旧 check 重载方法单独废弃。"
+    "reason": "增加 checkCanvas 复用路径解析、报告和状态；旧 check 重载方法继续维护。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/availability/DreaminaCliAvailabilityReport.java",
@@ -740,20 +740,20 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCheckLogin.java",
     "type": "DreaminaCheckLogin",
-    "status": "legacy-only",
-    "reason": "旧 gen_status/message 登录轮询体不同于 auth wait envelope；替代：AUTH_WAIT 的 data/error。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCommerceInfo.java",
     "type": "DreaminaCommerceInfo",
-    "status": "legacy-only",
-    "reason": "旧 list_task commerce_info，不等同 Canvas node quote 报价；替代：NODE_QUOTE data。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCommerceTriplet.java",
     "type": "DreaminaCommerceTriplet",
-    "status": "legacy-only",
-    "reason": "旧计费 triplet 结构，Canvas quote 不返回该协议；替代：NODE_QUOTE data。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaDeviceLogin.java",
@@ -764,14 +764,14 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaGenerateSubmit.java",
     "type": "DreaminaGenerateSubmit",
-    "status": "legacy-only",
-    "reason": "旧 gen_status/queue_info 提交体与 Canvas operations/partialData 不同；替代：NODE_RUN 响应。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaGenerationStatus.java",
     "type": "DreaminaGenerationStatus",
-    "status": "legacy-only",
-    "reason": "旧 querying/success/fail 状态集合不能无损表示 Canvas operation 状态；替代：OPERATION_STATUS data.state。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaHelp.java",
@@ -782,8 +782,8 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaLogin.java",
     "type": "DreaminaLogin",
-    "status": "legacy-only",
-    "reason": "旧文本解析 oauthSessionReused/account/device 聚合；替代：AUTH_LOGIN envelope，challenge 可复用 DreaminaDeviceLogin。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaLoginAccount.java",
@@ -800,92 +800,92 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryImage.java",
     "type": "DreaminaQueryImage",
-    "status": "legacy-only",
-    "reason": "旧 result_json.images[].image_url 结构；Canvas 用 resourceId 与资源查询，不能靠字段映射自动完成下载；替代：RESOURCE_GET/DOWNLOAD。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryQueueDebugInfo.java",
     "type": "DreaminaQueryQueueDebugInfo",
-    "status": "legacy-only",
-    "reason": "旧 queue_info.debug_info 内嵌结构；Canvas 无该协议，使用 operation/meta 原始数据。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryQueueInfo.java",
     "type": "DreaminaQueryQueueInfo",
-    "status": "legacy-only",
-    "reason": "旧 queue_info 排队字段与 Canvas operation 结构不同；替代：OPERATION_STATUS data。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryResult.java",
     "type": "DreaminaQueryResult",
-    "status": "legacy-only",
-    "reason": "旧 query_result 的 gen_status/result_json 与 Canvas operation/resource 分离协议不同；替代：OPERATION_STATUS 与 RESOURCE_GET。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueryVideo.java",
     "type": "DreaminaQueryVideo",
-    "status": "legacy-only",
-    "reason": "旧 result_json.videos[].video_url/cover_url 结构与 Canvas 资源协议不同；替代：RESOURCE_GET/DOWNLOAD。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaQueueInfoSupport.java",
     "type": "DreaminaQueueInfoSupport",
-    "status": "legacy-only",
-    "reason": "仅解析旧 queue_info.debug_info；替代：Canvas operation/meta 结构，无需沿用旧嵌套字符串解析。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaRelogin.java",
     "type": "DreaminaRelogin",
-    "status": "legacy-only",
-    "reason": "旧 relogin 文本 requiresBrowserOAuth/device 聚合；替代：AUTH_LOGIN/AUTH_REFRESH。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaResultJson.java",
     "type": "DreaminaResultJson",
-    "status": "legacy-only",
-    "reason": "旧 images/videos 输出集合，Canvas 返回资源身份和独立查询；替代：operation resources 与 RESOURCE_GET。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionDelete.java",
     "type": "DreaminaSessionDelete",
-    "status": "legacy-only",
-    "reason": "旧 session delete，Canvas 1.0.1 未提供画布删除；无等价命令，不伪造替代。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionList.java",
     "type": "DreaminaSessionList",
-    "status": "legacy-only",
-    "reason": "旧数字 session 表格，不是 Canvas UUID 画布列表；替代：CANVAS_LS data.items。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionMutation.java",
     "type": "DreaminaSessionMutation",
-    "status": "legacy-only",
-    "reason": "旧 session create/rename；创建改用 CANVAS_CREATE，当前无画布重命名命令。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionRow.java",
     "type": "DreaminaSessionRow",
-    "status": "legacy-only",
-    "reason": "旧 session id/pinned/updated 表格行与 Canvas projectId 结构不同；替代：CANVAS_LS data.items。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaSessionSearch.java",
     "type": "DreaminaSessionSearch",
-    "status": "legacy-only",
-    "reason": "旧 session search，当前无等价远端画布搜索；可在 CANVAS_LS 结果中由调用者筛选。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaTaskItem.java",
     "type": "DreaminaTaskItem",
-    "status": "legacy-only",
-    "reason": "旧 list_task 任务/计费汇总，Canvas 无同形列表；替代：已知 submitId 的 OPERATION_STATUS。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaUserCredit.java",
     "type": "DreaminaUserCredit",
-    "status": "legacy-only",
-    "reason": "旧 user_credit 余额字段，Canvas auth account 不返回积分余额；报价使用 NODE_QUOTE，不能拿会员状态充当余额。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaVersion.java",
@@ -1178,38 +1178,38 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCliContractValidator.java",
     "type": "DreaminaCliContractValidator",
-    "status": "legacy-only",
-    "reason": "校验旧 v1.4 模型/请求约束；替代：DreaminaCanvasContract 与实时 model list/find。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCliRequestSupport.java",
     "type": "DreaminaCliRequestSupport",
     "status": "shared",
-    "reason": "新契约直接复用 requireRange；会 trim 文本的 addFlag 不用于原样 prompt。旧视频约束方法单独废弃。"
+    "reason": "新契约直接复用 requireRange；会 trim 文本的 addFlag 不用于原样 prompt。旧视频约束方法单独维护。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaFrames2VideoRequest.java",
     "type": "DreaminaFrames2VideoRequest",
-    "status": "legacy-only",
-    "reason": "旧 first/last frame 本地路径 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImage2ImageRequest.java",
     "type": "DreaminaImage2ImageRequest",
-    "status": "legacy-only",
-    "reason": "本地图片路径及旧 model_version/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImage2VideoRequest.java",
     "type": "DreaminaImage2VideoRequest",
-    "status": "legacy-only",
-    "reason": "旧本地 image 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImageModelVersion.java",
     "type": "DreaminaImageModelVersion",
-    "status": "legacy-only",
-    "reason": "旧值 4.7/5.0Pro 不是 Canvas canonical 模型 ID；替代：实时 model list/find 返回值。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImageResolutionType.java",
@@ -1220,32 +1220,32 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaImageUpscaleRequest.java",
     "type": "DreaminaImageUpscaleRequest",
-    "status": "legacy-only",
-    "reason": "旧 image 路径/resolution 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_UPSCALE_IMAGE，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaListTaskRequest.java",
     "type": "DreaminaListTaskRequest",
-    "status": "legacy-only",
-    "reason": "旧 list_task 的分页/任务状态；新 CLI 无同形任务列表 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + OPERATION_STATUS，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaMultiframe2VideoRequest.java",
     "type": "DreaminaMultiframe2VideoRequest",
-    "status": "legacy-only",
-    "reason": "旧 transition 参数及本地路径 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaMultimodal2VideoRequest.java",
     "type": "DreaminaMultimodal2VideoRequest",
-    "status": "legacy-only",
-    "reason": "旧 image/video/audio 路径和旧模型默认值 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaQueryResultRequest.java",
     "type": "DreaminaQueryResultRequest",
-    "status": "legacy-only",
-    "reason": "旧 submit_id/download_dir 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + OPERATION_STATUS/RESOURCE_DOWNLOAD，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaRatio.java",
@@ -1256,20 +1256,20 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaText2ImageRequest.java",
     "type": "DreaminaText2ImageRequest",
-    "status": "legacy-only",
-    "reason": "model_version/generate_num/session_id/poll 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaText2VideoRequest.java",
     "type": "DreaminaText2VideoRequest",
-    "status": "legacy-only",
-    "reason": "旧 model_version/video_resolution/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaVideoModelVersion.java",
     "type": "DreaminaVideoModelVersion",
-    "status": "legacy-only",
-    "reason": "硬编码旧模型路由及模态/时长能力，不能代表 Canvas 实时 generation spec；替代：model list/find。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaVideoResolutionType.java",
@@ -1292,20 +1292,20 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaCliOutputParser.java",
     "type": "DreaminaCliOutputParser",
-    "status": "legacy-only",
-    "reason": "旧文本/正则提取 gen_status/submit_id，不支持 Canvas ok/partialData；替代：DreaminaCanvasResponseParser。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaCliStructuredPayloadMapper.java",
     "type": "DreaminaCliStructuredPayloadMapper",
     "status": "shared",
-    "reason": "新 parser/contract 复用 Jackson 工厂，新 helpDetails 复用 mapHelp；其余旧协议 map 方法单独废弃。"
+    "reason": "新 parser/contract 复用 Jackson 工厂，新 helpDetails 复用 mapHelp；其余旧协议 map 方法单独维护。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaLoginTextParser.java",
     "type": "DreaminaLoginTextParser",
     "status": "shared",
-    "reason": "DreaminaDeviceLogin 继续复用 hasDeviceFlowMaterial；旧文本检测/解析方法单独废弃。"
+    "reason": "DreaminaDeviceLogin 继续复用 hasDeviceFlowMaterial；旧文本检测/解析方法单独维护。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/parser/DreaminaParsedFields.java",
@@ -1322,8 +1322,8 @@
   {
     "path": "src/main/java/io/github/easy4j/dreamina/cli/support/SubprocessExecutionSupport.java",
     "type": "SubprocessExecutionSupport",
-    "status": "legacy-only",
-    "reason": "全局信号量、无界输出与仅进程超时无法满足 Canvas 实例隔离及总预算；替代：DreaminaCanvasProcessRunner，保留旧调用行为。"
+    "status": "legacy-supported",
+    "reason": "旧 dreamina CLI 持续维护的独立协议类型；与 Canvas 并行支持，不标记废弃。"
   },
   {
     "path": "src/main/java/io/github/easy4j/dreamina/exception/DreaminaCanvasCliException.java",
@@ -1383,7 +1383,7 @@
     "path": "src/main/java/io/github/easy4j/dreamina/util/DreaminaStrings.java",
     "type": "DreaminaStrings",
     "status": "shared",
-    "reason": "原共享工具仍被复用的请求/认证/可用性对象调用；新增 StringUtils 遵循项目规范，无需删除或废弃原工具。"
+    "reason": "原共享工具仍被复用的请求/认证/可用性对象调用；新增 StringUtils 遵循项目规范，无需删除或维护原工具。"
   },
   {
     "name": "DreaminaCanvasNodeDeleteConfirmResult",
@@ -1426,5 +1426,195 @@
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeDeleteStatusRequest.java",
     "status": "new-adapter",
     "reason": "Canvas 1.0.3 独立参数/响应或传输类型；具体字段与官方 schema 的映射由全量字段测试验证。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasActual.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasClientUpgrade.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasConsumptionSubject.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasCredit.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasCurrentCanva.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasCurrentResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDetail.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDraftPromotion.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasImage.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasInstallCommand.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeCutoutImageResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeInterpolateVideoResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodePromoteVideoSampleResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeUpscaleVideoResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasNodeUpscaleVideoResultParam.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasPermission.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSpaceCurrentResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSpaceUseResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasSubscription.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTeam.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTeamCredit.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTeamLsResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTeamSpaceDiscovery.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTeamSpaceDiscoveryError.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasTeamSpaceDiscoveryTeam.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasUseResult.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasValidationPostEdit.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasValidationPostEditConstraint.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasVideo.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasCurrentRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeCutoutImageRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeInterpolateVideoRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodePromoteVideoSampleRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasNodeUpscaleVideoRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasSpaceCurrentRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasSpaceUseRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasTeamLsRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasUseRequest.java",
+    "status": "canvas-only",
+    "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
   }
 ]

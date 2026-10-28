@@ -23,11 +23,9 @@ import java.util.List;
  * 并允许时长范围 4～30 秒；其他模型仍要求至少一个 {@code --image} 或 {@code --video} 输入。
  * </p>
  * @since 3.0.0
- * @deprecated 旧 image/video/audio 路径和旧模型默认值 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaMultimodal2VideoRequest implements DreaminaCliArgumentProvider {
 
     @Singular("image")
@@ -57,6 +55,7 @@ public class DreaminaMultimodal2VideoRequest implements DreaminaCliArgumentProvi
 
     @Override
     public List<String> toCliArgs() {
+        DreaminaCliContractValidator.validateVideoRatio(ratio, modelVersion, false);
         // CLI v1.4.15（2026-08-01）：Seedance 2.5 放宽输入数量上限
         //   - image≤30 / video≤10 / audio≤10（其它模型维持 image≤9 / video≤3 / audio≤3）
         boolean seedance25 = modelVersion == DreaminaVideoModelVersion.SEEDANCE_2_5;

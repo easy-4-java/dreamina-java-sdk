@@ -98,11 +98,9 @@ import java.util.Objects;
  *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
- * @deprecated 旧 Dreamina CLI 已进入迁移期，请使用 {@link io.github.easy4j.dreamina.cli.DreaminaCanvasCliExecutor}。
  */
 @Slf4j
 @Getter
-@Deprecated
 public class DreaminaCliExecutor {
 
     private final DreaminaCliProperties properties;

@@ -31,7 +31,7 @@ public final class DreaminaCanvasContract {
      * 读取独立的契约对象，调用者修改不会污染后续请求。
      */
     public static DreaminaCanvasSchema schema() {
-        try (InputStream stream = DreaminaCanvasContract.class.getResourceAsStream("schema-1.0.3.json")) {
+        try (InputStream stream = DreaminaCanvasContract.class.getResourceAsStream("schema-1.2.0.json")) {
             if (Objects.isNull(stream)) {
                 throw new IllegalStateException("Missing Canvas schema resource");
             }
@@ -90,6 +90,15 @@ public final class DreaminaCanvasContract {
                 require(UUID.matcher(value).matches(), "invalid operation reference UUID");
             }
         }
+        if (command == DreaminaCanvasCommand.SPACE_USE) {
+            String kind = args.positions.get(0);
+            require("personal".equals(kind) || "team".equals(kind), "space kind must be personal or team");
+            require("team".equals(kind) == (args.positions.size() == 2), "team space requires team-id; personal space forbids it");
+            if (args.positions.size() == 2) {
+                String teamId = args.positions.get(1);
+                require(teamId.matches("[1-9][0-9]*") && new BigInteger(teamId).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) <= 0, "team-id requires canonical positive int64");
+            }
+        }
         validateRelations(command, options);
     }
 
@@ -105,6 +114,9 @@ public final class DreaminaCanvasContract {
                 require(numeric.signum() >= 0, name + " must be nonnegative");
             } else if (constraints.startsWith(">0")) {
                 require(numeric.signum() > 0, name + " must be positive");
+            }
+            if (constraints.split(";", 2)[0].trim().matches("[0-9]+(?:\\|[0-9]+)+")) {
+                require(Arrays.asList(constraints.split(";", 2)[0].trim().split("\\|")).contains(value), name + " outside allowed values");
             }
             if (constraints.contains("int32")) {
                 require(numeric.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) <= 0, name + " exceeds int32");
@@ -156,7 +168,12 @@ public final class DreaminaCanvasContract {
         if (command.getPath().startsWith("node ")) {
             require(!(o.containsKey("timeout") || o.containsKey("interval")) || enabled(o, "wait"), "timeout/interval requires wait");
         }
-        if (command == DreaminaCanvasCommand.NODE_RUN || command == DreaminaCanvasCommand.NODE_UPSCALE_IMAGE) {
+        if (command == DreaminaCanvasCommand.NODE_RUN || command == DreaminaCanvasCommand.NODE_UPSCALE_IMAGE
+                || command == DreaminaCanvasCommand.NODE_UPSCALE_VIDEO
+                || command == DreaminaCanvasCommand.NODE_CUTOUT_IMAGE
+                || command == DreaminaCanvasCommand.NODE_INTERPOLATE_VIDEO) {
+            List<String> nodes = o.get("node-id");
+            require(Objects.nonNull(nodes) && nodes.size() <= 20 && new HashSet<>(nodes).size() == nodes.size(), "node-id requires 1..20 unique values");
             if (o.containsKey("submit-id")) {
                 require(o.get("submit-id").size() == o.get("node-id").size(), "submit-id count must equal node-id count");
                 require(new HashSet<>(o.get("submit-id")).size() == o.get("submit-id").size(), "submit-id values must be unique");

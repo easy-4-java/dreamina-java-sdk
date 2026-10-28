@@ -1,0 +1,39 @@
+Usage:
+  dreamina image2video [flags]
+
+Upload one local image, then submit a Dreamina image-to-video task. For multi-image storytelling, use multiframe2video; for full-reference mixed-media generation, use multimodal2video. The task is asynchronous, but --poll can wait briefly before falling back to query_result.
+
+Supported combinations:
+- --image, --prompt, and --video_resolution are required
+- model_version values: seedance1.0fast, seedance1.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini, seedance2.5
+- ratio: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9
+- seedance2.5 -> video_resolution 480p, 720p, or 1080p; duration 4-30s; VIP-only
+- seedance2.0_vip -> video_resolution 720p, 1080p, or 4k
+- all other models -> video_resolution 720p
+
+Notes:
+- --video_resolution is required
+- omit --ratio to infer it from the first-frame image; Seedance 2.0 models can set it independently; seedance2.5 reference-frame generation follows the first frame and rejects --ratio; legacy models require it to match the first frame
+- default model_version: seedance2.0_vip
+- default duration: 5s
+- listed model values are the CLI's public support set; runtime availability is determined by backend configuration
+- duration, video_resolution, and any explicitly supplied ratio are strictly validated; unsupported or legacy values are rejected instead of silently adjusted
+- 部分模型首次使用时，需要先在即梦 Web 端使用该模型完成首次生成。若提交生成任务后返回 AigcComplianceConfirmationRequired提示，则属于该情况。 For some models, first-time use requires completing an initial generation with the model on Dreamina Web. If the AigcComplianceConfirmationRequired message is returned after submitting a generation task, this requirement applies.
+
+
+Flags:
+      --image string              local first-frame image path
+      --prompt string             generation prompt
+      --duration int              video duration in seconds; supported ranges by model: seedance1.0fast -> 5-10, seedance1.5pro -> 5-12, seedance2.0 family/seedance2.0mini -> 4-15, seedance2.5 -> 4-30 (default 5)
+      --ratio string              supported values: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9; omit to infer from the first-frame image; not accepted with model_version seedance2.5
+      --video_resolution string   required; supported values by model: seedance2.5 -> 480p, 720p, or 1080p; seedance2.0_vip -> 720p, 1080p, or 4k; all other models -> 720p
+      --model_version string      supported values: seedance1.0fast, seedance1.5pro, seedance2.0, seedance2.0fast, seedance2.0_vip, seedance2.0fast_vip, seedance2.0mini, seedance2.5
+      --session int               session id (default 0 "默认对话") 
+      --poll int                  submit then poll query_result for up to N seconds at 1s intervals (0 disables polling)
+  -h, --help                      help for image2video
+
+Global Flags:
+      --version   print build version information
+
+Examples:
+  dreamina image2video --image=./first.png --prompt="camera push in" --ratio=16:9 --video_resolution=720p

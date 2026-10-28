@@ -1,50 +1,59 @@
-# Canvas CLI 1.0.3 完整业务命令目录
+# Canvas CLI 1.2.0 完整业务命令目录
 
-来源：本机 `dreamina-canvas schema` 与逐项 `--help`。40 个业务入口，49 个命令/组描述。动态模型、音色不固化到枚举。完整
+来源：本机 `dreamina-canvas schema` 与逐项 `--help`。49 个业务入口，64 个命令/组描述。动态模型、音色不固化到枚举。完整
 successData/dryRunData/constraints 见随包 schema。
 
-| Java 枚举              | CLI 路径               | 用途                                                                        |
-|------------------------|------------------------|-----------------------------------------------------------------------------|
-| `MODEL`                | `model`                | 查询生成模型及其可调用规格                                                  |
-| `MODEL_LIST`           | `model list`           | 列出生成模型及可填写 flag                                                   |
-| `MODEL_FIND`           | `model find`           | 按名称或别名定位可调用的 canonical model                                    |
-| `VOICE_LIST`           | `voice list`           | 列出可用于 tts 的音色名称                                                   |
-| `NODE_CREATE_IMAGE`    | `node create image`    | 创建图片节点，不触发生成                                                    |
-| `NODE_CREATE_VIDEO`    | `node create video`    | 创建视频节点，不触发生成                                                    |
-| `NODE_CREATE_AUDIO`    | `node create audio`    | 创建音频节点；--run 时保存、报价、按服务端要求批准并运行                    |
-| `NODE_CREATE_ELEMENT`  | `node create element`  | 创建Element 节点，不触发生成                                                |
-| `NODE_CREATE_TEXT`     | `node create text`     | 创建文本节点，不触发生成                                                    |
-| `NODE_CREATE_TIMELINE` | `node create timeline` | 创建时间轴，把多个素材按顺序拼接，不触发生成                                |
-| `NODE_EDIT_IMAGE`      | `node edit image`      | 编辑图片节点，不触发生成                                                    |
-| `NODE_EDIT_VIDEO`      | `node edit video`      | 编辑视频节点，不触发生成                                                    |
-| `NODE_EDIT_AUDIO`      | `node edit audio`      | 编辑音频节点；--run 时保存、报价、按服务端要求批准并运行                    |
-| `NODE_EDIT_ELEMENT`    | `node edit element`    | 编辑Element 节点，不触发生成                                                |
-| `NODE_EDIT_TEXT`       | `node edit text`       | 编辑文本节点，不触发生成                                                    |
-| `NODE_EDIT_TIMELINE`   | `node edit timeline`   | 编辑时间轴，把多个素材按顺序拼接，不触发生成                                |
-| `NODE_UPSCALE_IMAGE`   | `node upscale image`   | 图片超清：提交即执行，无 --run；等待终态直接使用 --wait                     |
-| `NODE_DELETE`          | `node delete`          | 确认后批量删除节点；暂不支持群组                                            |
-| `NODE_DELETE_CONFIRM`  | `node delete confirm`  | 明确批准指定批次，签发删除凭证；不删除节点                                  |
-| `NODE_DELETE_STATUS`   | `node delete status`   | 只读查询该批次首次删除结果；不签发凭证、不删除节点                          |
-| `NODE_SHOW`            | `node show`            | 读取给定节点的视图                                                          |
-| `NODE_FIND`            | `node find`            | 按条件查节点，只回定位摘要（nodeId/type/title/status/tags）                 |
-| `NODE_QUOTE`           | `node quote`           | 对给定节点做运行前积分预估                                                  |
-| `NODE_CONFIRM`         | `node confirm`         | 批准给定节点的积分消费上限并取回短期凭证                                    |
-| `NODE_RUN`             | `node run`             | 触发给定节点的运行                                                          |
-| `OPERATION_STATUS`     | `operation status`     | 查询一次生成操作状态                                                        |
-| `OPERATION_WAIT`       | `operation wait`       | 等待生成操作进入终态                                                        |
-| `RESOURCE_DOWNLOAD`    | `resource download`    | 安全下载成功的图片素材                                                      |
-| `RESOURCE_GET`         | `resource get`         | 查素材状态与稳定事实（running/success/failed/canceled 四态都可查）          |
-| `RESOURCE_UPLOAD`      | `resource upload`      | 上传本地图片、视频或音频并登记为项目资源                                    |
-| `CANVAS_CREATE`        | `canvas create`        | 创建画布                                                                    |
-| `CANVAS_LS`            | `canvas ls`            | 列举可访问的画布，只回定位摘要（projectId/name/createdAt/updatedAt/webUrl） |
-| `AUTH_ACCOUNT`         | `auth account`         | 读取服务端认证的当前账号                                                    |
-| `AUTH_LOGIN`           | `auth login`           | 启动设备授权登录                                                            |
-| `AUTH_LOGOUT`          | `auth logout`          | 清除当前 profile 的本地登录态                                               |
-| `AUTH_STATUS`          | `auth status`          | 读取本地登录状态                                                            |
-| `AUTH_WAIT`            | `auth wait`            | 等待已启动的设备授权完成                                                    |
-| `AUTH_REFRESH`         | `auth refresh`         | 刷新当前登录凭据                                                            |
-| `SCHEMA`               | `schema`               | 返回当前制品的命令契约                                                      |
-| `VERSION`              | `version`              | 返回版本和构建信息                                                          |
+| Java 枚举                   | CLI 路径                    | 用途                                                                        |
+|-----------------------------|-----------------------------|-----------------------------------------------------------------------------|
+| `MODEL`                     | `model`                     | 查询生成模型及其可调用规格                                                  |
+| `MODEL_LIST`                | `model list`                | 列出生成模型及可填写 flag                                                   |
+| `MODEL_FIND`                | `model find`                | 按展示名或别名定位可调用的 canonical model                                  |
+| `VOICE_LIST`                | `voice list`                | 列出可用于 tts 的音色及 ID                                                  |
+| `NODE_CREATE_IMAGE`         | `node create image`         | 创建图片节点，不触发生成                                                    |
+| `NODE_CREATE_VIDEO`         | `node create video`         | 创建视频节点，不触发生成                                                    |
+| `NODE_CREATE_AUDIO`         | `node create audio`         | 创建音频节点；--run 时保存、报价、按服务端要求批准并运行                    |
+| `NODE_CREATE_ELEMENT`       | `node create element`       | 创建Element 节点，不触发生成                                                |
+| `NODE_CREATE_TEXT`          | `node create text`          | 创建文本节点，不触发生成                                                    |
+| `NODE_CREATE_TIMELINE`      | `node create timeline`      | 创建时间轴，把多个素材按顺序拼接，不触发生成                                |
+| `NODE_EDIT_IMAGE`           | `node edit image`           | 编辑图片节点，不触发生成                                                    |
+| `NODE_EDIT_VIDEO`           | `node edit video`           | 编辑视频节点，不触发生成                                                    |
+| `NODE_EDIT_AUDIO`           | `node edit audio`           | 编辑音频节点；--run 时保存、报价、按服务端要求批准并运行                    |
+| `NODE_EDIT_ELEMENT`         | `node edit element`         | 编辑Element 节点，不触发生成                                                |
+| `NODE_EDIT_TEXT`            | `node edit text`            | 编辑文本节点，不触发生成                                                    |
+| `NODE_EDIT_TIMELINE`        | `node edit timeline`        | 编辑时间轴，把多个素材按顺序拼接，不触发生成                                |
+| `NODE_UPSCALE_IMAGE`        | `node upscale image`        | 图片超清：提交即执行，无 --run；等待终态直接使用 --wait                     |
+| `NODE_UPSCALE_VIDEO`        | `node upscale video`        | 后编辑：提交即执行，无 --run；等待终态直接使用 --wait                       |
+| `NODE_CUTOUT_IMAGE`         | `node cutout image`         | 后编辑：提交即执行，无 --run；等待终态直接使用 --wait                       |
+| `NODE_INTERPOLATE_VIDEO`    | `node interpolate video`    | 后编辑：提交即执行，无 --run；等待终态直接使用 --wait                       |
+| `NODE_PROMOTE_VIDEO-SAMPLE` | `node promote video-sample` | 样片转正片：报价并批准后生成新节点                                          |
+| `NODE_DELETE`               | `node delete`               | 确认后批量删除节点；暂不支持群组                                            |
+| `NODE_DELETE_CONFIRM`       | `node delete confirm`       | 明确批准指定批次，签发删除凭证；不删除节点                                  |
+| `NODE_DELETE_STATUS`        | `node delete status`        | 只读查询该批次首次删除结果；不签发凭证、不删除节点                          |
+| `NODE_SHOW`                 | `node show`                 | 读取给定节点的视图                                                          |
+| `NODE_FIND`                 | `node find`                 | 按条件查节点，只回定位摘要（nodeId/type/title/status/tags）                 |
+| `NODE_QUOTE`                | `node quote`                | 对给定节点做运行前积分预估                                                  |
+| `NODE_CONFIRM`              | `node confirm`              | 批准给定节点的积分消费上限并取回短期凭证                                    |
+| `NODE_RUN`                  | `node run`                  | 触发给定节点的运行                                                          |
+| `OPERATION_STATUS`          | `operation status`          | 查询一次生成操作状态                                                        |
+| `OPERATION_WAIT`            | `operation wait`            | 等待生成操作进入终态                                                        |
+| `RESOURCE_DOWNLOAD`         | `resource download`         | 安全下载成功的图片素材                                                      |
+| `RESOURCE_GET`              | `resource get`              | 查素材状态与稳定事实（running/success/failed/canceled 四态都可查）          |
+| `RESOURCE_UPLOAD`           | `resource upload`           | 上传本地图片、视频或音频并登记为项目资源                                    |
+| `CANVAS_CREATE`             | `canvas create`             | 创建画布                                                                    |
+| `CANVAS_LS`                 | `canvas ls`                 | 列举可访问的画布，只回定位摘要（projectId/name/createdAt/updatedAt/webUrl） |
+| `CANVAS_USE`                | `canvas use`                | 核验权限并选择当前画布                                                      |
+| `CANVAS_CURRENT`            | `canvas current`            | 查询当前画布和实时权限                                                      |
+| `AUTH_ACCOUNT`              | `auth account`              | 读取服务端认证的当前账号                                                    |
+| `AUTH_LOGIN`                | `auth login`                | 启动设备授权登录                                                            |
+| `AUTH_LOGOUT`               | `auth logout`               | 清除当前 profile 的本地登录态                                               |
+| `AUTH_STATUS`               | `auth status`               | 读取本地登录状态                                                            |
+| `AUTH_WAIT`                 | `auth wait`                 | 等待已启动的设备授权完成                                                    |
+| `AUTH_REFRESH`              | `auth refresh`              | 刷新当前登录凭据                                                            |
+| `SCHEMA`                    | `schema`                    | 返回当前制品的命令契约                                                      |
+| `VERSION`                   | `version`                   | 返回版本和构建信息                                                          |
+| `TEAM_LS`                   | `team ls`                   | 查看团队及订阅积分信息                                                      |
+| `SPACE_USE`                 | `space use`                 | 核验并显式切换空间                                                          |
+| `SPACE_CURRENT`             | `space current`             | 查询当前空间和已选画布的实时权限                                            |
 
 ## model
 
@@ -66,7 +75,7 @@ successData/dryRunData/constraints 见随包 schema。
 
 ## model find
 
-按名称或别名定位可调用的 canonical model。退出码：0, 2, 11, 12, 21, 1, 13。
+按展示名或别名定位可调用的 canonical model。退出码：0, 2, 11, 12, 21, 1, 13。
 
 位置参数：name（必填；model id/name or alias keyword; resolved to canonical model）（可重复）。
 
@@ -76,13 +85,13 @@ successData/dryRunData/constraints 见随包 schema。
 
 ## voice list
 
-列出可用于 tts 的音色名称。退出码：0, 2, 11, 12, 21, 1, 13。
+列出可用于 tts 的音色及 ID。退出码：0, 2, 11, 12, 21, 1, 13。
 
-| 参数     | 类型    | 必填 | 默认 | 含义与约束                                                                                                                                                                                                                                                                  |
-|----------|---------|------|------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `offset` | integer | 否   | 0    | 分页起点；>=0; use the previous page's nextOffset                                                                                                                                                                                                                           |
-| `count`  | integer | 否   | 50   | 单页条数，范围 1 到 100；1..100                                                                                                                                                                                                                                             |
-| `model`  | string  | 否   | —    | 可选 canonical model；省略按模型返回当地已接入的全部 TTS 音色，翻页保持同一模型；optional canonical model; omit for all supported regional catalogs grouped by model; explicit selection returns one map entry; same model and region across pages; unsupported routes fail |
+| 参数     | 类型    | 必填 | 默认 | 含义与约束                                                                                                                                                                                                                                                                |
+|----------|---------|------|------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `offset` | integer | 否   | 0    | 分页起点；>=0; use the previous page's nextOffset                                                                                                                                                                                                                         |
+| `count`  | integer | 否   | 50   | 单页条数，范围 1 到 100；1..100                                                                                                                                                                                                                                           |
+| `model`  | string  | 否   | —    | 可选 canonical model；省略按模型返回当前可用的全部 TTS 音色，翻页保持同一模型；optional canonical model; omit for all supported regional catalogs grouped by model; explicit selection returns one map entry; same model and region across pages; unsupported routes fail |
 
 ## node create image
 
@@ -97,7 +106,7 @@ successData/dryRunData/constraints 见随包 schema。
 | `update-id`       | string   | 否   | —     | 稳定更新 UUID；省略时生成；UUID                                                                                                                                                                                                                                                                                                                                                                                      |
 | `dry-run`         | boolean  | 否   | false | 只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分；local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects                                                                                                                                                                                                                          |
 | `resource-source` | string[] | 否   | —     | 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected                                                                                                                                                                                                                       |
-| `title`           | string   | 否   | —     | 节点标题；按 flag 出现更新；at most 512 UTF-16 code units                                                                                                                                                                                                                                                                                                                                                            |
+| `title`           | string   | 否   | —     | 图片节点标题；纯保存时必填；带 --run 时省略则取非空 prompt 摘要，prompt 为空时必须指定；提供时不能为空，最多 512 个 UTF-16 code units；required when saving without --run; with --run, omitted title uses a non-empty prompt excerpt, otherwise an explicit title is required; non-empty when provided; at most 512 UTF-16 code units                                                                                |
 | `tag`             | string[] | 否   | —     | 颜色标签 ID，可重复传入；取值 default-tag-1..default-tag-5，除非用户明确指定标签否则不要默认传；default-tag-1\|default-tag-2\|default-tag-3\|default-tag-4\|default-tag-5; max 5; omit unless the user explicitly asks for color labels                                                                                                                                                                              |
 | `clear-tags`      | boolean  | 否   | false | 把节点标签完整集合清空                                                                                                                                                                                                                                                                                                                                                                                               |
 | `mode`            | string   | 否   | —     | 图片生成模式：t2i（text-to-image，文生图）或 i2i（image-to-image，图生图）；提供生成参数时必须显式指定，纯元信息更新或清空生成配置无需传入；t2i\|i2i (t2i=text-to-image, i2i=image-to-image); explicitly required when any generation parameter is supplied; metadata-only saves and clear-generation do not require mode                                                                                            |
@@ -105,7 +114,7 @@ successData/dryRunData/constraints 见随包 schema。
 | `model`           | string   | 否   | —     | 服务端登记的图片模型标识                                                                                                                                                                                                                                                                                                                                                                                             |
 | `ratio`           | string   | 否   | —     | 图片宽高比，例如 1:1                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `resolution`      | string   | 否   | —     | 图片分辨率，例如 1K                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `count`           | integer  | 否   | 1     | 生成数量；上限以 model list 返回的 --count max 为准；>0 and int32; dynamic maximum is the --count max from model list                                                                                                                                                                                                                                                                                                |
+| `count`           | integer  | 否   | 1     | 生成数量；以 model list 返回的 --count min/max 为准；固定多图模型须显式指定该数量；>0 and int32; follow --count min/max from model list; fixed-output models require the exact count explicitly                                                                                                                                                                                                                      |
 | `ref`             | string[] | 否   | —     | 完整类型化引用集合：node:value、res:value、uri:value 或 vid:value，可重复传入；画布已有来源节点时优先使用 Node ID，保留上游连线；Resource ID 用于资产库等无来源节点的素材或用户明确要求冻结，不自动从节点产物提取；ordered type:value references; type is node\|res\|uri\|vid; node value requires node_ prefix; res value requires canonical lowercase UUID                                                         |
 | `resource-id`     | string[] | 否   | —     | 本节点已有产物的资源 UUID，可重复传入；需同时提供 --import-kind local_upload 或 external_generated。多个视为同一批次内的候选，顺序即候选顺序，首个为主选。资源须已登记、状态成功且类型为图片；Resource IDs; create only; requires import-kind=local_upload\|external_generated; first is primary                                                                                                                     |
 | `import-kind`     | string   | 否   | —     | 节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇；local_upload \| external_generated; may stand alone; required by resource-id                                                                                                                                                                                               |
@@ -155,34 +164,35 @@ successData/dryRunData/constraints 见随包 schema。
 
 创建音频节点；--run 时保存、报价、按服务端要求批准并运行。退出码：0, 2, 11, 12, 13, 21, 22, 1, 10, 20。
 
-| 参数              | 类型     | 必填 | 默认  | 含义与约束                                                                                                                                                                                                                                                                                       |
-|-------------------|----------|------|-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `x`               | number   | 否   | —     | 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；finite; requires y; node left; parent-local when grouped                                                                                                                                                                                      |
-| `y`               | number   | 否   | —     | 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；finite; requires x; node top; parent-local when grouped                                                                                                                                                                                       |
-| `project-id`      | string   | 否   | —     | 项目 UUID；省略时使用当前项目；UUID                                                                                                                                                                                                                                                              |
-| `node-id`         | string   | 否   | —     | 稳定 node_id；省略时生成；canonical Node ID; generated when omitted                                                                                                                                                                                                                              |
-| `update-id`       | string   | 否   | —     | 稳定更新 UUID；省略时生成；UUID                                                                                                                                                                                                                                                                  |
-| `dry-run`         | boolean  | 否   | false | 只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分；local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects                                                                                                      |
-| `resource-source` | string[] | 否   | —     | 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected                                                                                                   |
-| `title`           | string   | 否   | —     | 节点标题；按 flag 出现更新；at most 512 UTF-16 code units                                                                                                                                                                                                                                        |
-| `tag`             | string[] | 否   | —     | 颜色标签 ID，可重复传入；取值 default-tag-1..default-tag-5，除非用户明确指定标签否则不要默认传；default-tag-1\|default-tag-2\|default-tag-3\|default-tag-4\|default-tag-5; max 5; omit unless the user explicitly asks for color labels                                                          |
-| `clear-tags`      | boolean  | 否   | false | 把节点标签完整集合清空                                                                                                                                                                                                                                                                           |
-| `mode`            | string   | 否   | tts   | 音频生成模式：tts（text-to-speech，文本转语音）或 music（音乐生成）；tts\|music (tts=text-to-speech, music=music generation)                                                                                                                                                                     |
-| `prompt`          | string   | 否   | —     | TTS 文本或音乐描述                                                                                                                                                                                                                                                                               |
-| `model`           | string   | 否   | —     | music 必填；tts 可指定模型并同时提供 --scenario；从 model list --type audio 选择；required for music; select a mode=music result from current-environment `model list --type audio`; tts with a model requires scenario; availability validated by Core                                          |
-| `duration`        | number   | 否   | 30    | music 模式时长（秒）；>0 for music                                                                                                                                                                                                                                                               |
-| `voice-name`      | string   | 否   | —     | 音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考；required for legacy tts and text-reading; optional single catalog voice for omni-dubbing, converted server-side to an audio reference; choose from voice list --model; shares discovered reference limits                        |
-| `scenario`        | string   | 否   | —     | 模型场景：text-reading（朗读）或 omni-dubbing（全能配音）；text-reading\|omni-dubbing; requires tts and explicit model                                                                                                                                                                           |
-| `ref`             | string[] | 否   | —     | 全能配音参考素材：node:<id> 或 res:<id>，可重复；omni-dubbing only; typed node:<id>\|res:<id>\|uri:<value>\|vid:<value>                                                                                                                                                                          |
-| `resource-id`     | string[] | 否   | —     | 本节点已有产物的资源 UUID，可重复传入；需同时提供 --import-kind local_upload 或 external_generated。多个视为同一批次内的候选，顺序即候选顺序，首个为主选。资源须已登记、状态成功且类型为音频；Resource IDs; create only; requires import-kind=local_upload\|external_generated; first is primary |
-| `import-kind`     | string   | 否   | —     | 节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇；local_upload \| external_generated; may stand alone; required by resource-id                                                                           |
-| `run`             | boolean  | 否   | false | 保存后依次报价、批准并运行该节点；when false, only save the draft; when true, save → estimate → approve → run                                                                                                                                                                                    |
-| `submit-id`       | string   | 否   | —     | 稳定提交 UUID；--run 或 --resource-id 时省略则生成，停顿后续跑或重试导入须复用它；UUID; with run, or with resource-id as the imported resource batch identity; generated when omitted; non-empty when supplied                                                                                   |
-| `credit-token`    | string   | 否   | —     | 已批准的 creditConfirmationToken；--run 时使用；only with run; creditConfirmationToken issued by node confirm; mutually exclusive with credit-ceiling                                                                                                                                            |
-| `credit-ceiling`  | integer  | 否   | —     | 批准的积分消费上限；--run 时报价超过它会在运行前停止；>=0; only with run; mutually exclusive with credit-token; stops before run when the estimate exceeds it                                                                                                                                    |
-| `wait`            | boolean  | 否   | false | --run 后等待该节点生成进入终态；only with run; wait for the submitted node to become terminal                                                                                                                                                                                                    |
-| `timeout`         | duration | 否   | 10m   | --wait 的最长等待时间；默认 10m，0 表示只查询一次；only with wait; 0 means query once                                                                                                                                                                                                            |
-| `interval`        | duration | 否   | 5s    | --wait 的轮询间隔；默认 5s；only with wait; >0                                                                                                                                                                                                                                                   |
+| 参数              | 类型     | 必填 | 默认  | 含义与约束                                                                                                                                                                                                                                                                                                                                       |
+|-------------------|----------|------|-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `x`               | number   | 否   | —     | 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；finite; requires y; node left; parent-local when grouped                                                                                                                                                                                                                                      |
+| `y`               | number   | 否   | —     | 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；finite; requires x; node top; parent-local when grouped                                                                                                                                                                                                                                       |
+| `project-id`      | string   | 否   | —     | 项目 UUID；省略时使用当前项目；UUID                                                                                                                                                                                                                                                                                                              |
+| `node-id`         | string   | 否   | —     | 稳定 node_id；省略时生成；canonical Node ID; generated when omitted                                                                                                                                                                                                                                                                              |
+| `update-id`       | string   | 否   | —     | 稳定更新 UUID；省略时生成；UUID                                                                                                                                                                                                                                                                                                                  |
+| `dry-run`         | boolean  | 否   | false | 只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分；local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects                                                                                                                                                      |
+| `resource-source` | string[] | 否   | —     | 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected                                                                                                                                                   |
+| `title`           | string   | 否   | —     | 节点标题；按 flag 出现更新；at most 512 UTF-16 code units                                                                                                                                                                                                                                                                                        |
+| `tag`             | string[] | 否   | —     | 颜色标签 ID，可重复传入；取值 default-tag-1..default-tag-5，除非用户明确指定标签否则不要默认传；default-tag-1\|default-tag-2\|default-tag-3\|default-tag-4\|default-tag-5; max 5; omit unless the user explicitly asks for color labels                                                                                                          |
+| `clear-tags`      | boolean  | 否   | false | 把节点标签完整集合清空                                                                                                                                                                                                                                                                                                                           |
+| `mode`            | string   | 否   | tts   | 音频生成模式：tts（text-to-speech，文本转语音）或 music（音乐生成）；tts\|music (tts=text-to-speech, music=music generation)                                                                                                                                                                                                                     |
+| `prompt`          | string   | 否   | —     | TTS 文本或音乐描述                                                                                                                                                                                                                                                                                                                               |
+| `model`           | string   | 否   | —     | music 必填；tts 按模型目录选择是否需要 --scenario；从 model list --type audio 选择；required for music; select a mode=music result from current-environment `model list --type audio`; tts scenario requirements come from model discovery; availability validated by Core                                                                       |
+| `duration`        | number   | 否   | 30    | music 模式时长（秒）；>0 for music                                                                                                                                                                                                                                                                                                               |
+| `voice-id`        | string   | 否   | —     | 公共目录音色 ID；从同模型 voice list 选择，与 --voice-name 互斥；positive canonical decimal int64 from voice list for the same model; mutually exclusive with voice-name; tts only; authoritative public catalog validation at save time                                                                                                         |
+| `voice-name`      | string   | 否   | —     | 音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考；voice-id or voice-name required for legacy tts and text-reading; mutually exclusive; names resolved server-side; optional single catalog voice for omni-dubbing, converted server-side to an audio reference; choose from voice list --model; shares discovered reference limits |
+| `scenario`        | string   | 否   | —     | 模型场景：text-reading（朗读）或 omni-dubbing（全能配音）；text-reading\|omni-dubbing; requires tts and explicit model                                                                                                                                                                                                                           |
+| `ref`             | string[] | 否   | —     | 全能配音参考素材：node:<id> 或 res:<id>，可重复；omni-dubbing only; typed node:<id>\|res:<id>\|uri:<value>\|vid:<value>                                                                                                                                                                                                                          |
+| `resource-id`     | string[] | 否   | —     | 本节点已有产物的资源 UUID，可重复传入；需同时提供 --import-kind local_upload 或 external_generated。多个视为同一批次内的候选，顺序即候选顺序，首个为主选。资源须已登记、状态成功且类型为音频；Resource IDs; create only; requires import-kind=local_upload\|external_generated; first is primary                                                 |
+| `import-kind`     | string   | 否   | —     | 节点导入类别：local_upload（挂本地上传登记的资源）或 external_generated（外部平台生成产物导入）；与 resource upload 的登记意图同一套词汇；local_upload \| external_generated; may stand alone; required by resource-id                                                                                                                           |
+| `run`             | boolean  | 否   | false | 保存后依次报价、批准并运行该节点；when false, only save the draft; when true, save → estimate → approve → run                                                                                                                                                                                                                                    |
+| `submit-id`       | string   | 否   | —     | 稳定提交 UUID；--run 或 --resource-id 时省略则生成，停顿后续跑或重试导入须复用它；UUID; with run, or with resource-id as the imported resource batch identity; generated when omitted; non-empty when supplied                                                                                                                                   |
+| `credit-token`    | string   | 否   | —     | 已批准的 creditConfirmationToken；--run 时使用；only with run; creditConfirmationToken issued by node confirm; mutually exclusive with credit-ceiling                                                                                                                                                                                            |
+| `credit-ceiling`  | integer  | 否   | —     | 批准的积分消费上限；--run 时报价超过它会在运行前停止；>=0; only with run; mutually exclusive with credit-token; stops before run when the estimate exceeds it                                                                                                                                                                                    |
+| `wait`            | boolean  | 否   | false | --run 后等待该节点生成进入终态；only with run; wait for the submitted node to become terminal                                                                                                                                                                                                                                                    |
+| `timeout`         | duration | 否   | 10m   | --wait 的最长等待时间；默认 10m，0 表示只查询一次；only with wait; 0 means query once                                                                                                                                                                                                                                                            |
+| `interval`        | duration | 否   | 5s    | --wait 的轮询间隔；默认 5s；only with wait; >0                                                                                                                                                                                                                                                                                                   |
 
 ## node create element
 
@@ -262,7 +272,7 @@ successData/dryRunData/constraints 见随包 schema。
 | `model`            | string   | 否   | —     | 服务端登记的图片模型标识                                                                                                                                                                                                                                                                                                                                                                                             |
 | `ratio`            | string   | 否   | —     | 图片宽高比，例如 1:1                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `resolution`       | string   | 否   | —     | 图片分辨率，例如 1K                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `count`            | integer  | 否   | 1     | 生成数量；上限以 model list 返回的 --count max 为准；>0 and int32; dynamic maximum is the --count max from model list                                                                                                                                                                                                                                                                                                |
+| `count`            | integer  | 否   | 1     | 生成数量；以 model list 返回的 --count min/max 为准；固定多图模型须显式指定该数量；>0 and int32; follow --count min/max from model list; fixed-output models require the exact count explicitly                                                                                                                                                                                                                      |
 | `ref`              | string[] | 否   | —     | 完整类型化引用集合：node:value、res:value、uri:value 或 vid:value，可重复传入；画布已有来源节点时优先使用 Node ID，保留上游连线；Resource ID 用于资产库等无来源节点的素材或用户明确要求冻结，不自动从节点产物提取；ordered type:value references; type is node\|res\|uri\|vid; node value requires node_ prefix; res value requires canonical lowercase UUID                                                         |
 | `run`              | boolean  | 否   | false | 保存后依次报价、批准并运行该节点；when false, only save the draft; when true, save → estimate → approve → run                                                                                                                                                                                                                                                                                                        |
 | `submit-id`        | string   | 否   | —     | 稳定提交 UUID；--run 或 --resource-id 时省略则生成，停顿后续跑或重试导入须复用它；UUID; with run, or with resource-id as the imported resource batch identity; generated when omitted; non-empty when supplied                                                                                                                                                                                                       |
@@ -309,33 +319,34 @@ successData/dryRunData/constraints 见随包 schema。
 
 编辑音频节点；--run 时保存、报价、按服务端要求批准并运行。退出码：0, 2, 11, 12, 13, 21, 22, 1, 10, 20。
 
-| 参数               | 类型     | 必填 | 默认  | 含义与约束                                                                                                                                                                                                                                                                |
-|--------------------|----------|------|-------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `x`                | number   | 否   | —     | 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；finite; requires y; node left; parent-local when grouped                                                                                                                                                               |
-| `y`                | number   | 否   | —     | 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；finite; requires x; node top; parent-local when grouped                                                                                                                                                                |
-| `project-id`       | string   | 否   | —     | 项目 UUID；省略时使用当前项目；UUID                                                                                                                                                                                                                                       |
-| `node-id`          | string   | 是   | —     | 要编辑的节点 node_id；必填；canonical Node ID of the node to edit; required                                                                                                                                                                                               |
-| `update-id`        | string   | 否   | —     | 稳定更新 UUID；省略时生成；UUID                                                                                                                                                                                                                                           |
-| `dry-run`          | boolean  | 否   | false | 只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分；local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects                                                                               |
-| `resource-source`  | string[] | 否   | —     | 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected                                                                            |
-| `title`            | string   | 否   | —     | 节点标题；按 flag 出现更新；at most 512 UTF-16 code units                                                                                                                                                                                                                 |
-| `tag`              | string[] | 否   | —     | 颜色标签 ID，可重复传入；取值 default-tag-1..default-tag-5，除非用户明确指定标签否则不要默认传；default-tag-1\|default-tag-2\|default-tag-3\|default-tag-4\|default-tag-5; max 5; omit unless the user explicitly asks for color labels                                   |
-| `clear-tags`       | boolean  | 否   | false | 把节点标签完整集合清空                                                                                                                                                                                                                                                    |
-| `clear-generation` | boolean  | 否   | false | 清空 generationDraft                                                                                                                                                                                                                                                      |
-| `mode`             | string   | 否   | tts   | 音频生成模式：tts（text-to-speech，文本转语音）或 music（音乐生成）；tts\|music (tts=text-to-speech, music=music generation)                                                                                                                                              |
-| `prompt`           | string   | 否   | —     | TTS 文本或音乐描述                                                                                                                                                                                                                                                        |
-| `model`            | string   | 否   | —     | music 必填；tts 可指定模型并同时提供 --scenario；从 model list --type audio 选择；required for music; select a mode=music result from current-environment `model list --type audio`; tts with a model requires scenario; availability validated by Core                   |
-| `duration`         | number   | 否   | 30    | music 模式时长（秒）；>0 for music                                                                                                                                                                                                                                        |
-| `voice-name`       | string   | 否   | —     | 音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考；required for legacy tts and text-reading; optional single catalog voice for omni-dubbing, converted server-side to an audio reference; choose from voice list --model; shares discovered reference limits |
-| `scenario`         | string   | 否   | —     | 模型场景：text-reading（朗读）或 omni-dubbing（全能配音）；text-reading\|omni-dubbing; requires tts and explicit model                                                                                                                                                    |
-| `ref`              | string[] | 否   | —     | 全能配音参考素材：node:<id> 或 res:<id>，可重复；omni-dubbing only; typed node:<id>\|res:<id>\|uri:<value>\|vid:<value>                                                                                                                                                   |
-| `run`              | boolean  | 否   | false | 保存后依次报价、批准并运行该节点；when false, only save the draft; when true, save → estimate → approve → run                                                                                                                                                             |
-| `submit-id`        | string   | 否   | —     | 稳定提交 UUID；--run 或 --resource-id 时省略则生成，停顿后续跑或重试导入须复用它；UUID; with run, or with resource-id as the imported resource batch identity; generated when omitted; non-empty when supplied                                                            |
-| `credit-token`     | string   | 否   | —     | 已批准的 creditConfirmationToken；--run 时使用；only with run; creditConfirmationToken issued by node confirm; mutually exclusive with credit-ceiling                                                                                                                     |
-| `credit-ceiling`   | integer  | 否   | —     | 批准的积分消费上限；--run 时报价超过它会在运行前停止；>=0; only with run; mutually exclusive with credit-token; stops before run when the estimate exceeds it                                                                                                             |
-| `wait`             | boolean  | 否   | false | --run 后等待该节点生成进入终态；only with run; wait for the submitted node to become terminal                                                                                                                                                                             |
-| `timeout`          | duration | 否   | 10m   | --wait 的最长等待时间；默认 10m，0 表示只查询一次；only with wait; 0 means query once                                                                                                                                                                                     |
-| `interval`         | duration | 否   | 5s    | --wait 的轮询间隔；默认 5s；only with wait; >0                                                                                                                                                                                                                            |
+| 参数               | 类型     | 必填 | 默认  | 含义与约束                                                                                                                                                                                                                                                                                                                                       |
+|--------------------|----------|------|-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `x`                | number   | 否   | —     | 节点左上角 X；组内为父组相对坐标；与 --y 成组提供；finite; requires y; node left; parent-local when grouped                                                                                                                                                                                                                                      |
+| `y`                | number   | 否   | —     | 节点左上角 Y；组内为父组相对坐标；与 --x 成组提供；finite; requires x; node top; parent-local when grouped                                                                                                                                                                                                                                       |
+| `project-id`       | string   | 否   | —     | 项目 UUID；省略时使用当前项目；UUID                                                                                                                                                                                                                                                                                                              |
+| `node-id`          | string   | 是   | —     | 要编辑的节点 node_id；必填；canonical Node ID of the node to edit; required                                                                                                                                                                                                                                                                      |
+| `update-id`        | string   | 否   | —     | 稳定更新 UUID；省略时生成；UUID                                                                                                                                                                                                                                                                                                                  |
+| `dry-run`          | boolean  | 否   | false | 只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分；local validation only; no runtime, network, draft write, credit estimate, approval, journal, dispatch, or credit side effects                                                                                                                                                      |
+| `resource-source`  | string[] | 否   | —     | 跨项目资源来源：<资源 UUID>@<来源项目 UUID>；可重复，仅声明本次保存使用的资源；repeatable ResourceUUID@SourceProjectUUID; resource must be assigned by this save; conflicting sources rejected                                                                                                                                                   |
+| `title`            | string   | 否   | —     | 节点标题；按 flag 出现更新；at most 512 UTF-16 code units                                                                                                                                                                                                                                                                                        |
+| `tag`              | string[] | 否   | —     | 颜色标签 ID，可重复传入；取值 default-tag-1..default-tag-5，除非用户明确指定标签否则不要默认传；default-tag-1\|default-tag-2\|default-tag-3\|default-tag-4\|default-tag-5; max 5; omit unless the user explicitly asks for color labels                                                                                                          |
+| `clear-tags`       | boolean  | 否   | false | 把节点标签完整集合清空                                                                                                                                                                                                                                                                                                                           |
+| `clear-generation` | boolean  | 否   | false | 清空 generationDraft                                                                                                                                                                                                                                                                                                                             |
+| `mode`             | string   | 否   | tts   | 音频生成模式：tts（text-to-speech，文本转语音）或 music（音乐生成）；tts\|music (tts=text-to-speech, music=music generation)                                                                                                                                                                                                                     |
+| `prompt`           | string   | 否   | —     | TTS 文本或音乐描述                                                                                                                                                                                                                                                                                                                               |
+| `model`            | string   | 否   | —     | music 必填；tts 按模型目录选择是否需要 --scenario；从 model list --type audio 选择；required for music; select a mode=music result from current-environment `model list --type audio`; tts scenario requirements come from model discovery; availability validated by Core                                                                       |
+| `duration`         | number   | 否   | 30    | music 模式时长（秒）；>0 for music                                                                                                                                                                                                                                                                                                               |
+| `voice-id`         | string   | 否   | —     | 公共目录音色 ID；从同模型 voice list 选择，与 --voice-name 互斥；positive canonical decimal int64 from voice list for the same model; mutually exclusive with voice-name; tts only; authoritative public catalog validation at save time                                                                                                         |
+| `voice-name`       | string   | 否   | —     | 音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考；voice-id or voice-name required for legacy tts and text-reading; mutually exclusive; names resolved server-side; optional single catalog voice for omni-dubbing, converted server-side to an audio reference; choose from voice list --model; shares discovered reference limits |
+| `scenario`         | string   | 否   | —     | 模型场景：text-reading（朗读）或 omni-dubbing（全能配音）；text-reading\|omni-dubbing; requires tts and explicit model                                                                                                                                                                                                                           |
+| `ref`              | string[] | 否   | —     | 全能配音参考素材：node:<id> 或 res:<id>，可重复；omni-dubbing only; typed node:<id>\|res:<id>\|uri:<value>\|vid:<value>                                                                                                                                                                                                                          |
+| `run`              | boolean  | 否   | false | 保存后依次报价、批准并运行该节点；when false, only save the draft; when true, save → estimate → approve → run                                                                                                                                                                                                                                    |
+| `submit-id`        | string   | 否   | —     | 稳定提交 UUID；--run 或 --resource-id 时省略则生成，停顿后续跑或重试导入须复用它；UUID; with run, or with resource-id as the imported resource batch identity; generated when omitted; non-empty when supplied                                                                                                                                   |
+| `credit-token`     | string   | 否   | —     | 已批准的 creditConfirmationToken；--run 时使用；only with run; creditConfirmationToken issued by node confirm; mutually exclusive with credit-ceiling                                                                                                                                                                                            |
+| `credit-ceiling`   | integer  | 否   | —     | 批准的积分消费上限；--run 时报价超过它会在运行前停止；>=0; only with run; mutually exclusive with credit-token; stops before run when the estimate exceeds it                                                                                                                                                                                    |
+| `wait`             | boolean  | 否   | false | --run 后等待该节点生成进入终态；only with run; wait for the submitted node to become terminal                                                                                                                                                                                                                                                    |
+| `timeout`          | duration | 否   | 10m   | --wait 的最长等待时间；默认 10m，0 表示只查询一次；only with wait; 0 means query once                                                                                                                                                                                                                                                            |
+| `interval`         | duration | 否   | 5s    | --wait 的轮询间隔；默认 5s；only with wait; >0                                                                                                                                                                                                                                                                                                   |
 
 ## node edit element
 
@@ -407,13 +418,84 @@ successData/dryRunData/constraints 见随包 schema。
 | `mode`           | string   | 否   | pro   | normal=超清；pro=智能超清；normal\|pro                                                                                                                            |
 | `resolution`     | string   | 否   | —     | pro 必填：目标分辨率 2K、4K 或 8K；normal 不接受；2K\|4K\|8K; required for pro and rejected for normal; target-vs-source eligibility remains server-authoritative |
 | `detail`         | integer  | 否   | 50    | 仅 pro：细节强度 1..100，默认 50；1..100; pro only; omit for normal                                                                                               |
-| `title`          | string   | 否   | —     | 新产物节点标题；不修改来源节点；non-empty when provided; new output node title, source is unchanged                                                               |
+| `title`          | string   | 否   | —     | 自定义产物标题；后编辑默认不传，保留源标题和操作标记；non-empty when provided; new output node title, source is unchanged                                         |
 | `credit-token`   | string   | 否   | —     | 本操作专用短期凭证，不接受 node confirm 凭证；image-upscale scoped token only; mutually exclusive with credit-ceiling                                             |
 | `credit-ceiling` | integer  | 否   | 0     | 批准的整批积分上限，不能与 --credit-token 同用；>=0; approval only when explicitly provided; entire batch ceiling                                                 |
 | `wait`           | boolean  | 否   | false | 提交后只读等待生成终态；默认只返回受理结果；wait for output resources, not source node state                                                                      |
 | `timeout`        | duration | 否   | 10m0s | --wait 最长等待时间；0 表示只查一次；>=0; requires wait                                                                                                           |
 | `interval`       | duration | 否   | 5s    | --wait 轮询间隔；>0; requires wait                                                                                                                                |
 | `dry-run`        | boolean  | 否   | false | 只校验本地参数，不联网、报价、生成或写 journal；local validation only; no runtime, network, credit estimate, approval, journal, or generation                     |
+
+## node upscale video
+
+后编辑：提交即执行，无 --run；等待终态直接使用 --wait。退出码：0, 2, 10, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数             | 类型     | 必填 | 默认  | 含义与约束                                                                                                                                                |
+|------------------|----------|------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `project-id`     | string   | 否   | —     | 项目 UUID；省略时读取当前项目；UUID; current project when omitted                                                                                         |
+| `node-id`        | string[] | 是   | —     | 1..20 个唯一来源节点，可重复传入；1..20 unique canonical source Node IDs; successful consumable media required                                            |
+| `submit-id`      | string[] | 否   | —     | 逐节点提交 UUID，等长同序；省略时独立生成；unique UUIDs; same count/order as node-id when provided                                                        |
+| `title`          | string   | 否   | —     | 自定义新产物标题；后编辑默认不要传，由服务端保留源标题及操作标记；optional complete override; omit by default to retain source title and operation marker |
+| `credit-token`   | string   | 否   | —     | 本操作专用短期凭证，不接受 node confirm 凭证；operation-scoped token; mutually exclusive with credit-ceiling                                              |
+| `credit-ceiling` | integer  | 否   | 0     | 批准的整批积分上限，不能与 --credit-token 同用；>=0; approval only when explicitly supplied; entire batch ceiling                                         |
+| `wait`           | boolean  | 否   | false | 提交后只读等待生成终态；默认只返回受理结果；read-only terminal wait after submission                                                                      |
+| `timeout`        | duration | 否   | 10m0s | --wait 最长等待时间；0 表示只查一次；>=0; requires wait                                                                                                   |
+| `interval`       | duration | 否   | 5s    | --wait 轮询间隔；>0; requires wait                                                                                                                        |
+| `dry-run`        | boolean  | 否   | false | 只校验本地参数，不联网、报价、生成或写 journal；local-only; source media, eligibility, entitlement and credits remain unverified                          |
+| `resolution`     | string   | 是   | —     | 目标分辨率 2K 或 4K，必填；2K\|4K; server validates actual original dimensions and duration                                                               |
+
+## node cutout image
+
+后编辑：提交即执行，无 --run；等待终态直接使用 --wait。退出码：0, 2, 10, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数             | 类型     | 必填 | 默认  | 含义与约束                                                                                                                                                |
+|------------------|----------|------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `project-id`     | string   | 否   | —     | 项目 UUID；省略时读取当前项目；UUID; current project when omitted                                                                                         |
+| `node-id`        | string[] | 是   | —     | 1..20 个唯一来源节点，可重复传入；1..20 unique canonical source Node IDs; successful consumable media required                                            |
+| `submit-id`      | string[] | 否   | —     | 逐节点提交 UUID，等长同序；省略时独立生成；unique UUIDs; same count/order as node-id when provided                                                        |
+| `title`          | string   | 否   | —     | 自定义新产物标题；后编辑默认不要传，由服务端保留源标题及操作标记；optional complete override; omit by default to retain source title and operation marker |
+| `credit-token`   | string   | 否   | —     | 本操作专用短期凭证，不接受 node confirm 凭证；operation-scoped token; mutually exclusive with credit-ceiling                                              |
+| `credit-ceiling` | integer  | 否   | 0     | 批准的整批积分上限，不能与 --credit-token 同用；>=0; approval only when explicitly supplied; entire batch ceiling                                         |
+| `wait`           | boolean  | 否   | false | 提交后只读等待生成终态；默认只返回受理结果；read-only terminal wait after submission                                                                      |
+| `timeout`        | duration | 否   | 10m0s | --wait 最长等待时间；0 表示只查一次；>=0; requires wait                                                                                                   |
+| `interval`       | duration | 否   | 5s    | --wait 轮询间隔；>0; requires wait                                                                                                                        |
+| `dry-run`        | boolean  | 否   | false | 只校验本地参数，不联网、报价、生成或写 journal；local-only; source media, eligibility, entitlement and credits remain unverified                          |
+
+## node interpolate video
+
+后编辑：提交即执行，无 --run；等待终态直接使用 --wait。退出码：0, 2, 10, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数             | 类型     | 必填 | 默认  | 含义与约束                                                                                                                                                |
+|------------------|----------|------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `project-id`     | string   | 否   | —     | 项目 UUID；省略时读取当前项目；UUID; current project when omitted                                                                                         |
+| `node-id`        | string[] | 是   | —     | 1..20 个唯一来源节点，可重复传入；1..20 unique canonical source Node IDs; successful consumable media required                                            |
+| `submit-id`      | string[] | 否   | —     | 逐节点提交 UUID，等长同序；省略时独立生成；unique UUIDs; same count/order as node-id when provided                                                        |
+| `title`          | string   | 否   | —     | 自定义新产物标题；后编辑默认不要传，由服务端保留源标题及操作标记；optional complete override; omit by default to retain source title and operation marker |
+| `credit-token`   | string   | 否   | —     | 本操作专用短期凭证，不接受 node confirm 凭证；operation-scoped token; mutually exclusive with credit-ceiling                                              |
+| `credit-ceiling` | integer  | 否   | 0     | 批准的整批积分上限，不能与 --credit-token 同用；>=0; approval only when explicitly supplied; entire batch ceiling                                         |
+| `wait`           | boolean  | 否   | false | 提交后只读等待生成终态；默认只返回受理结果；read-only terminal wait after submission                                                                      |
+| `timeout`        | duration | 否   | 10m0s | --wait 最长等待时间；0 表示只查一次；>=0; requires wait                                                                                                   |
+| `interval`       | duration | 否   | 5s    | --wait 轮询间隔；>0; requires wait                                                                                                                        |
+| `dry-run`        | boolean  | 否   | false | 只校验本地参数，不联网、报价、生成或写 journal；local-only; source media, eligibility, entitlement and credits remain unverified                          |
+| `fps`            | integer  | 是   | —     | 目标 FPS 30 或 60，必填；服务端校验当前有效帧率；30\|60; server validates effective source FPS and entitlement                                            |
+
+## node promote video-sample
+
+样片转正片：报价并批准后生成新节点。退出码：0, 2, 10, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数             | 类型     | 必填 | 默认  | 含义与约束                                                                                                       |
+|------------------|----------|------|-------|------------------------------------------------------------------------------------------------------------------|
+| `project-id`     | string   | 否   | —     | 项目 UUID；省略时读取当前项目；UUID; current project when omitted                                                |
+| `node-id`        | string   | 是   | —     | 来源样片节点 ID；canonical source sample Node ID                                                                 |
+| `resolution`     | string   | 是   | —     | 目标分辨率，取 search --detail full 的 draftPromotion；source model draftPromotion resolution enum               |
+| `submit-id`      | string   | 否   | —     | 提交 UUID；省略时生成；超时后用该 ID 查询；UUID; generated when omitted; use operation status/wait after timeout |
+| `title`          | string   | 否   | —     | 新正片节点标题；non-empty output title                                                                           |
+| `credit-token`   | string   | 否   | —     | 本次样片转正专用短期凭证；sample promotion scoped; mutually exclusive with credit-ceiling                        |
+| `credit-ceiling` | integer  | 否   | 0     | 批准的积分上限；不能与 credit-token 同用；>=0; explicit approval ceiling                                         |
+| `wait`           | boolean  | 否   | false | 提交后只读等待正片终态                                                                                           |
+| `timeout`        | duration | 否   | 10m0s | wait 最长等待时间；>=0; requires wait                                                                            |
+| `interval`       | duration | 否   | 5s    | wait 轮询间隔；>0; requires wait                                                                                 |
+| `dry-run`        | boolean  | 否   | false | 仅校验本地参数，不联网或消费积分；local validation only; no network, quote, journal or generation                |
 
 ## node delete
 
@@ -576,6 +658,20 @@ successData/dryRunData/constraints 见随包 schema。
 | `limit`  | integer | 否   | 50   | 单页条数，范围 1 到 100；1..100                                                                                                            |
 | `cursor` | string  | 否   | —    | 上一页返回的 nextCursor；首页省略。服务端不透明字符串，不要构造或解析；opaque nextCursor from the previous page; do not construct or parse |
 
+## canvas use
+
+核验权限并选择当前画布。退出码：0, 2, 11, 12, 13, 21, 22, 1。
+
+位置参数：project-id（必填；canvas ID; must belong to the selected space）。
+
+无命令级选项。
+
+## canvas current
+
+查询当前画布和实时权限。退出码：0, 2, 11, 12, 13, 21, 22, 1。
+
+无命令级选项。
+
 ## auth account
 
 读取服务端认证的当前账号。退出码：0, 2, 11, 12, 21, 22, 1。
@@ -626,6 +722,29 @@ successData/dryRunData/constraints 见随包 schema。
 ## version
 
 返回版本和构建信息。退出码：0, 2, 1。
+
+无命令级选项。
+
+## team ls
+
+查看团队及订阅积分信息。退出码：0, 2, 11, 12, 13, 21, 22, 1。
+
+| 参数     | 类型    | 必填 | 默认 | 含义与约束                                                                  |
+|----------|---------|------|------|-----------------------------------------------------------------------------|
+| `limit`  | integer | 否   | 50   | 单页条数，范围 1 到 100；1..100                                             |
+| `cursor` | string  | 否   | —    | 上一页返回的不透明 nextCursor；opaque nextCursor; do not construct or parse |
+
+## space use
+
+核验并显式切换空间。退出码：0, 2, 11, 12, 13, 21, 22, 1。
+
+位置参数：kind（必填；personal | team）、team-id（可选；required with team; positive canonical decimal int64 string）。
+
+无命令级选项。
+
+## space current
+
+查询当前空间和已选画布的实时权限。退出码：0, 2, 11, 12, 13, 21, 22, 1。
 
 无命令级选项。
 

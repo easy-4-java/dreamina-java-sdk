@@ -22,11 +22,9 @@ import java.util.List;
  * CLI v1.4.14 起显式支持 720p/1080p 分辨率。
  * </p>
  * @since 3.0.0
- * @deprecated 旧 transition 参数及本地路径 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaMultiframe2VideoRequest implements DreaminaCliArgumentProvider {
 
     @Singular("image")

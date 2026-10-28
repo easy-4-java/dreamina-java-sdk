@@ -13,6 +13,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasValidation {
     /**
+     * 契约字段 {@code postEdit}。
+     */
+    @JsonProperty("postEdit")
+    private DreaminaCanvasValidationPostEdit postEdit;
+    /**
      * 契约字段 {@code reasonCode}。
      */
     @JsonProperty("reasonCode")

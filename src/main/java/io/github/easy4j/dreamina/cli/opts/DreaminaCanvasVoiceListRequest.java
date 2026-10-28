@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 列出可用于 tts 的音色名称。仅显式参数进入命令，不自动运行或批准积分。
+ * 列出可用于 tts 的音色及 ID。仅显式参数进入命令，不自动运行或批准积分。
  */
 @Getter
 @Builder
@@ -22,7 +22,7 @@ public final class DreaminaCanvasVoiceListRequest extends DreaminaCanvasRequest<
     @DreaminaCanvasParameter(value = "count", positional = false)
     private final Long count;
     /**
-     * 可选 canonical model；省略按模型返回当地已接入的全部 TTS 音色，翻页保持同一模型；--model。
+     * 可选 canonical model；省略按模型返回当前可用的全部 TTS 音色，翻页保持同一模型；--model。
      */
     @DreaminaCanvasParameter(value = "model", positional = false)
     private final String model;

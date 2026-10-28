@@ -1,0 +1,22 @@
+# Official installed dreamina v1.4.21 help flags; help/version are auxiliary.
+version	flags	
+login	flags	--headless
+login checklogin	flags	--device_code,--poll
+logout	flags	
+relogin	flags	--headless
+user_credit	flags	
+list_task	flags	--gen_status,--gen_task_type,--limit,--offset,--submit_id
+query_result	flags	--download_dir,--submit_id
+session create	flags	
+session list	flags	--max-count
+session search	flags	
+session rename	flags	
+session delete	flags	
+text2image	flags	--generate_num,--height,--model_version,--poll,--prompt,--ratio,--resolution_type,--session,--width
+image2image	flags	--generate_num,--height,--images,--model_version,--poll,--prompt,--ratio,--resolution_type,--session,--width
+text2video	flags	--duration,--model_version,--poll,--prompt,--ratio,--session,--video_resolution
+image2video	flags	--duration,--image,--model_version,--poll,--prompt,--ratio,--session,--video_resolution
+frames2video	flags	--duration,--first,--last,--model_version,--poll,--prompt,--ratio,--session,--video_resolution
+multiframe2video	flags	--duration,--images,--poll,--prompt,--session,--transition-duration,--transition-prompt,--video_resolution
+multimodal2video	flags	--audio,--duration,--image,--model_version,--poll,--prompt,--ratio,--session,--video,--video_resolution
+image_upscale	flags	--image,--poll,--resolution_type,--session

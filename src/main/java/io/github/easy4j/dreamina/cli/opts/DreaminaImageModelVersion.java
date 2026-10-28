@@ -25,10 +25,8 @@ import lombok.Getter;
  * 4.0+ 模型同时支持图生图。
  * </p>
  * @since 3.0.0
- * @deprecated 旧值 4.7/5.0Pro 不是 Canvas canonical 模型 ID；替代：实时 model list/find 返回值。
  */
 @Getter
-@Deprecated
 public enum DreaminaImageModelVersion {
 
     MODEL_3_0("3.0"),

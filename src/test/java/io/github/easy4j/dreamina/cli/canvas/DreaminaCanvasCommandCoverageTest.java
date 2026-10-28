@@ -81,6 +81,15 @@ class DreaminaCanvasCommandCoverageTest {
         add(cases, DreaminaCanvasCommand.AUTH_REFRESH);
         add(cases, DreaminaCanvasCommand.SCHEMA);
         add(cases, DreaminaCanvasCommand.VERSION);
+        add(cases, DreaminaCanvasCommand.TEAM_LS, "limit=1");
+        add(cases, DreaminaCanvasCommand.SPACE_CURRENT);
+        add(cases, DreaminaCanvasCommand.SPACE_USE, "@personal");
+        add(cases, DreaminaCanvasCommand.CANVAS_CURRENT);
+        add(cases, DreaminaCanvasCommand.CANVAS_USE, "@" + ID);
+        add(cases, DreaminaCanvasCommand.NODE_UPSCALE_VIDEO, "node-id=" + NODE, "resolution=2K", "dry-run=true");
+        add(cases, DreaminaCanvasCommand.NODE_CUTOUT_IMAGE, "node-id=" + NODE, "dry-run=true");
+        add(cases, DreaminaCanvasCommand.NODE_INTERPOLATE_VIDEO, "node-id=" + NODE, "fps=60", "dry-run=true");
+        add(cases, DreaminaCanvasCommand.NODE_PROMOTE_VIDEO_SAMPLE, "node-id=" + NODE, "resolution=1080P", "dry-run=true");
         return cases;
     }
 
@@ -143,7 +152,7 @@ class DreaminaCanvasCommandCoverageTest {
         DreaminaCanvasCliExecutor executor = new DreaminaCanvasCliExecutor(DreaminaCanvasCliProperties.builder().executable(bin.toString()).build());
         DreaminaCanvasRequest<?> request = c.request();
         StringBuilder method = new StringBuilder();
-        for (String word : c.command.getPath().split(" ")) {
+        for (String word : c.command.getPath().replace('-', ' ').split(" ")) {
             method.append(method.length() == 0 ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1));
         }
         DreaminaCanvasResponse<?> response = (DreaminaCanvasResponse<?>) executor.getClass().getMethod(method.toString(), request.getClass()).invoke(executor, request);

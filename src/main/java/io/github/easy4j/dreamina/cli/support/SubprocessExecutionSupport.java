@@ -23,9 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
  * @since 3.0.0
- * @deprecated 全局信号量、无界输出与仅进程超时无法满足 Canvas 实例隔离及总预算；替代：DreaminaCanvasProcessRunner，保留旧调用行为。
  */
-@Deprecated
 public final class SubprocessExecutionSupport {
 
     /**

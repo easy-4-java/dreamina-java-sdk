@@ -105,10 +105,8 @@ public class DreaminaCliAvailabilityChecker {
      *
      * @param executor 已构造的执行器，不得为 null
      * @return 探测报告
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public DreaminaCliAvailabilityReport check(DreaminaCliExecutor executor) {
+        public DreaminaCliAvailabilityReport check(DreaminaCliExecutor executor) {
         Objects.requireNonNull(executor, "executor");
         return check(executor.getProperties());
     }
@@ -118,10 +116,8 @@ public class DreaminaCliAvailabilityChecker {
      *
      * @param properties CLI 配置，不得为 null
      * @return 探测报告
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public DreaminaCliAvailabilityReport check(DreaminaCliProperties properties) {
+        public DreaminaCliAvailabilityReport check(DreaminaCliProperties properties) {
         Objects.requireNonNull(properties, "properties");
         String configured = properties.getExecutable();
         if (DreaminaStrings.isBlank(configured)) {

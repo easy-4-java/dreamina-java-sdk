@@ -13,11 +13,9 @@ import java.util.List;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaTaskItem
  * @since 3.0.0
- * @deprecated 旧 list_task commerce_info，不等同 Canvas node quote 报价；替代：NODE_QUOTE data。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Deprecated
 public class DreaminaCommerceInfo {
 
     @JsonProperty("credit_count")

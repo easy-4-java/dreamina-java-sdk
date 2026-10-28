@@ -74,7 +74,7 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
     @DreaminaCanvasParameter(value = "prompt", positional = false)
     private final String prompt;
     /**
-     * music 必填；tts 可指定模型并同时提供 --scenario；从 model list --type audio 选择；--model。
+     * music 必填；tts 按模型目录选择是否需要 --scenario；从 model list --type audio 选择；--model。
      */
     @DreaminaCanvasParameter(value = "model", positional = false)
     private final String model;
@@ -83,6 +83,11 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
      */
     @DreaminaCanvasParameter(value = "duration", positional = false)
     private final java.math.BigDecimal duration;
+    /**
+     * 公共目录音色 ID；从同模型 voice list 选择，与 --voice-name 互斥；--voice-id。
+     */
+    @DreaminaCanvasParameter(value = "voice-id", positional = false)
+    private final String voiceId;
     /**
      * 音色名称；从 voice list 选择；全能配音可选一个音色作为音频参考；--voice-name。
      */
@@ -177,6 +182,7 @@ public final class DreaminaCanvasNodeCreateAudioRequest extends DreaminaCanvasRe
         args.flag("prompt", prompt);
         args.flag("model", model);
         args.flag("duration", duration);
+        args.flag("voice-id", voiceId);
         args.flag("voice-name", voiceName);
         args.flag("scenario", scenario);
         args.flag("ref", ref);

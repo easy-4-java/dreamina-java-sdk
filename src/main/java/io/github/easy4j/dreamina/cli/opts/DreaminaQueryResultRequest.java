@@ -13,11 +13,9 @@ import java.util.List;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#queryResult(String)
  * @since 3.0.0
- * @deprecated 旧 submit_id/download_dir 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + OPERATION_STATUS/RESOURCE_DOWNLOAD，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaQueryResultRequest implements DreaminaCliArgumentProvider {
 
     private final String submitId;

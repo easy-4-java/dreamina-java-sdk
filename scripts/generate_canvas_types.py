@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""根据已审阅的 CLI 1.0.3 契约生成具体 Java 类型。运行后必须执行字段覆盖测试。"""
+"""根据已审阅的 CLI 1.2.0 契约生成具体 Java 类型。运行后必须执行字段覆盖测试。"""
 import json, re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 BASE=ROOT/'src/main/java/io/github/easy4j/dreamina/cli'
-SCHEMA=json.loads((ROOT/'src/main/resources/io/github/easy4j/dreamina/cli/opts/schema-1.0.3.json').read_text())
+SCHEMA=json.loads((ROOT/'src/main/resources/io/github/easy4j/dreamina/cli/opts/schema-1.2.0.json').read_text())
 PRIMITIVES={'string':'String','integer':'Long','number':'java.math.BigDecimal','boolean':'Boolean','duration':'java.time.Duration'}
 def pas(s): return ''.join(w[0].upper()+w[1:] for w in re.split(r'[- _]',s))
-def java(s): return {'default':'defaultValue','wait':'waitForCompletion','clear-auxiliary':'clearAuxiliaryBindings'}.get(s,s.split('-')[0]+''.join(pas(x) for x in s.split('-')[1:]))
+def java(s): return {'class':'errorClass','default':'defaultValue','wait':'waitForCompletion','clear-auxiliary':'clearAuxiliaryBindings'}.get(s,s.split('-')[0]+''.join(pas(x) for x in s.split('-')[1:]))
 def key(fields): return json.dumps([{k:v for k,v in f.items() if k not in ('optional','description')} for f in fields],sort_keys=True)
 classes={}; shapes={}; command_types={}
 def obj(fields,name,force=False):
@@ -80,6 +80,17 @@ def typefor(f,parent):
     if typ=='map<string,object>':return 'java.util.Map<String, '+t+'>'
     assert typ=='object',typ
     return t
+# 共享账号对象保留旧版字段和 Lombok API，仅增量补充 Canvas 字段。
+account_fields = next(c['successData']['fields'] for route,c in commands if route == 'auth account')
+account_path = BASE/'model'/'DreaminaLoginAccount.java'
+account_text = account_path.read_text()
+for field in account_fields:
+    field_type = typefor(field, 'DreaminaLoginAccount')
+    field_name = java(field['name'])
+    if not re.search(r'private\s+[^;]+\s+' + re.escape(field_name) + r'\s*;', account_text):
+        addition = '    /** '+field.get('description', '画布账号契约字段')+'。 */\n    @com.fasterxml.jackson.annotation.JsonProperty("'+field['name']+'")\n    private '+field_type+' '+field_name+';\n'
+        account_text = account_text.rsplit('}',1)[0] + addition + '}\n'
+account_path.write_text(account_text)
 # 先递归展开类型，随后每个类一个文件。
 done=set()
 while len(done)<len(classes):
@@ -101,7 +112,7 @@ for p,c in commands:
     for f,pos in entries:
         ty='java.util.List<String>' if f['type']=='string[]' else PRIMITIVES[f['type']]
         lines+=['    /**','     * '+f.get('description',f['name'])+'；'+('位置参数' if pos else '--'+f['name'])+'。','     */','    @DreaminaCanvasParameter(value = "'+f['name']+'", positional = '+str(pos).lower()+')',*((['    @lombok.Singular("add'+pas(java(f['name']))+'")'] if f['type']=='string[]' else [])), '    private final '+ty+' '+java(f['name'])+';']
-    lines+=['    /**','     * 显式启用确认策略，不替代积分凭证。','     */','    private final boolean yes;','','    @Override','    public DreaminaCanvasCommand getCommand() {','        return DreaminaCanvasCommand.'+p.upper().replace(' ','_')+';','    }','','    @Override','    public Class<'+t+'> getDataType() {','        return '+t+'.class;','    }','','    @Override','    protected DreaminaCanvasArguments arguments() {','        DreaminaCanvasArguments args = new DreaminaCanvasArguments();']
+    lines+=['    /**','     * 显式启用确认策略，不替代积分凭证。','     */','    private final boolean yes;','','    @Override','    public DreaminaCanvasCommand getCommand() {','        return DreaminaCanvasCommand.'+p.upper().replace(' ','_').replace('-','_')+';','    }','','    @Override','    public Class<'+t+'> getDataType() {','        return '+t+'.class;','    }','','    @Override','    protected DreaminaCanvasArguments arguments() {','        DreaminaCanvasArguments args = new DreaminaCanvasArguments();']
     for f,pos in entries:
         lines+=['        args.'+('position' if pos else 'flag')+'('+('' if pos else '"'+f['name']+'", ')+java(f['name'])+');']
     lines+=['        args.yes(yes);','        return args;','    }']
@@ -124,5 +135,5 @@ for p,c in commands:
     req=('DreaminaCanvas'+pas(p)+'Request').replace('DreaminaCanvasCanvas','DreaminaCanvas'); rt=command_types[p];method=pas(p);method=method[0].lower()+method[1:]
     methods+=['    /**','     * '+c['summary']+'。','     */','    public DreaminaCanvasResponse<'+rt+'> '+method+'('+req+' request) {','        return execute(request);','    }']
 (ROOT/'scripts/canvas_executor_methods.txt').write_text('\n'.join(methods)+'\n')
-(ROOT/'docs/validation/dreamina-canvas-types.json').write_text(json.dumps({'schemaVersion':'1','cliVersion':'1.0.3','commands':[{'command':p,'request':('DreaminaCanvas'+pas(p)+'Request').replace('DreaminaCanvasCanvas','DreaminaCanvas'),'data':command_types[p]} for p,c in commands]},indent=2)+'\n')
+(ROOT/'docs/validation/dreamina-canvas-types.json').write_text(json.dumps({'schemaVersion':'1','cliVersion':'1.2.0','commands':[{'command':p,'request':('DreaminaCanvas'+pas(p)+'Request').replace('DreaminaCanvasCanvas','DreaminaCanvas'),'data':command_types[p]} for p,c in commands]},indent=2)+'\n')
 print('Generated',len(commands),'requests,',len(classes),'response objects')

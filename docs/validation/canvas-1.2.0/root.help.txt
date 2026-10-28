@@ -1,0 +1,30 @@
+用法：
+  dreamina-canvas [flags]
+  dreamina-canvas [命令]
+
+可用命令：
+  auth        管理登录与认证态
+  canvas      管理画布
+  completion  生成指定 shell 的自动补全脚本
+  director    导演台创作、同步与导出
+  help        查看任意命令的帮助
+  model       查询生成模型及其可调用规格
+  node        创建、编辑、删除、读取或运行 typed 画布节点
+  operation   查询或等待可恢复操作
+  resource    查询、上传与下载画布素材
+  schema      返回当前制品的命令契约
+  space       选择个人或团队空间
+  team        发现可用团队
+  version     返回版本和构建信息
+  voice       查询可用于音频生成的音色
+
+参数：
+      --format string     输出格式：json 或 table
+  -h, --help              显示 dreamina-canvas 的帮助
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+  -v, --version           显示版本
+      --yes               确认策略允许由参数确认的操作
+
+使用 "dreamina-canvas [命令] --help" 查看某个命令的更多信息。

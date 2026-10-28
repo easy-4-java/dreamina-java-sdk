@@ -54,7 +54,7 @@ class DreaminaCanvasFieldCoverageTest {
         }
         assertTrue(mapped.isEmpty(), mapped.toString());
         StringBuilder words = new StringBuilder();
-        for (String word : command.getPath().split(" ")) {
+        for (String word : command.getPath().replace('-', ' ').split(" ")) {
             words.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
         }
         String method = words.toString();

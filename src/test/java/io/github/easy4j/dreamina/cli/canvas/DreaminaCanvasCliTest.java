@@ -228,7 +228,7 @@ class DreaminaCanvasCliTest {
 
     @Test
     void schemaCoversAllBusinessCommands() {
-        assertEquals(37, DreaminaCanvasCommand.values().length);
+        assertEquals(49, DreaminaCanvasCommand.values().length);
         for (DreaminaCanvasCommand command : DreaminaCanvasCommand.values()) {
             assertEquals(command.getPath().substring(command.getPath().lastIndexOf(' ') + 1), DreaminaCanvasContract.describe(command).getName());
         }

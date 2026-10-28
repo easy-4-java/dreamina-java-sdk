@@ -46,7 +46,7 @@ public final class DreaminaCanvasNodeUpscaleImageRequest extends DreaminaCanvasR
     @DreaminaCanvasParameter(value = "detail", positional = false)
     private final Long detail;
     /**
-     * 新产物节点标题；不修改来源节点；--title。
+     * 自定义产物标题；后编辑默认不传，保留源标题和操作标记；--title。
      */
     @DreaminaCanvasParameter(value = "title", positional = false)
     private final String title;

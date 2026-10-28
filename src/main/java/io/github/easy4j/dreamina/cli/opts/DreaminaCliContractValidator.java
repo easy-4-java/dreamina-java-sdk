@@ -11,12 +11,28 @@ import java.util.Objects;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaCliRequestSupport
  * @since 3.0.0
- * @deprecated 校验旧 v1.4 模型/请求约束；替代：DreaminaCanvasContract 与实时 model list/find。
  */
-@Deprecated
 public final class DreaminaCliContractValidator {
 
     private DreaminaCliContractValidator() {
+    }
+
+    /**
+     * 校验旧 CLI 视频比例；参考帧模式的 Seedance 2.5 必须沿用首帧比例。
+     * @param ratio 可选比例
+     * @param modelVersion 视频模型
+     * @param referenceFrame 是否使用首帧参考
+     */
+    public static void validateVideoRatio(DreaminaRatio ratio, DreaminaVideoModelVersion modelVersion, boolean referenceFrame) {
+        if (Objects.isNull(ratio)) {
+            return;
+        }
+        if (ratio == DreaminaRatio.RATIO_3_2 || ratio == DreaminaRatio.RATIO_2_3) {
+            throw new IllegalArgumentException("video ratio must be 1:1, 3:4, 16:9, 4:3, 9:16 or 21:9");
+        }
+        if (referenceFrame && modelVersion == DreaminaVideoModelVersion.SEEDANCE_2_5) {
+            throw new IllegalArgumentException("Seedance 2.5 reference-frame generation rejects explicit ratio");
+        }
     }
 
     /**

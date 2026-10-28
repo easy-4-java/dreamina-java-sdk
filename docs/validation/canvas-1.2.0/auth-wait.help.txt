@@ -1,0 +1,14 @@
+用法：
+  dreamina-canvas auth wait [flags]
+
+参数：
+      --device-code string   auth login 返回的设备授权引用
+  -h, --help                 显示 dreamina-canvas auth wait 的帮助
+      --timeout duration     本次等待登录的最长时间 (default 10m0s)
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

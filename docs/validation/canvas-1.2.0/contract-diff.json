@@ -1,0 +1,383 @@
+[
+  {
+    "route": "model",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "model list",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "model find",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "voice list",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [
+      "model"
+    ],
+    "responseChanged": true
+  },
+  {
+    "route": "node create image",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [
+      "title",
+      "count"
+    ],
+    "responseChanged": true
+  },
+  {
+    "route": "node create video",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node create audio",
+    "new": false,
+    "addedFlags": [
+      "voice-id"
+    ],
+    "removedFlags": [],
+    "changedFlags": [
+      "model",
+      "voice-name"
+    ],
+    "responseChanged": true
+  },
+  {
+    "route": "node create element",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node create text",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node create timeline",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node edit image",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [
+      "count"
+    ],
+    "responseChanged": true
+  },
+  {
+    "route": "node edit video",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node edit audio",
+    "new": false,
+    "addedFlags": [
+      "voice-id"
+    ],
+    "removedFlags": [],
+    "changedFlags": [
+      "model",
+      "voice-name"
+    ],
+    "responseChanged": true
+  },
+  {
+    "route": "node edit element",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node edit text",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node edit timeline",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node upscale image",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [
+      "title"
+    ],
+    "responseChanged": true
+  },
+  {
+    "route": "node upscale video",
+    "new": true,
+    "addedFlags": [
+      "credit-ceiling",
+      "credit-token",
+      "dry-run",
+      "interval",
+      "node-id",
+      "project-id",
+      "resolution",
+      "submit-id",
+      "timeout",
+      "title",
+      "wait"
+    ],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node cutout image",
+    "new": true,
+    "addedFlags": [
+      "credit-ceiling",
+      "credit-token",
+      "dry-run",
+      "interval",
+      "node-id",
+      "project-id",
+      "submit-id",
+      "timeout",
+      "title",
+      "wait"
+    ],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node interpolate video",
+    "new": true,
+    "addedFlags": [
+      "credit-ceiling",
+      "credit-token",
+      "dry-run",
+      "fps",
+      "interval",
+      "node-id",
+      "project-id",
+      "submit-id",
+      "timeout",
+      "title",
+      "wait"
+    ],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node promote video-sample",
+    "new": true,
+    "addedFlags": [
+      "credit-ceiling",
+      "credit-token",
+      "dry-run",
+      "interval",
+      "node-id",
+      "project-id",
+      "resolution",
+      "submit-id",
+      "timeout",
+      "title",
+      "wait"
+    ],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node delete",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node delete status",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node show",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node quote",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node confirm",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "node run",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "operation status",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "operation wait",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "resource get",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "canvas use",
+    "new": true,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "canvas current",
+    "new": true,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "auth account",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "auth login",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "auth wait",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "schema",
+    "new": false,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "team ls",
+    "new": true,
+    "addedFlags": [
+      "cursor",
+      "limit"
+    ],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "space use",
+    "new": true,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  },
+  {
+    "route": "space current",
+    "new": true,
+    "addedFlags": [],
+    "removedFlags": [],
+    "changedFlags": [],
+    "responseChanged": true
+  }
+]

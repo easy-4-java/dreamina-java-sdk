@@ -27,11 +27,9 @@ import java.util.List;
  * </ul>
  * </p>
  * @since 3.0.0
- * @deprecated 本地图片路径及旧 model_version/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaImage2ImageRequest implements DreaminaCliArgumentProvider {
 
     /**

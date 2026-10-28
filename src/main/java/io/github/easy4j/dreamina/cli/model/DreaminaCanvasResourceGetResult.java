@@ -13,6 +13,21 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasResourceGetResult {
     /**
+     * 契约字段 {@code image}。
+     */
+    @JsonProperty("image")
+    private DreaminaCanvasImage image;
+    /**
+     * 契约字段 {@code video}。
+     */
+    @JsonProperty("video")
+    private DreaminaCanvasVideo video;
+    /**
+     * 契约字段 {@code generationKind}。
+     */
+    @JsonProperty("generationKind")
+    private String generationKind;
+    /**
      * 契约字段 {@code resourceId}。
      */
     @JsonProperty("resourceId")

@@ -2,10 +2,7 @@
 
 ## Dreamina Canvas CLI (recommended)
 
-The legacy Dreamina CLI is scheduled to stop maintenance in November. The per-object audit retains 29 shared types and
-deprecates 38 legacy-only types with specific migration guidance; existing signatures and behavior remain available. New
-integrations use **`DreaminaCanvasCliExecutor`**, covering all **40 business routes** in the installed Canvas **1.0.3**
-contract, plus help and four shell completions. Java 8 remains supported.
+Both **`DreaminaCliExecutor`** (`dreamina` v1.4.21) and **`DreaminaCanvasCliExecutor`** (`dreamina-canvas` v1.2.0) are actively supported. Canvas exposes 49 business routes plus help and shell completions. Existing Dreamina APIs remain supported without Canvas migration deprecation annotations. Java 8 remains supported.
 
 See [Canvas API and migration guide](docs/DREAMINA_CANVAS.md), [complete command reference](docs/DREAMINA_CANVAS_COMMANDS.md),
 and [verification evidence](docs/DREAMINA_CANVAS_ACCEPTANCE.md). The sections below document the retained **legacy
@@ -55,8 +52,7 @@ Typical use cases:
 | Login / account (`login`, `logout`, `relogin`, `user_credit`, `version`)                               | OAuth Device Flow, headless login support                |
 | Startup readiness probing                                                                              | `DreaminaCliAvailabilityChecker` runs `dreamina version` |
 
-**Project status:** new integration targets Canvas CLI 1.0.3. The legacy v1.4.x adapter below is deprecated and retained
-for compatibility.
+**Project status:** Dreamina CLI v1.4.21 and Canvas CLI v1.2.0 are supported in parallel.
 
 ## 2. Features & Status
 

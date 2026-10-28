@@ -4,13 +4,31 @@ package io.github.easy4j.dreamina.cli;
 import lombok.Getter;
 
 /**
- * Canvas CLI 1.0.3 全部业务调用入口；模型与音色通过运行时命令发现。
+ * Canvas CLI 1.2.0 全部业务调用入口；模型与音色通过运行时命令发现。
  */
 @Getter
 public enum DreaminaCanvasCommand {
     /**
      * 查询生成模型及其可调用规格。
      */
+    /** 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。 */
+    NODE_UPSCALE_VIDEO("node upscale video"),
+    /** 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。 */
+    NODE_CUTOUT_IMAGE("node cutout image"),
+    /** 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。 */
+    NODE_INTERPOLATE_VIDEO("node interpolate video"),
+    /** 样片转正片：报价并批准后生成新节点。 */
+    NODE_PROMOTE_VIDEO_SAMPLE("node promote video-sample"),
+    /** 核验权限并选择当前画布。 */
+    CANVAS_USE("canvas use"),
+    /** 查询当前画布和实时权限。 */
+    CANVAS_CURRENT("canvas current"),
+    /** 查看团队及订阅积分信息。 */
+    TEAM_LS("team ls"),
+    /** 核验并显式切换空间。 */
+    SPACE_USE("space use"),
+    /** 查询当前空间和已选画布的实时权限。 */
+    SPACE_CURRENT("space current"),
     MODEL("model"),
     /**
      * 列出生成模型及可填写 flag。

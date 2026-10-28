@@ -11,11 +11,9 @@ import lombok.Data;
  * @see DreaminaQueryResult
  * @see DreaminaGenerateSubmit
  * @since 3.0.0
- * @deprecated 旧 queue_info 排队字段与 Canvas operation 结构不同；替代：OPERATION_STATUS data。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Deprecated
 public class DreaminaQueryQueueInfo {
 
     /**

@@ -31,7 +31,7 @@ class DreaminaCanvasInstalledCliTest {
         assertTrue(version.isSuccess());
         assertEquals(version.getData().getBuildTime(), cli.versionDetails().getData().getBuildTime());
         assertTrue(new io.github.easy4j.dreamina.cli.availability.DreaminaCliAvailabilityChecker().checkCanvas(cli.getProperties()).isAvailable());
-        assertEquals("1.0.3", version.getData().getVersion());
+        assertEquals("1.2.0", version.getData().getVersion());
         DreaminaCanvasResponse<DreaminaCanvasSchema> schema = cli.schema();
         assertTrue(schema.isSuccess());
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -87,5 +87,17 @@ class DreaminaCanvasInstalledCliTest {
     void localTextAndTimelineDraftsThroughSdk() {
         assertTrue(cli.execute(DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_CREATE_TEXT, "dry-run=true", "title=SDK 验收", "text=中文\n第二行")).isSuccess());
         assertTrue(cli.execute(DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_CREATE_TIMELINE, "dry-run=true", "title=SDK 验收", "clip=12345678-1234-1234-1234-123456789012,duration=1000")).isSuccess());
+    }
+
+    @Test
+    void newMediaPostprocessingDryRunsStayLocal() {
+        for (io.github.easy4j.dreamina.cli.DreaminaCanvasCommand command : java.util.Arrays.asList(
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_UPSCALE_VIDEO,
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_INTERPOLATE_VIDEO,
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_CUTOUT_IMAGE,
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_PROMOTE_VIDEO_SAMPLE)) {
+            DreaminaCanvasCommandCoverageTest.Case fixture = DreaminaCanvasCommandCoverageTest.cases().get(command);
+            assertTrue(cli.execute(fixture.request()).isSuccess(), command.getPath());
+        }
     }
 }

@@ -45,7 +45,7 @@ class DreaminaObjectReuseTest {
             assertTrue(expected.add(path));
             assertFalse(entry.get("reason").trim().isEmpty(), path);
             String name = path.substring("src/main/java/".length(), path.length() - 5).replace('/', '.');
-            assertEquals(entry.get("status").equals("legacy-only"), Class.forName(name).isAnnotationPresent(Deprecated.class), name);
+            assertFalse(Class.forName(name).isAnnotationPresent(Deprecated.class), name);
         }
         Set<String> actual = new HashSet<>();
         try (Stream<Path> files = Files.walk(Paths.get("src/main/java"))) {

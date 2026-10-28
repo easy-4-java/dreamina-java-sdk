@@ -1,0 +1,15 @@
+用法：
+  dreamina-canvas voice list [flags]
+
+参数：
+      --count int32    单页条数，范围 1 到 100 (default 50)
+  -h, --help           显示 dreamina-canvas voice list 的帮助
+      --model string   可选 canonical model；省略按模型返回当前可用的全部 TTS 音色，翻页保持同一模型
+      --offset int32   分页起点
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

@@ -2,8 +2,7 @@
 
 ## 即梦画布 CLI（推荐）
 
-旧 Dreamina CLI 官方公告自 11 月起停止维护。逐对象确认复用：29 个共享类型继续使用，38 个旧协议专属类型标注废弃及替代路径，原有签名和行为保留。新接入使用
-**`DreaminaCanvasCliExecutor`**，覆盖 Canvas **1.0.3** 的 **40 个业务入口**、各级帮助和四种 shell 补全，继续支持 Java 8。
+**`DreaminaCliExecutor`**（`dreamina` v1.4.21）和 **`DreaminaCanvasCliExecutor`**（`dreamina-canvas` v1.2.0）并行维护。Canvas 覆盖 49 条业务指令、各级帮助和四种 shell 补全；旧 CLI 公共 API 继续完整支持，撤销仅因 Canvas 迁移添加的废弃标记，继续支持 Java 8。
 
 请阅读 [Canvas API 与迁移指南](docs/DREAMINA_CANVAS.md)、[完整命令目录](docs/DREAMINA_CANVAS_COMMANDS.md)
 和[验收记录](docs/DREAMINA_CANVAS_ACCEPTANCE.md)。下文为保留的 **旧 CLI API 参考**。
@@ -50,7 +49,7 @@ CLI）。它封装子进程执行、解析结构化输出（JSON / 文本 / 表�
 | 登录与账户（`login`、`logout`、`relogin`、`user_credit`、`version`）                            | OAuth Device Flow、headless 登录                         |
 | 启动就绪探测                                                                                    | `DreaminaCliAvailabilityChecker` 执行 `dreamina version` |
 
-**项目状态：** 新集成面向 Canvas CLI 1.0.3；下文旧 v1.4.x 适配器已废弃，保留兼容。
+**项目状态：** Dreamina CLI v1.4.21 与 Canvas CLI v1.2.0 并行支持。
 
 <a id="2-features--status"></a>
 
@@ -365,7 +364,7 @@ export DREAMINA_CLI_AUDIT=true
 | `feature/2.0.x` | JDK 17 | `2.0.x.*`  |
 | `feature/3.0.x` | JDK 21 | `3.0.x.*`  |
 
-维护策略：当前 1.0.x 版本线以 Java 8 为基线新增 Canvas CLI 集成；旧 Dreamina CLI API 保留并废弃。本次仅修改当前分支。
+维护策略：当前 1.0.x 版本线以 Java 8 为基线新增 Canvas CLI 集成；旧 Dreamina CLI API 持续维护。本次仅修改当前分支。
 
 <a id="11-contributing--license"></a>
 

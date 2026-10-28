@@ -1,0 +1,15 @@
+用法：
+  dreamina-canvas node delete confirm [flags]
+
+参数：
+  -h, --help                显示 dreamina-canvas node delete confirm 的帮助
+      --node-id strings     指定 Node ID，可重复或逗号分隔，按顺序去重；不支持 group
+      --project-id string   项目 UUID；省略时使用当前画布
+      --update-id string    摘要返回的稳定更新 UUID；必填，确认、执行与恢复须相同
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

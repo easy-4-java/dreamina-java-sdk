@@ -1,5 +1,6 @@
 # 首轮 Canvas 迁移与真实单图验收（历史记录）
 
+> 当前维护策略（2026-10-28）：dreamina 与 dreamina-canvas 并行支持，迁移新增的废弃标记已撤销。下文保留前次审计历史；当前实现与验证见 [旧 CLI 维护说明](DREAMINA_LEGACY_SUPPORT.md)。
 > 本文保留此前通用请求版本的真实执行证据；当前强类型 API 的验证见 [本轮报告](DREAMINA_CANVAS_TYPED_API.md)。
 
 本报告保留首轮测试与真实图片的历史证据。当前入口为 DreaminaCanvasCliExecutor；最新一轮逐对象审计复用 29 个共享类型、废弃 38
@@ -23,7 +24,7 @@
 ```mermaid
 flowchart TB
     App[Java 应用] --> Canvas[DreaminaCanvasCliExecutor]
-    App --> Legacy[DreaminaCliExecutor 已废弃]
+    App --> Legacy[DreaminaCliExecutor 持续维护]
     Canvas --> Request[CanvasRequest 不可变参数]
     Request --> Contract[CanvasContract 1.0.3 schema]
     Canvas --> Runner[CanvasProcessRunner 每客户端限流]

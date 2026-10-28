@@ -1,0 +1,21 @@
+用法：
+  dreamina-canvas node run [flags]
+
+示例：
+  node run --node-id <nodeId> --submit-id <uuid>
+  # 返回的 submitId 就是恢复身份；等待终态：
+  operation wait <submitId> --project-id <projectId>
+
+参数：
+      --credit-token string   确认扣费后返回的 creditConfirmationToken
+  -h, --help                  显示 dreamina-canvas node run 的帮助
+      --node-id strings       需要运行的节点 node_id，可重复传入
+      --project-id string     项目 UUID；同时用作 draft-id；省略时使用当前项目
+      --submit-id strings     逐节点稳定提交 UUID，可重复传入并与 --node-id 按顺序对应；全部省略时自动生成
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作
