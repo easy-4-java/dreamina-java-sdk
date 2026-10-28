@@ -12,10 +12,9 @@ import lombok.Data;
  * {@code @ConfigurationProperties(prefix = "dreamina.cli")} to bind the same fields.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
  * @see io.github.easy4j.dreamina.cli.support.SubprocessExecutionSupport
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Data

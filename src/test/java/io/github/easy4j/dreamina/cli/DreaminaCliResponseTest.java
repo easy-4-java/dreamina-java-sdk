@@ -12,7 +12,7 @@ class DreaminaCliResponseTest {
     @Test
     void shouldCreateResponseFromRawResult() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("hello").stderr("err").exitCode(0).success(true).build();
+                .stdout("hello").stderr("err").exitCode(0).success(true).build();
         DreaminaCliResponse<String> resp = DreaminaCliResponse.of(raw, "body");
         assertEquals("hello", resp.getStdout());
         assertEquals("err", resp.getStderr());
@@ -26,7 +26,7 @@ class DreaminaCliResponseTest {
     @Test
     void shouldCreateResponseWithJson() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("{}").exitCode(0).success(true).build();
+                .stdout("{}").exitCode(0).success(true).build();
         ObjectMapper om = new ObjectMapper();
         JsonNode node = om.createObjectNode();
         DreaminaCliResponse<String> resp = DreaminaCliResponse.of(raw, "body", node);
@@ -36,7 +36,7 @@ class DreaminaCliResponseTest {
     @Test
     void shouldCombineTextWithBothStreams() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("out").stderr("err").build();
+                .stdout("out").stderr("err").build();
         DreaminaCliResponse<Void> resp = DreaminaCliResponse.of(raw, null);
         String combined = resp.getCombinedText();
         assertTrue(combined.contains("out"));
@@ -75,7 +75,7 @@ class DreaminaCliResponseTest {
     void shouldPreserveParsedFields() {
         DreaminaParsedFields parsed = DreaminaParsedFields.builder().submitId("s1").credit(100L).build();
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("").exitCode(0).success(true).parsed(parsed).build();
+                .stdout("").exitCode(0).success(true).parsed(parsed).build();
         DreaminaCliResponse<String> resp = DreaminaCliResponse.of(raw, "body");
         assertNotNull(resp.getParsed());
         assertEquals("s1", resp.getParsed().getSubmitId());

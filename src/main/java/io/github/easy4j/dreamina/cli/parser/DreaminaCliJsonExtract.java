@@ -8,9 +8,8 @@ package io.github.easy4j.dreamina.cli.parser;
  * to avoid accidentally consuming brackets inside string literals.
  * </p>
  *
- * @see DreaminaCliStructuredPayloadMapper
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaCliStructuredPayloadMapper
  * @since 3.0.0
  */
 final class DreaminaCliJsonExtract {

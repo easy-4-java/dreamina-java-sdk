@@ -2,6 +2,7 @@ package io.github.easy4j.dreamina.cli.support;
 
 import io.github.easy4j.dreamina.DreaminaCliProperties;
 import io.github.easy4j.dreamina.cli.DreaminaCliExecutor;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,7 +22,7 @@ import java.util.Set;
 public final class MockDreaminaCli {
 
     private static final byte[] TINY_PNG = Base64.getDecoder().decode(
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==");
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==");
 
     private final Path scriptPath;
     private final Path logPath;
@@ -45,6 +46,23 @@ public final class MockDreaminaCli {
         Files.write(script, buildScript(log).getBytes(StandardCharsets.UTF_8));
         makeExecutable(script);
         return new MockDreaminaCli(script, log, media);
+    }
+
+    private static String buildScript(Path logPath) {
+        String log = logPath.toAbsolutePath().toString().replace("'", "'\\''");
+        return String.format("#!/usr/bin/env bash\n            set -euo pipefail\n            LOG='%s'\n            printf '%%s\\n' \"$*\" >> \"$LOG\"\n            cmd=\"${1:-}\"\n            shift || true\n\n            case \"$cmd\" in\n              help)\n                echo \"Usage: dreamina help [flags]\"\n                ;;\n              version)\n                echo '{\"version\":\"c58a6a2-dirty\",\"commit\":\"c58a6a2\",\"build_time\":\"2026-05-07T09:52:59Z\"}'\n                ;;\n              user_credit)\n                echo '{\"total_credit\":4388,\"user_id\":1552973852847448,\"user_name\":\"\",\"vip_level\":\"maestro\"}'\n                ;;\n              login)\n                sub=\"${1:-}\"\n                if [ \"$sub\" = \"checklogin\" ]; then\n                  :\n                elif printf '%%s' \"$*\" | grep -q -- '--headless'; then\n                  if printf '%%s' \"$*\" | grep -q -- '--mock-device-flow'; then\n                    echo '{\"verification_uri\":\"https://mock/login\",\"user_code\":\"MOCK\",\"device_code\":\"dev-mock\"}'\n                  else\n                    echo '已复用当前本地 OAuth 登录态。'\n                  fi\n                else\n                  cat <<'EOF'\n已复用当前本地 OAuth 登录态。\n当前登录账户信息：\nuser_id: 1552973852847448\nvip_level: maestro\ntotal_credit: 4391\nEOF\n                fi\n                ;;\n              logout)\n                echo '已清除本地登录态。'\n                ;;\n              relogin)\n                cat <<'EOF'\n请使用浏览器完成 OAuth Device Flow 登录。\nverification_uri: https://jimeng.jianying.com/ai-tool/cli-auth\nuser_code: 88d38543ef407cb0a01a61088ec0d32c\ndevice_code: 662eef8f79b0ee3c20d7222c5ec28ed3\npoll_interval: 1s\nexpires_at: 2026-05-26T05:38:58Z\nEOF\n                ;;\n              session)\n                sub=\"${1:-}\"\n                shift || true\n                case \"$sub\" in\n                  create)\n                    echo 'Created session \"mock-session\" (ID: 10001)'\n                    ;;\n                  list|ls)\n                    cat <<'EOF'\nID              NAME                        PINNED  UPDATED_AT\n--------------  --------------------------  ------  ----------------\n10001           mock-session                No      2026-05-14 10:44\nEOF\n                    ;;\n                  search|find)\n                    cat <<'EOF'\nFound 1 sessions containing \"mock\":\nID  NAME          UPDATED_AT\n--  ------------  ----------------\n10001 mock-session 2026-05-14 10:44\nEOF\n                    ;;\n                  rename|update)\n                    echo 'Renamed session 10001 to \"mock-renamed\"'\n                    ;;\n                  delete|rm)\n                    echo 'deleted'\n                    ;;\n                  \"\")\n                    cat <<'EOF'\nUsage:\n  dreamina session [flags]\n\nManage Dreamina sessions (create, list, search, rename, delete).\nEOF\n                    ;;\n                  *)\n                    echo \"session sub=$sub\"\n                    ;;\n                esac\n                ;;\n              list_task)\n                echo '[{\"submit_id\":\"mock-submit-1\",\"gen_task_type\":\"text2image\",\"gen_status\":\"success\",\"fail_reason\":\"\",\"result_json\":{\"images\":[{\"width\":1024,\"height\":1024}],\"videos\":[]},\"commerce_info\":{\"credit_count\":0,\"triplet\":{\"resource_type\":\"\",\"resource_id\":\"\",\"benefit_type\":\"\"},\"triplets\":[{\"resource_type\":\"aigc\",\"resource_id\":\"generate_img\",\"benefit_type\":\"image_uhd_4k\"}]}}]'\n                ;;\n              query_result)\n                echo '{\"submit_id\":\"mock-submit-1\",\"gen_status\":\"success\",\"credit_count\":3,\"result_json\":{\"images\":[{\"image_url\":\"https://mock/img.png\",\"width\":2048,\"height\":2048}],\"videos\":[]},\"queue_info\":{\"queue_idx\":0,\"priority\":1,\"queue_status\":\"Finish\",\"queue_length\":0}}'\n                ;;\n              text2image|text2video|image2image|image_upscale|image2video|frames2video|multiframe2video|multimodal2video)\n                echo '{\"submit_id\":\"mock-gen-1\",\"logid\":\"202605260533251720170000026033C60\",\"gen_status\":\"querying\",\"credit_count\":3}'\n                ;;\n              __exit_nonzero)\n                echo 'fail' >&2\n                exit 7\n                ;;\n              __exit_one)\n                exit 1\n                ;;\n              __sleep_forever)\n                sleep 60\n                ;;\n              *)\n                echo \"unknown cmd=$cmd\" >&2\n                exit 2\n                ;;\n            esac\n", log);
+    }
+
+    private static void makeExecutable(Path script) throws IOException {
+        try {
+            Set<PosixFilePermission> perms = EnumSet.of(
+                    PosixFilePermission.OWNER_READ,
+                    PosixFilePermission.OWNER_WRITE,
+                    PosixFilePermission.OWNER_EXECUTE);
+            Files.setPosixFilePermissions(script, perms);
+        } catch (UnsupportedOperationException ex) {
+            script.toFile().setExecutable(true);
+        }
     }
 
     /**
@@ -103,22 +121,5 @@ public final class MockDreaminaCli {
 
     public Path scriptPath() {
         return scriptPath;
-    }
-
-    private static String buildScript(Path logPath) {
-        String log = logPath.toAbsolutePath().toString().replace("'", "'\\''");
-        return String.format("#!/usr/bin/env bash\n            set -euo pipefail\n            LOG='%s'\n            printf '%%s\\n' \"$*\" >> \"$LOG\"\n            cmd=\"${1:-}\"\n            shift || true\n\n            case \"$cmd\" in\n              help)\n                echo \"Usage: dreamina help [flags]\"\n                ;;\n              version)\n                echo '{\"version\":\"c58a6a2-dirty\",\"commit\":\"c58a6a2\",\"build_time\":\"2026-05-07T09:52:59Z\"}'\n                ;;\n              user_credit)\n                echo '{\"total_credit\":4388,\"user_id\":1552973852847448,\"user_name\":\"\",\"vip_level\":\"maestro\"}'\n                ;;\n              login)\n                sub=\"${1:-}\"\n                if [ \"$sub\" = \"checklogin\" ]; then\n                  :\n                elif printf '%%s' \"$*\" | grep -q -- '--headless'; then\n                  if printf '%%s' \"$*\" | grep -q -- '--mock-device-flow'; then\n                    echo '{\"verification_uri\":\"https://mock/login\",\"user_code\":\"MOCK\",\"device_code\":\"dev-mock\"}'\n                  else\n                    echo '已复用当前本地 OAuth 登录态。'\n                  fi\n                else\n                  cat <<'EOF'\n已复用当前本地 OAuth 登录态。\n当前登录账户信息：\nuser_id: 1552973852847448\nvip_level: maestro\ntotal_credit: 4391\nEOF\n                fi\n                ;;\n              logout)\n                echo '已清除本地登录态。'\n                ;;\n              relogin)\n                cat <<'EOF'\n请使用浏览器完成 OAuth Device Flow 登录。\nverification_uri: https://jimeng.jianying.com/ai-tool/cli-auth\nuser_code: 88d38543ef407cb0a01a61088ec0d32c\ndevice_code: 662eef8f79b0ee3c20d7222c5ec28ed3\npoll_interval: 1s\nexpires_at: 2026-05-26T05:38:58Z\nEOF\n                ;;\n              session)\n                sub=\"${1:-}\"\n                shift || true\n                case \"$sub\" in\n                  create)\n                    echo 'Created session \"mock-session\" (ID: 10001)'\n                    ;;\n                  list|ls)\n                    cat <<'EOF'\nID              NAME                        PINNED  UPDATED_AT\n--------------  --------------------------  ------  ----------------\n10001           mock-session                No      2026-05-14 10:44\nEOF\n                    ;;\n                  search|find)\n                    cat <<'EOF'\nFound 1 sessions containing \"mock\":\nID  NAME          UPDATED_AT\n--  ------------  ----------------\n10001 mock-session 2026-05-14 10:44\nEOF\n                    ;;\n                  rename|update)\n                    echo 'Renamed session 10001 to \"mock-renamed\"'\n                    ;;\n                  delete|rm)\n                    echo 'deleted'\n                    ;;\n                  \"\")\n                    cat <<'EOF'\nUsage:\n  dreamina session [flags]\n\nManage Dreamina sessions (create, list, search, rename, delete).\nEOF\n                    ;;\n                  *)\n                    echo \"session sub=$sub\"\n                    ;;\n                esac\n                ;;\n              list_task)\n                echo '[{\"submit_id\":\"mock-submit-1\",\"gen_task_type\":\"text2image\",\"gen_status\":\"success\",\"fail_reason\":\"\",\"result_json\":{\"images\":[{\"width\":1024,\"height\":1024}],\"videos\":[]},\"commerce_info\":{\"credit_count\":0,\"triplet\":{\"resource_type\":\"\",\"resource_id\":\"\",\"benefit_type\":\"\"},\"triplets\":[{\"resource_type\":\"aigc\",\"resource_id\":\"generate_img\",\"benefit_type\":\"image_uhd_4k\"}]}}]'\n                ;;\n              query_result)\n                echo '{\"submit_id\":\"mock-submit-1\",\"gen_status\":\"success\",\"credit_count\":3,\"result_json\":{\"images\":[{\"image_url\":\"https://mock/img.png\",\"width\":2048,\"height\":2048}],\"videos\":[]},\"queue_info\":{\"queue_idx\":0,\"priority\":1,\"queue_status\":\"Finish\",\"queue_length\":0}}'\n                ;;\n              text2image|text2video|image2image|image_upscale|image2video|frames2video|multiframe2video|multimodal2video)\n                echo '{\"submit_id\":\"mock-gen-1\",\"logid\":\"202605260533251720170000026033C60\",\"gen_status\":\"querying\",\"credit_count\":3}'\n                ;;\n              __exit_nonzero)\n                echo 'fail' >&2\n                exit 7\n                ;;\n              __exit_one)\n                exit 1\n                ;;\n              __sleep_forever)\n                sleep 60\n                ;;\n              *)\n                echo \"unknown cmd=$cmd\" >&2\n                exit 2\n                ;;\n            esac\n", log);
-    }
-
-    private static void makeExecutable(Path script) throws IOException {
-        try {
-            Set<PosixFilePermission> perms = EnumSet.of(
-                PosixFilePermission.OWNER_READ,
-                PosixFilePermission.OWNER_WRITE,
-                PosixFilePermission.OWNER_EXECUTE);
-            Files.setPosixFilePermissions(script, perms);
-        } catch (UnsupportedOperationException ex) {
-            script.toFile().setExecutable(true);
-        }
     }
 }

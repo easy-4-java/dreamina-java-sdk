@@ -14,11 +14,10 @@ import lombok.Getter;
  * and the caller can still read the raw text via {@link #getStdout()} / {@link #getStderr()}.
  * </p>
  *
- * @see DreaminaCliResult
- * @see io.github.easy4j.dreamina.cli.parser.DreaminaCliStructuredPayloadMapper
- *
  * @param <T> 本命令解析体类型（如 {@link io.github.easy4j.dreamina.cli.model.DreaminaVersion}）
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaCliResult
+ * @see io.github.easy4j.dreamina.cli.parser.DreaminaCliStructuredPayloadMapper
  * @since 3.0.0
  */
 @Getter
@@ -52,14 +51,14 @@ public final class DreaminaCliResponse<T> {
      */
     public static <T> DreaminaCliResponse<T> of(DreaminaCliResult raw, T body, JsonNode json) {
         return DreaminaCliResponse.<T>builder()
-            .stdout(raw.getStdout())
-            .stderr(raw.getStderr())
-            .exitCode(raw.getExitCode())
-            .success(raw.isSuccess())
-            .parsed(raw.getParsed())
-            .body(body)
-            .json(json)
-            .build();
+                .stdout(raw.getStdout())
+                .stderr(raw.getStderr())
+                .exitCode(raw.getExitCode())
+                .success(raw.isSuccess())
+                .parsed(raw.getParsed())
+                .body(body)
+                .json(json)
+                .build();
     }
 
     /**

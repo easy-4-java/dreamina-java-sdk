@@ -1,24 +1,14 @@
 package io.github.easy4j.dreamina.cli;
 
-import io.github.easy4j.dreamina.cli.opts.DreaminaImageModelVersion;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImageResolutionType;
-import io.github.easy4j.dreamina.cli.opts.DreaminaRatio;
-import io.github.easy4j.dreamina.cli.opts.DreaminaVideoModelVersion;
-import io.github.easy4j.dreamina.cli.opts.DreaminaVideoResolutionType;
-
 import io.github.easy4j.dreamina.cli.model.DreaminaDeviceLogin;
 import io.github.easy4j.dreamina.cli.support.MockDreaminaCli;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.nio.file.Path;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 覆盖 {@link DreaminaCliExecutor} 无参 overload、additionalRawArgs 与 *Info/*Submit 快捷方法。
@@ -37,159 +27,194 @@ class DreaminaCliExecutorOverloadsMockTest {
         tinyPng = mockCli.newTinyPng("tiny.png");
     }
 
-    @Test void sessionNoArgsOverload() throws Exception {
+    @Test
+    void sessionNoArgsOverload() throws Exception {
         assertTrue(executor.session().isSuccess());
     }
 
-    @Test void sessionCreateNoArgsOverload() throws Exception {
+    @Test
+    void sessionCreateNoArgsOverload() throws Exception {
         assertTrue(executor.sessionCreate().isSuccess());
         assertNotNull(executor.sessionCreateInfo().getBody().getSessionId());
     }
 
-    @Test void sessionListNoArgsOverload() throws Exception {
+    @Test
+    void sessionListNoArgsOverload() throws Exception {
         assertTrue(executor.sessionList().isSuccess());
         assertTrue(executor.sessionListInfo().getBody().getRows().size() >= 1);
     }
 
-    @Test void listTaskNoArgsOverload() throws Exception {
+    @Test
+    void listTaskNoArgsOverload() throws Exception {
         assertTrue(executor.listTask().isSuccess());
     }
 
-    @Test void logoutNoArgsOverload() throws Exception {
+    @Test
+    void logoutNoArgsOverload() throws Exception {
         assertTrue(executor.logout().isSuccess());
     }
 
-    @Test void reloginNoArgsOverload() throws Exception {
+    @Test
+    void reloginNoArgsOverload() throws Exception {
         assertTrue(executor.relogin().isSuccess());
     }
 
-    @Test void loginWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void loginWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.login(java.util.Arrays.asList("--verbose")).isSuccess());
     }
 
-    @Test void loginHeadlessWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void loginHeadlessWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.loginHeadless(java.util.Arrays.asList("--headless")).isSuccess());
         assertNotNull(executor.loginHeadlessInfo(java.util.Arrays.asList("--headless")).getBody());
     }
 
-    @Test void checkLoginWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void checkLoginWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.checkLogin("dev-mock", 30, java.util.Arrays.asList("--verbose")).isSuccess());
     }
 
-    @Test void logoutWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void logoutWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.relogin(java.util.Arrays.asList("--force")).isSuccess());
     }
 
-    @Test void sessionSearchSingleArgOverload() throws Exception {
+    @Test
+    void sessionSearchSingleArgOverload() throws Exception {
         assertEquals(1, executor.sessionSearchInfo("mock").getBody().safeRows().size());
     }
 
-    @Test void sessionSearchInfoWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void sessionSearchInfoWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.sessionSearchInfo("mock", java.util.Arrays.asList("-n=5")).getBody().safeRows().size() >= 1);
     }
 
-    @Test void sessionRenameWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void sessionRenameWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.sessionRename("10001", "x", java.util.Arrays.asList("--verbose")).isSuccess());
         assertNotNull(executor.sessionRenameInfo("10001", "x", java.util.Arrays.asList("--verbose")).getBody());
     }
 
-    @Test void sessionDeleteWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void sessionDeleteWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.sessionDelete("10001", java.util.Arrays.asList("--force")).isSuccess());
     }
 
-    @Test void queryResultWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void queryResultWithAdditionalArgsOverload() throws Exception {
         assertTrue(executor.queryResult("mock-submit-1", java.util.Arrays.asList("--download_dir=./dl")).isSuccess());
         assertNotNull(executor.queryResultInfo("mock-submit-1", java.util.Arrays.asList("--download_dir=./dl")).getBody());
     }
 
-    @Test void invokeWithNullAdditionalArgsOverload() throws Exception {
+    @Test
+    void invokeWithNullAdditionalArgsOverload() throws Exception {
         assertTrue(executor.invoke(DreaminaCliSubcommands.Builtin.HELP, null).isSuccess());
     }
 
-    @Test void deviceLoginMaterialOverload() throws Exception {
+    @Test
+    void deviceLoginMaterialOverload() throws Exception {
         DreaminaCliResult raw = executor.loginHeadless(java.util.Arrays.asList("--mock-device-flow"));
         DreaminaCliResponse<DreaminaDeviceLogin> typed = executor.deviceLoginMaterial(raw);
         assertNotNull(typed.getBody().getDeviceCode());
         assertNotNull(typed.getBody().getVerificationUri());
     }
 
-    @Test void text2ImagePromptOnlyOverload() throws Exception {
+    @Test
+    void text2ImagePromptOnlyOverload() throws Exception {
         assertTrue(executor.text2Image("solo-prompt").isSuccess());
     }
 
-    @Test void text2videoPromptOnlyOverload() throws Exception {
+    @Test
+    void text2videoPromptOnlyOverload() throws Exception {
         assertTrue(executor.text2video("solo-video").isSuccess());
     }
 
-    @Test void imageUpscaleNoArgsOverload() throws Exception {
+    @Test
+    void imageUpscaleNoArgsOverload() throws Exception {
         assertTrue(executor.imageUpscale().isSuccess());
     }
 
-    @Test void frames2videoNoArgsOverload() throws Exception {
+    @Test
+    void frames2videoNoArgsOverload() throws Exception {
         assertTrue(executor.frames2video().isSuccess());
     }
 
-    @Test void multiframe2videoNoArgsOverload() throws Exception {
+    @Test
+    void multiframe2videoNoArgsOverload() throws Exception {
         assertTrue(executor.multiframe2video().isSuccess());
     }
 
-    @Test void multimodal2videoNoArgsOverload() throws Exception {
+    @Test
+    void multimodal2videoNoArgsOverload() throws Exception {
         assertTrue(executor.multimodal2video().isSuccess());
     }
 
-    @Test void image2videoWithoutPromptOverload() throws Exception {
+    @Test
+    void image2videoWithoutPromptOverload() throws Exception {
         assertThrows(IllegalArgumentException.class,
-            () -> executor.image2video(tinyPng.toString(), java.util.Arrays.asList("--poll=0")));
+                () -> executor.image2video(tinyPng.toString(), java.util.Arrays.asList("--poll=0")));
     }
 
-    @Test void text2ImageSubmitRawArgsOverload() throws Exception {
+    @Test
+    void text2ImageSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.text2ImageSubmit("cat", java.util.Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
-    @Test void image2ImageSubmitRawArgsOverload() throws Exception {
+    @Test
+    void image2ImageSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.image2ImageSubmit(
-            tinyPng.toString(), "style", java.util.Arrays.asList("--poll=0")).getBody().getSubmitId());
+                tinyPng.toString(), "style", java.util.Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
-    @Test void imageUpscaleSubmitRawArgsOverload() throws Exception {
+    @Test
+    void imageUpscaleSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.imageUpscaleSubmit(java.util.Arrays.asList("--image=" + tinyPng, "--poll=0"))
-            .getBody().getSubmitId());
+                .getBody().getSubmitId());
     }
 
-    @Test void text2VideoSubmitRawArgsOverload() throws Exception {
+    @Test
+    void text2VideoSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.text2VideoSubmit("run", java.util.Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
-    @Test void image2VideoSubmitRawArgsOverload() throws Exception {
+    @Test
+    void image2VideoSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.image2VideoSubmit(
-            tinyPng.toString(), "zoom", java.util.Arrays.asList("--poll=0")).getBody().getSubmitId());
+                tinyPng.toString(), "zoom", java.util.Arrays.asList("--poll=0")).getBody().getSubmitId());
     }
 
-    @Test void frames2VideoSubmitRawArgsOverload() throws Exception {
+    @Test
+    void frames2VideoSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.frames2VideoSubmit(java.util.Arrays.asList(
-            "--first=" + tinyPng, "--last=" + tinyPng, "--poll=0")).getBody().getSubmitId());
+                "--first=" + tinyPng, "--last=" + tinyPng, "--poll=0")).getBody().getSubmitId());
     }
 
-    @Test void multiframe2VideoSubmitRawArgsOverload() throws Exception {
+    @Test
+    void multiframe2VideoSubmitRawArgsOverload() throws Exception {
         Path second = mockCli.newTinyPng("tiny3.png");
         assertNotNull(executor.multiframe2VideoSubmit(java.util.Arrays.asList(
-            "--images=" + tinyPng + "," + second, "--poll=0")).getBody().getSubmitId());
+                "--images=" + tinyPng + "," + second, "--poll=0")).getBody().getSubmitId());
     }
 
-    @Test void multimodal2VideoSubmitRawArgsOverload() throws Exception {
+    @Test
+    void multimodal2VideoSubmitRawArgsOverload() throws Exception {
         assertNotNull(executor.multimodal2VideoSubmit(java.util.Arrays.asList(
-            "--image=" + tinyPng, "--prompt=p", "--poll=0")).getBody().getSubmitId());
+                "--image=" + tinyPng, "--prompt=p", "--poll=0")).getBody().getSubmitId());
     }
 
-    @Test void appendCleanArgsSkipsBlankAndNullElements() throws Exception {
+    @Test
+    void appendCleanArgsSkipsBlankAndNullElements() throws Exception {
         assertTrue(executor.login(Arrays.asList(null, "  ", "--verbose")).isSuccess());
     }
 
-    @Test void listTaskInfoWithAdditionalArgsOverload() throws Exception {
+    @Test
+    void listTaskInfoWithAdditionalArgsOverload() throws Exception {
         assertNotNull(executor.listTaskInfo(java.util.Arrays.asList("--gen_status=success")).getBody());
     }
 
-    @Test void helpInfoSubcommandOnlyOverload() throws Exception {
+    @Test
+    void helpInfoSubcommandOnlyOverload() throws Exception {
         assertNotNull(executor.helpInfo("text2image").getBody());
     }
 }

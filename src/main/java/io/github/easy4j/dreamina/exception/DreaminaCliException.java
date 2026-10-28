@@ -10,23 +10,24 @@ import lombok.Getter;
  * allowing the upper layer to decide whether to retry, degrade, or alert; does not couple business copy.
  * </p>
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliResult
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliResult
  * @since 3.0.0
  */
 @Getter
 public class DreaminaCliException extends RuntimeException {
 
-    /** The latest observable result (e.g., output captured before a timeout or non-zero exit) */
+    /**
+     * The latest observable result (e.g., output captured before a timeout or non-zero exit)
+     */
     private final DreaminaCliResult partialResult;
 
     /**
      * Constructs a Dreamina CLI execution exception.
      *
-     * @param message        Technical description (for logging)
-     * @param cause          Root cause
-     * @param partialResult  The result snapshot formed before the failure, or null if unavailable
+     * @param message       Technical description (for logging)
+     * @param cause         Root cause
+     * @param partialResult The result snapshot formed before the failure, or null if unavailable
      */
     public DreaminaCliException(String message, Throwable cause, DreaminaCliResult partialResult) {
         super(message, cause);

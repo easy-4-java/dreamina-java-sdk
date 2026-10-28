@@ -29,7 +29,7 @@ class DreaminaCliOutputParserTest {
     @Test
     void parseBestEffort_shouldReadTotalCreditFromCompactJson() {
         DreaminaParsedFields f =
-            DreaminaCliOutputParser.parseBestEffort("{\"total_credit\":42,\"user_id\":1}", "");
+                DreaminaCliOutputParser.parseBestEffort("{\"total_credit\":42,\"user_id\":1}", "");
         assertEquals(42L, f.getCredit());
     }
 
@@ -39,7 +39,7 @@ class DreaminaCliOutputParserTest {
     @Test
     void parseBestEffort_shouldFallbackToKeyValueCreditText() {
         DreaminaParsedFields f =
-            DreaminaCliOutputParser.parseBestEffort("User credits: 100\n", "");
+                DreaminaCliOutputParser.parseBestEffort("User credits: 100\n", "");
         assertEquals(100L, f.getCredit());
     }
 

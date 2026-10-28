@@ -1,6 +1,5 @@
 package io.github.easy4j.dreamina.cli;
 
-import io.github.easy4j.dreamina.cli.DreaminaCliExecutor;
 import io.github.easy4j.dreamina.cli.parser.DreaminaParsedFields;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,10 +14,9 @@ import lombok.Getter;
  * {@link #success} is {@code true} on the normal return path.
  * </p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaCliExecutor
  * @see DreaminaCliResponse
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

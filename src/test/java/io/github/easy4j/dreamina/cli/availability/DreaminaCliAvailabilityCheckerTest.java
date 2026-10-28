@@ -3,13 +3,12 @@ package io.github.easy4j.dreamina.cli.availability;
 import io.github.easy4j.dreamina.DreaminaCliProperties;
 import io.github.easy4j.dreamina.cli.DreaminaCliExecutor;
 import io.github.easy4j.dreamina.cli.support.MockDreaminaCli;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link DreaminaCliAvailabilityChecker} 单元测试。

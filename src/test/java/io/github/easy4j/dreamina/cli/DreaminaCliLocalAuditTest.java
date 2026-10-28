@@ -1,17 +1,14 @@
 package io.github.easy4j.dreamina.cli;
 
 import io.github.easy4j.dreamina.DreaminaCliProperties;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionList;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionRow;
-import io.github.easy4j.dreamina.cli.model.DreaminaTaskItem;
-import io.github.easy4j.dreamina.cli.model.DreaminaUserCredit;
-import io.github.easy4j.dreamina.cli.model.DreaminaVersion;
+import io.github.easy4j.dreamina.cli.model.*;
 import io.github.easy4j.dreamina.exception.DreaminaCliException;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -120,7 +117,7 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditSessionList() {
         DreaminaCliResponse<DreaminaSessionList> r =
-            executor.sessionListInfo(java.util.Arrays.asList("-n", "5"));
+                executor.sessionListInfo(java.util.Arrays.asList("-n", "5"));
         assumeTrue(r.isSuccess(), "session list failed: " + r.getCombinedText());
         List<DreaminaSessionRow> rows = r.getBody().safeRows();
         assumeTrue(!rows.isEmpty(), "session list returned no rows (empty account?)");
@@ -133,7 +130,7 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditListTask() {
         DreaminaCliResponse<List<DreaminaTaskItem>> r =
-            executor.listTaskInfo(java.util.Arrays.asList("--limit", "3"));
+                executor.listTaskInfo(java.util.Arrays.asList("--limit", "3"));
         assumeTrue(r.isSuccess(), "list_task failed: " + r.getCombinedText());
         assertNotNull(r.getBody());
         assumeTrue(!r.getBody().isEmpty(), "list_task returned empty array");
@@ -158,9 +155,9 @@ class DreaminaCliLocalAuditTest {
     @Test
     void auditQueryResultFromListTask() {
         DreaminaCliResponse<List<DreaminaTaskItem>> list =
-            executor.listTaskInfo(java.util.Arrays.asList("--limit", "1"));
+                executor.listTaskInfo(java.util.Arrays.asList("--limit", "1"));
         assumeTrue(list.isSuccess() && list.getBody() != null && !list.getBody().isEmpty(),
-            "list_task empty — skip query_result audit");
+                "list_task empty — skip query_result audit");
         String submitId = list.getBody().get(0).getSubmitId();
         assumeTrue(submitId != null && !submitId.trim().isEmpty());
         DreaminaCliResponse<?> qr = executor.queryResultInfo(submitId);

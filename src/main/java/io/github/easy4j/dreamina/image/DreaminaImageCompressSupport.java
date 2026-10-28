@@ -16,10 +16,9 @@ import java.util.Objects;
  * <p>Follows the pattern of playwright-spring-boot-starter {@code WkhtmlToImageBufferRenderStrategy#compressScreenshot}:
  * reads from a byte stream, applies {@code scale} + {@code outputQuality}, and writes back to a byte array.</p>
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaImageCompressOptions
  * @see DreaminaImageCompressResult
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 public final class DreaminaImageCompressSupport {
@@ -57,7 +56,7 @@ public final class DreaminaImageCompressSupport {
      * @throws IOException 图片Unreadable或Encoding failed
      */
     public static DreaminaImageCompressResult compress(byte[] source, String formatHint,
-            DreaminaImageCompressOptions options) throws IOException {
+                                                       DreaminaImageCompressOptions options) throws IOException {
         Objects.requireNonNull(source, "source");
         if (options == null || !options.isEnabled() || source.length == 0) {
             return DreaminaImageCompressResult.builder()
@@ -85,7 +84,7 @@ public final class DreaminaImageCompressSupport {
      * @throws IOException 编码失败
      */
     public static DreaminaImageCompressResult compress(BufferedImage image, String formatHint,
-            DreaminaImageCompressOptions options) throws IOException {
+                                                       DreaminaImageCompressOptions options) throws IOException {
         Objects.requireNonNull(image, "image");
         if (options == null || !options.isEnabled()) {
             String outputFormat = resolveOutputFormat(formatHint, null);
@@ -125,15 +124,15 @@ public final class DreaminaImageCompressSupport {
     /**
      * Applies Thumbnailator compression to a decoded image and encodes to bytes (single in-memory pass, no repeated stream reads).
      *
-     * @param image           Decoded original image
+     * @param image            Decoded original image
      * @param originalByteSize Original byte length (for result summary)
-     * @param formatHint      格式提示
-     * @param options         Compression options (confirmed enabled)
+     * @param formatHint       格式提示
+     * @param options          Compression options (confirmed enabled)
      * @return 压缩结果
      * @throws IOException Compression or encoding failed
      */
     private static DreaminaImageCompressResult compressDecoded(BufferedImage image, int originalByteSize,
-            String formatHint, DreaminaImageCompressOptions options) throws IOException {
+                                                               String formatHint, DreaminaImageCompressOptions options) throws IOException {
         double scale = normalizeScale(options.getScale());
         int quality = clampQuality(options.getQuality());
         String outputFormat = resolveOutputFormat(formatHint, null);
@@ -239,7 +238,7 @@ public final class DreaminaImageCompressSupport {
     /**
      * Infers the ImageIO output format name from a URL/filename suffix.
      *
-     * @param formatHint   Suffix or format name
+     * @param formatHint    Suffix or format name
      * @param defaultFormat Default format
      * @return jpg / png / gif / bmp
      */

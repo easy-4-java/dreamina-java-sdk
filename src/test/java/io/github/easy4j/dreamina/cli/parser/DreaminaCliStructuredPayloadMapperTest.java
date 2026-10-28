@@ -2,34 +2,16 @@ package io.github.easy4j.dreamina.cli.parser;
 
 import io.github.easy4j.dreamina.cli.DreaminaCliResponse;
 import io.github.easy4j.dreamina.cli.DreaminaCliResult;
-import io.github.easy4j.dreamina.cli.model.DreaminaCheckLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaDeviceLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaGenerateSubmit;
-import io.github.easy4j.dreamina.cli.model.DreaminaHelp;
-import io.github.easy4j.dreamina.cli.model.DreaminaLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaLogout;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryQueueDebugInfo;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryResult;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryVideo;
-import io.github.easy4j.dreamina.cli.model.DreaminaRelogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionList;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionMutation;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionSearch;
-import io.github.easy4j.dreamina.cli.model.DreaminaTaskItem;
-import io.github.easy4j.dreamina.cli.model.DreaminaUserCredit;
-import io.github.easy4j.dreamina.cli.model.DreaminaVersion;
+import io.github.easy4j.dreamina.cli.model.*;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link DreaminaCliStructuredPayloadMapper} 单元测试：复用真实 CLI JSON / 表格快照片段。
@@ -68,12 +50,12 @@ class DreaminaCliStructuredPayloadMapperTest {
      */
     private static DreaminaCliResult jsonStdout(String stdout) {
         return DreaminaCliResult.builder()
-            .stdout(stdout)
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(stdout)
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
     }
 
     /**
@@ -82,13 +64,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapVersion_shouldReadKnownFields() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "{\n  \"version\": \"c58a6a2-dirty\",\n  \"commit\": \"c58a6a2\",\n  \"build_time\": \"2026-05-07T09:52:59Z\"\n}\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "{\n  \"version\": \"c58a6a2-dirty\",\n  \"commit\": \"c58a6a2\",\n  \"build_time\": \"2026-05-07T09:52:59Z\"\n}\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliStructuredPayloadMapper mapper = new DreaminaCliStructuredPayloadMapper();
         DreaminaCliResponse<DreaminaVersion> response = mapper.mapVersion(raw);
         DreaminaVersion v = response.getBody();
@@ -105,15 +87,15 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapUserCredit_shouldParseProductionResponse() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "{\n  \"total_credit\": 4388,\n  \"user_id\": 1552973852847448,\n  \"user_name\": \"\",\n  \"vip_level\": \"maestro\"\n}\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "{\n  \"total_credit\": 4388,\n  \"user_id\": 1552973852847448,\n  \"user_name\": \"\",\n  \"vip_level\": \"maestro\"\n}\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<DreaminaUserCredit> response =
-            new DreaminaCliStructuredPayloadMapper().mapUserCredit(raw);
+                new DreaminaCliStructuredPayloadMapper().mapUserCredit(raw);
         DreaminaUserCredit body = response.getBody();
         assertNotNull(body);
         assertEquals(4388L, body.getTotalCredit().longValue());
@@ -129,15 +111,15 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapGenerateSubmit_shouldParseProductionText2ImageResponse() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "{\n  \"submit_id\": \"851e46ee-d199-42aa-917e-b2a57095a54d\",\n  \"logid\": \"202605260533251720170000026033C60\",\n  \"gen_status\": \"querying\",\n  \"credit_count\": 3\n}\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "{\n  \"submit_id\": \"851e46ee-d199-42aa-917e-b2a57095a54d\",\n  \"logid\": \"202605260533251720170000026033C60\",\n  \"gen_status\": \"querying\",\n  \"credit_count\": 3\n}\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<DreaminaGenerateSubmit> response =
-            new DreaminaCliStructuredPayloadMapper().mapGenerateSubmit(raw);
+                new DreaminaCliStructuredPayloadMapper().mapGenerateSubmit(raw);
         DreaminaGenerateSubmit dto = response.getBody();
         assertEquals("851e46ee-d199-42aa-917e-b2a57095a54d", dto.getSubmitId());
         assertEquals("202605260533251720170000026033C60", dto.getLogid());
@@ -152,15 +134,15 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapTaskList_shouldCountArrayElements() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "[\n  {\"submit_id\":\"a\",\"gen_status\":\"querying\"},\n  {\"submit_id\":\"b\",\"gen_status\":\"success\"}\n]\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "[\n  {\"submit_id\":\"a\",\"gen_status\":\"querying\"},\n  {\"submit_id\":\"b\",\"gen_status\":\"success\"}\n]\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<List<DreaminaTaskItem>> response =
-            new DreaminaCliStructuredPayloadMapper().mapTaskList(raw);
+                new DreaminaCliStructuredPayloadMapper().mapTaskList(raw);
         List<DreaminaTaskItem> tasks = response.getBody();
         assertEquals(2, tasks.size());
         assertEquals("a", tasks.get(0).getSubmitId());
@@ -174,15 +156,15 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapTaskList_shouldParseProductionCommerceAndResultJson() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "[\n  {\n    \"submit_id\": \"929efc4b-b0a5-4d35-9077-7e3596e74c95\",\n    \"gen_task_type\": \"text2image\",\n    \"gen_status\": \"success\",\n    \"fail_reason\": \"\",\n    \"result_json\": {\n      \"images\": [{\"width\": 3520, \"height\": 4693}],\n      \"videos\": []\n    },\n    \"commerce_info\": {\n      \"credit_count\": 0,\n      \"triplet\": {\n        \"resource_type\": \"\",\n        \"resource_id\": \"\",\n        \"benefit_type\": \"\"\n      },\n      \"triplets\": [\n        {\n          \"resource_type\": \"aigc\",\n          \"resource_id\": \"generate_img\",\n          \"benefit_type\": \"image_uhd_4k\"\n        }\n      ]\n    }\n  }\n]\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "[\n  {\n    \"submit_id\": \"929efc4b-b0a5-4d35-9077-7e3596e74c95\",\n    \"gen_task_type\": \"text2image\",\n    \"gen_status\": \"success\",\n    \"fail_reason\": \"\",\n    \"result_json\": {\n      \"images\": [{\"width\": 3520, \"height\": 4693}],\n      \"videos\": []\n    },\n    \"commerce_info\": {\n      \"credit_count\": 0,\n      \"triplet\": {\n        \"resource_type\": \"\",\n        \"resource_id\": \"\",\n        \"benefit_type\": \"\"\n      },\n      \"triplets\": [\n        {\n          \"resource_type\": \"aigc\",\n          \"resource_id\": \"generate_img\",\n          \"benefit_type\": \"image_uhd_4k\"\n        }\n      ]\n    }\n  }\n]\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<List<DreaminaTaskItem>> response =
-            new DreaminaCliStructuredPayloadMapper().mapTaskList(raw);
+                new DreaminaCliStructuredPayloadMapper().mapTaskList(raw);
         assertEquals(1, response.getBody().size());
         DreaminaTaskItem item = response.getBody().get(0);
         assertEquals("929efc4b-b0a5-4d35-9077-7e3596e74c95", item.getSubmitId());
@@ -202,15 +184,15 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapQueryResult_shouldMapTypedNestedPayload() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "{\n  \"submit_id\": \"2fcc4089-f0d3-479c-a42f-f73c838cc626\",\n  \"gen_status\": \"success\",\n  \"fail_reason\": \"\",\n  \"result_json\": {\"images\": []},\n  \"queue_info\": {\"queue_status\": \"Finish\"}\n}\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().submitId("ignored").build())
-            .build();
+                .stdout(
+                        "{\n  \"submit_id\": \"2fcc4089-f0d3-479c-a42f-f73c838cc626\",\n  \"gen_status\": \"success\",\n  \"fail_reason\": \"\",\n  \"result_json\": {\"images\": []},\n  \"queue_info\": {\"queue_status\": \"Finish\"}\n}\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().submitId("ignored").build())
+                .build();
         DreaminaCliResponse<DreaminaQueryResult> response =
-            new DreaminaCliStructuredPayloadMapper().mapQueryResult(raw);
+                new DreaminaCliStructuredPayloadMapper().mapQueryResult(raw);
         DreaminaQueryResult q = response.getBody();
         assertNotNull(q);
         assertEquals("2fcc4089-f0d3-479c-a42f-f73c838cc626", q.getSubmitId());
@@ -229,13 +211,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapQueryResult_shouldMapProductionLikePayload() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "{\n  \"submit_id\": \"851e46ee-d199-42aa-917e-b2a57095a54d\",\n  \"gen_status\": \"success\",\n  \"result_json\": {\n    \"images\": [\n      {\n        \"image_url\": \"https://p11-dreamina-sign.byteimg.com/tos-cn-i-tb4s082cfz/ea523ee1fdcd4f309ff3e19f511edc9d~tplv-tb4s082cfz-aigc_resize:0:0.png?lk3s=7c3bb0db&x-expires=1779778800&x-signature=OBRi3zPLMEI9PRU%2Fz2T2lrFF5dI%3D&format=.png\",\n        \"width\": 2048,\n        \"height\": 2048\n      }\n    ],\n    \"videos\": []\n  },\n  \"credit_count\": 3,\n  \"queue_info\": {\n    \"queue_idx\": 0,\n    \"priority\": 1,\n    \"queue_status\": \"Finish\",\n    \"queue_length\": 0,\n    \"debug_info\": \"{\\\"have_no_dreamina_queue_name\\\":true,\\\"dreamina_matrix_queue_name\\\":\\\"\\\",\\\"dreamina_matrix_req_key\\\":\\\"\\\",\\\"dreamina_matrix_second_req_key\\\":\\\"\\\",\\\"have_no_queue_name\\\":false,\\\"queue_name\\\":\\\"high_aes_general_v50\\\",\\\"matrix_req_key\\\":\\\"MImageGen:high_aes_general_v50\\\",\\\"matrix_second_req_key\\\":\\\"\\\"}\"\n  }\n}\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "{\n  \"submit_id\": \"851e46ee-d199-42aa-917e-b2a57095a54d\",\n  \"gen_status\": \"success\",\n  \"result_json\": {\n    \"images\": [\n      {\n        \"image_url\": \"https://p11-dreamina-sign.byteimg.com/tos-cn-i-tb4s082cfz/ea523ee1fdcd4f309ff3e19f511edc9d~tplv-tb4s082cfz-aigc_resize:0:0.png?lk3s=7c3bb0db&x-expires=1779778800&x-signature=OBRi3zPLMEI9PRU%2Fz2T2lrFF5dI%3D&format=.png\",\n        \"width\": 2048,\n        \"height\": 2048\n      }\n    ],\n    \"videos\": []\n  },\n  \"credit_count\": 3,\n  \"queue_info\": {\n    \"queue_idx\": 0,\n    \"priority\": 1,\n    \"queue_status\": \"Finish\",\n    \"queue_length\": 0,\n    \"debug_info\": \"{\\\"have_no_dreamina_queue_name\\\":true,\\\"dreamina_matrix_queue_name\\\":\\\"\\\",\\\"dreamina_matrix_req_key\\\":\\\"\\\",\\\"dreamina_matrix_second_req_key\\\":\\\"\\\",\\\"have_no_queue_name\\\":false,\\\"queue_name\\\":\\\"high_aes_general_v50\\\",\\\"matrix_req_key\\\":\\\"MImageGen:high_aes_general_v50\\\",\\\"matrix_second_req_key\\\":\\\"\\\"}\"\n  }\n}\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaQueryResult q = new DreaminaCliStructuredPayloadMapper().mapQueryResult(raw).getBody();
         assertEquals("851e46ee-d199-42aa-917e-b2a57095a54d", q.getSubmitId());
         assertTrue(q.isGenSuccess());
@@ -267,13 +249,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapSessionList_shouldParseRows() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "ID              NAME                        PINNED  UPDATED_AT\n--------------  --------------------------  ------  ----------------\n0               default                     Yes     2026-05-14 19:39\n12978322779916  产康图片修改及比例生成      No      2026-05-14 10:44\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "ID              NAME                        PINNED  UPDATED_AT\n--------------  --------------------------  ------  ----------------\n0               default                     Yes     2026-05-14 19:39\n12978322779916  产康图片修改及比例生成      No      2026-05-14 10:44\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaSessionList list = new DreaminaCliStructuredPayloadMapper().mapSessionList(raw).getBody();
         assertEquals(2, list.getRows().size());
         assertEquals("0", list.getRows().get(0).getId());
@@ -287,15 +269,15 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapSessionSearch_shouldParseMatches() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "Found 1 sessions containing \"default\":\nID  NAME     UPDATED_AT\n--  -------  ----------------\n0   default  2026-05-14 19:39\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "Found 1 sessions containing \"default\":\nID  NAME     UPDATED_AT\n--  -------  ----------------\n0   default  2026-05-14 19:39\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaSessionSearch s =
-            new DreaminaCliStructuredPayloadMapper().mapSessionSearch("default", raw).getBody();
+                new DreaminaCliStructuredPayloadMapper().mapSessionSearch("default", raw).getBody();
         assertEquals(1, s.safeRows().size());
         assertEquals("0", s.safeRows().get(0).getId());
         assertNull(s.safeRows().get(0).getPinned());
@@ -308,23 +290,23 @@ class DreaminaCliStructuredPayloadMapperTest {
     void mapSessionMutation_shouldParseCreateAndRename() {
         DreaminaCliStructuredPayloadMapper mapper = new DreaminaCliStructuredPayloadMapper();
         DreaminaCliResult created = DreaminaCliResult.builder()
-            .stdout("Created session \"cli-smoke-1778855407\" (ID: 13069437163532)\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("Created session \"cli-smoke-1778855407\" (ID: 13069437163532)\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaSessionMutation c = mapper.mapSessionMutation(created).getBody();
         assertEquals(DreaminaSessionMutation.Kind.CREATE, c.getKind());
         assertEquals("13069437163532", c.getSessionId());
 
         DreaminaCliResult renamed = DreaminaCliResult.builder()
-            .stdout("Renamed session 13069437163532 to \"cli-smoke-renamed\"\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("Renamed session 13069437163532 to \"cli-smoke-renamed\"\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaSessionMutation r = mapper.mapSessionMutation(renamed).getBody();
         assertEquals(DreaminaSessionMutation.Kind.RENAME, r.getKind());
         assertEquals("cli-smoke-renamed", r.getSessionName());
@@ -337,12 +319,12 @@ class DreaminaCliStructuredPayloadMapperTest {
     void mapHelp_shouldWrapStdoutAsTextOutput() {
         String helpBody = "Usage:\n  dreamina [flags]\n\n即梦 official AIGC CLI tool for login, account, and generation workflows\n";
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(helpBody)
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(helpBody)
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<DreaminaHelp> response = new DreaminaCliStructuredPayloadMapper().mapHelp(null, raw);
         assertNotNull(response.getBody());
         assertTrue(response.getCombinedText().contains("即梦 official AIGC CLI tool"));
@@ -356,12 +338,12 @@ class DreaminaCliStructuredPayloadMapperTest {
     void mapLogoutAndRelogin_shouldWrapText() {
         DreaminaCliStructuredPayloadMapper mapper = new DreaminaCliStructuredPayloadMapper();
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("ok\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("ok\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<DreaminaLogout> logoutResponse = mapper.mapLogout(raw);
         assertEquals("ok\n", logoutResponse.getStdout());
         DreaminaCliResponse<DreaminaRelogin> reloginResponse = mapper.mapRelogin(raw);
@@ -374,14 +356,14 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapCheckLogin_shouldMarkEmptyOutput() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<DreaminaCheckLogin> response =
-            new DreaminaCliStructuredPayloadMapper().mapCheckLogin(raw);
+                new DreaminaCliStructuredPayloadMapper().mapCheckLogin(raw);
         assertNull(response.getBody());
         assertTrue(response.getCombinedText().trim().isEmpty());
     }
@@ -392,12 +374,12 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapCheckLogin_shouldReadJsonPayload() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("{\"gen_status\":\"success\",\"message\":\"mock checklogin ok\"}")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("{\"gen_status\":\"success\",\"message\":\"mock checklogin ok\"}")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCheckLogin c = new DreaminaCliStructuredPayloadMapper().mapCheckLogin(raw).getBody();
         assertNotNull(c);
         assertEquals("success", c.getGenStatus());
@@ -410,12 +392,12 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapLogout_shouldDetectClearedMessage() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("已清除本地登录态。\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("已清除本地登录态。\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaLogout logout = new DreaminaCliStructuredPayloadMapper().mapLogout(raw).getBody();
         assertEquals(Boolean.TRUE, logout.getLocalSessionCleared());
     }
@@ -426,13 +408,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapRelogin_shouldParseDeviceFlowTextLines() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "请使用浏览器完成 OAuth Device Flow 登录。\nverification_uri: https://jimeng.jianying.com/ai-tool/cli-auth\nuser_code: 88d38543ef407cb0a01a61088ec0d32c\ndevice_code: 662eef8f79b0ee3c20d7222c5ec28ed3\npoll_interval: 1s\nexpires_at: 2026-05-26T05:38:58Z\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "请使用浏览器完成 OAuth Device Flow 登录。\nverification_uri: https://jimeng.jianying.com/ai-tool/cli-auth\nuser_code: 88d38543ef407cb0a01a61088ec0d32c\ndevice_code: 662eef8f79b0ee3c20d7222c5ec28ed3\npoll_interval: 1s\nexpires_at: 2026-05-26T05:38:58Z\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaRelogin relogin = new DreaminaCliStructuredPayloadMapper().mapRelogin(raw).getBody();
         assertTrue(relogin.needsCheckLogin());
         assertEquals("662eef8f79b0ee3c20d7222c5ec28ed3", relogin.getDevice().getDeviceCode());
@@ -446,12 +428,12 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapLogin_headlessShouldParseReuseOnlyText() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("已复用当前本地 OAuth 登录态。\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("已复用当前本地 OAuth 登录态。\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaLogin login = new DreaminaCliStructuredPayloadMapper().mapLogin(raw).getBody();
         assertEquals(Boolean.TRUE, login.getOauthSessionReused());
         assertTrue(login.isOAuthReuseOnly());
@@ -465,13 +447,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapLogin_shouldParseLocalCliAccountBlock() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "已复用当前本地 OAuth 登录态。\n当前登录账户信息：\nuser_id: 1552973852847448\nvip_level: maestro\ntotal_credit: 4388\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "已复用当前本地 OAuth 登录态。\n当前登录账户信息：\nuser_id: 1552973852847448\nvip_level: maestro\ntotal_credit: 4388\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaLogin login = new DreaminaCliStructuredPayloadMapper().mapLogin(raw).getBody();
         assertEquals(4388L, login.getAccount().getTotalCredit().longValue());
         assertEquals("maestro", login.getAccount().getVipLevel());
@@ -483,13 +465,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapSessionList_shouldParseLocalCliTable() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "ID              NAME                    PINNED  UPDATED_AT\n--------------  ----------------------  ------  ----------------\n0               default                 Yes     2026-05-18 11:10\n13525782977036  图片去水印调文字清晰度  No      2026-05-26 09:44\n13486731497484  通过照片生成类似视频    No      2026-05-25 13:39\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "ID              NAME                    PINNED  UPDATED_AT\n--------------  ----------------------  ------  ----------------\n0               default                 Yes     2026-05-18 11:10\n13525782977036  图片去水印调文字清晰度  No      2026-05-26 09:44\n13486731497484  通过照片生成类似视频    No      2026-05-25 13:39\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaSessionList list = new DreaminaCliStructuredPayloadMapper().mapSessionList(raw).getBody();
         assertEquals(3, list.safeRows().size());
         assertEquals("0", list.safeRows().get(0).getId());
@@ -505,13 +487,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapLogin_shouldParseReusedOAuthAccountLines() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "已复用当前本地 OAuth 登录态。\n当前登录账户信息：\nuser_id: 1552973852847448\nvip_level: maestro\ntotal_credit: 4391\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "已复用当前本地 OAuth 登录态。\n当前登录账户信息：\nuser_id: 1552973852847448\nvip_level: maestro\ntotal_credit: 4391\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaLogin login = new DreaminaCliStructuredPayloadMapper().mapLogin(raw).getBody();
         assertEquals(Boolean.TRUE, login.getOauthSessionReused());
         assertNotNull(login.getAccount());
@@ -527,14 +509,14 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapUserCredit_unauthenticatedEmpty_shouldReturnNullBody() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("")
-            .stderr("")
-            .exitCode(1)
-            .success(false)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("")
+                .stderr("")
+                .exitCode(1)
+                .success(false)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<DreaminaUserCredit> response =
-            new DreaminaCliStructuredPayloadMapper().mapUserCredit(raw);
+                new DreaminaCliStructuredPayloadMapper().mapUserCredit(raw);
         assertNull(response.getBody());
         assertEquals(1, response.getExitCode());
     }
@@ -545,12 +527,12 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapLogout_noLocalSession_shouldNotMarkCleared() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("当前没有本地登录态。\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("当前没有本地登录态。\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaLogout logout = new DreaminaCliStructuredPayloadMapper().mapLogout(raw).getBody();
         assertNotNull(logout);
         assertNull(logout.getLocalSessionCleared());
@@ -562,12 +544,12 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapQueryResult_emptyStdout_shouldReturnNullBody() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout("")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout("")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         assertNull(new DreaminaCliStructuredPayloadMapper().mapQueryResult(raw).getBody());
     }
 
@@ -577,24 +559,24 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapTaskList_shouldParseCliAuditListTaskN3() throws Exception {
         java.nio.file.Path audit =
-            java.nio.file.Paths.get(".cli-audit/list_task_n3.txt");
+                java.nio.file.Paths.get(".cli-audit/list_task_n3.txt");
         org.junit.jupiter.api.Assumptions.assumeTrue(
-            java.nio.file.Files.isRegularFile(audit),
-            "missing .cli-audit/list_task_n3.txt — run audit script locally");
+                java.nio.file.Files.isRegularFile(audit),
+                "missing .cli-audit/list_task_n3.txt — run audit script locally");
         String file = new String(java.nio.file.Files.readAllBytes(audit), StandardCharsets.UTF_8);
         int start = file.indexOf('[');
         int end = file.lastIndexOf(']');
         org.junit.jupiter.api.Assumptions.assumeTrue(start >= 0 && end > start);
         String json = file.substring(start, end + 1);
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(json)
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(json)
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaCliResponse<List<DreaminaTaskItem>> response =
-            new DreaminaCliStructuredPayloadMapper().mapTaskList(raw);
+                new DreaminaCliStructuredPayloadMapper().mapTaskList(raw);
         List<DreaminaTaskItem> tasks = response.getBody();
         assertNotNull(tasks);
         assertEquals(3, tasks.size());
@@ -613,13 +595,13 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapDeviceLogin_shouldReadSnakeCaseKeys() {
         DreaminaCliResult raw = DreaminaCliResult.builder()
-            .stdout(
-                "{\"device_code\":\"abc\",\"verification_uri\":\"https://example\",\"user_code\":\"ABCD\"}\n")
-            .stderr("")
-            .exitCode(0)
-            .success(true)
-            .parsed(DreaminaParsedFields.builder().build())
-            .build();
+                .stdout(
+                        "{\"device_code\":\"abc\",\"verification_uri\":\"https://example\",\"user_code\":\"ABCD\"}\n")
+                .stderr("")
+                .exitCode(0)
+                .success(true)
+                .parsed(DreaminaParsedFields.builder().build())
+                .build();
         DreaminaDeviceLogin d = new DreaminaCliStructuredPayloadMapper().mapDeviceLogin(raw).getBody();
         assertNotNull(d);
         assertEquals("abc", d.getDeviceCode());
@@ -683,8 +665,8 @@ class DreaminaCliStructuredPayloadMapperTest {
         assertNotNull(q.firstVideoUrl());
         assertEquals(6L, q.getCreditCount().longValue());
         assertEquals(
-            "DreaminaFusion:Video3_fast_multi_frame_720p",
-            q.getQueueInfo().getParsedDebugInfo().getDreaminaMatrixReqKey());
+                "DreaminaFusion:Video3_fast_multi_frame_720p",
+                q.getQueueInfo().getParsedDebugInfo().getDreaminaMatrixReqKey());
     }
 
     /**
@@ -706,7 +688,7 @@ class DreaminaCliStructuredPayloadMapperTest {
     @Test
     void mapTaskList_fromAuditListTaskMultiframe() throws Exception {
         List<DreaminaTaskItem> tasks =
-            MAPPER.mapTaskList(jsonStdout(loadAuditFixture("list_task_refresh_multiframe.json"))).getBody();
+                MAPPER.mapTaskList(jsonStdout(loadAuditFixture("list_task_refresh_multiframe.json"))).getBody();
         assertNotNull(tasks);
         assertEquals(1, tasks.size());
         DreaminaTaskItem item = tasks.get(0);

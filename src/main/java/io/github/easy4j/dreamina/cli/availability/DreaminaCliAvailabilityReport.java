@@ -7,10 +7,9 @@ import lombok.Getter;
 /**
  * Dreamina CLI startup/readiness probe result (pure SDK, no Spring dependency).
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaCliAvailabilityChecker
  * @see DreaminaCliAvailabilityStatus
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

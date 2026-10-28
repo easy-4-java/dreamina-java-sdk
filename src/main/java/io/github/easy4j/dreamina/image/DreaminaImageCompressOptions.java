@@ -9,9 +9,8 @@ import lombok.Value;
  * <p>Aligned with the Thumbnailator usage in playwright-spring-boot-starter:
  * {@code scale} controls proportional scaling, {@code quality} controls lossy encoding quality.</p>
  *
- * @see DreaminaImageCompressSupport
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaImageCompressSupport
  * @since 3.0.0
  */
 @Value

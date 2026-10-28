@@ -11,9 +11,8 @@ import lombok.Getter;
  * and {@link DreaminaCliResult#getStderr()}; all fields in this type may be null.
  * </p>
  *
- * @see DreaminaCliOutputParser#parseBestEffort(String, String)
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaCliOutputParser#parseBestEffort(String, String)
  * @since 3.0.0
  */
 @Getter

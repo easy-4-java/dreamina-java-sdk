@@ -12,13 +12,13 @@ class DreaminaGenerationStatusTest {
 
     @ParameterizedTest
     @CsvSource({
-        "querying, QUERYING",
-        "success, SUCCESS",
-        "fail, FAIL",
-        "failed, FAIL",
-        "QUERYING, QUERYING",
-        "SUCCESS, SUCCESS",
-        "FAIL, FAIL"
+            "querying, QUERYING",
+            "success, SUCCESS",
+            "fail, FAIL",
+            "failed, FAIL",
+            "QUERYING, QUERYING",
+            "SUCCESS, SUCCESS",
+            "FAIL, FAIL"
     })
     void shouldParseCliValue(String input, DreaminaGenerationStatus expected) {
         assertEquals(expected, DreaminaGenerationStatus.fromCliValue(input));

@@ -1,52 +1,17 @@
 package io.github.easy4j.dreamina.cli;
 
 import io.github.easy4j.dreamina.DreaminaCliProperties;
+import io.github.easy4j.dreamina.cli.model.*;
 import io.github.easy4j.dreamina.exception.DreaminaCliExecutableFailureException;
 import io.github.easy4j.dreamina.exception.DreaminaCliNonZeroExitException;
 import io.github.easy4j.dreamina.exception.DreaminaCliTimeoutException;
-import io.github.easy4j.dreamina.cli.DreaminaCliSubcommands;
-import io.github.easy4j.dreamina.cli.opts.DreaminaFrames2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImage2ImageRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImage2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImageModelVersion;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImageResolutionType;
-import io.github.easy4j.dreamina.cli.opts.DreaminaImageUpscaleRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaMultiframe2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaMultimodal2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaRatio;
-import io.github.easy4j.dreamina.cli.opts.DreaminaText2ImageRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaText2VideoRequest;
-import io.github.easy4j.dreamina.cli.opts.DreaminaVideoModelVersion;
-import io.github.easy4j.dreamina.cli.opts.DreaminaVideoResolutionType;
-import io.github.easy4j.dreamina.cli.DreaminaCliResult;
-import io.github.easy4j.dreamina.cli.DreaminaCliResponse;
-import io.github.easy4j.dreamina.cli.model.DreaminaGenerateSubmit;
-import io.github.easy4j.dreamina.cli.model.DreaminaHelp;
-import io.github.easy4j.dreamina.cli.model.DreaminaLogin;
-import io.github.easy4j.dreamina.cli.model.DreaminaQueryResult;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionList;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionMutation;
-import io.github.easy4j.dreamina.cli.model.DreaminaSessionSearch;
-import io.github.easy4j.dreamina.cli.model.DreaminaTaskItem;
-import io.github.easy4j.dreamina.cli.model.DreaminaUserCredit;
-import io.github.easy4j.dreamina.cli.model.DreaminaVersion;
-
-
-
+import io.github.easy4j.dreamina.util.DreaminaStrings;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import io.github.easy4j.dreamina.util.DreaminaStrings;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 本地结构化验收：通过 {@link DreaminaCliExecutor} 的真实 {@code dreamina} 子进程调用，
@@ -76,7 +41,7 @@ public final class DreaminaCliLocalSmokeMain {
      * 1×1 透明 PNG（极小体量，供图生图 / 视频路径校验）。
      */
     private static final byte[] TINY_PNG_BYTES = Base64.getDecoder().decode(
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==");
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==");
 
     private DreaminaCliLocalSmokeMain() {
     }
@@ -118,7 +83,7 @@ public final class DreaminaCliLocalSmokeMain {
         });
         runStep(report, "sessionListInfo(-n 5)", () -> {
             DreaminaCliResponse<DreaminaSessionList> t =
-                executor.sessionListInfo(java.util.Collections.singletonList("-n=5"));
+                    executor.sessionListInfo(java.util.Collections.singletonList("-n=5"));
             printTyped("sessionListInfo(-n 5)", t, "rows=" + t.getBody().getRows().size());
         });
         runStep(report, "helpInfo(session)", () -> {
@@ -131,16 +96,16 @@ public final class DreaminaCliLocalSmokeMain {
         });
         runStep(report, "helpImageUpscale", () -> {
             DreaminaCliResponse<DreaminaHelp> t =
-                executor.helpInfo(DreaminaCliSubcommands.Image.IMAGE_UPSCALE);
+                    executor.helpInfo(DreaminaCliSubcommands.Image.IMAGE_UPSCALE);
             printTyped("helpImageUpscale", t, abbreviate(t.getCombinedText(), 400));
         });
         runStep(report, "loginHeadlessInfo", () -> {
             DreaminaCliResponse<DreaminaLogin> t = executor.loginHeadlessInfo();
             printTyped(
-                "loginHeadlessInfo",
-                t,
-                "reused=" + t.getBody().getOauthSessionReused()
-                    + " device=" + (t.getBody().getDevice() != null));
+                    "loginHeadlessInfo",
+                    t,
+                    "reused=" + t.getBody().getOauthSessionReused()
+                            + " device=" + (t.getBody().getDevice() != null));
         });
         runStep(report, "sessionListInfo", () -> {
             DreaminaCliResponse<DreaminaSessionList> t = executor.sessionListInfo();
@@ -153,9 +118,9 @@ public final class DreaminaCliLocalSmokeMain {
         runStep(report, "listTaskInfo", () -> {
             DreaminaCliResponse<List<DreaminaTaskItem>> t = executor.listTaskInfo();
             printTyped(
-                "listTaskInfo",
-                t,
-                "taskCount=" + (t.getBody() == null ? "null" : t.getBody().size()));
+                    "listTaskInfo",
+                    t,
+                    "taskCount=" + (t.getBody() == null ? "null" : t.getBody().size()));
         });
 
         // --- 会话变更：创建后立即改名，避免误删用户会话 ---
@@ -163,7 +128,7 @@ public final class DreaminaCliLocalSmokeMain {
         runStep(report, "sessionCreateInfo", () -> {
             String stamp = Long.toString(System.currentTimeMillis());
             DreaminaCliResponse<DreaminaSessionMutation> t =
-                executor.sessionCreateInfo(Collections.singletonList("cli-java-smoke-" + stamp));
+                    executor.sessionCreateInfo(Collections.singletonList("cli-java-smoke-" + stamp));
             printTyped("sessionCreateInfo", t, t.getBody());
             createdIdHolder[0] = t.getBody().getSessionId();
             if (createdIdHolder[0] == null) {
@@ -176,7 +141,7 @@ public final class DreaminaCliLocalSmokeMain {
                 throw new IllegalStateException("skip rename — create failed");
             }
             DreaminaCliResponse<DreaminaSessionMutation> t =
-                executor.sessionRenameInfo(sid, "cli-java-smoke-renamed");
+                    executor.sessionRenameInfo(sid, "cli-java-smoke-renamed");
             printTyped("sessionRenameInfo", t, t.getBody());
         });
 
@@ -195,80 +160,80 @@ public final class DreaminaCliLocalSmokeMain {
         // --- 生成提交：最低参数（仍会消耗积分；失败区分平台并发等） ---
         runStep(report, "text2ImageSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t =
-                executor.text2ImageSubmit("smoke", Arrays.asList(
-                    "--model_version=3.0",
-                    "--resolution_type=1k",
-                    "--ratio=1:1",
-                    "--poll=0"));
+                    executor.text2ImageSubmit("smoke", Arrays.asList(
+                            "--model_version=3.0",
+                            "--resolution_type=1k",
+                            "--ratio=1:1",
+                            "--poll=0"));
             printTyped("text2ImageSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
         runStep(report, "image2ImageSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t =
-                executor.image2ImageSubmit(tinyPath, "smoke", Arrays.asList(
-                    "--resolution_type=2k",
-                    "--ratio=1:1",
-                    "--poll=0"));
+                    executor.image2ImageSubmit(tinyPath, "smoke", Arrays.asList(
+                            "--resolution_type=2k",
+                            "--ratio=1:1",
+                            "--poll=0"));
             printTyped("image2ImageSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
         runStep(report, "imageUpscaleSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t = executor.imageUpscaleSubmit(Arrays.asList(
-                "--image=" + tinyPath,
-                "--resolution_type=2k",
-                "--poll=0"));
+                    "--image=" + tinyPath,
+                    "--resolution_type=2k",
+                    "--poll=0"));
             printTyped("imageUpscaleSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
         runStep(report, "text2VideoSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t =
-                executor.text2VideoSubmit("smoke", Arrays.asList(
-                    "--duration=4",
-                    "--video_resolution=720p",
-                    "--ratio=1:1",
-                    "--poll=0"));
+                    executor.text2VideoSubmit("smoke", Arrays.asList(
+                            "--duration=4",
+                            "--video_resolution=720p",
+                            "--ratio=1:1",
+                            "--poll=0"));
             printTyped("text2VideoSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
         runStep(report, "image2VideoSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t =
-                executor.image2VideoSubmit(tinyPath, "smoke", Arrays.asList(
-                    "--duration=4",
-                    "--video_resolution=720p",
-                    "--poll=0"));
+                    executor.image2VideoSubmit(tinyPath, "smoke", Arrays.asList(
+                            "--duration=4",
+                            "--video_resolution=720p",
+                            "--poll=0"));
             printTyped("image2VideoSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
         runStep(report, "frames2VideoSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t = executor.frames2VideoSubmit(Arrays.asList(
-                "--first=" + tinyPath,
-                "--last=" + tinyPath,
-                "--prompt=smoke",
-                "--duration=4",
-                "--video_resolution=720p",
-                "--model_version=seedance2.0fast",
-                "--poll=0"));
+                    "--first=" + tinyPath,
+                    "--last=" + tinyPath,
+                    "--prompt=smoke",
+                    "--duration=4",
+                    "--video_resolution=720p",
+                    "--model_version=seedance2.0fast",
+                    "--poll=0"));
             printTyped("frames2VideoSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
         runStep(report, "multiframe2VideoSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t = executor.multiframe2VideoSubmit(Arrays.asList(
-                "--images=" + tinyPath + "," + tinyPath,
-                "--prompt=smoke",
-                "--duration=3",
-                "--poll=0"));
+                    "--images=" + tinyPath + "," + tinyPath,
+                    "--prompt=smoke",
+                    "--duration=3",
+                    "--poll=0"));
             printTyped("multiframe2VideoSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
         runStep(report, "multimodal2VideoSubmit", () -> {
             DreaminaCliResponse<DreaminaGenerateSubmit> t = executor.multimodal2VideoSubmit(Arrays.asList(
-                "--image=" + tinyPath,
-                "--prompt=smoke",
-                "--duration=4",
-                "--ratio=1:1",
-                "--video_resolution=720p",
-                "--model_version=seedance2.0fast",
-                "--poll=0"));
+                    "--image=" + tinyPath,
+                    "--prompt=smoke",
+                    "--duration=4",
+                    "--ratio=1:1",
+                    "--video_resolution=720p",
+                    "--model_version=seedance2.0fast",
+                    "--poll=0"));
             printTyped("multimodal2VideoSubmit", t, summarizeSubmit(t.getBody()));
             rememberSubmit(submitIds, t.getBody());
         });
@@ -281,11 +246,11 @@ public final class DreaminaCliLocalSmokeMain {
             }
             DreaminaCliResponse<DreaminaQueryResult> t = executor.queryResultInfo(sid);
             printTyped(
-                "queryResultInfo",
-                t,
-                "submitId=" + t.getBody().getSubmitId()
-                    + " genStatus=" + t.getBody().getGenStatus()
-                    + " failReason=" + abbreviate(String.valueOf(t.getBody().getFailReason()), 120));
+                    "queryResultInfo",
+                    t,
+                    "submitId=" + t.getBody().getSubmitId()
+                            + " genStatus=" + t.getBody().getGenStatus()
+                            + " failReason=" + abbreviate(String.valueOf(t.getBody().getFailReason()), 120));
         });
 
         printReport(report);
@@ -305,9 +270,9 @@ public final class DreaminaCliLocalSmokeMain {
      */
     private static String summarizeSubmit(DreaminaGenerateSubmit s) {
         return "submitId=" + s.getSubmitId()
-            + " genStatus=" + s.getGenStatus()
-            + " failReason=" + abbreviate(String.valueOf(s.getFailReason()), 160)
-            + " credit=" + s.getCreditCount();
+                + " genStatus=" + s.getGenStatus()
+                + " failReason=" + abbreviate(String.valueOf(s.getFailReason()), 160)
+                + " credit=" + s.getCreditCount();
     }
 
     /**

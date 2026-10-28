@@ -5,10 +5,9 @@ import lombok.Getter;
 /**
  * Common aspect ratio enum for Dreamina.
  *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaText2ImageRequest
  * @see DreaminaMultimodal2VideoRequest
- *
- * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Getter

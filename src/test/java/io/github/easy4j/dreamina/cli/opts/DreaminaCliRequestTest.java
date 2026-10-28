@@ -1,17 +1,15 @@
 package io.github.easy4j.dreamina.cli.opts;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Dreamina 强类型请求对象测试。
@@ -27,15 +25,15 @@ class DreaminaCliRequestTest {
     @Test
     void text2ImageRequest_shouldBuildExpectedArgs() throws IOException {
         DreaminaText2ImageRequest request = DreaminaText2ImageRequest.builder()
-            .prompt("一只布偶猫蹲在窗边")
-            .ratio(DreaminaRatio.RATIO_1_1)
-            .modelVersion(DreaminaImageModelVersion.MODEL_5_0)
-            .resolutionType(DreaminaImageResolutionType.RESOLUTION_4K)
-            .generateNum(4)
-            .sessionId(42L)
-            .pollSeconds(30)
-            .additionalArg("--debug")
-            .build();
+                .prompt("一只布偶猫蹲在窗边")
+                .ratio(DreaminaRatio.RATIO_1_1)
+                .modelVersion(DreaminaImageModelVersion.MODEL_5_0)
+                .resolutionType(DreaminaImageResolutionType.RESOLUTION_4K)
+                .generateNum(4)
+                .sessionId(42L)
+                .pollSeconds(30)
+                .additionalArg("--debug")
+                .build();
 
         List<String> args = request.toCliArgs();
         assertEquals("--prompt=一只布偶猫蹲在窗边", args.get(0));
@@ -51,9 +49,9 @@ class DreaminaCliRequestTest {
     @Test
     void text2ImageRequest_shouldAcceptSeedream50Pro() throws IOException {
         DreaminaText2ImageRequest request = DreaminaText2ImageRequest.builder()
-            .prompt("test")
-            .modelVersion(DreaminaImageModelVersion.MODEL_5_0_PRO)
-            .build();
+                .prompt("test")
+                .modelVersion(DreaminaImageModelVersion.MODEL_5_0_PRO)
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--model_version=5.0Pro"));
@@ -62,15 +60,15 @@ class DreaminaCliRequestTest {
     @Test
     void text2ImageRequest_shouldRejectGenerateNumOutOfRange() {
         DreaminaText2ImageRequest tooLow = DreaminaText2ImageRequest.builder()
-            .prompt("p")
-            .generateNum(0)
-            .build();
+                .prompt("p")
+                .generateNum(0)
+                .build();
         assertThrows(IllegalArgumentException.class, tooLow::toCliArgs);
 
         DreaminaText2ImageRequest tooHigh = DreaminaText2ImageRequest.builder()
-            .prompt("p")
-            .generateNum(11)
-            .build();
+                .prompt("p")
+                .generateNum(11)
+                .build();
         assertThrows(IllegalArgumentException.class, tooHigh::toCliArgs);
     }
 
@@ -78,10 +76,10 @@ class DreaminaCliRequestTest {
     void image2ImageRequest_shouldBuildGenerateNumFlag() throws IOException {
         Path image = createTempFile("input.png");
         DreaminaImage2ImageRequest request = DreaminaImage2ImageRequest.builder()
-            .image(image.toString())
-            .prompt("保持主体不变，改成水彩风格")
-            .generateNum(10)
-            .build();
+                .image(image.toString())
+                .prompt("保持主体不变，改成水彩风格")
+                .generateNum(10)
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--generate_num=10"));
@@ -91,11 +89,11 @@ class DreaminaCliRequestTest {
     void image2ImageRequest_shouldRejectUnsupportedResolution() throws IOException {
         Path image = createTempFile("input.png");
         DreaminaImage2ImageRequest request = DreaminaImage2ImageRequest.builder()
-            .image(image.toString())
-            .prompt("保持主体不变，改成水彩风格")
-            .modelVersion(DreaminaImageModelVersion.MODEL_4_5)
-            .resolutionType(DreaminaImageResolutionType.RESOLUTION_1K)
-            .build();
+                .image(image.toString())
+                .prompt("保持主体不变，改成水彩风格")
+                .modelVersion(DreaminaImageModelVersion.MODEL_4_5)
+                .resolutionType(DreaminaImageResolutionType.RESOLUTION_1K)
+                .build();
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, request::toCliArgs);
         assertTrue(ex.getMessage().contains("2k or 4k"));
@@ -105,9 +103,9 @@ class DreaminaCliRequestTest {
     void multiframe2VideoRequest_shouldEnforceImageCount() throws IOException {
         Path image = createTempFile("story-1.png");
         DreaminaMultiframe2VideoRequest request = DreaminaMultiframe2VideoRequest.builder()
-            .image(image.toString())
-            .prompt("故事推进")
-            .build();
+                .image(image.toString())
+                .prompt("故事推进")
+                .build();
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, request::toCliArgs);
         assertTrue(ex.getMessage().contains("range [2, 20]"));
@@ -119,15 +117,15 @@ class DreaminaCliRequestTest {
         Path b = createTempFile("b.png");
         Path c = createTempFile("c.png");
         DreaminaMultiframe2VideoRequest request = DreaminaMultiframe2VideoRequest.builder()
-            .image(a.toString())
-            .image(b.toString())
-            .image(c.toString())
-            .transitionPrompt("A to B")
-            .transitionPrompt("B to C")
-            .transitionDuration("3")
-            .transitionDuration("4")
-            .pollSeconds(0)
-            .build();
+                .image(a.toString())
+                .image(b.toString())
+                .image(c.toString())
+                .transitionPrompt("A to B")
+                .transitionPrompt("B to C")
+                .transitionDuration("3")
+                .transitionDuration("4")
+                .pollSeconds(0)
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--transition-prompt=A to B"));
@@ -139,8 +137,8 @@ class DreaminaCliRequestTest {
     @Test
     void multimodal2VideoRequest_shouldRequireAtLeastOneMedia() {
         DreaminaMultimodal2VideoRequest request = DreaminaMultimodal2VideoRequest.builder()
-            .prompt("人物跟随音乐节奏摆动")
-            .build();
+                .prompt("人物跟随音乐节奏摆动")
+                .build();
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, request::toCliArgs);
         assertTrue(ex.getMessage().contains("at least one image/video/audio"));
@@ -151,13 +149,13 @@ class DreaminaCliRequestTest {
         Path a = createTempFile("a.png");
         Path b = createTempFile("b.png");
         DreaminaMultimodal2VideoRequest request = DreaminaMultimodal2VideoRequest.builder()
-            .image(a.toString())
-            .image(b.toString())
-            .prompt("cinematic")
-            .durationSeconds(5)
-            .videoResolution(DreaminaVideoResolutionType.RESOLUTION_1080P)
-            .pollSeconds(0)
-            .build();
+                .image(a.toString())
+                .image(b.toString())
+                .prompt("cinematic")
+                .durationSeconds(5)
+                .videoResolution(DreaminaVideoResolutionType.RESOLUTION_1080P)
+                .pollSeconds(0)
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--image=" + a));
@@ -170,14 +168,14 @@ class DreaminaCliRequestTest {
         Path first = createTempFile("first.png");
         Path last = createTempFile("last.png");
         DreaminaFrames2VideoRequest request = DreaminaFrames2VideoRequest.builder()
-            .firstImagePath(first.toString())
-            .lastImagePath(last.toString())
-            .prompt("花苞缓慢绽放")
-            .durationSeconds(8)
-            .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_0_FAST_VIP)
-            .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P)
-            .pollSeconds(0)
-            .build();
+                .firstImagePath(first.toString())
+                .lastImagePath(last.toString())
+                .prompt("花苞缓慢绽放")
+                .durationSeconds(8)
+                .modelVersion(DreaminaVideoModelVersion.SEEDANCE_2_0_FAST_VIP)
+                .videoResolution(DreaminaVideoResolutionType.RESOLUTION_720P)
+                .pollSeconds(0)
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--first=" + first));
@@ -189,10 +187,10 @@ class DreaminaCliRequestTest {
     void imageUpscaleRequest_shouldSupport8k() throws IOException {
         Path image = createTempFile("input.png");
         DreaminaImageUpscaleRequest request = DreaminaImageUpscaleRequest.builder()
-            .imagePath(image.toString())
-            .resolutionType(DreaminaImageResolutionType.RESOLUTION_8K)
-            .pollSeconds(0)
-            .build();
+                .imagePath(image.toString())
+                .resolutionType(DreaminaImageResolutionType.RESOLUTION_8K)
+                .pollSeconds(0)
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--resolution_type=8k"));
@@ -201,9 +199,9 @@ class DreaminaCliRequestTest {
     @Test
     void queryResultRequest_shouldBuildDownloadDir() {
         DreaminaQueryResultRequest request = DreaminaQueryResultRequest.builder()
-            .submitId("abc-123")
-            .downloadDir("./downloads")
-            .build();
+                .submitId("abc-123")
+                .downloadDir("./downloads")
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--submit_id=abc-123"));
@@ -213,11 +211,11 @@ class DreaminaCliRequestTest {
     @Test
     void listTaskRequest_shouldBuildFilters() {
         DreaminaListTaskRequest request = DreaminaListTaskRequest.builder()
-            .genStatus("success")
-            .genTaskType("text2image")
-            .limit(10)
-            .offset(0)
-            .build();
+                .genStatus("success")
+                .genTaskType("text2image")
+                .limit(10)
+                .offset(0)
+                .build();
 
         List<String> args = request.toCliArgs();
         assertTrue(args.contains("--gen_status=success"));
@@ -229,9 +227,9 @@ class DreaminaCliRequestTest {
     @Test
     void text2VideoRequest_shouldRejectNonSeedanceModel() {
         DreaminaText2VideoRequest request = DreaminaText2VideoRequest.builder()
-            .prompt("test")
-            .modelVersion(DreaminaVideoModelVersion.MODEL_3_0)
-            .build();
+                .prompt("test")
+                .modelVersion(DreaminaVideoModelVersion.MODEL_3_0)
+                .build();
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, request::toCliArgs);
         assertTrue(ex.getMessage().contains("seedance"));

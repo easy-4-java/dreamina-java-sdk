@@ -10,9 +10,8 @@ import java.util.List;
  * encapsulate parameter validation, defaults, and documentation constraints within its own model.
  * </p>
  *
- * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#invoke(String, java.util.List)
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#invoke(String, java.util.List)
  * @since 3.0.0
  */
 public interface DreaminaCliArgumentProvider {

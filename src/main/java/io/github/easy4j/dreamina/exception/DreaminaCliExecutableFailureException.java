@@ -1,12 +1,10 @@
 package io.github.easy4j.dreamina.exception;
 
-import io.github.easy4j.dreamina.cli.DreaminaCliResult;
 /**
  * Thrown when the CLI cannot be started at the OS level (e.g., command not found or invalid path).
  *
- * @see DreaminaCliException
- *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @see DreaminaCliException
  * @since 3.0.0
  */
 public class DreaminaCliExecutableFailureException extends DreaminaCliException {

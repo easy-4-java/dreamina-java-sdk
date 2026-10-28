@@ -3,14 +3,12 @@ package io.github.easy4j.dreamina.cli.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DreaminaModelClassesTest {
 
     private final ObjectMapper om = new ObjectMapper()
-        .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     // --- DreaminaVersion ---
     @Test
@@ -255,8 +253,8 @@ class DreaminaModelClassesTest {
     @Test
     void shouldDetectOAuthReuseOnly() {
         DreaminaLogin login = DreaminaLogin.builder()
-            .oauthSessionReused(true)
-            .build();
+                .oauthSessionReused(true)
+                .build();
         assertTrue(login.isOAuthReuseOnly());
         assertFalse(login.hasAccount());
     }
@@ -332,7 +330,7 @@ class DreaminaModelClassesTest {
     @Test
     void shouldBuildSessionRow() {
         DreaminaSessionRow row = DreaminaSessionRow.builder()
-            .id("100").name("Test").pinned("No").updatedAt("2026-08-08 10:00").build();
+                .id("100").name("Test").pinned("No").updatedAt("2026-08-08 10:00").build();
         assertEquals("100", row.getId());
         assertEquals("Test", row.getName());
     }
@@ -346,7 +344,7 @@ class DreaminaModelClassesTest {
     @Test
     void shouldBuildSessionMutation() {
         DreaminaSessionMutation mut = DreaminaSessionMutation.builder()
-            .kind(DreaminaSessionMutation.Kind.CREATE).sessionId("100").sessionName("Test").build();
+                .kind(DreaminaSessionMutation.Kind.CREATE).sessionId("100").sessionName("Test").build();
         assertEquals(DreaminaSessionMutation.Kind.CREATE, mut.getKind());
         assertEquals("100", mut.getSessionId());
     }
