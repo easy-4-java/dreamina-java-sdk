@@ -1,0 +1,172 @@
+{
+  "": [],
+  "help": [
+    "help",
+    "version"
+  ],
+  "version": [
+    "help",
+    "version"
+  ],
+  "login": [
+    "headless",
+    "help",
+    "version"
+  ],
+  "login checklogin": [
+    "device_code",
+    "help",
+    "poll",
+    "version"
+  ],
+  "logout": [
+    "help",
+    "version"
+  ],
+  "relogin": [
+    "headless",
+    "help",
+    "version"
+  ],
+  "user_credit": [
+    "help",
+    "version"
+  ],
+  "list_task": [
+    "gen_status",
+    "gen_task_type",
+    "help",
+    "limit",
+    "offset",
+    "submit_id",
+    "version"
+  ],
+  "query_result": [
+    "download_dir",
+    "help",
+    "submit_id",
+    "version"
+  ],
+  "session": [
+    "help",
+    "version"
+  ],
+  "session create": [
+    "help",
+    "version"
+  ],
+  "session list": [
+    "help",
+    "max-count",
+    "version"
+  ],
+  "session search": [
+    "help",
+    "version"
+  ],
+  "session rename": [
+    "help",
+    "version"
+  ],
+  "session delete": [
+    "help",
+    "version"
+  ],
+  "text2image": [
+    "prompt",
+    "session",
+    "ratio",
+    "resolution_type",
+    "width",
+    "height",
+    "model_version",
+    "generate_num",
+    "poll",
+    "help",
+    "version"
+  ],
+  "image2image": [
+    "images",
+    "prompt",
+    "session",
+    "ratio",
+    "resolution_type",
+    "width",
+    "height",
+    "model_version",
+    "generate_num",
+    "poll",
+    "help",
+    "version"
+  ],
+  "text2video": [
+    "prompt",
+    "session",
+    "duration",
+    "ratio",
+    "video_resolution",
+    "model_version",
+    "poll",
+    "help",
+    "version"
+  ],
+  "image2video": [
+    "image",
+    "prompt",
+    "duration",
+    "ratio",
+    "video_resolution",
+    "model_version",
+    "session",
+    "poll",
+    "help",
+    "version"
+  ],
+  "frames2video": [
+    "first",
+    "last",
+    "prompt",
+    "session",
+    "duration",
+    "ratio",
+    "video_resolution",
+    "model_version",
+    "poll",
+    "help",
+    "version"
+  ],
+  "multiframe2video": [
+    "images",
+    "prompt",
+    "duration",
+    "video_resolution",
+    "transition-prompt",
+    "transition-duration",
+    "session",
+    "poll",
+    "help",
+    "version"
+  ],
+  "multimodal2video": [
+    "image",
+    "video",
+    "audio",
+    "prompt",
+    "duration",
+    "ratio",
+    "video_resolution",
+    "model_version",
+    "session",
+    "poll",
+    "help",
+    "version"
+  ],
+  "image_upscale": [
+    "image",
+    "session",
+    "resolution_type",
+    "poll",
+    "help",
+    "version"
+  ]
+}

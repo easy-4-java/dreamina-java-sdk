@@ -1,0 +1,65 @@
+[
+  {
+    "version": "1.0.x.20260830-SNAPSHOT",
+    "artifacts": [
+      {
+        "extension": "jar",
+        "classifier": null,
+        "sha256": "6b8cac0efb43d7e10f02f3be1cdf3f24e6c980bb41fe15a02f4aaee15beebac3",
+        "bytes": 680504,
+        "classMajor": 52
+      },
+      {
+        "extension": "pom",
+        "classifier": null,
+        "sha256": "965adae3a795b9c01fa28f97dcfd63d54a92fb920e3133bc91f27811bd91f8ff",
+        "bytes": 30606
+      }
+    ],
+    "snapshot": "1.0.x.20260830-20261028.135333-3"
+  },
+  {
+    "version": "2.0.x.20260830-SNAPSHOT",
+    "artifacts": [
+      {
+        "extension": "jar",
+        "classifier": null,
+        "sha256": "02459bbffe8470aef89d98bda90814428fc552106d47a0b7e43a1277406209f5",
+        "bytes": 693791,
+        "classMajor": 61
+      },
+      {
+        "extension": "pom",
+        "classifier": null,
+        "sha256": "fd4515b6f53a5fe735744eabac6a98d40ba162e03f6e83cd53e302184c186b69",
+        "bytes": 30605
+      }
+    ],
+    "snapshot": "2.0.x.20260830-20261028.135341-3"
+  },
+  {
+    "version": "3.0.x.20260830-SNAPSHOT",
+    "artifacts": [
+      {
+        "extension": "jar",
+        "classifier": null,
+        "sha256": "3fed78ae7a09cce8b5c9c97936a36bdd3b440ace4d8eb303b2356df19c84e78a",
+        "bytes": 693789,
+        "classMajor": 65
+      },
+      {
+        "extension": "pom",
+        "classifier": null,
+        "sha256": "cc3404d0d3113209315154dd3260f80599132a93e614cf58ef35034d816af698",
+        "bytes": 17937
+      },
+      {
+        "extension": "pom",
+        "classifier": "build",
+        "sha256": "b49ba0905448d0965080face09f8c2a9ab03ee2fc3cd6e47f4fbf1bb1fc35b17",
+        "bytes": 30715
+      }
+    ],
+    "snapshot": "3.0.x.20260830-20261028.135348-3"
+  }
+]

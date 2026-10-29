@@ -31,7 +31,7 @@ class DreaminaCanvasContractBoundaryTest {
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasVoiceListRequest.builder().offset(-1L).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasVoiceListRequest.builder().count(0L).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasVoiceListRequest.builder().count(101L).build().toArguments());
-        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().count(1L).build().toArguments().contains("--count=1"));
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("boundary").mode("t2i").count(1L).build().toArguments().contains("--count=1"));
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeCreateImageRequest.builder().count((long) Integer.MAX_VALUE + 1).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeCreateVideoRequest.builder().duration(new BigDecimal("-0.1")).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeFindRequest.builder().limit(51L).build().toArguments());
@@ -46,7 +46,7 @@ class DreaminaCanvasContractBoundaryTest {
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeCreateImageRequest.builder().mode("unknown").build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeFindRequest.builder().type(Collections.singletonList("invented")).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeCreateImageRequest.builder().prompt("bad\u0000prompt").build().toArguments());
-        assertEquals("--prompt=  中文\n", DreaminaCanvasNodeCreateImageRequest.builder().prompt("  中文\n").build().toCliArgs().get(0));
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("boundary").mode("t2i").prompt("  中文\n").build().toCliArgs().contains("--prompt=  中文\n"));
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasOperationStatusRequest.builder().operationRef("bad").build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasOperationStatusRequest.builder().operationRef("  ").build().toArguments());
         assertThrows(UnsupportedOperationException.class, () -> DreaminaCanvasVersionRequest.builder().build().toArguments().add("extra"));
@@ -58,10 +58,10 @@ class DreaminaCanvasContractBoundaryTest {
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeCreateImageRequest.builder().waitForCompletion(true).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeCreateImageRequest.builder().timeout(Duration.ofSeconds(1)).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeCreateImageRequest.builder().run(false).creditToken("t").build().toArguments());
-        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().run(true).waitForCompletion(true).creditCeiling(1L).build().toArguments().contains("--credit-ceiling=1"));
-        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_a", "node_b")).submitId(Collections.singletonList(ID)).build().toArguments());
-        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_a", "node_b")).submitId(Arrays.asList(ID, ID)).build().toArguments());
-        assertEquals(2, DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_a", "node_b")).submitId(Arrays.asList(ID, OTHER)).build().getSubmitId().size());
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("boundary").mode("t2i").prompt("test").run(true).waitForCompletion(true).creditCeiling(1L).build().toArguments().contains("--credit-ceiling=1"));
+        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_0000000001", "node_0000000002")).submitId(Collections.singletonList(ID)).build().toArguments());
+        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_0000000001", "node_0000000002")).submitId(Arrays.asList(ID, ID)).build().toArguments());
+        assertEquals(2, DreaminaCanvasNodeRunRequest.builder().nodeId(Arrays.asList("node_0000000001", "node_0000000002")).submitId(Arrays.asList(ID, OTHER)).build().getSubmitId().size());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasResourceUploadRequest.builder().build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasResourceUploadRequest.builder().projectId(ID).file("a").sourceUrl("https://example.test/a").build().toArguments());
         assertTrue(DreaminaCanvasResourceUploadRequest.builder().projectId(ID).file("a.png").build().toArguments().contains("--file=a.png"));
@@ -75,8 +75,8 @@ class DreaminaCanvasContractBoundaryTest {
         assertTrue(args.contains("--interval=500000000ns"));
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasOperationWaitRequest.builder().operationRef(ID).interval(Duration.ZERO).build().toArguments());
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasOperationWaitRequest.builder().operationRef(ID).timeout(Duration.ofSeconds(-1)).build().toArguments());
-        List<String> refs = DreaminaCanvasNodeShowRequest.builder().nodeId(Arrays.asList("node_first", "node_second")).build().toCliArgs();
-        assertEquals(Arrays.asList("--node-id=node_first", "--node-id=node_second"), refs);
+        List<String> refs = DreaminaCanvasNodeShowRequest.builder().nodeId(Arrays.asList("node_0000000003", "node_0000000004")).build().toCliArgs();
+        assertEquals(Arrays.asList("--node-id=node_0000000003", "--node-id=node_0000000004"), refs);
         assertEquals(Arrays.asList("model", "find", "--type=image", "--", "one", "two"),
                 DreaminaCanvasModelFindRequest.builder().type("image").name(Arrays.asList("one", "two")).build().toArguments());
     }

@@ -13,8 +13,8 @@ class DreaminaCanvasMigrationContractTest {
     }
 
     @Test
-    void legacyEntryPointMustDeclareMigration() {
-        assertTrue(io.github.easy4j.dreamina.cli.DreaminaCliExecutor.class.isAnnotationPresent(Deprecated.class));
+    void legacyEntryPointRemainsSupported() {
+        org.junit.jupiter.api.Assertions.assertFalse(io.github.easy4j.dreamina.cli.DreaminaCliExecutor.class.isAnnotationPresent(Deprecated.class));
         org.junit.jupiter.api.Assertions.assertFalse(io.github.easy4j.dreamina.DreaminaCliProperties.class.isAnnotationPresent(Deprecated.class));
     }
 

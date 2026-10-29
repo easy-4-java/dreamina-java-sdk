@@ -96,7 +96,7 @@ public final class DreaminaCanvasNodeEditImageRequest extends DreaminaCanvasRequ
     @DreaminaCanvasParameter(value = "resolution", positional = false)
     private final String resolution;
     /**
-     * 生成数量；上限以 model list 返回的 --count max 为准；--count。
+     * 生成数量；以 model list 返回的 --count min/max 为准；固定多图模型须显式指定该数量；--count。
      */
     @DreaminaCanvasParameter(value = "count", positional = false)
     private final Long count;

@@ -13,6 +13,16 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasNodeResource {
     /**
+     * 契约字段 {@code image}。
+     */
+    @JsonProperty("image")
+    private DreaminaCanvasImage image;
+    /**
+     * 契约字段 {@code video}。
+     */
+    @JsonProperty("video")
+    private DreaminaCanvasVideo video;
+    /**
      * 契约字段 {@code resourceId}。
      */
     @JsonProperty("resourceId")

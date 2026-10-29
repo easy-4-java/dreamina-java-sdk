@@ -13,6 +13,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasNodeUpscaleImageResult {
     /**
+     * 契约字段 {@code consumptionSubject}。
+     */
+    @JsonProperty("consumptionSubject")
+    private DreaminaCanvasConsumptionSubject consumptionSubject;
+    /**
      * 契约字段 {@code localStorageWarning}。
      */
     @JsonProperty("localStorageWarning")

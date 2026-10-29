@@ -15,9 +15,7 @@ import java.util.regex.Pattern;
  * @see DreaminaParsedFields
  * @see DreaminaCliStructuredPayloadMapper
  * @since 3.0.0
- * @deprecated 旧文本/正则提取 gen_status/submit_id，不支持 Canvas ok/partialData；替代：DreaminaCanvasResponseParser。
  */
-@Deprecated
 public final class DreaminaCliOutputParser {
 
     private static final Pattern SUBMIT_ID_PATTERN = Pattern.compile(

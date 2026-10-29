@@ -1,0 +1,20 @@
+用法：
+  dreamina-canvas resource [flags]
+  dreamina-canvas resource [命令]
+
+可用命令：
+  download    安全下载成功的图片素材
+  get         查素材状态与稳定事实（running/success/failed/canceled 四态都可查）
+  upload      上传本地图片、视频或音频并登记为项目资源
+
+参数：
+  -h, --help   显示 dreamina-canvas resource 的帮助
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作
+
+使用 "dreamina-canvas resource [命令] --help" 查看某个命令的更多信息。

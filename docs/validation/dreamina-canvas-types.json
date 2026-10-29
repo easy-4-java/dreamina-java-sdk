@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "cliVersion": "1.0.3",
+  "cliVersion": "1.2.0",
   "commands": [
     {
       "command": "model",
@@ -88,6 +88,26 @@
       "data": "DreaminaCanvasNodeUpscaleImageResult"
     },
     {
+      "command": "node upscale video",
+      "request": "DreaminaCanvasNodeUpscaleVideoRequest",
+      "data": "DreaminaCanvasNodeUpscaleVideoResult"
+    },
+    {
+      "command": "node cutout image",
+      "request": "DreaminaCanvasNodeCutoutImageRequest",
+      "data": "DreaminaCanvasNodeCutoutImageResult"
+    },
+    {
+      "command": "node interpolate video",
+      "request": "DreaminaCanvasNodeInterpolateVideoRequest",
+      "data": "DreaminaCanvasNodeInterpolateVideoResult"
+    },
+    {
+      "command": "node promote video-sample",
+      "request": "DreaminaCanvasNodePromoteVideoSampleRequest",
+      "data": "DreaminaCanvasNodePromoteVideoSampleResult"
+    },
+    {
       "command": "node delete",
       "request": "DreaminaCanvasNodeDeleteRequest",
       "data": "DreaminaCanvasNodeDeleteResult"
@@ -163,6 +183,16 @@
       "data": "DreaminaCanvasLsResult"
     },
     {
+      "command": "canvas use",
+      "request": "DreaminaCanvasUseRequest",
+      "data": "DreaminaCanvasUseResult"
+    },
+    {
+      "command": "canvas current",
+      "request": "DreaminaCanvasCurrentRequest",
+      "data": "DreaminaCanvasCurrentResult"
+    },
+    {
       "command": "auth account",
       "request": "DreaminaCanvasAuthAccountRequest",
       "data": "DreaminaLoginAccount"
@@ -201,6 +231,21 @@
       "command": "version",
       "request": "DreaminaCanvasVersionRequest",
       "data": "DreaminaVersion"
+    },
+    {
+      "command": "team ls",
+      "request": "DreaminaCanvasTeamLsRequest",
+      "data": "DreaminaCanvasTeamLsResult"
+    },
+    {
+      "command": "space use",
+      "request": "DreaminaCanvasSpaceUseRequest",
+      "data": "DreaminaCanvasSpaceUseResult"
+    },
+    {
+      "command": "space current",
+      "request": "DreaminaCanvasSpaceCurrentRequest",
+      "data": "DreaminaCanvasSpaceCurrentResult"
     }
   ]
 }

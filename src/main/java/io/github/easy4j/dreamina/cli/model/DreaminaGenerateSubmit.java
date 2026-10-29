@@ -10,11 +10,9 @@ import lombok.Data;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2Image(String)
  * @since 3.0.0
- * @deprecated 旧 gen_status/queue_info 提交体与 Canvas operations/partialData 不同；替代：NODE_RUN 响应。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Deprecated
 public class DreaminaGenerateSubmit {
 
     @JsonProperty("submit_id")

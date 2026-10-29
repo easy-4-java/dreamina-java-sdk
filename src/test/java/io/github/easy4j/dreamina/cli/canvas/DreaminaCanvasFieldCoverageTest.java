@@ -54,7 +54,7 @@ class DreaminaCanvasFieldCoverageTest {
         }
         assertTrue(mapped.isEmpty(), mapped.toString());
         StringBuilder words = new StringBuilder();
-        for (String word : command.getPath().split(" ")) {
+        for (String word : command.getPath().replace('-', ' ').split(" ")) {
             words.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
         }
         String method = words.toString();
@@ -124,6 +124,10 @@ class DreaminaCanvasFieldCoverageTest {
             nested.setFields(spec.getFields());
             Object value = sample(element, nested, path + "[]");
             return isArrayWire ? Collections.singletonList(value) : Collections.singletonMap("dynamic-model", value);
+        }
+        if ("raw".equals(wire) || "object".equals(wire) && type == io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorJsonValue.class) {
+            assertEquals(io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorJsonValue.class, type, path);
+            return Collections.singletonMap("officialDynamicField", Arrays.asList("preserved", 7));
         }
         if ("object".equals(wire)) {
             assertInstanceOf(Class.class, type, path);

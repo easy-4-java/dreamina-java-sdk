@@ -1,0 +1,23 @@
+用法：
+  dreamina-canvas resource get <resource-id> [flags]
+
+示例：
+  四种状态都能查：running / success / failed / canceled。
+  轮询生成进度、排查失败原因都用它——它不要求素材已经成功。
+
+  只回稳定事实，不签发也不下发任何 URL：要取文件用 resource download。
+  存储标识（URI / VID）属于内部实现，不在输出里。
+
+  creditsAmount 是**提交时的预扣快照**，不是最终净消费：核销与退款都不回写它。
+  拿它求和会把已退款的失败生成也算进花费，要对账请查积分账本。
+
+参数：
+  -h, --help                显示 dreamina-canvas resource get 的帮助
+      --project-id string   项目 UUID；省略时使用当前项目
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

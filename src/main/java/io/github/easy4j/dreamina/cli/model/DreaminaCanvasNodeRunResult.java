@@ -13,6 +13,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasNodeRunResult {
     /**
+     * 契约字段 {@code consumptionSubject}。
+     */
+    @JsonProperty("consumptionSubject")
+    private DreaminaCanvasConsumptionSubject consumptionSubject;
+    /**
      * 契约字段 {@code items}。
      */
     @JsonProperty("items")

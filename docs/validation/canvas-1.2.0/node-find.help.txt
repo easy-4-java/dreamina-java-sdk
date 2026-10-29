@@ -1,0 +1,33 @@
+用法：
+  dreamina-canvas node find [flags]
+
+示例：
+  组合逻辑分两层：
+    跨维度 = AND（--type image --status success = 图片且已成功）
+    同维度 --type / --status = OR（--type image --type video = 图片或视频）
+    同维度 --tag = AND（例外，标签语义是「同时具备」）
+
+  名字只做查询维度，写入永远用 Node ID：协同画布下节点随时被他人改名或删除。
+  只回定位摘要、不下发签发 URL；要详情用 node show，要内容用 resource download。
+
+  单页最多返回 50 条；用 --offset 翻页，范围 0..1000，缺省 0。
+  total 是本次过滤后总数，hasMore 表示还有结果；下一页 offset 加本页节点数。
+  分页请求不绑定同一草稿快照；画布变化时可能重复或漏项，不能宣称完整快照。
+  达到 offset 上限仍有更多时，请收窄筛选条件。
+
+参数：
+  -h, --help                显示 dreamina-canvas node find 的帮助
+      --limit int32         单页条数，范围 1 到 50 (default 50)
+      --name string         文本匹配：标题、描述、文本正文与生成 prompt
+      --offset int32        过滤后的偏移量，范围 0 到 1000；分页不绑定同一草稿快照
+      --project-id string   项目 UUID；同时用作 draft-id；省略时使用当前项目
+      --status strings      运行状态，可重复；同维度多值为 OR。取值：empty、running、success、partial_success、failed、canceled、unknown
+      --tag strings         颜色标签 ID，可重复；同维度多值为 AND（须同时具备）。取值：default-tag-1、default-tag-2、default-tag-3、default-tag-4、default-tag-5
+      --type strings        节点类型，可重复；同维度多值为 OR。取值：image、video、audio、element、timeline、text
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

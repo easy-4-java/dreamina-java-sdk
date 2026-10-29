@@ -81,6 +81,26 @@ class DreaminaCanvasCommandCoverageTest {
         add(cases, DreaminaCanvasCommand.AUTH_REFRESH);
         add(cases, DreaminaCanvasCommand.SCHEMA);
         add(cases, DreaminaCanvasCommand.VERSION);
+        add(cases, DreaminaCanvasCommand.TEAM_LS, "limit=1");
+        add(cases, DreaminaCanvasCommand.SPACE_CURRENT);
+        add(cases, DreaminaCanvasCommand.SPACE_USE, "@personal");
+        add(cases, DreaminaCanvasCommand.CANVAS_CURRENT);
+        add(cases, DreaminaCanvasCommand.CANVAS_USE, "@" + ID);
+        add(cases, DreaminaCanvasCommand.NODE_UPSCALE_VIDEO, "node-id=" + NODE, "resolution=2K", "dry-run=true");
+        add(cases, DreaminaCanvasCommand.NODE_CUTOUT_IMAGE, "node-id=" + NODE, "dry-run=true");
+        add(cases, DreaminaCanvasCommand.NODE_INTERPOLATE_VIDEO, "node-id=" + NODE, "fps=60", "dry-run=true");
+        add(cases, DreaminaCanvasCommand.NODE_PROMOTE_VIDEO_SAMPLE, "node-id=" + NODE, "resolution=1080P", "dry-run=true");
+        add(cases, DreaminaCanvasCommand.SCHEMA_DIRECTOR);
+        add(cases, DreaminaCanvasCommand.DIRECTOR_CREATE, "project-id=" + ID, "title=SDK导演台");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_PULL, "node-id=" + NODE, "file=bound scene.json", "version-id=18446744073709551615");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_SHOW, "file=bound scene.json");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_APPLY, "file=bound scene.json", "input=commands $(literal).json");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_PUSH, "file=bound scene.json", "force=false");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_CATALOG, "kind=builtin", "count=1", "offset=0");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_EXPORT, "file=bound scene.json", "type=image", "output=new output.png");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_PREVIEW, "file=bound scene.json");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_FREEZE, "file=bound scene.json", "frame=0");
+        add(cases, DreaminaCanvasCommand.DIRECTOR_RESUME_EXPORT, "operation-ref=original-private-record");
         return cases;
     }
 
@@ -105,6 +125,10 @@ class DreaminaCanvasCommandCoverageTest {
         for (DreaminaCanvasSchemaCommand c : DreaminaCanvasContract.schema().getSubcommands()) {
             collect(c, c.getName(), schema);
         }
+        for (DreaminaCanvasSchemaCommand c : DreaminaCanvasContract.directorSchema().getSubcommands()) {
+            collect(c, c.getName(), schema);
+        }
+        schema.add("schema director");
         Set<String> enums = new LinkedHashSet<>();
         Arrays.stream(DreaminaCanvasCommand.values()).forEach(c -> enums.add(c.getPath()));
         Set<String> fixtures = new LinkedHashSet<>();
@@ -143,7 +167,7 @@ class DreaminaCanvasCommandCoverageTest {
         DreaminaCanvasCliExecutor executor = new DreaminaCanvasCliExecutor(DreaminaCanvasCliProperties.builder().executable(bin.toString()).build());
         DreaminaCanvasRequest<?> request = c.request();
         StringBuilder method = new StringBuilder();
-        for (String word : c.command.getPath().split(" ")) {
+        for (String word : c.command.getPath().replace('-', ' ').split(" ")) {
             method.append(method.length() == 0 ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1));
         }
         DreaminaCanvasResponse<?> response = (DreaminaCanvasResponse<?>) executor.getClass().getMethod(method.toString(), request.getClass()).invoke(executor, request);
@@ -167,6 +191,13 @@ class DreaminaCanvasCommandCoverageTest {
         List<String> actual = Arrays.asList(new String(Files.readAllBytes(argv), StandardCharsets.UTF_8).split("\u0000"));
         assertEquals(expected.size(), actual.size());
         assertEquals(new java.util.HashSet<>(expected), new java.util.HashSet<>(actual));
+        for (String flag : new String[]{"--node-id=", "--submit-id=", "--ref=", "--type=", "--clip=", "--audio-clip="}) {
+            List<String> expectedRepeated = new ArrayList<>();
+            List<String> actualRepeated = new ArrayList<>();
+            expected.stream().filter(value -> value.startsWith(flag)).forEach(expectedRepeated::add);
+            actual.stream().filter(value -> value.startsWith(flag)).forEach(actualRepeated::add);
+            assertEquals(expectedRepeated, actualRepeated, "repeatable argument order: " + flag);
+        }
         return response;
     }
 

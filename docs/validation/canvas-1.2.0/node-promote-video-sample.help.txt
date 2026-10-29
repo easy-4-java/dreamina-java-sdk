@@ -1,0 +1,23 @@
+用法：
+  dreamina-canvas node promote video-sample [flags]
+
+参数：
+      --credit-ceiling int    批准的积分上限；不能与 credit-token 同用
+      --credit-token string   本次样片转正专用短期凭证
+      --dry-run               仅校验本地参数，不联网或消费积分
+  -h, --help                  显示 dreamina-canvas node promote video-sample 的帮助
+      --interval duration     wait 轮询间隔 (default 5s)
+      --node-id string        来源样片节点 ID
+      --project-id string     项目 UUID；省略时读取当前项目
+      --resolution string     目标分辨率，取 search --detail full 的 draftPromotion
+      --submit-id string      提交 UUID；省略时生成；超时后用该 ID 查询
+      --timeout duration      wait 最长等待时间 (default 10m0s)
+      --title string          新正片节点标题
+      --wait                  提交后只读等待正片终态
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

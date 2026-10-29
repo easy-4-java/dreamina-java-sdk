@@ -82,4 +82,9 @@ public final class DreaminaCanvasSchemaCommand {
      */
     @JsonProperty("subcommands")
     private java.util.List<DreaminaCanvasSchemaCommand> subcommands;
+    /**
+     * 契约字段 {@code detailCommand}。
+     */
+    @JsonProperty("detailCommand")
+    private String detailCommand;
 }

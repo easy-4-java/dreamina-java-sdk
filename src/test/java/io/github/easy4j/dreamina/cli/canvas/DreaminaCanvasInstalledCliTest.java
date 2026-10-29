@@ -31,11 +31,12 @@ class DreaminaCanvasInstalledCliTest {
         assertTrue(version.isSuccess());
         assertEquals(version.getData().getBuildTime(), cli.versionDetails().getData().getBuildTime());
         assertTrue(new io.github.easy4j.dreamina.cli.availability.DreaminaCliAvailabilityChecker().checkCanvas(cli.getProperties()).isAvailable());
-        assertEquals("1.0.3", version.getData().getVersion());
+        assertEquals("1.2.0", version.getData().getVersion());
         DreaminaCanvasResponse<DreaminaCanvasSchema> schema = cli.schema();
         assertTrue(schema.isSuccess());
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
         assertEquals(mapper.writeValueAsString(DreaminaCanvasContract.schema()), mapper.writeValueAsString(schema.getData()));
+        assertEquals(mapper.writeValueAsString(DreaminaCanvasContract.directorSchema()), mapper.writeValueAsString(cli.schemaDirector().getData()));
     }
 
     @Test
@@ -87,5 +88,34 @@ class DreaminaCanvasInstalledCliTest {
     void localTextAndTimelineDraftsThroughSdk() {
         assertTrue(cli.execute(DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_CREATE_TEXT, "dry-run=true", "title=SDK 验收", "text=中文\n第二行")).isSuccess());
         assertTrue(cli.execute(DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_CREATE_TIMELINE, "dry-run=true", "title=SDK 验收", "clip=12345678-1234-1234-1234-123456789012,duration=1000")).isSuccess());
+    }
+
+    @Test
+    void newMediaPostprocessingDryRunsStayLocal() {
+        for (io.github.easy4j.dreamina.cli.DreaminaCanvasCommand command : java.util.Arrays.asList(
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_UPSCALE_VIDEO,
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_INTERPOLATE_VIDEO,
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_CUTOUT_IMAGE,
+                io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.NODE_PROMOTE_VIDEO_SAMPLE)) {
+            DreaminaCanvasCommandCoverageTest.Case fixture = DreaminaCanvasCommandCoverageTest.cases().get(command);
+            assertTrue(cli.execute(fixture.request()).isSuccess(), command.getPath());
+        }
+    }
+
+    static java.util.stream.Stream<io.github.easy4j.dreamina.cli.DreaminaCanvasCommand> allDryRunCommands() {
+        return java.util.Arrays.stream(io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.values())
+                .filter(command -> DreaminaCanvasContract.describe(command).getFlags().stream().anyMatch(flag -> "dry-run".equals(flag.getName())));
+    }
+    @org.junit.jupiter.params.ParameterizedTest(name = "installed local dry-run: {0}")
+    @org.junit.jupiter.params.provider.MethodSource("allDryRunCommands")
+    void everyDeclaredDryRunUsesSdkAndRemainsLocal(io.github.easy4j.dreamina.cli.DreaminaCanvasCommand command) {
+        DreaminaCanvasCommandCoverageTest.Case fixture = DreaminaCanvasCommandCoverageTest.cases().get(command);
+        java.util.List<String> args = new java.util.ArrayList<>(java.util.Arrays.asList(fixture.args));
+        if (!args.contains("dry-run=true")) {
+            args.add("dry-run=true");
+        }
+        DreaminaCanvasResponse<?> response = cli.execute(DreaminaCanvasFixtures.request(command, args.toArray(new String[0])));
+        assertTrue(response.isSuccess(), command.getPath());
+        assertTrue(new com.fasterxml.jackson.databind.ObjectMapper().valueToTree(response.getData()).path("dryRun").asBoolean(), command.getPath());
     }
 }

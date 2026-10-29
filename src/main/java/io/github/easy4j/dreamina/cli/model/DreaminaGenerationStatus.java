@@ -10,9 +10,7 @@ import java.util.Objects;
  * @see DreaminaGenerateSubmit
  * @see DreaminaQueryResult
  * @since 3.0.0
- * @deprecated 旧 querying/success/fail 状态集合不能无损表示 Canvas operation 状态；替代：OPERATION_STATUS data.state。
  */
-@Deprecated
 public enum DreaminaGenerationStatus {
 
     UNKNOWN,

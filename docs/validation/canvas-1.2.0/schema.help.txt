@@ -1,0 +1,2 @@
+dreamina-canvas schema (public)
+  schema       返回当前制品的命令契约

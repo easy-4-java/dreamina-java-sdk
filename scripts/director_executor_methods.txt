@@ -1,0 +1,40 @@
+    /** 在画布上创建导演台节点。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorCreateResult> directorCreate(DreaminaCanvasDirectorCreateRequest request) {
+        return execute(request);
+    }
+    /** 读取画布导演台到新文件。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorPullResult> directorPull(DreaminaCanvasDirectorPullRequest request) {
+        return execute(request);
+    }
+    /** 查看并校验画布或本地场景。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorShowResult> directorShow(DreaminaCanvasDirectorShowRequest request) {
+        return execute(request);
+    }
+    /** 原子应用场景、镜头、姿势、动画或分镜命令。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorApplyResult> directorApply(DreaminaCanvasDirectorApplyRequest request) {
+        return execute(request);
+    }
+    /** 保存正文并原子更新画布版本。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorPushResult> directorPush(DreaminaCanvasDirectorPushRequest request) {
+        return execute(request);
+    }
+    /** 发现内置几何体、预设、人物或动作。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorCatalogResult> directorCatalog(DreaminaCanvasDirectorCatalogRequest request) {
+        return execute(request);
+    }
+    /** 导出截图或视频（需本机浏览器）或 FBX 动作。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorExportResult> directorExport(DreaminaCanvasDirectorExportRequest request) {
+        return execute(request);
+    }
+    /** 把动画帧定格到摆拍（需本机浏览器）。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorFreezeResult> directorFreeze(DreaminaCanvasDirectorFreezeRequest request) {
+        return execute(request);
+    }
+    /** 查看当前镜头或分镜帧的截图（需本机浏览器）。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorPreviewResult> directorPreview(DreaminaCanvasDirectorPreviewRequest request) {
+        return execute(request);
+    }
+    /** 恢复中断的画布导出。 */
+    public DreaminaCanvasResponse<DreaminaCanvasDirectorResumeExportResult> directorResumeExport(DreaminaCanvasDirectorResumeExportRequest request) {
+        return execute(request);
+    }

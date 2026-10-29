@@ -9,11 +9,9 @@ import lombok.Getter;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#relogin()
  * @since 3.0.0
- * @deprecated 旧 relogin 文本 requiresBrowserOAuth/device 聚合；替代：AUTH_LOGIN/AUTH_REFRESH。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaRelogin {
 
     private final Boolean requiresBrowserOAuth;

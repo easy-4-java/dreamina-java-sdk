@@ -12,11 +12,9 @@ import java.util.List;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#sessionList()
  * @since 3.0.0
- * @deprecated 旧数字 session 表格，不是 Canvas UUID 画布列表；替代：CANVAS_LS data.items。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaSessionList {
 
     private final List<DreaminaSessionRow> rows;

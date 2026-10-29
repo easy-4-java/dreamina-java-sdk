@@ -1,0 +1,19 @@
+用法：
+  dreamina-canvas space [flags]
+  dreamina-canvas space [命令]
+
+可用命令：
+  current     查询当前空间和已选画布的实时权限
+  use         核验并显式切换空间
+
+参数：
+  -h, --help   显示 dreamina-canvas space 的帮助
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作
+
+使用 "dreamina-canvas space [命令] --help" 查看某个命令的更多信息。

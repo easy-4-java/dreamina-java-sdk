@@ -1,0 +1,853 @@
+[
+  {
+    "name": "x requires y",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "x=1"
+    ]
+  },
+  {
+    "name": "coordinates paired",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": true,
+    "args": [
+      "title=t",
+      "x=1",
+      "y=-2.5"
+    ]
+  },
+  {
+    "name": "clear tags conflict",
+    "command": "NODE_EDIT_IMAGE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "tag=default-tag-1",
+      "clear-tags=true"
+    ]
+  },
+  {
+    "name": "clear tags false preserves tags",
+    "command": "NODE_EDIT_IMAGE",
+    "valid": true,
+    "args": [
+      "node-id=node_0000000001",
+      "tag=default-tag-1",
+      "clear-tags=false"
+    ]
+  },
+  {
+    "name": "resource import requires kind",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "resource-id=12345678-1234-1234-1234-123456789012"
+    ]
+  },
+  {
+    "name": "resource import valid",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": true,
+    "args": [
+      "title=t",
+      "resource-id=12345678-1234-1234-1234-123456789012",
+      "import-kind=local_upload",
+      "submit-id=12345678-1234-1234-1234-123456789013"
+    ]
+  },
+  {
+    "name": "import invalid resource UUID",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "resource-id=bad",
+      "import-kind=local_upload"
+    ]
+  },
+  {
+    "name": "submit requires run or import",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "submit-id=12345678-1234-1234-1234-123456789012"
+    ]
+  },
+  {
+    "name": "cross project unused source",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "resource-source=12345678-1234-1234-1234-123456789012@12345678-1234-1234-1234-123456789013"
+    ]
+  },
+  {
+    "name": "cross project valid source",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": true,
+    "args": [
+      "title=t",
+      "resource-id=12345678-1234-1234-1234-123456789012",
+      "import-kind=local_upload",
+      "resource-source=12345678-1234-1234-1234-123456789012@12345678-1234-1234-1234-123456789013"
+    ]
+  },
+  {
+    "name": "cross project conflicting source",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "resource-id=12345678-1234-1234-1234-123456789012",
+      "import-kind=local_upload",
+      "resource-source=12345678-1234-1234-1234-123456789012@12345678-1234-1234-1234-123456789013",
+      "resource-source=12345678-1234-1234-1234-123456789012@12345678-1234-1234-1234-123456789012"
+    ]
+  },
+  {
+    "name": "clear generation conflict",
+    "command": "NODE_EDIT_IMAGE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "mode=t2i",
+      "prompt=x",
+      "clear-generation=true"
+    ]
+  },
+  {
+    "name": "generation mode required",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "prompt=x"
+    ]
+  },
+  {
+    "name": "mode explicit",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": true,
+    "args": [
+      "title=t",
+      "mode=t2i",
+      "prompt=x"
+    ]
+  },
+  {
+    "name": "create image title required",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "mode=t2i",
+      "prompt=x"
+    ]
+  },
+  {
+    "name": "run title inferred",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": true,
+    "args": [
+      "mode=t2i",
+      "prompt=x",
+      "run=true"
+    ]
+  },
+  {
+    "name": "run without title or prompt",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "mode=t2i",
+      "run=true"
+    ]
+  },
+  {
+    "name": "typed ref required",
+    "command": "NODE_CREATE_VIDEO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=m2v",
+      "ref=bad"
+    ]
+  },
+  {
+    "name": "reference canonical uuid",
+    "command": "NODE_CREATE_VIDEO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=m2v",
+      "ref=res:ABCDEFAB-1234-1234-1234-ABCDEFAB9012"
+    ]
+  },
+  {
+    "name": "first last count max2",
+    "command": "NODE_CREATE_VIDEO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=first_last_frame",
+      "ref=node:node_0000000001",
+      "ref=node:node_0000000002",
+      "ref=node:node_0000000003"
+    ]
+  },
+  {
+    "name": "first last reference required",
+    "command": "NODE_CREATE_VIDEO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=first_last_frame"
+    ]
+  },
+  {
+    "name": "first last refs valid",
+    "command": "NODE_CREATE_VIDEO",
+    "valid": true,
+    "args": [
+      "title=t",
+      "mode=first_last_frame",
+      "ref=node:node_0000000001",
+      "ref=node:node_0000000002"
+    ]
+  },
+  {
+    "name": "negative node count",
+    "command": "NODE_CREATE_VIDEO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=t2v",
+      "count=0"
+    ]
+  },
+  {
+    "name": "audio voice mutually exclusive",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=tts",
+      "prompt=p",
+      "voice-id=123",
+      "voice-name=x"
+    ]
+  },
+  {
+    "name": "voice canonical int64",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=tts",
+      "prompt=p",
+      "voice-id=01"
+    ]
+  },
+  {
+    "name": "scenario tts only",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=music",
+      "prompt=p",
+      "model=m",
+      "duration=1",
+      "scenario=omni-dubbing"
+    ]
+  },
+  {
+    "name": "audio music model required",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=music",
+      "prompt=p",
+      "duration=1"
+    ]
+  },
+  {
+    "name": "audio music valid",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": true,
+    "args": [
+      "title=t",
+      "mode=music",
+      "prompt=p",
+      "duration=1",
+      "model=m"
+    ]
+  },
+  {
+    "name": "audio music no voice",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=music",
+      "prompt=p",
+      "duration=1",
+      "model=m",
+      "voice-name=x"
+    ]
+  },
+  {
+    "name": "audio tts voice required",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=tts",
+      "prompt=p"
+    ]
+  },
+  {
+    "name": "audio refs omni only",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=tts",
+      "prompt=p",
+      "voice-name=x",
+      "ref=node:node_0000000001"
+    ]
+  },
+  {
+    "name": "audio omni valid",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": true,
+    "args": [
+      "title=t",
+      "mode=tts",
+      "prompt=p",
+      "model=m",
+      "scenario=omni-dubbing",
+      "ref=node:node_0000000001"
+    ]
+  },
+  {
+    "name": "element clear main conflict",
+    "command": "NODE_EDIT_ELEMENT",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "clear-main=true",
+      "voice=node_0000000002"
+    ]
+  },
+  {
+    "name": "element clear auxiliary conflict",
+    "command": "NODE_EDIT_ELEMENT",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "clear-auxiliary=true",
+      "auxiliary=node_0000000002"
+    ]
+  },
+  {
+    "name": "element clear description conflict",
+    "command": "NODE_EDIT_ELEMENT",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "clear-description=true",
+      "description=x"
+    ]
+  },
+  {
+    "name": "timeline clear conflicts",
+    "command": "NODE_EDIT_TIMELINE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "clear-tracks=true",
+      "clip=node_0000000002"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,start=1",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,start=1"
+    ]
+  },
+  {
+    "name": "invalid audio-clip node_b,duration=1",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "audio-clip=node_0000000002,duration=1"
+    ]
+  },
+  {
+    "name": "invalid clip bad",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=bad"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,duration=0",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,duration=0"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,speed=0",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,speed=0"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,volume=2",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,volume=2"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,trim=0-0",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,trim=0-0"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,muted=true",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,muted=true"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,kind=resource",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,kind=resource"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,speed=1,speed=2",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,speed=1,speed=2"
+    ]
+  },
+  {
+    "name": "invalid clip node_b,unknown=1",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,unknown=1"
+    ]
+  },
+  {
+    "name": "timeline valid syntax",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": true,
+    "args": [
+      "title=t",
+      "clip=node_0000000002,trim=0-100,speed=1.5,volume=0,muted",
+      "audio-clip=12345678-1234-1234-1234-123456789012,start=0,trim=0-100,kind=resource"
+    ]
+  },
+  {
+    "name": "upscale pro resolution required",
+    "command": "NODE_UPSCALE_IMAGE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "mode=pro"
+    ]
+  },
+  {
+    "name": "upscale normal resolution forbidden",
+    "command": "NODE_UPSCALE_IMAGE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "mode=normal",
+      "resolution=2K"
+    ]
+  },
+  {
+    "name": "upscale normal detail forbidden",
+    "command": "NODE_UPSCALE_IMAGE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "detail=1",
+      "mode=normal"
+    ]
+  },
+  {
+    "name": "upscale pro valid",
+    "command": "NODE_UPSCALE_IMAGE",
+    "valid": true,
+    "args": [
+      "node-id=node_0000000001",
+      "mode=pro",
+      "resolution=2K",
+      "detail=50"
+    ]
+  },
+  {
+    "name": "delete token requires update",
+    "command": "NODE_DELETE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "delete-token=t"
+    ]
+  },
+  {
+    "name": "delete token with update",
+    "command": "NODE_DELETE",
+    "valid": true,
+    "args": [
+      "node-id=node_0000000001",
+      "delete-token=t",
+      "update-id=12345678-1234-1234-1234-123456789012"
+    ]
+  },
+  {
+    "name": "upload url image only",
+    "command": "RESOURCE_UPLOAD",
+    "valid": false,
+    "args": [
+      "project-id=12345678-1234-1234-1234-123456789012",
+      "source-url=https://example.test/a",
+      "type=video"
+    ]
+  },
+  {
+    "name": "promotion canonical node",
+    "command": "NODE_PROMOTE_VIDEO_SAMPLE",
+    "valid": false,
+    "args": [
+      "node-id=bad",
+      "resolution=1080p"
+    ]
+  },
+  {
+    "name": "canonical node rejects node_short",
+    "command": "NODE_SHOW",
+    "valid": false,
+    "args": [
+      "node-id=node_short"
+    ]
+  },
+  {
+    "name": "canonical node rejects node_000000000i",
+    "command": "NODE_SHOW",
+    "valid": false,
+    "args": [
+      "node-id=node_000000000i"
+    ]
+  },
+  {
+    "name": "canonical node rejects node_000000000A",
+    "command": "NODE_SHOW",
+    "valid": false,
+    "args": [
+      "node-id=node_000000000A"
+    ]
+  },
+  {
+    "name": "canonical node rejects node_00000000001",
+    "command": "NODE_SHOW",
+    "valid": false,
+    "args": [
+      "node-id=node_00000000001"
+    ]
+  },
+  {
+    "name": "audio retains implicit TTS default",
+    "command": "NODE_CREATE_AUDIO",
+    "valid": true,
+    "args": [
+      "title=t",
+      "prompt=p",
+      "voice-name=test"
+    ]
+  },
+  {
+    "name": "clear generation cannot run",
+    "command": "NODE_EDIT_IMAGE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001",
+      "clear-generation=true",
+      "run=true"
+    ]
+  },
+  {
+    "name": "t2v rejects explicit references",
+    "command": "NODE_CREATE_VIDEO",
+    "valid": false,
+    "args": [
+      "title=t",
+      "mode=t2v",
+      "ref=node:node_0000000001"
+    ]
+  },
+  {
+    "name": "create run needs generation",
+    "command": "NODE_CREATE_IMAGE",
+    "valid": false,
+    "args": [
+      "title=t",
+      "run=true"
+    ]
+  },
+  {
+    "name": "upscale retains native pro default",
+    "command": "NODE_UPSCALE_IMAGE",
+    "valid": true,
+    "args": [
+      "node-id=node_0000000001",
+      "resolution=2K"
+    ]
+  },
+  {
+    "name": "default pro requires resolution",
+    "command": "NODE_UPSCALE_IMAGE",
+    "valid": false,
+    "args": [
+      "node-id=node_0000000001"
+    ]
+  },
+  {
+    "name": "text title is required",
+    "command": "NODE_CREATE_TEXT",
+    "valid": false,
+    "args": [
+      "text=x"
+    ]
+  },
+  {
+    "name": "text field must be explicit",
+    "command": "NODE_CREATE_TEXT",
+    "valid": false,
+    "args": [
+      "title=t"
+    ]
+  },
+  {
+    "name": "empty text remains supported",
+    "command": "NODE_CREATE_TEXT",
+    "valid": true,
+    "args": [
+      "title=t",
+      "text="
+    ]
+  },
+  {
+    "name": "timeline title is required",
+    "command": "NODE_CREATE_TIMELINE",
+    "valid": false,
+    "args": [
+      "clip=node_0000000001,duration=1000"
+    ]
+  },
+  {
+    "name": "director source required",
+    "command": "DIRECTOR_SHOW",
+    "args": [],
+    "valid": false
+  },
+  {
+    "name": "director file/node exclusive",
+    "command": "DIRECTOR_SHOW",
+    "args": [
+      "file=a.json",
+      "node-id=node_0000000001"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director source file valid",
+    "command": "DIRECTOR_SHOW",
+    "args": [
+      "file=a.json"
+    ],
+    "valid": true
+  },
+  {
+    "name": "director pull permits file and node",
+    "command": "DIRECTOR_PULL",
+    "args": [
+      "file=a.json",
+      "node-id=node_0000000001"
+    ],
+    "valid": true
+  },
+  {
+    "name": "director version uint64 overflow",
+    "command": "DIRECTOR_PULL",
+    "args": [
+      "file=a.json",
+      "node-id=node_0000000001",
+      "version-id=18446744073709551616"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director version canonical uint64",
+    "command": "DIRECTOR_PULL",
+    "args": [
+      "file=a.json",
+      "node-id=node_0000000001",
+      "version-id=01"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director local export output required",
+    "command": "DIRECTOR_EXPORT",
+    "args": [
+      "file=a.json"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director export output/to-canvas exclusive",
+    "command": "DIRECTOR_EXPORT",
+    "args": [
+      "file=a.json",
+      "output=a.png",
+      "to-canvas=true"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director fbx motion required",
+    "command": "DIRECTOR_EXPORT",
+    "args": [
+      "file=a.json",
+      "type=fbx",
+      "output=a.fbx"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director fbx motion valid",
+    "command": "DIRECTOR_EXPORT",
+    "args": [
+      "file=a.json",
+      "type=fbx",
+      "motion-id=m",
+      "output=a.fbx"
+    ],
+    "valid": true
+  },
+  {
+    "name": "director fbx cannot to-canvas",
+    "command": "DIRECTOR_EXPORT",
+    "args": [
+      "file=a.json",
+      "type=fbx",
+      "motion-id=m",
+      "to-canvas=true"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director video rejects frame",
+    "command": "DIRECTOR_EXPORT",
+    "args": [
+      "file=a.json",
+      "type=video",
+      "output=a.mp4",
+      "frame=1"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director camera/storyboard exclusive",
+    "command": "DIRECTOR_PREVIEW",
+    "args": [
+      "file=a.json",
+      "camera-id=c",
+      "storyboard=true"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director workspace enum",
+    "command": "DIRECTOR_PREVIEW",
+    "args": [
+      "file=a.json",
+      "workspace=wrong"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director preview frame nonnegative",
+    "command": "DIRECTOR_PREVIEW",
+    "args": [
+      "file=a.json",
+      "frame=-1"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director preview edge enum",
+    "command": "DIRECTOR_PREVIEW",
+    "args": [
+      "file=a.json",
+      "long-edge=720"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director catalog range",
+    "command": "DIRECTOR_CATALOG",
+    "args": [
+      "count=101"
+    ],
+    "valid": false
+  },
+  {
+    "name": "director catalog kind",
+    "command": "DIRECTOR_CATALOG",
+    "args": [
+      "kind=wrong"
+    ],
+    "valid": false
+  }
+]

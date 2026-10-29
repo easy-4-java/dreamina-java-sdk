@@ -2,14 +2,13 @@
 
 ## Dreamina Canvas CLI (recommended)
 
-The legacy Dreamina CLI is scheduled to stop maintenance in November. The per-object audit retains 29 shared types and
-deprecates 38 legacy-only types with specific migration guidance; existing signatures and behavior remain available. New
-integrations use **`DreaminaCanvasCliExecutor`**, covering all **40 business routes** in the installed Canvas **1.0.3**
-contract, plus help and four shell completions. This branch targets Java 17.
+Both **`DreaminaCliExecutor`** (`dreamina` v1.4.21) and **`DreaminaCanvasCliExecutor`** (`dreamina-canvas` v1.2.0) are actively supported. The SDK exposes 60 typed Canvas routes, including the director detail contract, plus help and shell completions. Existing Dreamina APIs remain supported without Canvas migration deprecation annotations. Java 8 remains supported.
 
 See [Canvas API and migration guide](docs/DREAMINA_CANVAS.md), [complete command reference](docs/DREAMINA_CANVAS_COMMANDS.md),
 and [verification evidence](docs/DREAMINA_CANVAS_ACCEPTANCE.md). The sections below document the retained **legacy
 API**.
+
+Current command-level live acceptance and publication evidence are tracked in [the dual-CLI matrix](docs/validation/dual-cli/commands.md). Final versions and approved exceptions are recorded in [the release report](docs/validation/dual-cli/release-report.md).
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -53,8 +52,7 @@ Typical use cases:
 | Login / account (`login`, `logout`, `relogin`, `user_credit`, `version`)                               | OAuth Device Flow, headless login support                |
 | Startup readiness probing                                                                              | `DreaminaCliAvailabilityChecker` runs `dreamina version` |
 
-**Project status:** new integration targets Canvas CLI 1.0.3. The legacy v1.4.x adapter below is deprecated and retained
-for compatibility.
+**Project status:** Dreamina CLI v1.4.21 and Canvas CLI v1.2.0 are supported in parallel.
 
 ## 2. Features & Status
 
@@ -363,3 +361,6 @@ Contributions are welcome — open an issue or submit a pull request against the
 
 This project is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0). See the
 `LICENSE` file in the repository root for details.
+
+
+All three SDK lines are published to private Aliyun Maven and consumed by the matching Starter lines. See the [release report](docs/validation/dual-cli/release-report.md) for final snapshots and the approved team acceptance exception.

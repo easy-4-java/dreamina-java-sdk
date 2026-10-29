@@ -13,11 +13,9 @@ import java.util.List;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#listTask()
  * @since 3.0.0
- * @deprecated 旧 list_task 的分页/任务状态；新 CLI 无同形任务列表 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + OPERATION_STATUS，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaListTaskRequest implements DreaminaCliArgumentProvider {
 
     private final String genStatus;

@@ -1,5 +1,6 @@
 # Canvas 执行器与完整指令覆盖（当前状态）
 
+> 当前维护策略（2026-10-28）：dreamina 与 dreamina-canvas 并行支持，迁移新增的废弃标记已撤销。下文保留前次审计历史；当前实现与验证见 [旧 CLI 维护说明](DREAMINA_LEGACY_SUPPORT.md)。
 > 本文保留此前通用请求版本的真实执行证据；当前强类型 API 的验证见 [本轮报告](DREAMINA_CANVAS_TYPED_API.md)。
 
 日期：2026-09-29；Java 8，Canvas CLI 1.0.1 / 09307bb。当前规格变更：`enforce-dreamina-names-and-object-reuse`。
