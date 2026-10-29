@@ -107,8 +107,19 @@ flowchart LR
 - [本轮强类型验收](DREAMINA_CANVAS_TYPED_API.md)
 
 `DreaminaCanvasFieldCoverageTest` 逐指令检查全部参数类型、builder、执行器入口、响应嵌套字段及反序列化。
-`DreaminaCanvasCommandCoverageTest` 独立维护 37 条指令的成功/失败 argv 用例。安装态测试比对完整 schema，运行所有帮助、四种补全和本地
+`DreaminaCanvasCommandCoverageTest` 独立维护 60 条指令的成功/失败 argv 用例。安装态测试比对完整 schema，运行所有帮助、四种补全和本地
 dry-run。
 
 `scripts/generate_canvas_types.py` 只从随包、已审阅的 schema 生成具体类型；更新契约后必须重跑字段测试与安装态比对。生成器不运行
 CLI，也不授权或提交生成。
+
+
+## 导演台独立契约
+
+根 schema 的 director 是分组描述，通过 `schema director` 读取 10 条具体指令。SDK 对应 `directorCreate/Pull/Show/Apply/Push/Catalog/Export/Freeze/Preview/ResumeExport`，均使用同名 `DreaminaCanvasDirector*Request` 及具名结果；`schemaDirector()` 查询独立契约。导演台导出使用 `directorExport`，时间轴节点的 `node quote` 不能替代它。
+
+官方声明 raw 的文档和未公开内部结构的目录值使用 `DreaminaCanvasDirectorJsonValue`；调用 `asJson()` 获取完整 JSON。其他参数与响应字段仍按契约具名建模。
+
+导演台恢复字段位于 `DreaminaCanvasResponse` 顶层：`operationRef`、`directorConflict`、`canvasHandoff`。并发冲突的 `latestVersionId` 是 uint64 十进制字符串；pull 到新文件后重放有意保留的修改，不自动 force。写入中断保留原工作文件并使用 director push；交付中断使用 director resume-export 的原引用，不把文件路径传给生成任务的 operation status/wait。
+
+本轮当前状态见 [逐指令验收矩阵](validation/dual-cli/commands.md) 与 [验收说明](validation/dual-cli/acceptance-notes.md)，不以历史报告代表当前源码的真实验收。

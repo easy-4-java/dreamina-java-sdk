@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.easy4j.dreamina.cli.model.DreaminaCanvasCreditConfirmation;
 import io.github.easy4j.dreamina.cli.model.DreaminaCanvasError;
+import io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorConflict;
+import io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorCanvasHandoff;
 import io.github.easy4j.dreamina.cli.model.DreaminaCanvasMeta;
 import io.github.easy4j.dreamina.cli.model.DreaminaCanvasPartialData;
 import lombok.Getter;
@@ -22,6 +24,10 @@ public final class DreaminaCanvasResponse<T> {
     private Boolean ok;
     private T data;
     private DreaminaCanvasError error;
+    /** 官方响应顶层的导演台恢复与交接信息，不能归入 error 或生成任务 ID。 */
+    private String operationRef;
+    private DreaminaCanvasDirectorConflict directorConflict;
+    private DreaminaCanvasDirectorCanvasHandoff canvasHandoff;
     private DreaminaCanvasPartialData partialData;
     private DreaminaCanvasCreditConfirmation creditConfirmation;
     private DreaminaCanvasMeta meta;

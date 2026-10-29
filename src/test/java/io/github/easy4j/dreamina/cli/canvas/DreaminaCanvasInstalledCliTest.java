@@ -36,6 +36,7 @@ class DreaminaCanvasInstalledCliTest {
         assertTrue(schema.isSuccess());
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
         assertEquals(mapper.writeValueAsString(DreaminaCanvasContract.schema()), mapper.writeValueAsString(schema.getData()));
+        assertEquals(mapper.writeValueAsString(DreaminaCanvasContract.directorSchema()), mapper.writeValueAsString(cli.schemaDirector().getData()));
     }
 
     @Test
@@ -99,5 +100,22 @@ class DreaminaCanvasInstalledCliTest {
             DreaminaCanvasCommandCoverageTest.Case fixture = DreaminaCanvasCommandCoverageTest.cases().get(command);
             assertTrue(cli.execute(fixture.request()).isSuccess(), command.getPath());
         }
+    }
+
+    static java.util.stream.Stream<io.github.easy4j.dreamina.cli.DreaminaCanvasCommand> allDryRunCommands() {
+        return java.util.Arrays.stream(io.github.easy4j.dreamina.cli.DreaminaCanvasCommand.values())
+                .filter(command -> DreaminaCanvasContract.describe(command).getFlags().stream().anyMatch(flag -> "dry-run".equals(flag.getName())));
+    }
+    @org.junit.jupiter.params.ParameterizedTest(name = "installed local dry-run: {0}")
+    @org.junit.jupiter.params.provider.MethodSource("allDryRunCommands")
+    void everyDeclaredDryRunUsesSdkAndRemainsLocal(io.github.easy4j.dreamina.cli.DreaminaCanvasCommand command) {
+        DreaminaCanvasCommandCoverageTest.Case fixture = DreaminaCanvasCommandCoverageTest.cases().get(command);
+        java.util.List<String> args = new java.util.ArrayList<>(java.util.Arrays.asList(fixture.args));
+        if (!args.contains("dry-run=true")) {
+            args.add("dry-run=true");
+        }
+        DreaminaCanvasResponse<?> response = cli.execute(DreaminaCanvasFixtures.request(command, args.toArray(new String[0])));
+        assertTrue(response.isSuccess(), command.getPath());
+        assertTrue(new com.fasterxml.jackson.databind.ObjectMapper().valueToTree(response.getData()).path("dryRun").asBoolean(), command.getPath());
     }
 }

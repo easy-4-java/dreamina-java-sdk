@@ -2,9 +2,9 @@
 
 ## 即梦画布 CLI（推荐）
 
-**`DreaminaCliExecutor`**（`dreamina` v1.4.21）和 **`DreaminaCanvasCliExecutor`**（`dreamina-canvas` v1.2.0）并行维护。Canvas 覆盖 49 条业务指令、各级帮助和四种 shell 补全；旧 CLI 公共 API 继续完整支持，撤销仅因 Canvas 迁移添加的废弃标记，继续支持 Java 8。
+**`DreaminaCliExecutor`**（`dreamina` v1.4.21）和 **`DreaminaCanvasCliExecutor`**（`dreamina-canvas` v1.2.0）并行维护。Canvas 覆盖 60 条具名指令入口（包含导演台独立契约）、各级帮助和四种 shell 补全；旧 CLI 公共 API 继续完整支持，撤销仅因 Canvas 迁移添加的废弃标记，继续支持 Java 8。
 
-请阅读 [Canvas API 与迁移指南](docs/DREAMINA_CANVAS.md)、[完整命令目录](docs/DREAMINA_CANVAS_COMMANDS.md)
+请阅读 [Canvas API 与迁移指南](docs/DREAMINA_CANVAS.md)、[完整命令目录](docs/DREAMINA_CANVAS_COMMANDS.md)、[本轮逐指令验收矩阵](docs/validation/dual-cli/commands.md)
 和[验收记录](docs/DREAMINA_CANVAS_ACCEPTANCE.md)。下文为保留的 **旧 CLI API 参考**。
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
@@ -374,3 +374,6 @@ export DREAMINA_CLI_AUDIT=true
 
 本项目基于 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) 许可发布。详见仓库根目录的
 `LICENSE` 文件。
+
+
+本轮三条 SDK 已发布至阿里云私服，全部 Starter 版本线已完成消费验证；最终快照与团队验收例外见[发布报告](docs/validation/dual-cli/release-report.md)。

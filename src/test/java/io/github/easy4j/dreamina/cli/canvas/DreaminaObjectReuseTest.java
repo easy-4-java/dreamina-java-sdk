@@ -57,14 +57,14 @@ class DreaminaObjectReuseTest {
     @Test
     void sharedArgumentInterfacePreservesLiteralPayloadAndEnumValues() {
         io.github.easy4j.dreamina.cli.opts.DreaminaCanvasRequest request = io.github.easy4j.dreamina.cli.opts.DreaminaCanvasNodeCreateImageRequest.builder()
-                .prompt("  text\n$(echo NO)  ")
+                .title("compat").mode("t2i").prompt("  text\n$(echo NO)  ")
                 .ratio(io.github.easy4j.dreamina.cli.opts.DreaminaRatio.RATIO_1_1)
                 .resolution(io.github.easy4j.dreamina.cli.opts.DreaminaImageResolutionType.RESOLUTION_1K).build();
         DreaminaCliArgumentProvider provider = request;
-        assertEquals(java.util.Arrays.asList("--prompt=  text\n$(echo NO)  ", "--ratio=1:1", "--resolution=1K"), provider.toCliArgs());
+        assertEquals(java.util.Arrays.asList("--title=compat", "--mode=t2i", "--prompt=  text\n$(echo NO)  ", "--ratio=1:1", "--resolution=1K"), provider.toCliArgs());
         assertEquals(java.util.Arrays.asList("node", "create", "image"), request.toArguments().subList(0, 3));
-        assertEquals("--resolution=1080p", io.github.easy4j.dreamina.cli.opts.DreaminaCanvasNodeCreateVideoRequest.builder()
-                .resolution(io.github.easy4j.dreamina.cli.opts.DreaminaVideoResolutionType.RESOLUTION_1080P).build().toCliArgs().get(0));
+        assertTrue( io.github.easy4j.dreamina.cli.opts.DreaminaCanvasNodeCreateVideoRequest.builder()
+                .title("compat").mode("t2v").resolution(io.github.easy4j.dreamina.cli.opts.DreaminaVideoResolutionType.RESOLUTION_1080P).build().toCliArgs().contains("--resolution=1080p"));
     }
 
     @Test

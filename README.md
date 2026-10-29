@@ -2,11 +2,13 @@
 
 ## Dreamina Canvas CLI (recommended)
 
-Both **`DreaminaCliExecutor`** (`dreamina` v1.4.21) and **`DreaminaCanvasCliExecutor`** (`dreamina-canvas` v1.2.0) are actively supported. Canvas exposes 49 business routes plus help and shell completions. Existing Dreamina APIs remain supported without Canvas migration deprecation annotations. Java 8 remains supported.
+Both **`DreaminaCliExecutor`** (`dreamina` v1.4.21) and **`DreaminaCanvasCliExecutor`** (`dreamina-canvas` v1.2.0) are actively supported. The SDK exposes 60 typed Canvas routes, including the director detail contract, plus help and shell completions. Existing Dreamina APIs remain supported without Canvas migration deprecation annotations. Java 8 remains supported.
 
 See [Canvas API and migration guide](docs/DREAMINA_CANVAS.md), [complete command reference](docs/DREAMINA_CANVAS_COMMANDS.md),
 and [verification evidence](docs/DREAMINA_CANVAS_ACCEPTANCE.md). The sections below document the retained **legacy
 API**.
+
+Current command-level live acceptance and publication evidence are tracked in [the dual-CLI matrix](docs/validation/dual-cli/commands.md). Final versions and approved exceptions are recorded in [the release report](docs/validation/dual-cli/release-report.md).
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -362,3 +364,6 @@ Contributions are welcome — open an issue or submit a pull request against the
 
 This project is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0). See the
 `LICENSE` file in the repository root for details.
+
+
+All three SDK lines are published to private Aliyun Maven and consumed by the matching Starter lines. See the [release report](docs/validation/dual-cli/release-report.md) for final snapshots and the approved team acceptance exception.

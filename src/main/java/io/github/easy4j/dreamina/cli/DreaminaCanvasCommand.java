@@ -185,7 +185,29 @@ public enum DreaminaCanvasCommand {
     /**
      * 返回版本和构建信息。
      */
-    VERSION("version");
+    VERSION("version"),
+    /** 读取导演台独立公开契约。 */
+    SCHEMA_DIRECTOR("schema director"),
+    /** 在画布上创建导演台节点。 */
+    DIRECTOR_CREATE("director create"),
+    /** 读取画布导演台到新文件。 */
+    DIRECTOR_PULL("director pull"),
+    /** 查看并校验画布或本地场景。 */
+    DIRECTOR_SHOW("director show"),
+    /** 原子应用场景、镜头、姿势、动画或分镜命令。 */
+    DIRECTOR_APPLY("director apply"),
+    /** 保存正文并原子更新画布版本。 */
+    DIRECTOR_PUSH("director push"),
+    /** 发现内置几何体、预设、人物或动作。 */
+    DIRECTOR_CATALOG("director catalog"),
+    /** 导出截图或视频（需本机浏览器）或 FBX 动作。 */
+    DIRECTOR_EXPORT("director export"),
+    /** 把动画帧定格到摆拍（需本机浏览器）。 */
+    DIRECTOR_FREEZE("director freeze"),
+    /** 查看当前镜头或分镜帧的截图（需本机浏览器）。 */
+    DIRECTOR_PREVIEW("director preview"),
+    /** 恢复中断的画布导出。 */
+    DIRECTOR_RESUME_EXPORT("director resume-export");
 
     private final String path;
 

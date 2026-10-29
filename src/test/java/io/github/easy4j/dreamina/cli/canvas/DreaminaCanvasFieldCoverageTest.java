@@ -125,6 +125,10 @@ class DreaminaCanvasFieldCoverageTest {
             Object value = sample(element, nested, path + "[]");
             return isArrayWire ? Collections.singletonList(value) : Collections.singletonMap("dynamic-model", value);
         }
+        if ("raw".equals(wire) || "object".equals(wire) && type == io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorJsonValue.class) {
+            assertEquals(io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorJsonValue.class, type, path);
+            return Collections.singletonMap("officialDynamicField", Arrays.asList("preserved", 7));
+        }
         if ("object".equals(wire)) {
             assertInstanceOf(Class.class, type, path);
             assertNotEquals(Object.class, type, path);

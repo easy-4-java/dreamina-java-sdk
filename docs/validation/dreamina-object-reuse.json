@@ -1616,5 +1616,180 @@
     "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasUseRequest.java",
     "status": "canvas-only",
     "reason": "v1.2.0 schema 新增指令、请求或响应对象，无既有语义等价对象可复用。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasInputRules.java",
+    "status": "canvas-only",
+    "reason": "集中校验跨参数静态关系，不取代 CLI 动态业务规则。"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorPushResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorShowResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorPreviewResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorFreezeResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorPreviewResultSource.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorResumeExportResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorExportResultOptions.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorCatalogResultRendering.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorApplyResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorExportResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorPreviewResultCanvas.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorResumeExportResultSource.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorCatalogResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorPullResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorResumeExportResultCanvas.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorExportResultSource.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorResumeExportResultOptions.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorCreateResult.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorExportResultCanvas.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorPreviewResultOptions.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorPreviewRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorPullRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorFreezeRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorApplyRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorExportRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorCreateRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasSchemaDirectorRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorCatalogRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorPushRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorResumeExportRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/opts/DreaminaCanvasDirectorShowRequest.java",
+    "decision": "canvas-only",
+    "reason": "独立 director 公开契约的具名请求/响应；raw 文档保留官方 JSON 结构"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorCanvasHandoff.java",
+    "decision": "canvas-only",
+    "reason": "导演台公开恢复契约字段，不替代已有生成恢复对象"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorConflict.java",
+    "decision": "canvas-only",
+    "reason": "导演台公开恢复契约字段，不替代已有生成恢复对象"
+  },
+  {
+    "path": "src/main/java/io/github/easy4j/dreamina/cli/model/DreaminaCanvasDirectorJsonValue.java",
+    "decision": "canvas-only",
+    "reason": "官方明确 raw 的导演台文档和未公布结构目录值；独立 token 值保持 JSON 无损，不放开通用树入口"
   }
 ]

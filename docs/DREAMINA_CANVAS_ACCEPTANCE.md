@@ -1,5 +1,7 @@
 # 首轮 Canvas 迁移与真实单图验收（历史记录）
 
+> 历史报告：本文保留此前轮次的证据。当前 1.4.21 / 1.2.0 双 CLI 整合、导演台及真实验收状态见 [本轮矩阵](validation/dual-cli/commands.md) 和 [验收记录](validation/dual-cli/acceptance-notes.md)。
+
 > 当前维护策略（2026-10-28）：dreamina 与 dreamina-canvas 并行支持，迁移新增的废弃标记已撤销。下文保留前次审计历史；当前实现与验证见 [旧 CLI 维护说明](DREAMINA_LEGACY_SUPPORT.md)。
 > 本文保留此前通用请求版本的真实执行证据；当前强类型 API 的验证见 [本轮报告](DREAMINA_CANVAS_TYPED_API.md)。
 

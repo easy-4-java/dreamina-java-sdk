@@ -31,7 +31,16 @@ public final class DreaminaCanvasContract {
      * 读取独立的契约对象，调用者修改不会污染后续请求。
      */
     public static DreaminaCanvasSchema schema() {
-        try (InputStream stream = DreaminaCanvasContract.class.getResourceAsStream("schema-1.2.0.json")) {
+        return loadSchema("schema-1.2.0.json");
+    }
+
+    /** 读取导演台独立公开契约，不改变根 schema 返回值。 */
+    public static DreaminaCanvasSchema directorSchema() {
+        return loadSchema("schema-director-1.2.0.json");
+    }
+
+    private static DreaminaCanvasSchema loadSchema(String resource) {
+        try (InputStream stream = DreaminaCanvasContract.class.getResourceAsStream(resource)) {
             if (Objects.isNull(stream)) {
                 throw new IllegalStateException("Missing Canvas schema resource");
             }
@@ -45,7 +54,14 @@ public final class DreaminaCanvasContract {
      * 返回指定指令的具名参数与响应契约。
      */
     public static DreaminaCanvasSchemaCommand describe(DreaminaCanvasCommand command) {
-        List<DreaminaCanvasSchemaCommand> children = schema().getSubcommands();
+        if (command == DreaminaCanvasCommand.SCHEMA_DIRECTOR) {
+            DreaminaCanvasSchemaCommand detail = describe(DreaminaCanvasCommand.SCHEMA);
+            detail.setName("director");
+            detail.setSummary("返回当前制品的导演台独立契约");
+            return detail;
+        }
+        List<DreaminaCanvasSchemaCommand> children = command.getPath().startsWith("director ")
+                ? directorSchema().getSubcommands() : schema().getSubcommands();
         DreaminaCanvasSchemaCommand result = null;
         for (String word : command.getPath().split(" ")) {
             result = null;
@@ -66,15 +82,19 @@ public final class DreaminaCanvasContract {
     static void validate(DreaminaCanvasCommand command, DreaminaCanvasArguments args) {
         DreaminaCanvasSchemaCommand spec = describe(command);
         Map<String, List<String>> options = args.options;
+        Set<String> declared = new HashSet<>();
         for (DreaminaCanvasSchemaFlag flag : spec.getFlags()) {
+            declared.add(flag.getName());
             List<String> values = options.get(flag.getName());
             require(!Boolean.TRUE.equals(flag.getRequired()) || Objects.nonNull(values), "missing option " + flag.getName());
             if (Objects.nonNull(values)) {
+                require("string[]".equals(flag.getType()) || values.size() == 1, "scalar flag cannot repeat");
                 for (String value : values) {
                     validateValue(flag.getName(), flag.getType(), StringUtils.defaultString(flag.getConstraints()), value);
                 }
             }
         }
+        require(declared.containsAll(options.keySet()), "unknown command flag");
         List<DreaminaCanvasArgument> positions = Objects.isNull(spec.getArguments()) ? Collections.emptyList() : spec.getArguments();
         int minimum = (int) positions.stream().filter(p -> Boolean.TRUE.equals(p.getRequired())).count();
         if (command == DreaminaCanvasCommand.MODEL) {
@@ -100,6 +120,7 @@ public final class DreaminaCanvasContract {
             }
         }
         validateRelations(command, options);
+        DreaminaCanvasInputRules.validate(command, options);
     }
 
     private static void validateValue(String name, String type, String constraints, String value) {
@@ -110,6 +131,9 @@ public final class DreaminaCanvasContract {
                 new BigInteger(value);
             }
             BigDecimal numeric = new BigDecimal(value.toString());
+            if (constraints.startsWith("finite")) {
+                require(Double.isFinite(numeric.doubleValue()), name + " must be finite");
+            }
             if (constraints.startsWith(">=0")) {
                 require(numeric.signum() >= 0, name + " must be nonnegative");
             } else if (constraints.startsWith(">0")) {
@@ -140,6 +164,9 @@ public final class DreaminaCanvasContract {
             }
             if (constraints.startsWith("UUID") || constraints.startsWith("unique UUIDs")) {
                 require(UUID.matcher(text).matches(), name + " requires UUID");
+            }
+            if ("node-id".equals(name)) {
+                require(text.matches("node_[0-9abcdefghjkmnpqrstvwxyz]{10}"), "invalid canonical node identity");
             }
             String enumPart = constraints.split("[;(]", 2)[0].trim();
             if (enumPart.matches("[\\w-]+(?:\\s*\\|\\s*[\\w-]+)+")) {

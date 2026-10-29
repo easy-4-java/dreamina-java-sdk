@@ -2,7 +2,7 @@
 
 ## Purpose
 
-TBD - created by archiving change integrate-dreamina-canvas-cli. Update Purpose after archive.
+Maintain legacy Dreamina CLI public APIs, signatures and default behavior alongside Canvas, retaining only deprecations for genuinely obsolete values and preserving complete typed command support.
 
 ## Requirements
 

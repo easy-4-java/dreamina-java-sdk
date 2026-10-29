@@ -2,18 +2,13 @@
 
 ## Purpose
 
-TBD - created by archiving change integrate-dreamina-canvas-cli. Update Purpose after archive.
+Provide the versioned Java contract, safe process execution, typed results and traceable acceptance for the official Dreamina Canvas CLI, alongside the maintained legacy CLI and compatible Spring Boot Starters.
 
 ## Requirements
 
 ### Requirement: Complete versioned command contract
 
-The SDK SHALL represent every executable business command in the installed public Canvas CLI schema captured by the
-bundled versioned snapshot, including the callable model group, and SHALL expose help and four shell completion
-commands separately as text outputs. The bundled contract SHALL preserve flags, positional arguments, repeated values
-and declared exit codes without inventing dynamic model values. On every CLI upgrade the snapshot SHALL be refreshed
-from read-only output and the generated surfaces SHALL be regenerated so schema routes, enum constants and tested
-routes remain exactly equal.
+The SDK SHALL map every executable command in the versioned public Canvas schema, including callable model groups, to an SDK route. Help and four completions SHALL return text. Contracts SHALL preserve flags, positional/repeated values and exit codes without inventing dynamic models. Each CLI upgrade SHALL refresh the read-only snapshot and regenerate surfaces so schema routes, enum constants and tested routes remain exactly equal.
 
 #### Scenario: All executable commands have an SDK route
 
@@ -98,11 +93,7 @@ revision.
 
 ### Requirement: Auditable per-command coverage
 
-Tests SHALL independently enumerate every executable business command from the bundled schema and assert exact SDK route
-coverage. Each route SHALL have controlled subprocess success and structured-failure checks including literal argv. A
-real CLI coverage matrix SHALL record each route with actual evidence, distinguishing business success, expected
-negative outcomes, local dry-run and blocked operations. Help and completion SHALL be covered separately and SHALL NOT
-count as business execution. Missing routes SHALL fail the coverage check.
+Tests SHALL enumerate every executable bundled-schema command and require exact SDK route coverage. Each route SHALL test controlled subprocess success, structured failure and literal argv. A real CLI matrix SHALL link actual evidence for business success, expected failure, dry-run and blocked cases. Help/completion SHALL be tested separately and SHALL NOT count as business execution. Missing routes SHALL fail coverage.
 
 #### Scenario: Schema adds a route
 
@@ -116,11 +107,7 @@ count as business execution. Missing routes SHALL fail the coverage check.
 
 ### Requirement: Dreamina naming and audited reuse
 
-All newly introduced top-level Java types SHALL start with Dreamina. Every pre-existing production top-level type SHALL
-appear in an audited reuse inventory with a reason and either shared/reused or legacy-only status. Compatible request
-interfaces, raw result containers, utilities, DTOs and exceptions SHALL be reused instead of replaced with duplicate
-implementations. Protocol-specific adapters MAY be added only with documented incompatibility. The Canvas response SHALL
-reuse DreaminaCliResult; the legacy response containing a JSON tree SHALL remain available only to legacy callers.
+New top-level types SHALL start with Dreamina. Every existing production top-level type SHALL have an audited reuse reason and shared/reused or legacy-only status. Compatible interfaces, results, utilities, DTOs and exceptions SHALL be reused rather than duplicated; protocol adapters require documented incompatibility. Canvas SHALL reuse DreaminaCliResult. Legacy response JSON trees SHALL remain available only to legacy callers.
 
 #### Scenario: A duplicate or unprefixed type is introduced
 
@@ -135,12 +122,7 @@ reuse DreaminaCliResult; the legacy response containing a JSON tree SHALL remain
 
 ### Requirement: Typed command API without JSON trees
 
-Every business command SHALL have a concrete Java request class with explicitly typed properties covering all command
-flags and positional arguments, a bound concrete response data type, and an executor method accepting that request. Help
-and completion SHALL use explicit Java request/result types. Canvas source and its public API SHALL NOT use JsonNode,
-arbitrary Object properties, Map<String,Object>, or public string-keyed option builders as substitutes for typed models.
-Dynamic protocol dictionaries SHALL use concrete value types. Existing published legacy CLI signatures SHALL remain
-compatible.
+Each business command SHALL expose a concrete typed request for every flag/argument, a bound concrete response and a request-accepting executor method. Help/completion SHALL use explicit request/result types. Canvas source/API SHALL NOT substitute JsonNode, arbitrary Object, Map<String,Object> or public string-keyed option builders for typed models. Dynamic dictionaries SHALL use concrete values. Published legacy signatures SHALL remain compatible.
 
 #### Scenario: Schema parameter or response field changes
 
@@ -160,14 +142,7 @@ compatible.
 
 ### Requirement: Bundled contract snapshot matches the installed public CLI
 
-The typed Canvas integration SHALL bundle a snapshot of the official public
-CLI schema and version it was generated from, and `DreaminaCanvasContract`
-SHALL read that snapshot for runtime argument validation. The snapshot SHALL
-be regenerated from the installed public CLI's read-only `schema` and
-`version` output on every CLI upgrade, and the enum, executor methods,
-request/response types, coverage cases, and command catalog SHALL be
-regenerated or extended so that schema routes, enum constants and tested
-routes remain exactly equal.
+The SDK SHALL bundle the official public CLI schema and its version. DreaminaCanvasContract SHALL use it for runtime validation. Each CLI upgrade SHALL regenerate it from installed read-only schema/version output and update enums, executor methods, request/response types, coverage cases and the command catalog so schema routes, enum constants and tested routes remain exactly equal.
 
 #### Scenario: CLI adds a destructive command family
 
@@ -185,10 +160,57 @@ routes remain exactly equal.
   process is spawned, without SDK-specific validation code
 
 ### Requirement: Canvas CLI v1.2.0 contract parity
-The SDK SHALL expose all 49 v1.2.0 business routes and every declared parameter and response field while preserving existing Java signatures. Help and completions SHALL remain text interfaces.
+The SDK SHALL expose all 60 named v1.2.0 routes, including the root and advertised director detail contracts, and every declared parameter and response field while preserving existing Java signatures. Help and completions SHALL remain text interfaces. Official raw document fields SHALL retain their JSON payload.
 #### Scenario: New routes and changed fields are available
-- **WHEN** consumers invoke team, space, canvas selection, video postprocessing, sample promotion or image cutout commands
-- **THEN** typed requests, concrete response objects and executor methods preserve the exact schema contract
+- **WHEN** consumers invoke team, space, canvas selection, video postprocessing, sample promotion, image cutout or director commands
+- **THEN** typed requests, concrete response objects and executor methods preserve the exact public schema contract
 #### Scenario: No implicit remote mutation
 - **WHEN** contract verification executes
 - **THEN** only help, schema, version, completion and local dry-run execute against the installed CLI; generation and credit approval are not performed
+
+### Requirement: Complete static input contracts and honest live evidence
+The SDK SHALL reject statically invalid coordinate pairs, bindings, references, timeline items, generation and postprocessing combinations before starting a process. Dynamic eligibility SHALL remain authoritative in the CLI. Recovery diagnostics SHALL remain accessible without resubmitting accepted operations.
+#### Scenario: Invalid combinations do not launch the CLI
+- **WHEN** input violates an explicit static CLI rule
+- **THEN** the request throws an argument exception and no process starts
+#### Scenario: Per-command acceptance is traceable
+- **WHEN** command coverage is reported
+- **THEN** local tests, installed dry-run and actual business success are reported separately, with blocking conditions preserved
+#### Scenario: Real generation requires batch approval
+- **WHEN** a live batch can consume credits
+- **THEN** it is submitted only after explicit approval of that batch and quote, and accepted tasks are resumed rather than resubmitted
+
+### Requirement: Follow public detailed command contracts
+The SDK SHALL follow every public detailCommand advertised by the root schema, including schema director. All director routes SHALL expose named request/result types and executor methods. Official raw document payloads SHALL preserve their JSON structure without inventing a schema. Director rendering/export SHALL use director commands, not timeline node generation.
+#### Scenario: Director commands are not omitted by discovery
+- **WHEN** root schema advertises a detailCommand
+- **THEN** its command schema is included in command coverage and acceptance evidence
+
+### Requirement: Align Starter maintenance lines with the verified SDK
+The Starter SHALL map Boot 2.x to SDK 1.0.x / Java 8, Boot 3.x to SDK 2.0.x / Java 17, and Boot 4.x to SDK 3.0.x / Java 21. Each maintenance line SHALL verify Spring wiring of both executors and the complete bundled Canvas contract before private Maven publication.
+#### Scenario: A stale snapshot has the same logical version
+- **WHEN** the resolved SDK has only the historical 49 Canvas routes
+- **THEN** the Starter integration test fails rather than treating matching version text as sufficient evidence
+#### Scenario: Published artifacts are consumed independently
+- **WHEN** SDK and Starter publication is reported complete
+- **THEN** each artifact is resolved and exercised from a separate empty Maven cache and compared with the published JAR checksum
+
+#### Scenario: Maven 4 private publication reaches the declared repository
+- **WHEN** a Maven 4 Starter line is deployed as a private snapshot
+- **THEN** publication updates the configured Aliyun repository metadata and yields matching remote JAR/POM artifacts; build success alone is insufficient proof
+
+### Requirement: Retain explicitly approved acceptance exceptions
+An unavailable account scenario SHALL remain visibly unverified. Publication with such a gap SHALL require an explicit user-approved release exception.
+#### Scenario: No team exists for the account
+- **WHEN** the user approves release with team acceptance blocked
+- **THEN** non-team acceptance and release may complete while the team scenario remains blocked in the evidence matrix
+
+### Requirement: Preserve Boot-managed Jackson runtime compatibility
+The SDK used by Boot 2.3 SHALL start with the parent-managed Jackson 2.11 runtime while preserving strict response parsing. Numeric, boolean, array and object tokens SHALL NOT be silently coerced into declared string fields.
+#### Scenario: Boot dependency management overrides transitive Jackson
+- **WHEN** a consuming application inherits the Boot 2.3 parent and adds the Starter
+- **THEN** both executor beans start without linking to Jackson 2.12-only APIs, and malformed scalar response types still fail
+
+#### Scenario: Raw director numbers retain their precision
+- **WHEN** a director document contains a decimal with more precision than double supports, including under a Boot-managed older Jackson runtime
+- **THEN** the returned raw JSON preserves the decimal value without rounding through double

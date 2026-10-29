@@ -16,33 +16,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class DreaminaCanvasCompatibilityBoundaryTest {
     @Test
     void existingImageEnumsMapToCanvasWireValues() {
-        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
-        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().resolution(DreaminaImageResolutionType.RESOLUTION_1K).build().toCliArgs().contains("--resolution=1K"));
-        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_a").ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
-        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_a").resolution(DreaminaImageResolutionType.RESOLUTION_1K).build().toCliArgs().contains("--resolution=1K"));
-        assertTrue(DreaminaCanvasNodeUpscaleImageRequest.builder().nodeId(java.util.Collections.singletonList("node_a")).resolution(DreaminaImageResolutionType.RESOLUTION_2K).build().toCliArgs().contains("--resolution=2K"));
-        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().ratio((DreaminaRatio) null).resolution((DreaminaImageResolutionType) null).build().toCliArgs().isEmpty());
-        assertEquals(java.util.Collections.singletonList("--node-id=node_a"), DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_a").ratio((DreaminaRatio) null).resolution((DreaminaImageResolutionType) null).build().toCliArgs());
-        assertEquals(java.util.Collections.singletonList("--node-id=node_a"), DreaminaCanvasNodeUpscaleImageRequest.builder().nodeId(java.util.Collections.singletonList("node_a")).resolution((DreaminaImageResolutionType) null).build().toCliArgs());
-        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
-        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().resolution("4K").build().toCliArgs().contains("--resolution=4K"));
-        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_a").resolution("4K").build().toCliArgs().contains("--resolution=4K"));
-        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_a").ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
-        assertTrue(DreaminaCanvasNodeUpscaleImageRequest.builder().nodeId(java.util.Collections.singletonList("node_a")).resolution("8K").build().toCliArgs().contains("--resolution=8K"));
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("compat").mode("t2i").ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("compat").mode("t2i").resolution(DreaminaImageResolutionType.RESOLUTION_1K).build().toCliArgs().contains("--resolution=1K"));
+        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_0000000001").mode("t2i").ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
+        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_0000000001").mode("t2i").resolution(DreaminaImageResolutionType.RESOLUTION_1K).build().toCliArgs().contains("--resolution=1K"));
+        assertTrue(DreaminaCanvasNodeUpscaleImageRequest.builder().nodeId(java.util.Collections.singletonList("node_0000000001")).mode("pro").resolution(DreaminaImageResolutionType.RESOLUTION_2K).build().toCliArgs().contains("--resolution=2K"));
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("compat").ratio((DreaminaRatio) null).resolution((DreaminaImageResolutionType) null).build().toCliArgs().equals(java.util.Collections.singletonList("--title=compat")));
+        assertEquals(java.util.Collections.singletonList("--node-id=node_0000000001"), DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_0000000001").ratio((DreaminaRatio) null).resolution((DreaminaImageResolutionType) null).build().toCliArgs());
+        assertEquals(java.util.Arrays.asList("--node-id=node_0000000001", "--mode=normal"), DreaminaCanvasNodeUpscaleImageRequest.builder().nodeId(java.util.Collections.singletonList("node_0000000001")).mode("normal").resolution((DreaminaImageResolutionType) null).build().toCliArgs());
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("compat").mode("t2i").ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
+        assertTrue(DreaminaCanvasNodeCreateImageRequest.builder().title("compat").mode("t2i").resolution("4K").build().toCliArgs().contains("--resolution=4K"));
+        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_0000000001").mode("t2i").resolution("4K").build().toCliArgs().contains("--resolution=4K"));
+        assertTrue(DreaminaCanvasNodeEditImageRequest.builder().nodeId("node_0000000001").mode("t2i").ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
+        assertTrue(DreaminaCanvasNodeUpscaleImageRequest.builder().nodeId(java.util.Collections.singletonList("node_0000000001")).mode("pro").resolution("8K").build().toCliArgs().contains("--resolution=8K"));
     }
 
     @Test
     void existingVideoEnumsMapToCanvasWireValues() {
-        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
-        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_a").ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
-        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().resolution(DreaminaVideoResolutionType.RESOLUTION_1080P).build().toCliArgs().contains("--resolution=1080p"));
-        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_a").resolution(DreaminaVideoResolutionType.RESOLUTION_1080P).build().toCliArgs().contains("--resolution=1080p"));
-        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().ratio((DreaminaRatio) null).resolution((DreaminaVideoResolutionType) null).build().toCliArgs().isEmpty());
-        assertEquals(java.util.Collections.singletonList("--node-id=node_a"), DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_a").ratio((DreaminaRatio) null).resolution((DreaminaVideoResolutionType) null).build().toCliArgs());
-        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().resolution("4K").build().toCliArgs().contains("--resolution=4K"));
-        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
-        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_a").ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
-        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_a").resolution("4K").build().toCliArgs().contains("--resolution=4K"));
+        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().title("compat").mode("t2v").ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
+        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_0000000001").mode("t2v").ratio(DreaminaRatio.RATIO_1_1).build().toCliArgs().contains("--ratio=1:1"));
+        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().title("compat").mode("t2v").resolution(DreaminaVideoResolutionType.RESOLUTION_1080P).build().toCliArgs().contains("--resolution=1080p"));
+        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_0000000001").mode("t2v").resolution(DreaminaVideoResolutionType.RESOLUTION_1080P).build().toCliArgs().contains("--resolution=1080p"));
+        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().title("compat").ratio((DreaminaRatio) null).resolution((DreaminaVideoResolutionType) null).build().toCliArgs().equals(java.util.Collections.singletonList("--title=compat")));
+        assertEquals(java.util.Collections.singletonList("--node-id=node_0000000001"), DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_0000000001").ratio((DreaminaRatio) null).resolution((DreaminaVideoResolutionType) null).build().toCliArgs());
+        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().title("compat").mode("t2v").resolution("4K").build().toCliArgs().contains("--resolution=4K"));
+        assertTrue(DreaminaCanvasNodeCreateVideoRequest.builder().title("compat").mode("t2v").ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
+        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_0000000001").mode("t2v").ratio("16:9").build().toCliArgs().contains("--ratio=16:9"));
+        assertTrue(DreaminaCanvasNodeEditVideoRequest.builder().nodeId("node_0000000001").mode("t2v").resolution("4K").build().toCliArgs().contains("--resolution=4K"));
     }
 
     @Test

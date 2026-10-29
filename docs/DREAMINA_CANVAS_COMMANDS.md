@@ -1,6 +1,6 @@
 # Canvas CLI 1.2.0 完整业务命令目录
 
-来源：本机 `dreamina-canvas schema` 与逐项 `--help`。49 个业务入口，64 个命令/组描述。动态模型、音色不固化到枚举。完整
+来源：本机 `dreamina-canvas schema`、其声明的独立 detailCommand（当前为 `schema director`）与逐项 `--help`。60 个业务入口，75 个命令/组描述。动态模型、音色不固化到枚举。完整
 successData/dryRunData/constraints 见随包 schema。
 
 | Java 枚举                   | CLI 路径                    | 用途                                                                        |
@@ -25,7 +25,7 @@ successData/dryRunData/constraints 见随包 schema。
 | `NODE_UPSCALE_VIDEO`        | `node upscale video`        | 后编辑：提交即执行，无 --run；等待终态直接使用 --wait                       |
 | `NODE_CUTOUT_IMAGE`         | `node cutout image`         | 后编辑：提交即执行，无 --run；等待终态直接使用 --wait                       |
 | `NODE_INTERPOLATE_VIDEO`    | `node interpolate video`    | 后编辑：提交即执行，无 --run；等待终态直接使用 --wait                       |
-| `NODE_PROMOTE_VIDEO-SAMPLE` | `node promote video-sample` | 样片转正片：报价并批准后生成新节点                                          |
+| `NODE_PROMOTE_VIDEO_SAMPLE` | `node promote video-sample` | 样片转正片：报价并批准后生成新节点                                          |
 | `NODE_DELETE`               | `node delete`               | 确认后批量删除节点；暂不支持群组                                            |
 | `NODE_DELETE_CONFIRM`       | `node delete confirm`       | 明确批准指定批次，签发删除凭证；不删除节点                                  |
 | `NODE_DELETE_STATUS`        | `node delete status`        | 只读查询该批次首次删除结果；不签发凭证、不删除节点                          |
@@ -54,6 +54,17 @@ successData/dryRunData/constraints 见随包 schema。
 | `TEAM_LS`                   | `team ls`                   | 查看团队及订阅积分信息                                                      |
 | `SPACE_USE`                 | `space use`                 | 核验并显式切换空间                                                          |
 | `SPACE_CURRENT`             | `space current`             | 查询当前空间和已选画布的实时权限                                            |
+| `DIRECTOR_CREATE`           | `director create`           | 在画布上创建导演台节点                                                      |
+| `DIRECTOR_PULL`             | `director pull`             | 读取画布导演台到新文件                                                      |
+| `DIRECTOR_SHOW`             | `director show`             | 查看并校验画布或本地场景                                                    |
+| `DIRECTOR_APPLY`            | `director apply`            | 原子应用场景、镜头、姿势、动画或分镜命令                                    |
+| `DIRECTOR_PUSH`             | `director push`             | 保存正文并原子更新画布版本                                                  |
+| `DIRECTOR_CATALOG`          | `director catalog`          | 发现内置几何体、预设、人物或动作                                            |
+| `DIRECTOR_EXPORT`           | `director export`           | 导出截图或视频（需本机浏览器）或 FBX 动作                                   |
+| `DIRECTOR_FREEZE`           | `director freeze`           | 把动画帧定格到摆拍（需本机浏览器）                                          |
+| `DIRECTOR_PREVIEW`          | `director preview`          | 查看当前镜头或分镜帧的截图（需本机浏览器）                                  |
+| `DIRECTOR_RESUME_EXPORT`    | `director resume-export`    | 恢复中断的画布导出                                                          |
+| `SCHEMA_DIRECTOR`           | `schema director`           | 返回导演台独立公开契约                                                      |
 
 ## model
 
@@ -745,6 +756,126 @@ successData/dryRunData/constraints 见随包 schema。
 ## space current
 
 查询当前空间和已选画布的实时权限。退出码：0, 2, 11, 12, 13, 21, 22, 1。
+
+无命令级选项。
+
+## director create
+
+在画布上创建导演台节点。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数         | 类型   | 必填 | 默认           | 含义与约束                                                                                                                                                        |
+|--------------|--------|------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `file`       | string | 否   | —              | 另存已绑定画布节点的新工作副本；Optional new path; the stage is always created on the canvas first and this file is a bound work copy whose later edits need push |
+| `project-id` | string | 否   | —              | 画布项目 UUID；默认当前项目；UUID; defaults to current project; a bound work file retains its project                                                             |
+| `title`      | string | 否   | Director Stage | 导演台标题                                                                                                                                                        |
+
+## director pull
+
+读取画布导演台到新文件。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数         | 类型   | 必填 | 默认 | 含义与约束                                                                                             |
+|--------------|--------|------|------|--------------------------------------------------------------------------------------------------------|
+| `file`       | string | 是   | —    | 本地导演台工作文件；Local work file; required for pull/push/freeze; exclusive with node-id except pull |
+| `project-id` | string | 否   | —    | 画布项目 UUID；默认当前项目；UUID; defaults to current project; a bound work file retains its project  |
+| `node-id`    | string | 是   | —    | 导演台节点 ID                                                                                          |
+| `version-id` | string | 否   | —    | 正文版本；默认当前版本；uint64 decimal; omitted means current version                                  |
+
+## director show
+
+查看并校验画布或本地场景。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数         | 类型   | 必填 | 默认 | 含义与约束                                                                                             |
+|--------------|--------|------|------|--------------------------------------------------------------------------------------------------------|
+| `file`       | string | 否   | —    | 本地导演台工作文件；Local work file; required for pull/push/freeze; exclusive with node-id except pull |
+| `project-id` | string | 否   | —    | 画布项目 UUID；默认当前项目；UUID; defaults to current project; a bound work file retains its project  |
+| `node-id`    | string | 否   | —    | 直接操作画布导演台；与 file 互斥；required without file; reads latest canvas version                   |
+
+## director apply
+
+原子应用场景、镜头、姿势、动画或分镜命令。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数         | 类型   | 必填 | 默认 | 含义与约束                                                                                                                                    |
+|--------------|--------|------|------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| `file`       | string | 否   | —    | 本地导演台工作文件；Local work file; required for pull/push/freeze; exclusive with node-id except pull                                        |
+| `project-id` | string | 否   | —    | 画布项目 UUID；默认当前项目；UUID; defaults to current project; a bound work file retains its project                                         |
+| `node-id`    | string | 否   | —    | 直接操作画布导演台；与 file 互斥；required without file; reads latest canvas version                                                          |
+| `input`      | string | 是   | —    | 有序类型化命令数组 JSON 文件；JSON array of 1..256 typed commands; all-or-nothing; per-command fields in catalog --kind builtin commandFields |
+
+## director push
+
+保存正文并原子更新画布版本。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数         | 类型    | 必填 | 默认  | 含义与约束                                                                                                                                                             |
+|--------------|---------|------|-------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `file`       | string  | 是   | —     | 本地导演台工作文件；Local work file; required for pull/push/freeze; exclusive with node-id except pull                                                                 |
+| `project-id` | string  | 否   | —     | 画布项目 UUID；默认当前项目；UUID; defaults to current project; a bound work file retains its project                                                                  |
+| `force`      | boolean | 否   | false | 画布已有他人保存的较新版本时仍用本文件覆盖；仅在用户明确要求时使用；replace a newer canvas version; only after cli.director_version_conflict and explicit user consent |
+
+## director catalog
+
+发现内置几何体、预设、人物或动作。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数     | 类型    | 必填 | 默认    | 含义与约束                                               |
+|----------|---------|------|---------|----------------------------------------------------------|
+| `kind`   | string  | 否   | builtin | builtin、character 或 motion；builtin\|character\|motion |
+| `offset` | integer | 否   | 0       | 分页偏移；>=0                                            |
+| `count`  | integer | 否   | 50      | 每页条数（1..100）；1..100                               |
+
+## director export
+
+导出截图或视频（需本机浏览器）或 FBX 动作。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数         | 类型    | 必填 | 默认  | 含义与约束                                                                                                   |
+|--------------|---------|------|-------|--------------------------------------------------------------------------------------------------------------|
+| `file`       | string  | 否   | —     | 本地导演台工作文件；Local work file; required for pull/push/freeze; exclusive with node-id except pull       |
+| `project-id` | string  | 否   | —     | 画布项目 UUID；默认当前项目；UUID; defaults to current project; a bound work file retains its project        |
+| `node-id`    | string  | 否   | —     | 直接操作画布导演台；与 file 互斥；required without file; reads latest canvas version                         |
+| `output`     | string  | 否   | —     | 新建产物路径（不覆盖）；new file; required for local export; optional for preview; forbidden with to-canvas  |
+| `workspace`  | string  | 否   | —     | staging 或 performance；仅选择渲染工作区；staging\|performance; defaults to snapshot session                 |
+| `camera-id`  | string  | 否   | —     | 镜头 ID；默认输出镜头；cannot combine with storyboard                                                        |
+| `storyboard` | boolean | 否   | false | 使用分镜序列                                                                                                 |
+| `frame`      | integer | 否   | 0     | 截图帧号；>=0; image only                                                                                    |
+| `long-edge`  | integer | 否   | 1280  | 输出长边 1280 或 1920；1280\|1920                                                                            |
+| `type`       | string  | 否   | image | image、video 或 fbx；image\|video\|fbx                                                                       |
+| `motion-id`  | string  | 否   | —     | 导出 FBX 的动作 ID；required for fbx                                                                         |
+| `to-canvas`  | boolean | 否   | false | 上传导出结果并创建真实画布媒体节点；image/video only; requires media-upload capability and write environment |
+
+## director freeze
+
+把动画帧定格到摆拍（需本机浏览器）。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数    | 类型    | 必填 | 默认 | 含义与约束                                                                                             |
+|---------|---------|------|------|--------------------------------------------------------------------------------------------------------|
+| `file`  | string  | 是   | —    | 本地导演台工作文件；Local work file; required for pull/push/freeze; exclusive with node-id except pull |
+| `frame` | integer | 否   | 0    | 定格帧号；>=0                                                                                          |
+
+## director preview
+
+查看当前镜头或分镜帧的截图（需本机浏览器）。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数         | 类型    | 必填 | 默认  | 含义与约束                                                                                                  |
+|--------------|---------|------|-------|-------------------------------------------------------------------------------------------------------------|
+| `file`       | string  | 否   | —     | 本地导演台工作文件；Local work file; required for pull/push/freeze; exclusive with node-id except pull      |
+| `project-id` | string  | 否   | —     | 画布项目 UUID；默认当前项目；UUID; defaults to current project; a bound work file retains its project       |
+| `node-id`    | string  | 否   | —     | 直接操作画布导演台；与 file 互斥；required without file; reads latest canvas version                        |
+| `output`     | string  | 否   | —     | 新建产物路径（不覆盖）；new file; required for local export; optional for preview; forbidden with to-canvas |
+| `workspace`  | string  | 否   | —     | staging 或 performance；仅选择渲染工作区；staging\|performance; defaults to snapshot session                |
+| `camera-id`  | string  | 否   | —     | 镜头 ID；默认输出镜头；cannot combine with storyboard                                                       |
+| `storyboard` | boolean | 否   | false | 使用分镜序列                                                                                                |
+| `frame`      | integer | 否   | 0     | 截图帧号；>=0; image only                                                                                   |
+| `long-edge`  | integer | 否   | 1280  | 输出长边 1280 或 1920；1280\|1920                                                                           |
+
+## director resume-export
+
+恢复中断的画布导出。退出码：0, 2, 11, 12, 13, 20, 21, 22, 1。
+
+| 参数            | 类型   | 必填 | 默认 | 含义与约束                                                                         |
+|-----------------|--------|------|------|------------------------------------------------------------------------------------|
+| `operation-ref` | string | 是   | —    | 导出恢复记录路径；private delivery record returned in success/error; reuse exactly |
+
+## schema director
+
+返回导演台独立公开契约。退出码：0, 2, 1。
 
 无命令级选项。
 

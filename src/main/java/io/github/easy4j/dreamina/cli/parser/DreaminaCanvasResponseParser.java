@@ -1,17 +1,20 @@
 package io.github.easy4j.dreamina.cli.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.cfg.CoercionAction;
-import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
-import com.fasterxml.jackson.databind.type.LogicalType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.github.easy4j.dreamina.cli.DreaminaCanvasResponse;
 import io.github.easy4j.dreamina.cli.DreaminaCliResult;
 import io.github.easy4j.dreamina.exception.DreaminaCanvasCliException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -24,10 +27,19 @@ public final class DreaminaCanvasResponseParser {
         ObjectMapper mapper = DreaminaCliStructuredPayloadMapper.defaultObjectMapper()
                 .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS)
                 .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS);
-        mapper.coercionConfigFor(LogicalType.Textual)
-                .setCoercion(CoercionInputShape.Integer, CoercionAction.Fail)
-                .setCoercion(CoercionInputShape.Float, CoercionAction.Fail)
-                .setCoercion(CoercionInputShape.Boolean, CoercionAction.Fail);
+        // Boot 2.3 管理 Jackson 2.11；使用既有扩展点保留严格字符串语义，避免链接 2.12+ API。
+        SimpleModule strictStrings = new SimpleModule();
+        strictStrings.addDeserializer(String.class, new JsonDeserializer<String>() {
+            @Override
+            public String deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+                if (parser.currentToken() != JsonToken.VALUE_STRING) {
+                    throw context.wrongTokenException(parser, String.class, JsonToken.VALUE_STRING,
+                            "Expected a JSON string without scalar coercion");
+                }
+                return parser.getText();
+            }
+        });
+        mapper.registerModule(strictStrings);
         return mapper;
     }
 

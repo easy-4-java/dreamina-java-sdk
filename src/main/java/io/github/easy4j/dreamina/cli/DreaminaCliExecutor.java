@@ -226,9 +226,9 @@ public class DreaminaCliExecutor {
      * Unified exception when the subprocess cannot be started (package-visible, for test coverage of spawn failure branches).
      */
     static DreaminaCliExecutableFailureException failedToStart(CommandLine commandLine, IOException cause) {
-        log.warn("Dreamina CLI spawn failed commandLine={}, message={}", commandLine, cause.getMessage());
+        log.warn("Dreamina CLI subprocess could not be started; failureType={}", cause.getClass().getSimpleName());
         return new DreaminaCliExecutableFailureException(
-                "Dreamina CLI could not be started (check PATH or executable path): " + commandLine, cause);
+                "Dreamina CLI could not be started (check PATH or executable path)", cause);
     }
 
     /**
@@ -237,7 +237,7 @@ public class DreaminaCliExecutor {
     static DreaminaCliException failedAsync(
             CommandLine commandLine, Exception asyncFailure, DreaminaCliResult partial) {
         return new DreaminaCliException(
-                "Dreamina CLI async failure: " + commandLine + " cause=" + asyncFailure.getMessage(),
+                "Dreamina CLI async failure (" + asyncFailure.getClass().getSimpleName() + ")",
                 asyncFailure,
                 partial);
     }
@@ -248,7 +248,7 @@ public class DreaminaCliExecutor {
     static DreaminaCliException missingExitCode(
             CommandLine commandLine, IllegalStateException cause, DreaminaCliResult partial) {
         return new DreaminaCliException(
-                "Dreamina CLI completed without observable exit code: " + commandLine, cause, partial);
+                "Dreamina CLI completed without observable exit code", cause, partial);
     }
 
     /**
@@ -257,7 +257,7 @@ public class DreaminaCliExecutor {
     static DreaminaCliNonZeroExitException nonZeroExitWithoutExecuteException(
             CommandLine commandLine, int exitCode, DreaminaCliResult failed) {
         return new DreaminaCliNonZeroExitException(
-                "Dreamina CLI non-zero exit (exitCode=" + exitCode + "): " + commandLine, failed);
+                "Dreamina CLI non-zero exit (exitCode=" + exitCode + ")", failed);
     }
 
     /**
@@ -1937,7 +1937,7 @@ public class DreaminaCliExecutor {
         if (waitTimedOut || watchdog.killedProcess()) {
             DreaminaCliResult partial = snapshot(stdoutStr, stderrStr, readExitQuietly(handler), parsed);
             throw new DreaminaCliTimeoutException(
-                    "Dreamina CLI timed out after " + timeoutMs + " ms: " + commandLine, partial);
+                    "Dreamina CLI timed out after " + timeoutMs + " ms", partial);
         }
 
         // --- ExecuteException：通常对应非零退出或进程被破坏 ---
@@ -1946,7 +1946,7 @@ public class DreaminaCliExecutor {
             ExecuteException ex = (ExecuteException) asyncFailure;
             DreaminaCliResult failed = snapshot(stdoutStr, stderrStr, normalizeExitValue(ex.getExitValue()), parsed);
             throw new DreaminaCliNonZeroExitException(
-                    "Dreamina CLI failed (exitCode=" + ex.getExitValue() + "): " + commandLine, failed);
+                    "Dreamina CLI failed (exitCode=" + ex.getExitValue() + ")", failed);
         }
         if (asyncFailure != null) {
             DreaminaCliResult partial = snapshot(stdoutStr, stderrStr, readExitQuietly(handler), parsed);

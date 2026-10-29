@@ -24,7 +24,7 @@ bash、zsh、fish、powershell，返回脚本文本。
 
 
 def load_schema(path=None):
-    target = Path(path) if path else sorted((ROOT / 'src/main/resources/io/github/easy4j/dreamina/cli/opts').glob('schema-*.json'))[-1]
+    target = Path(path) if path else sorted((ROOT / 'src/main/resources/io/github/easy4j/dreamina/cli/opts').glob('schema-[0-9]*.json'))[-1]
     return json.loads(target.read_text(encoding='utf-8')), target
 
 
@@ -65,7 +65,7 @@ def render_flag_table(flags):
 
 
 def render_enum_table(routes):
-    rows = [('`%s`' % '_'.join(w.upper() for w in p.split(' ')), '`%s`' % p, (n.get('summary') or '').replace('|', '\\|')) for p, n in routes]
+    rows = [('`%s`' % '_'.join(w.upper() for w in p.replace('-', '_').split(' ')), '`%s`' % p, (n.get('summary') or '').replace('|', '\\|')) for p, n in routes]
     return table(['Java 枚举', 'CLI 路径', '用途'], rows)
 
 
@@ -75,6 +75,18 @@ def main():
     for family in schema['subcommands']:
         walk(family, '', nodes)
     version = target.stem.replace('schema-', '')
+    detail_routes = []
+    for family in schema['subcommands']:
+        if family.get('detailCommand'):
+            if family['detailCommand'] != 'dreamina-canvas schema director':
+                raise ValueError('Unresolved public detailCommand: ' + family['detailCommand'])
+            detail = json.loads((target.parent / ('schema-director-' + version + '.json')).read_text())
+            director = next(node for node in detail['subcommands'] if node['name'] == 'director')
+            for child in director['subcommands']:
+                walk(child, 'director', nodes)
+            root_schema = next(node for node in schema['subcommands'] if node['name'] == 'schema')
+            detail_routes.append(('schema director', dict(root_schema, name='director', summary='返回导演台独立公开契约')))
+    nodes.extend(detail_routes)
     routes = [(p, n) for p, n in nodes if n.get('successData')]
     sections = []
     for path, node in routes:
@@ -97,7 +109,7 @@ def main():
     header = [
         '# Canvas CLI %s 完整业务命令目录' % version,
         '',
-        '来源：本机 `dreamina-canvas schema` 与逐项 `--help`。%d 个业务入口，%d 个命令/组描述。动态模型、音色不固化到枚举。完整' % (len(routes), len(nodes)),
+        ('来源：本机 `dreamina-canvas schema`、其声明的独立 detailCommand（当前为 `schema director`）与逐项 `--help`。' if detail_routes else '来源：本机 `dreamina-canvas schema` 与逐项 `--help`。') + '%d 个业务入口，%d 个命令/组描述。动态模型、音色不固化到枚举。完整' % (len(routes), len(nodes)),
         'successData/dryRunData/constraints 见随包 schema。',
         '',
     ]
