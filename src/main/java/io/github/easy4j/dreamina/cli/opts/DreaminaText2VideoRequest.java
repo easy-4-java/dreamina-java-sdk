@@ -13,11 +13,9 @@ import java.util.List;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#text2video(String)
  * @since 3.0.0
- * @deprecated 旧 model_version/video_resolution/session_id 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaText2VideoRequest implements DreaminaCliArgumentProvider {
 
     /**
@@ -65,6 +63,7 @@ public class DreaminaText2VideoRequest implements DreaminaCliArgumentProvider {
 
     @Override
     public List<String> toCliArgs() {
+        DreaminaCliContractValidator.validateVideoRatio(ratio, modelVersion, false);
         if (modelVersion != null && !modelVersion.supportsText2Video()) {
             throw new IllegalArgumentException("text2video only supports seedance model family");
         }

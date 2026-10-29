@@ -40,7 +40,7 @@ class DreaminaCanvasCliTest {
         Path args = dir.resolve("argv");
         DreaminaCanvasCliExecutor cli = fake("printf '%s\\000' \"$@\" > '" + args + "'\n" + output("{\"schemaVersion\":\"1\",\"ok\":true,\"data\":{}}", 0), 5000);
         String prompt = "中文 'quote' \"double\"\n$(touch SHOULD_NOT_EXIST); *";
-        cli.execute(DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_CREATE_IMAGE, "mode=t2i", "prompt=" + prompt, "run=false", "dry-run=true"));
+        cli.execute(DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_CREATE_IMAGE, "title=literal-test", "mode=t2i", "prompt=" + prompt, "run=false", "dry-run=true"));
         String raw = new String(Files.readAllBytes(args), StandardCharsets.UTF_8);
         assertTrue(Arrays.asList(raw.split("\u0000")).contains("--prompt=" + prompt));
         assertTrue(raw.contains("--format=json\u0000"));
@@ -52,8 +52,8 @@ class DreaminaCanvasCliTest {
 
     @Test
     void repeatedValuesAndPositionalsAreUnambiguous() {
-        DreaminaCanvasRequest req = DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_SHOW, "node-id=" + "node_a", "node-id=" + "node_b");
-        assertEquals(Arrays.asList("node", "show", "--node-id=node_a", "--node-id=node_b"), req.toArguments());
+        DreaminaCanvasRequest req = DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_SHOW, "node-id=" + "node_0000000001", "node-id=" + "node_0000000002");
+        assertEquals(Arrays.asList("node", "show", "--node-id=node_0000000001", "--node-id=node_0000000002"), req.toArguments());
         assertEquals(Arrays.asList("canvas", "create", "--", "--yes"), DreaminaCanvasFixtures.request(DreaminaCanvasCommand.CANVAS_CREATE, "@" + "--yes").toArguments());
     }
 
@@ -65,7 +65,7 @@ class DreaminaCanvasCliTest {
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasFixtures.request(DreaminaCanvasCommand.CANVAS_LS, "limit=" + 0));
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasFixtures.request(DreaminaCanvasCommand.VERSION, "@" + "extra"));
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_CREATE_IMAGE, "credit-ceiling=" + 1));
-        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_RUN, "node-id=" + "node_a", "submit-id=" + "bad"));
+        assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasFixtures.request(DreaminaCanvasCommand.NODE_RUN, "node-id=" + "node_0000000001", "submit-id=" + "bad"));
         assertThrows(IllegalArgumentException.class, () -> DreaminaCanvasFixtures.request(DreaminaCanvasCommand.RESOURCE_UPLOAD, "file=" + "a", "source-url=" + "https://example.com"));
     }
 
@@ -228,7 +228,7 @@ class DreaminaCanvasCliTest {
 
     @Test
     void schemaCoversAllBusinessCommands() {
-        assertEquals(37, DreaminaCanvasCommand.values().length);
+        assertEquals(60, DreaminaCanvasCommand.values().length);
         for (DreaminaCanvasCommand command : DreaminaCanvasCommand.values()) {
             assertEquals(command.getPath().substring(command.getPath().lastIndexOf(' ') + 1), DreaminaCanvasContract.describe(command).getName());
         }

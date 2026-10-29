@@ -18,7 +18,7 @@ import java.util.Map;
 final class DreaminaCanvasFixtures {
     static Class<?> requestClass(DreaminaCanvasCommand command) throws ClassNotFoundException {
         StringBuilder name = new StringBuilder("io.github.easy4j.dreamina.cli.opts.DreaminaCanvas");
-        for (String word : command.getPath().split(" ")) {
+        for (String word : command.getPath().replace('-', ' ').split(" ")) {
             name.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
         }
         return Class.forName((name + "Request").replace("DreaminaCanvasCanvas", "DreaminaCanvas"));

@@ -39,4 +39,22 @@ public class DreaminaLoginAccount {
      * Canvas 账号会员标识，不根据等级猜测。
      */
     private Boolean isVip;
+    /** 画布账号契约字段。 */
+    @com.fasterxml.jackson.annotation.JsonProperty("displayName")
+    private String displayName;
+    /** 画布账号契约字段。 */
+    @com.fasterxml.jackson.annotation.JsonProperty("availableCredits")
+    private String availableCredits;
+    /** 画布账号契约字段。 */
+    @com.fasterxml.jackson.annotation.JsonProperty("credits")
+    private DreaminaCanvasCredit credits;
+    /** 画布账号契约字段。 */
+    @com.fasterxml.jackson.annotation.JsonProperty("vipLevelStartsAt")
+    private String vipLevelStartsAt;
+    /** 画布账号契约字段。 */
+    @com.fasterxml.jackson.annotation.JsonProperty("vipLevelExpiresAt")
+    private String vipLevelExpiresAt;
+    /** 画布账号契约字段。 */
+    @com.fasterxml.jackson.annotation.JsonProperty("teamSpaceDiscovery")
+    private DreaminaCanvasTeamSpaceDiscovery teamSpaceDiscovery;
 }

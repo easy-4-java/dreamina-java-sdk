@@ -1,0 +1,55 @@
+{
+  "cliVersion": "1.2.0",
+  "commands": [
+    {
+      "command": "director create",
+      "request": "DreaminaCanvasDirectorCreateRequest",
+      "data": "DreaminaCanvasDirectorCreateResult"
+    },
+    {
+      "command": "director pull",
+      "request": "DreaminaCanvasDirectorPullRequest",
+      "data": "DreaminaCanvasDirectorPullResult"
+    },
+    {
+      "command": "director show",
+      "request": "DreaminaCanvasDirectorShowRequest",
+      "data": "DreaminaCanvasDirectorShowResult"
+    },
+    {
+      "command": "director apply",
+      "request": "DreaminaCanvasDirectorApplyRequest",
+      "data": "DreaminaCanvasDirectorApplyResult"
+    },
+    {
+      "command": "director push",
+      "request": "DreaminaCanvasDirectorPushRequest",
+      "data": "DreaminaCanvasDirectorPushResult"
+    },
+    {
+      "command": "director catalog",
+      "request": "DreaminaCanvasDirectorCatalogRequest",
+      "data": "DreaminaCanvasDirectorCatalogResult"
+    },
+    {
+      "command": "director export",
+      "request": "DreaminaCanvasDirectorExportRequest",
+      "data": "DreaminaCanvasDirectorExportResult"
+    },
+    {
+      "command": "director freeze",
+      "request": "DreaminaCanvasDirectorFreezeRequest",
+      "data": "DreaminaCanvasDirectorFreezeResult"
+    },
+    {
+      "command": "director preview",
+      "request": "DreaminaCanvasDirectorPreviewRequest",
+      "data": "DreaminaCanvasDirectorPreviewResult"
+    },
+    {
+      "command": "director resume-export",
+      "request": "DreaminaCanvasDirectorResumeExportRequest",
+      "data": "DreaminaCanvasDirectorResumeExportResult"
+    }
+  ]
+}

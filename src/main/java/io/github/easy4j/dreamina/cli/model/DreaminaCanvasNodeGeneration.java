@@ -58,6 +58,11 @@ public final class DreaminaCanvasNodeGeneration {
     @JsonProperty("voiceName")
     private String voiceName;
     /**
+     * 契约字段 {@code voiceId}。
+     */
+    @JsonProperty("voiceId")
+    private String voiceId;
+    /**
      * 契约字段 {@code references}。
      */
     @JsonProperty("references")

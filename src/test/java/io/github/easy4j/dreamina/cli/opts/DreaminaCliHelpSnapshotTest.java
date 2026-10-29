@@ -41,7 +41,7 @@ class DreaminaCliHelpSnapshotTest {
     private static final String SNAPSHOT_V1417 =
         "/cli-contract/dreamina-v1.4.17-help.snapshot.tsv";
     private static final Pattern HELP_FLAG =
-        Pattern.compile("^\\s+(?:-h,\\s+)?(--[a-z0-9_-]+)\\s+.*$");
+        Pattern.compile("^\\s+(?:-[A-Za-z0-9],\\s+)?(--[a-z0-9_-]+)\\s+.*$");
 
     @TempDir
     Path tempDir;
@@ -129,15 +129,35 @@ class DreaminaCliHelpSnapshotTest {
             "set -Ddreamina.cli.contract.verify=true to compare the installed CLI");
         String executable = System.getProperty("dreamina.cli.executable", "dreamina");
 
-        verifyAgainstSnapshot(executable, SNAPSHOT_V1417);
+        verifyAgainstSnapshot(executable, "/cli-contract/dreamina-v1.4.21-help.snapshot.tsv");
+    }
+
+    private List<String> helpCommand(String executable, String command) {
+        List<String> argv = new ArrayList<>();
+        argv.add(executable);
+        argv.addAll(Arrays.asList(command.split(" ")));
+        argv.add("-h");
+        return argv;
+    }
+
+    @Test
+    void latestGeneratorFlagsMatchTypedRequests() throws IOException {
+        Map<String, Set<String>> flags = sdkFlags(false);
+        flags.get("image2video").add("--ratio");
+        flags.get("frames2video").add("--ratio");
+        for (HelpContract contract : readContracts("/cli-contract/dreamina-v1.4.21-help.snapshot.tsv")) {
+            if (flags.containsKey(contract.command())) {
+                assertEquals(parseSnapshotFlags(contract.literal()), flags.get(contract.command()), contract.command());
+            }
+        }
     }
 
     private void verifyAgainstSnapshot(String executable, String snapshotPath)
             throws IOException, InterruptedException {
         for (HelpContract contract : readContracts(snapshotPath)) {
-            Process process = new ProcessBuilder(executable, contract.command(), "-h")
-                .redirectErrorStream(true)
-                .start();
+            Process process = new ProcessBuilder(helpCommand(executable, contract.command()))
+                    .redirectErrorStream(true)
+                    .start();
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
             int read;
@@ -328,7 +348,7 @@ class DreaminaCliHelpSnapshotTest {
     }
 
     private Set<String> parseSnapshotFlags(String literal) {
-        return new TreeSet<>(Arrays.asList(literal.split(",")));
+        return literal.isEmpty() ? new TreeSet<>() : new TreeSet<>(Arrays.asList(literal.split(",")));
     }
 
     @SafeVarargs

@@ -14,9 +14,7 @@ package io.github.easy4j.dreamina.cli;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor
  * @since 3.0.0
- * @deprecated 旧 login/session/text2image/query_result 路由常量与 Canvas 路由不兼容；替代：DreaminaCanvasCommand。
  */
-@Deprecated
 public final class DreaminaCliSubcommands {
 
     private DreaminaCliSubcommands() {

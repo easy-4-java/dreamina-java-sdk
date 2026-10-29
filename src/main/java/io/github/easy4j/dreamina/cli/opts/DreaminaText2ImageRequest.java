@@ -27,11 +27,9 @@ import java.util.List;
  * </ul>
  * </p>
  * @since 3.0.0
- * @deprecated model_version/generate_num/session_id/poll 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_IMAGE，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaText2ImageRequest implements DreaminaCliArgumentProvider {
 
     /**

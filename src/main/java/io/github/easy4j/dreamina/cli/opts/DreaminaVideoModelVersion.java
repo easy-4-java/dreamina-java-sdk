@@ -26,10 +26,8 @@ import lombok.Getter;
  * </ul>
  * </p>
  * @since 3.0.0
- * @deprecated 硬编码旧模型路由及模态/时长能力，不能代表 Canvas 实时 generation spec；替代：model list/find。
  */
 @Getter
-@Deprecated
 public enum DreaminaVideoModelVersion {
 
     SEEDANCE_2_0_FAST("seedance2.0fast"),

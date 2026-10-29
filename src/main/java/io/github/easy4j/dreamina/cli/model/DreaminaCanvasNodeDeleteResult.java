@@ -13,6 +13,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasNodeDeleteResult {
     /**
+     * 契约字段 {@code localStorageWarning}。
+     */
+    @JsonProperty("localStorageWarning")
+    private DreaminaCanvasLocalStorageWarning localStorageWarning;
+    /**
      * 契约字段 {@code nodeIds}。
      */
     @JsonProperty("nodeIds")

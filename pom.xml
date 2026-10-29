@@ -7,7 +7,7 @@
     <artifactId>dreamina-java-sdk</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <url>https://github.com/easy-4-java/${project.artifactId}</url>
-    <version>3.0.x.20260630-SNAPSHOT</version>
+    <version>3.0.x.20260830-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>Dreamina (即梦) official CLI integration SDK for Java — JDK 21 line</description>
     <!-- 开源协议采用 Apache 2.0 协议 -->

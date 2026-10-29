@@ -6,6 +6,7 @@ import lombok.Singular;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 单图生视频Single-image-to-video request object.
@@ -13,11 +14,9 @@ import java.util.List;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#image2video(String, String, java.util.List)
  * @since 3.0.0
- * @deprecated 旧本地 image 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_CREATE_VIDEO，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
 
     /**
@@ -34,6 +33,9 @@ public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
      * 时长（秒）。
      */
     private final Integer durationSeconds;
+
+    /** 可选视频比例；省略时由 CLI 使用默认行为。 */
+    private final DreaminaRatio ratio;
 
     /**
      * 视频模型版本。
@@ -65,7 +67,8 @@ public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
 
     @Override
     public List<String> toCliArgs() {
-        if (modelVersion != null && !modelVersion.supportsImage2Video()) {
+        DreaminaCliContractValidator.validateVideoRatio(ratio, modelVersion, true);
+        if (Objects.nonNull(modelVersion) && !modelVersion.supportsImage2Video()) {
             throw new IllegalArgumentException("image2video requires a current Seedance model");
         }
         DreaminaCliContractValidator.validateVideoModelResolution(modelVersion, videoResolution);
@@ -76,7 +79,8 @@ public class DreaminaImage2VideoRequest implements DreaminaCliArgumentProvider {
                 args, "--prompt", DreaminaCliRequestSupport.requireNonBlank(prompt, "prompt"));
         DreaminaCliRequestSupport.requireVideoDuration(durationSeconds, modelVersion, "durationSeconds");
         DreaminaCliRequestSupport.addFlag(args, "--duration", durationSeconds);
-        DreaminaCliRequestSupport.addFlag(args, "--model_version", modelVersion == null ? null : modelVersion.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--ratio", Objects.isNull(ratio) ? null : ratio.getCliValue());
+        DreaminaCliRequestSupport.addFlag(args, "--model_version", Objects.isNull(modelVersion) ? null : modelVersion.getCliValue());
         DreaminaCliRequestSupport.addFlag(args, "--video_resolution", videoResolution.getCliValue());
         DreaminaCliRequestSupport.requireSessionId(sessionId);
         DreaminaCliRequestSupport.addFlag(args, "--session", sessionId);

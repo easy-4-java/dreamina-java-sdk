@@ -11,13 +11,13 @@
         return execute(request);
     }
     /**
-     * 按名称或别名定位可调用的 canonical model。
+     * 按展示名或别名定位可调用的 canonical model。
      */
     public DreaminaCanvasResponse<DreaminaCanvasModelFindResult> modelFind(DreaminaCanvasModelFindRequest request) {
         return execute(request);
     }
     /**
-     * 列出可用于 tts 的音色名称。
+     * 列出可用于 tts 的音色及 ID。
      */
     public DreaminaCanvasResponse<DreaminaCanvasVoiceListResult> voiceList(DreaminaCanvasVoiceListRequest request) {
         return execute(request);
@@ -98,6 +98,30 @@
      * 图片超清：提交即执行，无 --run；等待终态直接使用 --wait。
      */
     public DreaminaCanvasResponse<DreaminaCanvasNodeUpscaleImageResult> nodeUpscaleImage(DreaminaCanvasNodeUpscaleImageRequest request) {
+        return execute(request);
+    }
+    /**
+     * 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasNodeUpscaleVideoResult> nodeUpscaleVideo(DreaminaCanvasNodeUpscaleVideoRequest request) {
+        return execute(request);
+    }
+    /**
+     * 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasNodeCutoutImageResult> nodeCutoutImage(DreaminaCanvasNodeCutoutImageRequest request) {
+        return execute(request);
+    }
+    /**
+     * 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasNodeInterpolateVideoResult> nodeInterpolateVideo(DreaminaCanvasNodeInterpolateVideoRequest request) {
+        return execute(request);
+    }
+    /**
+     * 样片转正片：报价并批准后生成新节点。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasNodePromoteVideoSampleResult> nodePromoteVideoSample(DreaminaCanvasNodePromoteVideoSampleRequest request) {
         return execute(request);
     }
     /**
@@ -191,6 +215,18 @@
         return execute(request);
     }
     /**
+     * 核验权限并选择当前画布。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasUseResult> canvasUse(DreaminaCanvasUseRequest request) {
+        return execute(request);
+    }
+    /**
+     * 查询当前画布和实时权限。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasCurrentResult> canvasCurrent(DreaminaCanvasCurrentRequest request) {
+        return execute(request);
+    }
+    /**
      * 读取服务端认证的当前账号。
      */
     public DreaminaCanvasResponse<DreaminaLoginAccount> authAccount(DreaminaCanvasAuthAccountRequest request) {
@@ -236,5 +272,23 @@
      * 返回版本和构建信息。
      */
     public DreaminaCanvasResponse<DreaminaVersion> version(DreaminaCanvasVersionRequest request) {
+        return execute(request);
+    }
+    /**
+     * 查看团队及订阅积分信息。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasTeamLsResult> teamLs(DreaminaCanvasTeamLsRequest request) {
+        return execute(request);
+    }
+    /**
+     * 核验并显式切换空间。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasSpaceUseResult> spaceUse(DreaminaCanvasSpaceUseRequest request) {
+        return execute(request);
+    }
+    /**
+     * 查询当前空间和已选画布的实时权限。
+     */
+    public DreaminaCanvasResponse<DreaminaCanvasSpaceCurrentResult> spaceCurrent(DreaminaCanvasSpaceCurrentRequest request) {
         return execute(request);
     }

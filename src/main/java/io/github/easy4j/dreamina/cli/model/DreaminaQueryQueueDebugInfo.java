@@ -13,11 +13,9 @@ import lombok.Data;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaQueryQueueInfo
  * @since 3.0.0
- * @deprecated 旧 queue_info.debug_info 内嵌结构；Canvas 无该协议，使用 operation/meta 原始数据。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Deprecated
 public class DreaminaQueryQueueDebugInfo {
 
     @JsonProperty("have_no_dreamina_queue_name")

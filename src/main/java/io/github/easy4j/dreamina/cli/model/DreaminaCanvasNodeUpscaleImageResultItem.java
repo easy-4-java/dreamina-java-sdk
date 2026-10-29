@@ -43,6 +43,11 @@ public final class DreaminaCanvasNodeUpscaleImageResultItem {
     @JsonProperty("error")
     private DreaminaCanvasNodeUpscaleImageResultItemError error;
     /**
+     * 契约字段 {@code validation}。
+     */
+    @JsonProperty("validation")
+    private DreaminaCanvasValidation validation;
+    /**
      * 契约字段 {@code authorizedCredits}。
      */
     @JsonProperty("authorizedCredits")

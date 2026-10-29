@@ -1,0 +1,29 @@
+用法：
+  dreamina-canvas node [flags]
+  dreamina-canvas node [命令]
+
+可用命令：
+  confirm     批准给定节点的积分消费上限并取回短期凭证
+  create      创建 typed 画布节点，不触发生成
+  cutout      图片抠图
+  delete      确认后批量删除节点；暂不支持群组
+  edit        编辑已保存的 typed 画布节点，不触发生成
+  find        按条件查节点，只回定位摘要（nodeId/type/title/status/tags）
+  interpolate 视频补帧
+  promote     将样片生成为正片
+  quote       对给定节点做运行前积分预估
+  run         触发给定节点的运行
+  show        读取给定节点的视图
+  upscale     提升已生成图片或视频的清晰度，创建新节点
+
+参数：
+  -h, --help   显示 dreamina-canvas node 的帮助
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作
+
+使用 "dreamina-canvas node [命令] --help" 查看某个命令的更多信息。

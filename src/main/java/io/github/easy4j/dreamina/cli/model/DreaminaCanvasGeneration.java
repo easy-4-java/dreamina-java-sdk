@@ -13,6 +13,16 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class DreaminaCanvasGeneration {
     /**
+     * 契约字段 {@code generationKind}。
+     */
+    @JsonProperty("generationKind")
+    private String generationKind;
+    /**
+     * 契约字段 {@code draftPromotion}。
+     */
+    @JsonProperty("draftPromotion")
+    private DreaminaCanvasDraftPromotion draftPromotion;
+    /**
      * 契约字段 {@code model}。
      */
     @JsonProperty("model")
@@ -48,10 +58,20 @@ public final class DreaminaCanvasGeneration {
     @JsonProperty("maxBatchGenCount")
     private Long maxBatchGenCount;
     /**
+     * 契约字段 {@code outputsPerTask}。
+     */
+    @JsonProperty("outputsPerTask")
+    private Long outputsPerTask;
+    /**
      * 契约字段 {@code voiceNames}。
      */
     @JsonProperty("voiceNames")
     private java.util.List<String> voiceNames;
+    /**
+     * 契约字段 {@code displayName}。
+     */
+    @JsonProperty("displayName")
+    private String displayName;
     /**
      * 契约字段 {@code isVip}。
      */

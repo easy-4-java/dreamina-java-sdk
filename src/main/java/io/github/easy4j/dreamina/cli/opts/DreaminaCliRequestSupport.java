@@ -153,10 +153,8 @@ public final class DreaminaCliRequestSupport {
     /**
      * Validates video duration (seconds) by model version.
      *
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public static void requireVideoDuration(Integer durationSeconds, DreaminaVideoModelVersion modelVersion, String label) {
+        public static void requireVideoDuration(Integer durationSeconds, DreaminaVideoModelVersion modelVersion, String label) {
         if (durationSeconds == null) {
             return;
         }

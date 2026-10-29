@@ -1,0 +1,24 @@
+用法：
+  dreamina-canvas canvas ls [flags]
+
+示例：
+  只回定位摘要（projectId/name/createdAt/updatedAt/webUrl），不回画布内容：
+  webUrl 可直接打开画布；草稿、节点、素材不在此列。要看画布里有什么，用 node find。
+
+  分页用游标：把上一页返回的 nextCursor 传给 --cursor 取下一页，hasMore=false 表示到底。
+  游标是服务端不透明字符串，不要构造也不要解析它。
+
+  本命令不改变当前画布。选定当前画布是另一个显式动作（canvas use <project-id> 或 canvas create --use）——
+  否则一次只读探查会静默改掉后续所有命令的默认目标。
+
+参数：
+      --cursor string   上一页返回的 nextCursor；首页省略。服务端不透明字符串，不要构造或解析
+  -h, --help            显示 dreamina-canvas canvas ls 的帮助
+      --limit int32     单页条数，范围 1 到 100 (default 50)
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

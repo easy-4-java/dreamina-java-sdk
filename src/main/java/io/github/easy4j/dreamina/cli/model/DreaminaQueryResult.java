@@ -15,11 +15,9 @@ import java.util.Objects;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#queryResult(String)
  * @since 3.0.0
- * @deprecated 旧 query_result 的 gen_status/result_json 与 Canvas operation/resource 分离协议不同；替代：OPERATION_STATUS 与 RESOURCE_GET。
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Deprecated
 public class DreaminaQueryResult {
 
     @JsonProperty("submit_id")

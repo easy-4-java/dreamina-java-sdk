@@ -50,7 +50,7 @@ public final class DreaminaCanvasNodeCreateImageRequest extends DreaminaCanvasRe
     @lombok.Singular("addResourceSource")
     private final java.util.List<String> resourceSource;
     /**
-     * 节点标题；按 flag 出现更新；--title。
+     * 图片节点标题；纯保存时必填；带 --run 时省略则取非空 prompt 摘要，prompt 为空时必须指定；提供时不能为空，最多 512 个 UTF-16 code units；--title。
      */
     @DreaminaCanvasParameter(value = "title", positional = false)
     private final String title;
@@ -91,7 +91,7 @@ public final class DreaminaCanvasNodeCreateImageRequest extends DreaminaCanvasRe
     @DreaminaCanvasParameter(value = "resolution", positional = false)
     private final String resolution;
     /**
-     * 生成数量；上限以 model list 返回的 --count max 为准；--count。
+     * 生成数量；以 model list 返回的 --count min/max 为准；固定多图模型须显式指定该数量；--count。
      */
     @DreaminaCanvasParameter(value = "count", positional = false)
     private final Long count;

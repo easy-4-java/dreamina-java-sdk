@@ -4,13 +4,31 @@ package io.github.easy4j.dreamina.cli;
 import lombok.Getter;
 
 /**
- * Canvas CLI 1.0.3 全部业务调用入口；模型与音色通过运行时命令发现。
+ * Canvas CLI 1.2.0 全部业务调用入口；模型与音色通过运行时命令发现。
  */
 @Getter
 public enum DreaminaCanvasCommand {
     /**
      * 查询生成模型及其可调用规格。
      */
+    /** 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。 */
+    NODE_UPSCALE_VIDEO("node upscale video"),
+    /** 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。 */
+    NODE_CUTOUT_IMAGE("node cutout image"),
+    /** 后编辑：提交即执行，无 --run；等待终态直接使用 --wait。 */
+    NODE_INTERPOLATE_VIDEO("node interpolate video"),
+    /** 样片转正片：报价并批准后生成新节点。 */
+    NODE_PROMOTE_VIDEO_SAMPLE("node promote video-sample"),
+    /** 核验权限并选择当前画布。 */
+    CANVAS_USE("canvas use"),
+    /** 查询当前画布和实时权限。 */
+    CANVAS_CURRENT("canvas current"),
+    /** 查看团队及订阅积分信息。 */
+    TEAM_LS("team ls"),
+    /** 核验并显式切换空间。 */
+    SPACE_USE("space use"),
+    /** 查询当前空间和已选画布的实时权限。 */
+    SPACE_CURRENT("space current"),
     MODEL("model"),
     /**
      * 列出生成模型及可填写 flag。
@@ -167,7 +185,29 @@ public enum DreaminaCanvasCommand {
     /**
      * 返回版本和构建信息。
      */
-    VERSION("version");
+    VERSION("version"),
+    /** 读取导演台独立公开契约。 */
+    SCHEMA_DIRECTOR("schema director"),
+    /** 在画布上创建导演台节点。 */
+    DIRECTOR_CREATE("director create"),
+    /** 读取画布导演台到新文件。 */
+    DIRECTOR_PULL("director pull"),
+    /** 查看并校验画布或本地场景。 */
+    DIRECTOR_SHOW("director show"),
+    /** 原子应用场景、镜头、姿势、动画或分镜命令。 */
+    DIRECTOR_APPLY("director apply"),
+    /** 保存正文并原子更新画布版本。 */
+    DIRECTOR_PUSH("director push"),
+    /** 发现内置几何体、预设、人物或动作。 */
+    DIRECTOR_CATALOG("director catalog"),
+    /** 导出截图或视频（需本机浏览器）或 FBX 动作。 */
+    DIRECTOR_EXPORT("director export"),
+    /** 把动画帧定格到摆拍（需本机浏览器）。 */
+    DIRECTOR_FREEZE("director freeze"),
+    /** 查看当前镜头或分镜帧的截图（需本机浏览器）。 */
+    DIRECTOR_PREVIEW("director preview"),
+    /** 恢复中断的画布导出。 */
+    DIRECTOR_RESUME_EXPORT("director resume-export");
 
     private final String path;
 

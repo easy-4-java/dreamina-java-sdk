@@ -62,4 +62,9 @@ public final class DreaminaCanvasAuthLoginResult {
      */
     @JsonProperty("edition")
     private String edition;
+    /**
+     * 契约字段 {@code teamSpaceDiscovery}。
+     */
+    @JsonProperty("teamSpaceDiscovery")
+    private DreaminaCanvasTeamSpaceDiscovery teamSpaceDiscovery;
 }

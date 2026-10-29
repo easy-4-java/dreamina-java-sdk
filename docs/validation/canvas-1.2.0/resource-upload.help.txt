@@ -1,0 +1,19 @@
+用法：
+  dreamina-canvas resource upload [flags]
+
+参数：
+      --file string          本地图片、视频或音频文件路径；与 --source-url 二选一
+  -h, --help                 显示 dreamina-canvas resource upload 的帮助
+      --import-kind string   登记意图：local_upload（默认）或 external_generated（外部平台生成产物导入）
+      --name string          素材展示名；省略时用文件名
+      --project-id string    目标项目 UUID；必填，即使已指定 resource-id
+      --resource-id string   资源 UUID 幂等键；省略时自动生成，跨进程重试须复用同一值
+      --source-url string    服务端可访问的图片 URL；与 --file 二选一（仅图片）
+      --type string          媒体类型覆盖：image、video 或 audio；省略时按扩展名判断
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

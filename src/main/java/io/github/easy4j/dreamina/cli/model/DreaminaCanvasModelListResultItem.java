@@ -23,6 +23,11 @@ public final class DreaminaCanvasModelListResultItem {
     @JsonProperty("model")
     private String model;
     /**
+     * 契约字段 {@code displayName}。
+     */
+    @JsonProperty("displayName")
+    private String displayName;
+    /**
      * 契约字段 {@code aliases}。
      */
     @JsonProperty("aliases")

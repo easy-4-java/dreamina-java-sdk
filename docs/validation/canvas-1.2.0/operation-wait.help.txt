@@ -1,0 +1,19 @@
+用法：
+  dreamina-canvas operation wait <operation-ref> [flags]
+
+示例：
+  # operation-ref 就是 node run 返回的 submitId
+  operation wait <submitId> --project-id <projectId> --timeout 10m --interval 5s
+
+参数：
+  -h, --help                显示 dreamina-canvas operation wait 的帮助
+      --interval duration   轮询间隔 (default 5s)
+      --project-id string   项目 UUID；仅在本地恢复记录丢失时需要，用于直接向服务端只读查询
+      --timeout duration    最长等待时间；0 表示只查询一次 (default 10m0s)
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

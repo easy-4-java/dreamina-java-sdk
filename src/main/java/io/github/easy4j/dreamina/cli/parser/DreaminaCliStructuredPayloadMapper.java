@@ -119,10 +119,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code version} command output.
      *
      * @param raw CLI snapshot; must not be null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 versionDetails()。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaVersion> mapVersion(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaVersion> mapVersion(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readPayload(root, DreaminaVersion.class), root);
     }
@@ -131,10 +129,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code user_credit} output.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 NODE_QUOTE（报价不是余额，当前无余额命令）。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaUserCredit> mapUserCredit(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaUserCredit> mapUserCredit(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readPayload(root, DreaminaUserCredit.class), root);
     }
@@ -153,10 +149,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code logout} output.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGOUT。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaLogout> mapLogout(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaLogout> mapLogout(DreaminaCliResult raw) {
         boolean cleared = DreaminaLoginTextParser.detectsLogoutCleared(combinedText(raw));
         return DreaminaCliResponse.of(
                 raw,
@@ -168,10 +162,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code relogin} output.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGIN / AUTH_REFRESH。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaRelogin> mapRelogin(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaRelogin> mapRelogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         DreaminaDeviceLogin device = resolveDeviceLogin(raw);
         boolean browser = DreaminaLoginTextParser.detectsDeviceFlowBrowserPrompt(combinedText(raw));
@@ -186,10 +178,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code login checklogin} JSON.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_WAIT。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaCheckLogin> mapCheckLogin(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaCheckLogin> mapCheckLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readPayload(root, DreaminaCheckLogin.class), root);
     }
@@ -198,10 +188,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code list_task} JSON array.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 OPERATION_STATUS（当前无同形任务列表）。
      */
-    @Deprecated
-    public DreaminaCliResponse<List<DreaminaTaskItem>> mapTaskList(DreaminaCliResult raw) {
+        public DreaminaCliResponse<List<DreaminaTaskItem>> mapTaskList(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, readTaskList(root), root);
     }
@@ -210,10 +198,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code query_result} output.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 OPERATION_STATUS + RESOURCE_GET。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaQueryResult> mapQueryResult(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaQueryResult> mapQueryResult(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         DreaminaQueryResult body = readPayload(root, DreaminaQueryResult.class);
         if (body != null) {
@@ -231,10 +217,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps the standard return JSON from asynchronous generation commands.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 NODE_RUN。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaGenerateSubmit> mapGenerateSubmit(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaGenerateSubmit> mapGenerateSubmit(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         DreaminaGenerateSubmit body = readPayload(root, DreaminaGenerateSubmit.class);
         if (body != null) {
@@ -252,10 +236,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code session list} table output.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 CANVAS_LS。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaSessionList> mapSessionList(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaSessionList> mapSessionList(DreaminaCliResult raw) {
         List<DreaminaSessionRow> rows = parseSessionRows(combinedText(raw), TableKind.FULL);
         return DreaminaCliResponse.of(raw, DreaminaSessionList.builder().rows(rows).build(), null);
     }
@@ -265,10 +247,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      *
      * @param queryTerm Caller-side keyword snapshot; may be null
      * @param raw       CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 CANVAS_LS 后由调用方筛选。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaSessionSearch> mapSessionSearch(String queryTerm, DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaSessionSearch> mapSessionSearch(String queryTerm, DreaminaCliResult raw) {
         List<DreaminaSessionRow> rows = parseSessionRows(combinedText(raw), TableKind.SEARCH);
         return DreaminaCliResponse.of(
                 raw,
@@ -280,10 +260,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code session delete}/{@code rm} output.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 当前无画布删除命令。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaSessionDelete> mapSessionDelete(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaSessionDelete> mapSessionDelete(DreaminaCliResult raw) {
         boolean deleted = combinedText(raw).trim().equalsIgnoreCase("deleted");
         return DreaminaCliResponse.of(raw, DreaminaSessionDelete.builder().deleted(deleted).build(), null);
     }
@@ -292,10 +270,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps {@code session create}/{@code rename} output.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 CANVAS_CREATE（当前无画布重命名命令）。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaSessionMutation> mapSessionMutation(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaSessionMutation> mapSessionMutation(DreaminaCliResult raw) {
         String combined = combinedText(raw).trim();
         Matcher c = SESSION_CREATED.matcher(combined);
         if (c.matches()) {
@@ -329,10 +305,8 @@ public final class DreaminaCliStructuredPayloadMapper {
      * Maps the general output of {@code login --headless} / {@code login}.
      *
      * @param raw CLI 快照；不得为 null
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGIN，challenge 可映射到 DreaminaDeviceLogin。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaLogin> mapLogin(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaLogin> mapLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         String combined = combinedText(raw);
         boolean reuseDetected = DreaminaLoginTextParser.detectsOAuthReuse(combined);
@@ -349,10 +323,8 @@ public final class DreaminaCliStructuredPayloadMapper {
     /**
      * Maps Device Flow material.
      *
-     * @deprecated 旧 CLI 专属响应解析；Canvas 使用 AUTH_LOGIN 的 data.challenge 映射到 DreaminaDeviceLogin。
      */
-    @Deprecated
-    public DreaminaCliResponse<DreaminaDeviceLogin> mapDeviceLogin(DreaminaCliResult raw) {
+        public DreaminaCliResponse<DreaminaDeviceLogin> mapDeviceLogin(DreaminaCliResult raw) {
         JsonNode root = tryParseJsonTree(raw);
         return DreaminaCliResponse.of(raw, resolveDeviceLogin(raw), root);
     }

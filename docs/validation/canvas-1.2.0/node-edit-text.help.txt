@@ -1,0 +1,20 @@
+用法：
+  dreamina-canvas node edit text [flags]
+
+参数：
+      --dry-run             只做本地校验并输出计划；不连接服务端、不写草稿、不报价或扣分
+  -h, --help                显示 dreamina-canvas node edit text 的帮助
+      --node-id string      要编辑的节点 node_id；必填
+      --project-id string   项目 UUID；省略时使用当前项目
+      --text string         Markdown 正文；按 flag 出现更新
+      --title string        文本节点标题；按 flag 出现更新
+      --update-id string    稳定更新 UUID；省略时生成
+      --x float             节点左上角 X；组内为父组相对坐标；与 --y 成组提供
+      --y float             节点左上角 Y；组内为父组相对坐标；与 --x 成组提供
+
+全局参数：
+      --format string     输出格式：json 或 table
+      --non-interactive   禁用交互提示
+      --profile string    本地登录态隔离名称 (default "default")
+      --region string     产品区域：cn；缺省 cn (default "cn")
+      --yes               确认策略允许由参数确认的操作

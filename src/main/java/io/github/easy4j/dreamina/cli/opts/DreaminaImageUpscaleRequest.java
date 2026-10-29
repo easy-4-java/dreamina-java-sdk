@@ -13,11 +13,9 @@ import java.util.List;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see io.github.easy4j.dreamina.cli.DreaminaCliExecutor#imageUpscale()
  * @since 3.0.0
- * @deprecated 旧 image 路径/resolution 参数 与新 project/node/ref 协议不兼容；替代：DreaminaCanvasRequest + NODE_UPSCALE_IMAGE，素材先上传资源。
  */
 @Getter
 @Builder
-@Deprecated
 public class DreaminaImageUpscaleRequest implements DreaminaCliArgumentProvider {
 
     private final String imagePath;

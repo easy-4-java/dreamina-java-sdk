@@ -54,7 +54,7 @@ class DreaminaCanvasFieldCoverageTest {
         }
         assertTrue(mapped.isEmpty(), mapped.toString());
         StringBuilder words = new StringBuilder();
-        for (String word : command.getPath().split(" ")) {
+        for (String word : command.getPath().replace('-', ' ').split(" ")) {
             words.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
         }
         String method = words.toString();
@@ -100,8 +100,15 @@ class DreaminaCanvasFieldCoverageTest {
             assertNotNull(field, path + "." + spec.getName());
             sample.put(spec.getName(), sample(field.getGenericType(), spec, path + "." + spec.getName()));
         }
-        ObjectMapper mapper = new ObjectMapper().disable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        Object body = mapper.readValue(mapper.writeValueAsString(sample), type);
+        Object body;
+        if (type.getName().startsWith("io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirector")) {
+            // Canvas 严格响应解析器沿用 Jackson 2，保留本版本线的双 Jackson 分工。
+            ObjectMapper mapper = new ObjectMapper();
+            body = mapper.readValue(mapper.writeValueAsString(sample), type);
+        } else {
+            tools.jackson.databind.ObjectMapper mapper = io.github.easy4j.dreamina.cli.parser.DreaminaCliStructuredPayloadMapper.defaultObjectMapper();
+            body = mapper.readValue(mapper.writeValueAsString(sample), type);
+        }
         for (DreaminaCanvasSchemaField spec : fields) {
             Field f = find(type, spec.getName());
             f.setAccessible(true);
@@ -124,6 +131,10 @@ class DreaminaCanvasFieldCoverageTest {
             nested.setFields(spec.getFields());
             Object value = sample(element, nested, path + "[]");
             return isArrayWire ? Collections.singletonList(value) : Collections.singletonMap("dynamic-model", value);
+        }
+        if ("raw".equals(wire) || "object".equals(wire) && type == io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorJsonValue.class) {
+            assertEquals(io.github.easy4j.dreamina.cli.model.DreaminaCanvasDirectorJsonValue.class, type, path);
+            return Collections.singletonMap("officialDynamicField", Arrays.asList("preserved", 7));
         }
         if ("object".equals(wire)) {
             assertInstanceOf(Class.class, type, path);

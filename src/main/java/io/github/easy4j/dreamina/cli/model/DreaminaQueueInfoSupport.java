@@ -9,9 +9,7 @@ import io.github.easy4j.dreamina.util.DreaminaStrings;
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @see DreaminaQueryQueueInfo#parsedDebugInfo
  * @since 3.0.0
- * @deprecated 仅解析旧 queue_info.debug_info；替代：Canvas operation/meta 结构，无需沿用旧嵌套字符串解析。
  */
-@Deprecated
 public final class DreaminaQueueInfoSupport {
 
     private DreaminaQueueInfoSupport() {

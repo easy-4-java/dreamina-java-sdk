@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 按名称或别名定位可调用的 canonical model。仅显式参数进入命令，不自动运行或批准积分。
+ * 按展示名或别名定位可调用的 canonical model。仅显式参数进入命令，不自动运行或批准积分。
  */
 @Getter
 @Builder

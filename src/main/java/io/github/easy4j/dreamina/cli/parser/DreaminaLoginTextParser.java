@@ -29,10 +29,8 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined Combined stdout/stderr text
      * @return Returns true if reuse semantics are detected
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public static boolean detectsOAuthReuse(String combined) {
+        public static boolean detectsOAuthReuse(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return false;
         }
@@ -50,10 +48,8 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined Combined text
      * @return Returns true if a successful logout message is detected
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public static boolean detectsLogoutCleared(String combined) {
+        public static boolean detectsLogoutCleared(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return false;
         }
@@ -65,10 +61,8 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined 合并文本
      * @return Returns true if browser-based OAuth is required
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public static boolean detectsDeviceFlowBrowserPrompt(String combined) {
+        public static boolean detectsDeviceFlowBrowserPrompt(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return false;
         }
@@ -81,10 +75,8 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined CLI combined text
      * @return Returns the object if at least one field was parsed, otherwise null
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public static DreaminaLoginAccount parseReusedAccount(String combined) {
+        public static DreaminaLoginAccount parseReusedAccount(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return null;
         }
@@ -133,10 +125,8 @@ public final class DreaminaLoginTextParser {
      *
      * @param combined CLI 合并文本
      * @return Returns the object if it contains at least one of device_code / verification_uri / user_code, otherwise null
-     * @deprecated 仅适用于旧 Dreamina CLI 协议；Canvas 请使用 DreaminaCanvasCliExecutor 对应命令或 checkCanvas。
      */
-    @Deprecated
-    public static DreaminaDeviceLogin parseDeviceFlow(String combined) {
+        public static DreaminaDeviceLogin parseDeviceFlow(String combined) {
         if (DreaminaStrings.isBlank(combined)) {
             return null;
         }
